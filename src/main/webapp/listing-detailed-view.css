@@ -1,0 +1,89 @@
+.title {
+  display: flex;
+}
+
+.listing-picture {
+  display: block;
+  border: .3rem solid #8eeede;
+  border-radius: 2rem;
+  margin: 1rem;
+  width: 250px;
+  height: 250px;
+}
+
+.listing-name {
+  margin: 0;
+}
+
+.category-pill {
+  display: inline-block;
+  background-color: #8eeede;
+  border-radius: 2rem;
+  padding: .3rem;
+}
+
+.listing-information-container {
+  display: flex;
+  font-size: 2rem;
+  align-items: center;
+}
+
+.listing-information {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+listing-details {
+  text-align: left;
+}
+
+.listing-description {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.reputation-pill {
+  display: inline-block;
+  border: .3rem solid green;
+  border-radius: 2rem;
+  padding: .5rem;
+}
+
+.listing-website {
+  text-decoration: none;
+  background-color: gray;
+  color: white;
+  border-radius: 2rem;
+  padding: .7rem;
+}
+
+/* phones */
+@media (max-width: 600px) {
+  .listing-information-container {
+    text-align: center;
+    flex-wrap: wrap;
+  }
+}
+
+/* bigger screens */
+@media (min-width: 600px) {
+  .listing-information {
+    padding: 3rem;
+  }
+
+  .listing-description {
+    height: 70%;
+    width: 75%;
+    padding: 3rem;
+  }
+
+  .listing-name {
+    font-size: 3rem;
+  }
+
+  .category-pill {
+    font-size: 2rem;
+  }
+}
