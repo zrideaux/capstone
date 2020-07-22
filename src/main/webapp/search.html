@@ -3,35 +3,50 @@
     <title>Search</title>
     <link rel="stylesheet" type="text/css" href="master.css">
     <link rel="stylesheet" type="text/css" href="search.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   </head>
   <body>
-    <header class="shadow-box">
+    <header id="search-box" class="shadow-box">
       <img id="logo" src="" alt="logo">
-      <input id="search-keyworkd" type="text" placeholder="Search">
-
-      <div id="search-filters">
-        <input class="search-filter" type="checkbox" value="fundraiser" checked>Fundraisers
-        <input class="search-filter" type="checkbox" value="petition" checked>Petitions
-        <input class="search-filter" type="checkbox" value="event" checked>Events
-        <input class="search-filter" type="checkbox" value="other" checked>Other
-      </div>
       
-      <input id="search-location" type="text" placeholder="Location">
-      
-      <div id="search-radius">
-        <input name="search-radius-option" type="radio" value="10">10 km</input>
-        <input name="search-radius-option" type="radio" value="25">25 km</input>
-        <input name="search-radius-option" type="radio" value="50">50 km</input>
-        <input name="search-radius-option" type="radio" value="100">100 km</input>
-        <input name="search-radius-option" type="radio" value="100+">100+ km</input>
+      <div id="search-keyword-container">
+        <i class="material-icons">search</i>
+        <input id="search-keyword" type="text" placeholder="Search">
       </div>
 
-      <div id="search-sort">
-        <input class="search-sort-option" name="search-sort-option" type="radio" value="Recommended" checked>Recommended
-        <input class="search-sort-option" name="search-sort-option" type="radio" value="Reputation">Reputation
-        <input class="search-sort-option" name="search-sort-option" type="radio" value="Least Viewed">Least Viewed
-      </div>
+      <div id="search-options-container">
+        <div id="search-location">
+          <label>Location</label>
+          <input type="text" placeholder="Location">
+        </div>
 
+        <button>Filters</button> 
+        <div id="search-filters" style="display:none">
+          <label>Filters</label>
+          <input class="search-filter" type="checkbox" value="fundraiser" checked>Fundraisers
+          <input class="search-filter" type="checkbox" value="petition" checked>Petitions
+          <input class="search-filter" type="checkbox" value="event" checked>Events
+          <input class="search-filter" type="checkbox" value="other" checked>Other
+        </div>
+        
+        <button>Radius</button> 
+        <div id="search-radius" style="display:none">
+          <label>Radius</label>
+          <input name="search-radius-option" type="radio" value="10">10 km</input>
+          <input name="search-radius-option" type="radio" value="25">25 km</input>
+          <input name="search-radius-option" type="radio" value="50">50 km</input>
+          <input name="search-radius-option" type="radio" value="100">100 km</input>
+          <input name="search-radius-option" type="radio" value="100+">100+ km</input>
+        </div>
+
+        <button>Sort By</button>
+        <div id="search-sort" style="display:none">
+          <label>Sort By</label>
+          <input class="search-sort-option" name="search-sort-option" type="radio" value="Recommended" checked>Recommended
+          <input class="search-sort-option" name="search-sort-option" type="radio" value="Reputation">Reputation
+          <input class="search-sort-option" name="search-sort-option" type="radio" value="Least Viewed">Least Viewed
+        </div>
+      </div>
     </header>
     
     <main>

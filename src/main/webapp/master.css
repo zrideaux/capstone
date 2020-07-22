@@ -4,7 +4,7 @@ html, body {
 }
 
 div {
-  border: 1px solid black;
+  border: 1px solid #000000;
 }
 
 .shadow-box {
@@ -23,6 +23,7 @@ div {
 
 .listing-tag {
   background-color: #8EEEDE;
+  border-radius: 15px;
   color: #000000;
   padding: 3px 15px;
 }

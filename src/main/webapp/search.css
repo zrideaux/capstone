@@ -1,5 +1,33 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
 h2 {
   margin: 0;
+}
+
+#search-box {
+  border-radius: 0px 0px 15px 15px;
+  padding: 15px;
+}
+
+#search-keyword-container {
+  align-items: center;
+  display: flex;
+  padding: 5px;
+}
+
+#search-keyword {
+  background-color: #EEEEEE;
+  border: none;
+  border-radius: 15px;
+  padding: 5px;
+  width: 100%;
+}
+
+main {
+  padding: 0px 15px;
 }
 
 .listing-heading-container {
@@ -13,5 +41,12 @@ h2 {
 }
 
 .listing-info-container {
+  
+}
 
+.listing-image {
+  border: 5px solid #8EEEDE;
+  border-radius: 15px;
+  margin-right: 10px;
+  width: 150px;
 }
