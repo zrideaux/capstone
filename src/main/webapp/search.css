@@ -1,0 +1,17 @@
+h2 {
+  margin: 0;
+}
+
+.listing-heading-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.listing {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.listing-info-container {
+
+}

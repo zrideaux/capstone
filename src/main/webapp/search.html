@@ -1,0 +1,59 @@
+<html lang="en">
+  <head>
+    <title>Search</title>
+    <link rel="stylesheet" type="text/css" href="master.css">
+    <link rel="stylesheet" type="text/css" href="search.css">
+  </head>
+  <body>
+    <header class="shadow-box">
+      <img id="logo" src="" alt="logo">
+      <input id="search-keyworkd" type="text" placeholder="Search">
+
+      <div id="search-filters">
+        <input class="search-filter" type="checkbox" value="fundraiser" checked>Fundraisers
+        <input class="search-filter" type="checkbox" value="petition" checked>Petitions
+        <input class="search-filter" type="checkbox" value="event" checked>Events
+        <input class="search-filter" type="checkbox" value="other" checked>Other
+      </div>
+      
+      <input id="search-location" type="text" placeholder="Location">
+      
+      <div id="search-radius">
+        <input name="search-radius-option" type="radio" value="10">10 km</input>
+        <input name="search-radius-option" type="radio" value="25">25 km</input>
+        <input name="search-radius-option" type="radio" value="50">50 km</input>
+        <input name="search-radius-option" type="radio" value="100">100 km</input>
+        <input name="search-radius-option" type="radio" value="100+">100+ km</input>
+      </div>
+
+      <div id="search-sort">
+        <input class="search-sort-option" name="search-sort-option" type="radio" value="Recommended" checked>Recommended
+        <input class="search-sort-option" name="search-sort-option" type="radio" value="Reputation">Reputation
+        <input class="search-sort-option" name="search-sort-option" type="radio" value="Least Viewed">Least Viewed
+      </div>
+
+    </header>
+    
+    <main>
+      <section class="listing shadow-box">
+        <div>
+          <img class="listing-image" src="" alt="image">
+          <span class="listing-reputation">Reputation: 205 Votes</span>
+        </div>
+        <div class="listing-info-container">
+          <div class="listing-heading-container">
+            <h2>Listing Name</h2>
+            <div class="listing-tags-container">
+              <span class="listing-tag fundraiser-tag">Fundraiser</span>
+              <span class="listing-tag event-tag">Event</span>
+            </div>
+          </div>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          </p>
+        </div>
+      </section>  
+    </main>
+
+  </body>
+</html>
