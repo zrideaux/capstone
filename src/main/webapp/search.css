@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
 }
@@ -38,10 +39,6 @@ main {
 .listing {
   display: flex;
   flex-flow: row nowrap;
-}
-
-.listing-info-container {
-  
 }
 
 .listing-image {
