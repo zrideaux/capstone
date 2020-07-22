@@ -1,0 +1,46 @@
+.rectangle {
+  align-items: center;
+  background-color: white;
+  border-radius: 25px;
+  border: 5px solid #8EEEDE;
+  display: flex;
+  height: 350px;
+  justify-content: center;
+  padding: 20px; 
+  width: 231px; 
+}
+
+.empty-rectangle {
+  border: none !important;
+  display: flex;
+  height: auto;
+  width: 25px;
+}
+.box {
+  align-items: center;  
+  border: none !important;
+  display: flex;
+  justify-content: center;
+}
+
+#rectangle-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+a {
+  color: black;
+}
+
+.center {
+  text-align: center;
+}
+
+.foot {
+  border: none !important;  
+  bottom: 5px;  
+  position: fixed;     
+  text-align: center;     
+  width: 100%;
+}  
