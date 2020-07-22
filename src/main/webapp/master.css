@@ -1,0 +1,28 @@
+html, body {
+  background-color: #F3F3F3;
+  padding: 10px;
+}
+
+div {
+  border: 1px solid black;
+}
+
+.shadow-box {
+  background-color: #FFFFFF;
+  border-radius: 15px;
+  -webkit-box-shadow: 0px 0px 10px 0px #00000080;
+  -moz-box-shadow: 0px 0px 10px 0px #00000080;
+  box-shadow: 0px 0px 10px 0px #00000080;
+  margin-bottom: 15px;
+  padding: 10px;
+}
+
+.listing-tags-container {
+  margin: auto 0px;
+}
+
+.listing-tag {
+  background-color: #8EEEDE;
+  color: #000000;
+  padding: 3px 15px;
+}
