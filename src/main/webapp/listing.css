@@ -29,10 +29,8 @@
 }
 
 .category-pill {
-  background-color: #8eeede;
   border-radius: 2rem;
   display: inline-block;
-  padding: .3rem;
 }
 
 .listing-information {
