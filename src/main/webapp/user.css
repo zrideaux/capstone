@@ -1,0 +1,6 @@
+.profile {
+  align-self: flex-start;
+  position: -webkit-sticky; /* for Safari */
+  position: sticky;
+  top: 0;
+}
