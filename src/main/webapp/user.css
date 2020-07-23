@@ -1,6 +1,24 @@
 .profile {
   align-self: flex-start;
-  position: -webkit-sticky; /* for Safari */
-  position: sticky;
-  top: 0;
+}
+
+.user-listing-container {
+  font-size: 1.5rem;
+}
+
+/* medium - large screens */
+@media only screen and (min-width: 600px) {
+  .card-name {
+    font-size: 3rem;
+  }
+}
+
+/* Landscape */
+/* bigger screens */
+@media only screen and (min-width: 950px) and (orientation: landscape) {
+  .profile {
+    position: -webkit-sticky; /* for Safari */
+    position: sticky;
+    top: 0;
+  }
 }
