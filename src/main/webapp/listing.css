@@ -1,52 +1,10 @@
-.listing-container {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-}
-
-.listing-information-container {
-  align-items: center;
-  display: flex;
-  font-size: 2rem;
-  max-width: 1600px;
-}
-
 .title {
   display: flex;
-}
-
-.listing-picture {
-  border: .3rem solid #8eeede;
-  border-radius: 2rem;
-  display: block;
-  height: 250px;
-  margin: 1rem;
-  width: 250px;
-}
-
-.listing-name {
-  margin: 0;
 }
 
 .category-pill {
   border-radius: 2rem;
   display: inline-block;
-}
-
-.listing-information {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-}
-
-.listing-details {
-  text-align: left;
-}
-
-.listing-description {
-  display: inline-flex;
-  flex-direction: column;
 }
 
 .reputation-pill {
@@ -64,31 +22,23 @@
   text-decoration: none;
 }
 
-/* phones */
-@media only screen and (max-width: 600px) and (orientation: portrait) {
-  .listing-information-container {
-    flex-wrap: wrap;
+/* medium screens that are in portrait*/
+@media only screen and (max-width: 1000px) and (orientation: portrait) {
+  .listing-details {
     text-align: center;
   }
 }
 
-/* bigger screens */
-@media only screen and (min-width: 600px) and (orientation: landscape) {
-  .listing-information {
-    padding: 3rem;
-  }
-
-  .listing-description {
-    height: 70%;
-    padding: 3rem;
-    width: 75%;
-  }
-
-  .listing-name {
-    font-size: 3rem;
-  }
-
+/* medium - large screens */
+@media only screen and (min-width: 600px) {
   .category-pill {
     font-size: 2rem;
+  }
+}
+
+/* medium - large screens */
+@media only screen and (min-width: 1000px) {
+  .listing-details {
+    text-align: left;
   }
 }
