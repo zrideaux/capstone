@@ -56,6 +56,6 @@ main {
   background-color: #FFFFFF;
   display: none;
   flex-flow: column nowrap;
-  position: absolute;
   left: 0px;
+  position: absolute;
 }
