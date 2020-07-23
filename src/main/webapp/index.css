@@ -6,15 +6,20 @@
   display: flex;
   height: 350px;
   justify-content: center;
-  padding: 20px; 
+  padding: 20px;
+  transition: 1s; 
   width: 231px; 
+}
+
+.rectangle:hover {
+  transform: scale(1.2);
 }
 
 .empty-rectangle {
   border: none !important;
   display: flex;
   height: auto;
-  width: 25px;
+  width: 50px;
 }
 .box {
   align-items: center;  
@@ -31,6 +36,7 @@
 
 a {
   color: black;
+  text-decoration: none;
 }
 
 .center {
