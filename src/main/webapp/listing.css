@@ -11,11 +11,8 @@
   border: .3rem solid green;
   border-radius: 2rem;
   display: inline-block;
-  padding: .5rem;
-}
-
-.reputation {
   margin: 0;
+  padding: .5rem;
 }
 
 .listing-website {
@@ -39,7 +36,7 @@
     font-size: 2rem;
   }
 
-  .reputation {
+  .reputation-pill {
     font-size: 2rem;
   }
 }

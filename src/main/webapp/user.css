@@ -6,6 +6,14 @@
   font-size: 1.5rem;
 }
 
+.created-listings {
+  margin-right: 1.5rem;
+}
+
+.upvoted-listings {
+  margin-left: 1.5rem;
+}
+
 /* medium - large screens */
 @media only screen and (min-width: 600px) {
   .card-name {
