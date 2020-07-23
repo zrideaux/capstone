@@ -4,6 +4,7 @@
     <link rel="stylesheet" type="text/css" href="master.css">
     <link rel="stylesheet" type="text/css" href="search.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="search.js"></script>
   </head>
   <body>
     <header id="search-box" class="shadow-box">
@@ -20,32 +21,62 @@
           <input type="text" placeholder="Location">
         </div>
 
-        <button>Filters</button> 
-        <div id="search-filters">
-          <label>Filters</label>
-          <input class="search-filter" type="checkbox" value="fundraiser" checked>Fundraisers
-          <input class="search-filter" type="checkbox" value="petition" checked>Petitions
-          <input class="search-filter" type="checkbox" value="event" checked>Events
-          <input class="search-filter" type="checkbox" value="other" checked>Other
-        </div>
+        <span class="dropdown-box">
+          <button onclick="showDropdown('search-filters')">Filters</button>
+          <div id="search-filters" class="dropdown-menu shadow-box">
+            <label>Filters</label>
+            <br>
+            <input id="fundraiser-radio" class="search-filter" type="checkbox" value="fundraiser" checked>
+            <label for="fundraiser-radio">Fundraiser</label>
+            <br>
+            <input id="petition-radio" class="search-filter" type="checkbox" value="petition" checked>
+            <label for="petition-radio">Petition</label>
+            <br>
+            <input id="event-radio" class="search-filter" type="checkbox" value="event" checked>
+            <label for="event-radio">Event</label>
+            <br>
+            <input id="other-radio" class="search-filter" type="checkbox" value="other" checked>
+            <label for="other-radio">Other</label>
+          </div>
+        </span>
         
-        <button>Radius</button> 
-        <div id="search-radius">
-          <label>Radius</label>
-          <input name="search-radius-option" type="radio" value="10">10 km</input>
-          <input name="search-radius-option" type="radio" value="25">25 km</input>
-          <input name="search-radius-option" type="radio" value="50">50 km</input>
-          <input name="search-radius-option" type="radio" value="100">100 km</input>
-          <input name="search-radius-option" type="radio" value="100+">100+ km</input>
-        </div>
+        <span class="dropdown-box">
+          <button onclick="showDropdown('search-radius')">Radius</button> 
+          <div id="search-radius" class="dropdown-menu shadow-box">
+            <label>Radius</label>
+            <br>
+            <input name="search-radius-option" type="radio" value="10">
+            <label for="">10 km</label>
+            <br>
+            <input name="search-radius-option" type="radio" value="25">
+            <label for="">25 km</label>
+            <br>
+            <input name="search-radius-option" type="radio" value="50">
+            <label for="">50 km</label>
+            <br>
+            <input name="search-radius-option" type="radio" value="100">
+            <label for="">100 km</label>
+            <br>
+            <input name="search-radius-option" type="radio" value="100+">
+            <label for="">100+ km</label>
+          </div>
+        </span>
 
-        <button>Sort By</button>
-        <div id="search-sort">
-          <label>Sort By</label>
-          <input class="search-sort-option" name="search-sort-option" type="radio" value="Recommended" checked>Recommended
-          <input class="search-sort-option" name="search-sort-option" type="radio" value="Reputation">Reputation
-          <input class="search-sort-option" name="search-sort-option" type="radio" value="Least Viewed">Least Viewed
-        </div>
+        <span class="dropdown-box">
+          <button onclick="showDropdown('search-sort')">Sort By</button>
+          <div id="search-sort" class="dropdown-menu shadow-box">
+            <label>Sort By</label>
+            <br>
+            <input name="search-sort-option" type="radio" value="Recommended" checked>
+            <label for="">Recommended</label>
+            <br>
+            <input name="search-sort-option" type="radio" value="Reputation">
+            <label for="">Reputation</label>
+            <br>
+            <input name="search-sort-option" type="radio" value="Least Viewed">Least 
+            <label for="">Viewed</label>
+          </div>
+        </span>
       </div>
     </header>
     
@@ -67,7 +98,7 @@
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
           </p>
         </div>
-      </section>  
+      </section>
     </main>
 
   </body>
