@@ -47,3 +47,15 @@ main {
   margin-right: 10px;
   width: 150px;
 }
+
+.dropdown-box {
+  position: relative;
+}
+
+.dropdown-menu {
+  background-color: #FFFFFF;
+  display: none;
+  flex-flow: column nowrap;
+  left: 0px;
+  position: absolute;
+}
