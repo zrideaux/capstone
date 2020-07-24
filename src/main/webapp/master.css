@@ -4,6 +4,10 @@ body {
   padding: 10px;
 }
 
+ul {
+  list-style: none;
+}
+
 .shadow-box {
   background-color: #FFFFFF;
   border-radius: 15px;
