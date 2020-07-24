@@ -78,6 +78,7 @@ main {
   flex-flow: column nowrap;
   left: 0px;
   position: absolute;
+  width: 10em;
 }
 
 .show-dropdown-menu {
