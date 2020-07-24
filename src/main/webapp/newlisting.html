@@ -18,8 +18,8 @@
         <h1>Create New Listing</h1>
         <ul>
           <li>
-            <label class="form-label">A Name for the Cause</label>
-            <input type="text">
+            <label for="cause-name" class="form-label">A Name for the Cause</label>
+            <input id="cause-name" type="text">
           </li>
           <li>
           <ul>
@@ -42,20 +42,24 @@
             </li>
           </ul>
           <li>
-            <label class="form-label">Location</label>
-            <input type="text">
+            <label for="cause-location" class="form-label">Location</label>
+            <input id="cause-location" type="text">
           </li>
           <li>
-            <label class="form-label">Description</label>
-            <textarea></textarea>
+            <label for="cause-description" class="form-label">Description</label>
+            <textarea id="cause-description"></textarea>
           </li>
           <li>
-            <label class="form-label">Website</label>
-            <input type="text">
+            <label for="cause-how-to-help" class="form-label">How To Help</label>
+            <textarea id="cause-how-to-help"></textarea>
           </li>
           <li>
-            <label class="form-label">Add An Image</label>
-            <input type="file" id="myFile" name="filename">
+            <label for="cause-website" class="form-label">Website</label>
+            <input id="cause-website" type="text">
+          </li>
+          <li>
+            <label for="cause-image" class="form-label">Add An Image</label>
+            <input id="cause-image" type="file" id="myFile" name="filename">
           </li>
         </ul>
         <button>Submit</button>
