@@ -1,7 +1,8 @@
 html,
 body {
   background-color: #F3F3F3;
-  padding: 10px;
+  margin: 0;
+  padding: 0;
 }
 
 ul {
