@@ -8,12 +8,17 @@
     <link rel="stylesheet" type="text/css" href="card.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
         rel="stylesheet">
-    <script src="listing.js"></script>
+    <script src="miscellaneous.js"></script>        
+    <script type="module" src="listing.js"></script>
+    <script type="module">
+      import {toggleDisplay} from "/listing.js";
+    </script>  
   </head>
   <body>
     <div id="listing" class="card-container">
     </div>
-    <script>
+    <script type="module">
+      import {createListingDetailedView} from "/listing.js";
       const divCardContainerElement = document.getElementById("listing");
       createListingDetailedView(divCardContainerElement);
     </script>
