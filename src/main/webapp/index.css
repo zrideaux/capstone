@@ -1,37 +1,58 @@
+#heading {
+    display: flex;
+    text-align: right;
+    margin-bottom: 25px;
+}
+
+h2{
+    font-size: 40;
+}
+
 .rectangle {
   align-items: center;
   background-color: white;
   border-radius: 25px;
   border: 5px solid #8EEEDE;
   display: flex;
-  height: 350px;
+  height: 400px;
   justify-content: center;
+  margin-left: 12px;
+  margin-right: 12px;
   padding: 20px;
   transition: 1s; 
-  width: 231px; 
+  width: 264px; 
 }
 
 .rectangle:hover {
   transform: scale(1.2);
 }
 
+.rectangle-label {
+    font-size: 30;
+}
+
 .empty-rectangle {
-  border: none !important;
   display: flex;
   height: auto;
   width: 50px;
 }
+
 .box {
   align-items: center;  
-  border: none !important;
   display: flex;
   justify-content: center;
 }
 
-#rectangle-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+@media only screen and (max-width: 600px) and (orientation: portrait) {
+  .box {
+    display: inline-block;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .foot {
+  display: none
+  }  
 }
 
 a {
@@ -44,9 +65,8 @@ a {
 }
 
 .foot {
-  border: none !important;  
   bottom: 5px;  
-  position: fixed;     
+  position: fixed;   
   text-align: center;     
   width: 100%;
-}  
+} 
