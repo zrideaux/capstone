@@ -1,0 +1,87 @@
+.card-container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.card-information-container {
+  align-items: center;
+  display: flex;
+  font-size: 2rem;
+  max-width: 1600px;
+}
+
+.card-information {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.card-picture {
+  border: .3rem solid #8eeede;
+  border-radius: 2rem;
+  display: block;
+  height: 250px;
+  margin: 1rem;
+  width: 250px;
+}
+
+.card-name {
+  margin: 0;
+}
+
+.card-description {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.tabs {
+  display: flex;
+}
+
+.tab {
+  color: black;
+  margin-left: 2rem;
+  text-decoration: underline;
+}
+
+/* medium - large screens */
+@media only screen and (min-width: 600px) {
+  .card-name {
+    font-size: 3rem;
+  }
+}
+
+
+/* Portrait */
+/* small - medium screens */
+@media only screen and (max-width: 950px) and (orientation: portrait) {
+  .card-information-container {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+/* Landscape */
+/* small - medium screens */
+@media only screen and (max-width: 950px) and (orientation: landscape) {
+  .card-information-container {
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+/* bigger screens */
+@media only screen and (min-width: 950px) and (orientation: landscape) {
+  .card-information {
+    padding: 3rem;
+  }
+
+  .card-description {
+    height: 70%;
+    padding: 3rem;
+    width: 75%;
+  }
+}
