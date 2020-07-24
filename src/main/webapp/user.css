@@ -2,6 +2,10 @@
   align-self: flex-start;
 }
 
+.create-listing {
+  margin-top: 3rem;
+}
+
 .user-listing-container {
   font-size: 1.5rem;
 }

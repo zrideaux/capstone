@@ -48,6 +48,14 @@
   margin: 0;
 }
 
+.card-button {
+  background-color: gray;
+  border-radius: 2rem;
+  color: white;
+  padding: .7rem;
+  text-decoration: none;
+}
+
 .card-description {
   display: inline-flex;
   flex-direction: column;

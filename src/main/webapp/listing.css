@@ -15,14 +15,6 @@
   padding: .5rem;
 }
 
-.listing-website {
-  background-color: gray;
-  border-radius: 2rem;
-  color: white;
-  padding: .7rem;
-  text-decoration: none;
-}
-
 /* medium screens that are in portrait*/
 @media only screen and (max-width: 1000px) and (orientation: portrait) {
   .listing-details {

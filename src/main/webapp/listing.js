@@ -89,7 +89,7 @@ function createListingCardInformation() {
   divCardInformation.appendChild(createListingDetails()); 
 
   divCardInformation.appendChild(
-      createAElement('Website Link', '_blank', '', 'listing-website', '')); 
+      createAElement('Website Link', '_blank', '', 'card-button', '')); 
 
   return divCardInformation;
 }
