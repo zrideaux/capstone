@@ -3,10 +3,6 @@ html, body {
   padding: 10px;
 }
 
-div {
-  border: 1px solid black;
-}
-
 .shadow-box {
   background-color: #FFFFFF;
   border-radius: 15px;

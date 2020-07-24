@@ -1,3 +1,8 @@
+#heading {
+    display: flex;
+    text-align: right;
+}
+
 .rectangle {
   align-items: center;
   background-color: white;
@@ -28,10 +33,17 @@
   justify-content: center;
 }
 
-#rectangle-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+@media only screen and (max-width: 600px) and (orientation: portrait) {
+  .box {
+    border: none !important;
+    display: inline-block;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .foot {
+  display: none
+  }  
 }
 
 a {
@@ -44,9 +56,9 @@ a {
 }
 
 .foot {
-  border: none !important;  
+  border: none !important; 
   bottom: 5px;  
-  position: fixed;     
+  position: fixed;   
   text-align: center;     
   width: 100%;
-}  
+} 
