@@ -19,6 +19,13 @@ function createAElement(text, targetAttribute, hrefAttribute, classAttribute,
   return aElement;
 }
 
+/**
+ * Creates a <br> element
+ */
+function createBrElement() {
+  document.createElement("BR");
+}
+
 /** 
  * Creates a <div> element containing class and id attribute. 
  *
@@ -88,6 +95,77 @@ function createImgElement(srcAttribute, altAttribute, classAttribute,
 }
 
 /** 
+ * Creates an <input> element of type checkbox containing text, a name and 
+ *     value attribute as well as a class and id. 
+ * 
+ * @param text the text that will be displayed  
+ * @param nameAttribute the name attribute for this input element
+ * @param valueAttribute the value of this input
+ * @param classAttribute the name of the class of this div element
+ * @param idAttribute the name of the id of this div element
+ * @return return an input element of type radio
+ */
+function createInputCheckboxElement(text, nameAttribute, valueAttribute, 
+    classAttribute, idAttribute) {
+  const inputElement = document.createElement('input');
+  inputElement.setAttribute("type", "checkbox");
+  inputElement.setAttribute("name", nameAttribute);
+  inputElement.setAttribute("value", valueAttribute);
+  inputElement.setAttribute("class", classAttribute);
+  inputElement.setAttribute("id", idAttribute);
+  inputElement.innerText = text;
+  return inputElement;
+}
+
+/** 
+ * Creates an <input> element of type radio containing text, a name and value 
+ *     attribute as well as a class and id. 
+ * 
+ * @param text the text that will be displayed  
+ * @param nameAttribute the name attribute for this input element
+ * @param valueAttribute the value of this input
+ * @param classAttribute the name of the class of this div element
+ * @param idAttribute the name of the id of this div element
+ * @return return an input element of type radio
+ */
+function createInputRadioElement(text, nameAttribute, valueAttribute, 
+    classAttribute, idAttribute) {
+  const inputElement = document.createElement('input');
+  inputElement.setAttribute("type", "radio");
+  inputElement.setAttribute("name", nameAttribute);
+  inputElement.setAttribute("value", valueAttribute);
+  inputElement.setAttribute("class", classAttribute);
+  inputElement.setAttribute("id", idAttribute);
+  inputElement.innerText = text;
+  return inputElement;
+}
+
+/** 
+ * Creates an <input> element of type text containing a name, minlength,   
+ * maxlength, and placeholder attribute as well as a class and id. 
+ * 
+ * @param nameAttribute the name attribute for this input element
+ * @param minLengthAttribute the minimum length of text accepted
+ * @param maxLengthAttribute the maximum length of text accepted
+ * @param placeholderAttribute the text that will be displayed before the user  *     inputs text
+ * @param classAttribute the name of the class of this div element
+ * @param idAttribute the name of the id of this div element
+ * @return return an input element of type text
+ */
+function createInputTextElement(nameAttribute, minLengthAttribute,
+    maxLengthAttribute, placeholderAttribute, classAttribute, idAttribute) {
+  const inputElement = document.createElement('input');
+  inputElement.setAttribute("type", "text");
+  inputElement.setAttribute("name", nameAttribute);
+  inputElement.setAttribute("minLength", minLengthAttribute);
+  inputElement.setAttribute("maxLength", maxLengthAttribute);
+  inputElement.setAttribute("placeholder", placeholderAttribute);
+  inputElement.setAttribute("class", classAttribute);
+  inputElement.setAttribute("id", idAttribute);
+  return inputElement;
+}
+
+/** 
  * Creates a <p> element containing text. 
  *
  * @param text the text that will be displayed
@@ -101,6 +179,20 @@ function createPElement(text, classAttribute, idAttribute) {
   pElement.setAttribute("class", classAttribute);
   pElement.setAttribute("id", idAttribute);
   return pElement;
+}
+
+/** 
+ * Creates a <section> element containing a class and an id attribute. 
+ *
+ * @param classAttribute the name of the class of this section element
+ * @param idAttribute the name of the id of this section element
+ * @return returns a section element with a class, and an id
+ */
+function createSectionElement(classAttribute, idAttribute) {
+  const sectionElement = document.createElement('section');
+  sectionElement.setAttribute("class", classAttribute);
+  sectionElement.setAttribute("id", idAttribute);
+  return sectionElement;
 }
 
 /** 
@@ -121,10 +213,15 @@ function createSpanElement(text, classAttribute, idAttribute) {
 
 export { 
   createAElement, 
+  createBrElement,
   createDivElement, 
   createHElement, 
   createIElement, 
   createImgElement, 
+  createInputCheckboxElement,
+  createInputRadioElement,
+  createInputTextElement, 
   createPElement, 
+  createSectionElement, 
   createSpanElement
   };
