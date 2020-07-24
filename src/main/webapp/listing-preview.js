@@ -4,7 +4,8 @@ import {
   createImgElement, 
   createPElement,
   createSectionElement,
-  createSpanElement
+  createSpanElement,
+  createAElement
   } from './htmlElement.js';
 
 /**
@@ -13,7 +14,11 @@ import {
  * @return a div with all the preview information pertaining to a listing
  */
 export default function createListingPreview() {
+  const aLeadToExpendedView = createAElement('', 'listing.html', '', 
+      'remove-a-styling', '');
+
   const sectionListing = createSectionElement('listing shadow-box', '');
+  aLeadToExpendedView.appendChild(sectionListing);
 
   console.log("Creating listing information");
   sectionListing.appendChild(createListingInformation());
@@ -21,7 +26,7 @@ export default function createListingPreview() {
   console.log('Creating listing information')
   sectionListing.appendChild(createListingDetails());
 
-  return sectionListing;
+  return aLeadToExpendedView;
 }
 
 /**
