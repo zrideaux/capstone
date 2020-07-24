@@ -43,6 +43,11 @@ main {
   flex-flow: row nowrap;
 }
 
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
 .listing-image {
   border: 5px solid #8EEEDE;
   border-radius: 15px;
@@ -78,6 +83,7 @@ main {
   flex-flow: column nowrap;
   left: 0px;
   position: absolute;
+  width: 10em;
 }
 
 .show-dropdown-menu {
