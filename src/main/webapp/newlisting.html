@@ -6,6 +6,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <script src="search.js"></script>
+    <script src="listing.js"></script>
   </head>
   <body>
     <header id="nav-box" class="shadow-box">
@@ -19,13 +20,13 @@
         <ul>
           <li>
             <label for="cause-name" class="form-label">A Name for the Cause</label>
-            <span>Give a short, descriptive name to the cause. This will be the first thing people see.</span>
+            <p class="sublabel">Give a short, descriptive name to the cause. This will be the first thing people see.</p>
             <input id="cause-name" type="text">
           </li>
           <li>
           <ul>
             <label class="form-label">Type of Cause</label>
-            <span>Check the boxes which best describe your cause. This will help people find it.</span>
+            <p class="sublabel">Check the boxes which best describe your cause. This will help people find it.</p>
             <li>
             <input id="fundraiser-checkbox" class="search-filter" type="checkbox" value="fundraiser">
             <label for="fundraiser-checkbox">Fundraiser</label>
@@ -45,34 +46,36 @@
           </ul>
           <li>
             <label for="cause-location" class="form-label">Location</label>
-            <span>Select the location for the cause. Try to be as specific as possible, but as broad as needed.</span>
+            <p class="sublabel">Select the location for the cause. Try to be as specific as possible, but as broad as needed.</p>
             <input id="cause-location" type="text">
           </li>
           <li>
             <label for="cause-description" class="form-label">Description</label>
-            <span>Describe your cause and why it's important.</span>
+            <p class="sublabel">Describe your cause and why it's important.</p>
             <textarea id="cause-description"></textarea>
           </li>
           <li>
             <label for="cause-how-to-help" class="form-label">How To Help</label>
-            <span>Describe how people can contribute to the cause. Be sure to include any specific addresses or links that may be important.</span>
+            <p class="sublabel">Describe how people can contribute to the cause. Be sure to include any specific addresses or links that may be important.</p>
             <textarea id="cause-how-to-help"></textarea>
           </li>
           <li>
             <label for="cause-website" class="form-label">Website</label>
-            <span>If you have a website surrounding the cause, be sure to link it here.</span>
+            <p class="sublabel">If you have a website surrounding the cause, be sure to link it here.</p>
             <input id="cause-website" type="text">
           </li>
           <li>
             <label for="cause-image" class="form-label">Add An Image</label>
-            <span>Add a preview image for the cause. </span>
+            <p class="sublabel">Add a preview image for the cause. </p>
             <br>
             <input id="cause-image" type="file" id="myFile" name="filename">
           </li>
         </ul>
+        <a href="user.html">"Submit"</a>
         <button>Submit</button>
       </section>
-      <section class="listing shadow-box">
+
+      <section id="listing-preview" class="listing shadow-box">
         <h1>Preview</h1>
         <div>
           <img class="listing-image" src="" alt="Listing preview image.">
@@ -80,7 +83,7 @@
         </div>
         <div class="listing-info-container">
           <div class="listing-heading-container">
-            <h2>Listing Name</h2>
+            <h2 id="listing-name">Listing Name</h2>
             <div class="listing-tags-container">
               <span class="listing-tag fundraiser-tag">Fundraiser</span>
               <span class="listing-tag event-tag">Event</span>

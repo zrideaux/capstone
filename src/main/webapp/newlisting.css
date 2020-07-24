@@ -12,6 +12,12 @@ ul {
   list-style: none;
 }
 
+.sublabel {
+  color: #424242;
+  font-size: 0.9em;
+  margin: 0.5em 0;
+}
+
 #nav-box {
   border-radius: 0px 0px 15px 15px;
   display: flex;
