@@ -122,7 +122,7 @@ function createCreatedListings() {
  */
 function createUpvotedListings() {
   const divUpvotedListings = createDivElement('', '', 'upvoted-listings');
-  divUpvotedListing.appendChild(createListingPreview());
+  divUpvotedListings.appendChild(createListingPreview());
 
   return divUpvotedListings;
 }
