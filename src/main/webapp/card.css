@@ -4,6 +4,23 @@
   justify-content: center;
 }
 
+.card {
+  display: flex;
+  flex-direction: column;
+}
+
+.exit {
+  align-self: flex-end;
+  color: red;
+  cursor: pointer;
+  display: inline-flex;
+  padding: 1rem;
+}
+
+.exit i {
+  font-size: 4rem;
+}
+
 .card-information-container {
   align-items: center;
   display: flex;
