@@ -15,7 +15,7 @@ import createListingPreview from './listing-preview.js'
  * @param divCardContainerElement a div element for the user's profile page
  * @return a div with all the information pertaining to a user
  */
-function createUserProfile(divCardContainerElement) {
+export default function createUserProfile(divCardContainerElement) {
   const divCardInfoElement = createDivElement(
       '', 'card-information-container shadow-box', '');
   divCardContainerElement.appendChild(divCardInfoElement);
@@ -126,5 +126,3 @@ function createUpvotedListings() {
 
   return divUpvotedListings;
 }
-
-export { createUserProfile };
