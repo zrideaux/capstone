@@ -16,7 +16,9 @@ h2 {
 #search-keyword-container {
   align-items: center;
   display: flex;
+  margin-bottom: 0.5em;
   padding: 5px;
+  
 }
 
 #search-keyword {
@@ -52,10 +54,36 @@ main {
   position: relative;
 }
 
+.dropdown-box button {
+  background-color: #FFFFFF;
+  border: 1px solid #BDBDBD;
+  border-radius: 15px;
+  outline: none;
+  transition: border 0.5s; 
+}
+
+.dropdown-box button:hover {
+  background-color: #EEEEEE;
+  border: 1px solid #000000;
+}
+
+.dropdown-box button:focus {
+  background-color: #EEEEEE;
+  border: 1px solid #000000;
+}
+
 .dropdown-menu {
   background-color: #FFFFFF;
   display: none;
   flex-flow: column nowrap;
-  position: absolute;
   left: 0px;
+  position: absolute;
+}
+
+.show-dropdown-menu {
+  display: block;
+}
+
+#search-icon {
+  margin-right: 0.5em;
 }
