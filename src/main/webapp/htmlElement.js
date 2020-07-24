@@ -8,7 +8,7 @@
  * @param idAttribute the name of the id of this a element 
  * @return returns an a element with the text
  */
-function createAElement(text, targetAttribute, hrefAttribute, classAttribute, 
+function createAElement(text, hrefAttribute, targetAttribute, classAttribute, 
     idAttribute) {
   const aElement = document.createElement('a');
   aElement.innerText = text;

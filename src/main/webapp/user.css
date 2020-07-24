@@ -2,6 +2,10 @@
   align-self: flex-start;
 }
 
+.user-name {
+  margin: 1.5rem;
+}
+
 .create-listing {
   margin-top: 3rem;
 }
