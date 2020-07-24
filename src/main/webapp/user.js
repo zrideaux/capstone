@@ -5,6 +5,8 @@ import {
   createImgElement
   } from './htmlElement.js';
 
+import createListingPreview from './listing-preview.js'
+
 // User Page
 
 /**
@@ -107,6 +109,8 @@ function createListingTabs() {
  */
 function createCreatedListings() {
   const divCreatedListings = createDivElement('', '', 'created-listings');
+  divCreatedListings.appendChild(createListingPreview());
+  divCreatedListings.appendChild(createListingPreview());
 
   return divCreatedListings;
 }
@@ -118,6 +122,7 @@ function createCreatedListings() {
  */
 function createUpvotedListings() {
   const divUpvotedListings = createDivElement('', '', 'upvoted-listings');
+  divUpvotedListing.appendChild(createListingPreview());
 
   return divUpvotedListings;
 }
