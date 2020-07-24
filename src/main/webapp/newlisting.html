@@ -8,9 +8,9 @@
     <script src="search.js"></script>
   </head>
   <body>
-    <header id="search-box" class="shadow-box">
-      <img id="logo" src="" alt="logo">
-      
+    <header id="nav-box" class="shadow-box">
+      <img id="logo" src="" alt="Logo">
+      <img id="profile-link" src="#" alt="Profile link">
     </header>
     
     <main>
@@ -22,21 +22,25 @@
             <input type="text">
           </li>
           <li>
+          <ul>
             <label class="form-label">Type of Cause</label>
-            <span>
-              <input id="fundraiser-radio" class="search-filter" type="checkbox" value="fundraiser">
-              <label for="fundraiser-radio">Fundraiser</label>
-              <br>
-              <input id="petition-radio" class="search-filter" type="checkbox" value="petition">
-              <label for="petition-radio">Petition</label>
-              <br>
-              <input id="event-radio" class="search-filter" type="checkbox" value="event">
-              <label for="event-radio">Event</label>
-              <br>
-              <input id="other-radio" class="search-filter" type="checkbox" value="other">
-              <label for="other-radio">Other</label>
-            </span>
-          </li>
+            <li>
+            <input id="fundraiser-checkbox" class="search-filter" type="checkbox" value="fundraiser">
+            <label for="fundraiser-checkbox">Fundraiser</label>
+            </li>
+            <li>
+            <input id="petition-checkbox" class="search-filter" type="checkbox" value="petition">
+            <label for="petition-checkbox">Petition</label>
+            </li>
+            <li>
+            <input id="event-checkbox" class="search-filter" type="checkbox" value="event">
+            <label for="event-checkbox">Event</label>
+            </li>
+            <li>
+            <input id="other-checkbox" class="search-filter" type="checkbox" value="other">
+            <label for="other-checkbox">Other</label>
+            </li>
+          </ul>
           <li>
             <label class="form-label">Location</label>
             <input type="text">
@@ -57,7 +61,7 @@
         <button>Submit</button>
       </section>
       <section class="listing shadow-box">
-
+        <h1>Preview</h1>
         <div>
           <img class="listing-image" src="" alt="Listing preview image.">
           <span class="listing-reputation">Reputation: 205 Votes</span>
