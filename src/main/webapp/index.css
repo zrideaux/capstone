@@ -80,9 +80,6 @@ h2{
     text-align: center;
   }
   
-  .foot {
-    display: none
-  }  
   .navbar a {
     float: none;
     display: block;
@@ -97,11 +94,3 @@ a {
 .center {
   text-align: center;
 }
-
-.foot {
-  bottom: 5px;  
-  position: fixed;   
-  text-align: center;     
-  width: 100%;
-} 
-
