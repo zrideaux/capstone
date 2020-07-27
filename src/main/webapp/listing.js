@@ -31,6 +31,37 @@ function toggleDisplay(display, id) {
 // Listing Page
 
 /**
+ * Return an object containing the values of the new listing form.
+ * 
+ * @return a JavaScript object with name, types, location, description,
+ *     howToHelp, and website attributes.
+ */
+function getFormInfo() {
+  const causeName = document.getElementById('cause-name').value;
+  let causeTypes = []
+  for (checkbox in document.getElementsByClassName('search-filter')) {
+    if (checkbox.checked) {
+      causeTypes.push(checkbox.value);
+    }
+  }
+  const causeLocation = document.getElementById('cause-location').value;
+  const causeDescription = document.getElementById('cause-description').value;
+  const causeHowToHelp = document.getElementById('cause-how-to-help').value;
+  const causeWebsite = document.getElementById('cause-website').value;
+
+  const formInfo = {
+    name: causeName,
+    types: causeTypes,
+    location: causeLocation,
+    description: causeDescription,
+    howToHelp: causeHowToHelp,
+    website: causeWebsite
+  }
+
+  return formInfo;
+}
+
+/**
  * Create an element that shows a listing detailed view
  *
  * @param divCardContainerElement a div element where the listing will pop up

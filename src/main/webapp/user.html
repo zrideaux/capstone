@@ -7,11 +7,43 @@
     <link rel="stylesheet" type="text/css" href="user.css">
     <link rel="stylesheet" type="text/css" href="card.css">
     <link rel="stylesheet" type="text/css" href="search.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        rel="stylesheet"> 
     <script type="module" src="user.js"></script>
   </head>
   <body>
+    <header id="nav-box" class="shadow-box">
+      <nav>
+        <a href="index.html"><img id="logo" src="images/placeholder_logo.png" alt="logo"></a>
+        <div id="nav-links">
+          <a class="nav-link" href="search.html">
+            <i class="material-icons">search</i>
+            <!-- <span>Search</span> -->
+          </a>
+          <a class="nav-link" href="newlisting.html">
+            <i class="material-icons">add_box</i>
+            <!-- <span>Post</span> -->
+          </a>
+          <a class="nav-link" href="about.html">
+            <i class="material-icons">book</i>
+            <!-- <span>About</span> -->
+          </a>
+          <a class="nav-link" href="search.html">
+            <i class="material-icons">phone</i>
+            <!-- <span>Contact</span> -->
+          </a>
+          <a class="nav-link" href="user.html">
+            <i class="material-icons">account_box</i>
+            <!-- <span>Profile</span> -->
+          </a>
+        </div>
+      </nav>
+    </header>
+
     <div id="user" class="card-container">
+
     </div>
+
     <script type="module">
       import createUserProfile from "/user.js";
       const divCardContainerElement = document.getElementById("user");

@@ -10,22 +10,34 @@ h2 {
 
 #search-box {
   border-radius: 0px 0px 15px 15px;
-  padding: 15px;
+  padding: 1em;
 }
 
 #search-keyword-container {
   align-items: center;
   display: flex;
-  margin-bottom: 0.5em;
+  margin: 0.5em 0;
   padding: 5px;
 }
 
 #search-keyword {
+  width: 100%;
+}
+
+input[type=text] {
   background-color: #EEEEEE;
   border: none;
   border-radius: 15px;
+  outline: none;
   padding: 5px;
-  width: 100%;
+  transition: 0.2s;
+}
+
+input[type=text]:focus,
+textarea:focus {
+  -webkit-box-shadow: 0px 0px 5px 0px #00000080;
+  -moz-box-shadow: 0px 0px 5px 0px #00000080;
+  box-shadow: 0px 0px 5px 0px #00000080;
 }
 
 main {

@@ -12,6 +12,10 @@ ul {
   list-style: none;
 }
 
+a {
+  color: inherit;
+}
+
 .sublabel {
   color: #424242;
   font-size: 0.9em;
@@ -20,9 +24,7 @@ ul {
 
 #nav-box {
   border-radius: 0px 0px 15px 15px;
-  display: flex;
-  justify-content: space-between;
-  padding: 15px;
+  padding: 1em;
 }
 
 .form-label {
