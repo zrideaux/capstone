@@ -43,7 +43,7 @@ function createListingDetailedView(divCardContainerElement,
     cardContainerElementDisplay, cardContainerElementId) {
 
   const divCardElement = createDivElement( 
-      '', 'card shadow-box', '');
+      '', 'card listing-detailed-card shadow-box', '');
   divCardContainerElement.appendChild(divCardElement);
 
   const divExitElement = createDivElement(

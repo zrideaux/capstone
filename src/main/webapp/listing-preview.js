@@ -61,7 +61,7 @@ export default function createListingPreview(listingDisplay, listingId) {
  *     (see below) and website of a listing.
  */
 function createListingInformation() {
-  const divListingInfo = createDivElement('', '', '');
+  const divListingInfo = createDivElement('', 'preview-info', '');
 
   divListingInfo.appendChild(
     createImgElement('', 'Listing preview image', 'listing-image', ''));
