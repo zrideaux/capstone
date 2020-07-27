@@ -5,7 +5,13 @@ import {
   createImgElement
   } from './htmlElement.js';
 
-import createListingPreview from './listing-preview.js'
+import createListingPreview from './listing-preview.js';
+
+import {
+  createListingDetailedView, 
+} from './listing-detailed.js';
+
+import createListing from './listing.js';
 
 // User Page
 
@@ -109,8 +115,9 @@ function createListingTabs() {
  */
 function createCreatedListings() {
   const divCreatedListings = createDivElement('', '', 'created-listings');
-  divCreatedListings.appendChild(createListingPreview());
-  divCreatedListings.appendChild(createListingPreview());
+  for (let i = 0; i < 2; i ++) {
+    divCreatedListings.appendChild(createListing(i + 1));
+  }
 
   return divCreatedListings;
 }
@@ -122,7 +129,9 @@ function createCreatedListings() {
  */
 function createUpvotedListings() {
   const divUpvotedListings = createDivElement('', '', 'upvoted-listings');
-  divUpvotedListings.appendChild(createListingPreview());
+  for (let i = 0; i < 1; i ++) {
+    divUpvotedListings.appendChild(createListing(i + 1));
+  }
 
   return divUpvotedListings;
 }

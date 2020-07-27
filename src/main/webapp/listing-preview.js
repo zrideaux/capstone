@@ -4,21 +4,39 @@ import {
   createImgElement, 
   createPElement,
   createSectionElement,
-  createSpanElement,
-  createAElement
+  createSpanElement
   } from './htmlElement.js';
+
+// miscellaneous functions
+
+/** 
+ * Toggles the display of an element. 
+ * 
+ * @param id used to get an element with this id
+ */
+function toggleDisplay(display, id) {
+  let element = document.getElementById(id);
+  const elementStyle = getComputedStyle(element, null).display;
+  if (elementStyle === display) {
+    console.log('Element with id ' + id + ' is now hidden.')
+    console.log('Display: ' + elementStyle + ' is now ' + display);
+    element.style.display = 'none';
+  } else {
+    console.log('Element with id ' + id + ' is now visible.')
+    console.log('Display: ' + elementStyle + ' is now ' + display);
+    element.style.display = display;
+  }  
+}
 
 /**
  * Create an element that shows a listing detailed view
  *
  * @return a div with all the preview information pertaining to a listing
  */
-export default function createListingPreview() {
-  const aLeadToExpendedView = createAElement('', 'listing.html', '', 
-      'remove-a-styling', '');
+export default function createListingPreview(listingDisplay, listingId) {
 
   const sectionListing = createSectionElement('listing shadow-box', '');
-  aLeadToExpendedView.appendChild(sectionListing);
+  // aLeadToExpendedView.appendChild(sectionListing);
 
   console.log("Creating listing information");
   sectionListing.appendChild(createListingInformation());
@@ -26,7 +44,10 @@ export default function createListingPreview() {
   console.log('Creating listing information')
   sectionListing.appendChild(createListingDetails());
 
-  return aLeadToExpendedView;
+  sectionListing.addEventListener("click", function(){ toggleDisplay(
+      listingDisplay, listingId) });
+
+  return sectionListing;
 }
 
 /**
