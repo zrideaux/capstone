@@ -12,6 +12,7 @@ import {
 /** 
  * Toggles the display of an element. 
  * 
+ * @param display the display of the element
  * @param id used to get an element with this id
  */
 function toggleDisplay(display, id) {
@@ -29,14 +30,17 @@ function toggleDisplay(display, id) {
 }
 
 /**
- * Create an element that shows a listing detailed view
+ * Create an element that shows a listing detailed view and when clicked on will
+ *     display the detailed view
  *
+ * @param listingDisplay the display property of the detailed view
+ * @param listingId the id of the listing detailed view element
  * @return a div with all the preview information pertaining to a listing
  */
 export default function createListingPreview(listingDisplay, listingId) {
 
   const sectionListing = createSectionElement('listing shadow-box', '');
-  // aLeadToExpendedView.appendChild(sectionListing);
+  sectionListing.setAttribute("tabindex", "0");
 
   console.log("Creating listing information");
   sectionListing.appendChild(createListingInformation());

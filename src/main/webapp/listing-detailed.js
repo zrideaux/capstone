@@ -12,6 +12,7 @@ import {
 /** 
  * Toggles the display of an element. 
  * 
+ * @param display the display of the element
  * @param id used to get an element with this id
  */
 function toggleDisplay(display, id) {
@@ -34,22 +35,20 @@ function toggleDisplay(display, id) {
  * Create an element that shows a listing detailed view
  *
  * @param divCardContainerElement a div element where the listing will pop up
- * @param number the number assigned to this specific listing (the number 
- *     itself is insignificant)
+ * @param cardContainerElementDisplay the display of the card container
+ * @param cardContainerElementId the id of the card container
  * @return a div with all the information pertaining to a listing
  */
-function createListingDetailedView(divCardContainerElement, cardElementDisplay, 
-    cardElementId) {
+function createListingDetailedView(divCardContainerElement, 
+    cardContainerElementDisplay, cardContainerElementId) {
 
-  // const divCardElementId = 'listing' + number;
-  // const cardElementDisplay = "flex";
   const divCardElement = createDivElement( 
       '', 'card shadow-box', '');
   divCardContainerElement.appendChild(divCardElement);
 
   const divExitElement = createDivElement(
-      'toggleDisplay("'+ cardElementDisplay + '", "' + cardElementId + '")', 
-      'exit', '');
+      'toggleDisplay("'+ cardContainerElementDisplay + '", "' + 
+      cardContainerElementId + '")', 'exit', '');
   divExitElement.appendChild(
     createIElement('close', 'material-icons', ''));
   divCardElement.appendChild(divExitElement);
