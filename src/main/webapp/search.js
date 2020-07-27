@@ -1,11 +1,12 @@
 
 /**
  * Toggle a specified dropdown menu when called. 
+ *
+ * @param menuName text that specifies the id of the menu to be toggled.
  */
 function toggleDropdown(menuName) {
   const dropdownMenu = document.getElementById(menuName);
-  let menuIsClosed = (dropdownMenu.style.display === 'none' 
-                      || dropdownMenu.style.display === ''); 
+  let menuIsClosed = (window.getComputedStyle(dropdownMenu).display === 'none');
 
   // Hide any open dropdown menus.
   hideDropdownMenus();
