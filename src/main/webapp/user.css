@@ -6,6 +6,10 @@
   margin: 1.5rem;
 }
 
+.user-email {
+  margin: 0;
+}
+
 .create-listing {
   margin-top: 3rem;
 }

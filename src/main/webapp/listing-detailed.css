@@ -7,6 +7,10 @@
   display: inline-block;
 }
 
+.listing-detailed-card {
+  height: 85%;
+}
+
 .reputation-pill {
   border: .3rem solid green;
   border-radius: 2rem;
