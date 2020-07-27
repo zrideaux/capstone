@@ -1,7 +1,29 @@
+.remove-a-styling {
+  text-decoration: none;
+  color: black;
+}
+
 .card-container {
   align-items: center;
   display: flex;
   justify-content: center;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+}
+
+.exit {
+  align-self: flex-end;
+  color: red;
+  cursor: pointer;
+  display: inline-flex;
+  padding: 1rem;
+}
+
+.exit i {
+  font-size: 4rem;
 }
 
 .card-information-container {
@@ -15,6 +37,7 @@
   align-items: center;
   display: flex;
   flex-direction: column;
+  margin: 3rem;
   text-align: center;
 }
 
@@ -29,6 +52,14 @@
 
 .card-name {
   margin: 0;
+}
+
+.card-button {
+  background-color: gray;
+  border-radius: 2rem;
+  color: white;
+  padding: .7rem;
+  text-decoration: none;
 }
 
 .card-description {
