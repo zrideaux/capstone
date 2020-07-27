@@ -10,6 +10,17 @@ a {
   color: inherit;
 }
 
+.sublabel {
+  color: #424242;
+  font-size: 0.9em;
+  margin: 0.5em 0;
+}
+
+#nav-box {
+  border-radius: 0px 0px 15px 15px;
+  padding: 1em;
+}
+
 .form-label {
   display: block;
   margin: 1em 0 0.5em;
