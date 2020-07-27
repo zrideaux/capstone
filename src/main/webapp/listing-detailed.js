@@ -5,7 +5,7 @@ import {
   createIElement,  
   createImgElement, 
   createPElement 
-  } from './htmlElement.js';
+} from './htmlElement.js';
 
 // miscellaneous functions
 

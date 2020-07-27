@@ -3,13 +3,7 @@ import {
   createDivElement, 
   createHElement,
   createImgElement
-  } from './htmlElement.js';
-
-import createListingPreview from './listing-preview.js';
-
-import {
-  createListingDetailedView, 
-} from './listing-detailed.js';
+} from './htmlElement.js';
 
 import createListing from './listing.js';
 

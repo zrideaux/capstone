@@ -1,7 +1,7 @@
 import { 
   createDivElement, 
   createSectionElement
-  } from './htmlElement.js';
+} from './htmlElement.js';
 
 import createListingPreview from './listing-preview.js'
 

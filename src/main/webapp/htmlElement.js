@@ -11,11 +11,11 @@
 function createAElement(text, hrefAttribute, targetAttribute, classAttribute, 
     idAttribute) {
   const aElement = document.createElement('a');
-  aElement.innerText = text;
   aElement.setAttribute("target", targetAttribute);
   aElement.setAttribute("href", hrefAttribute);
   aElement.setAttribute("class", classAttribute);
   aElement.setAttribute("id", idAttribute);
+  aElement.innerText = text;
   return aElement;
 }
 
@@ -147,7 +147,8 @@ function createInputRadioElement(text, nameAttribute, valueAttribute,
  * @param nameAttribute the name attribute for this input element
  * @param minLengthAttribute the minimum length of text accepted
  * @param maxLengthAttribute the maximum length of text accepted
- * @param placeholderAttribute the text that will be displayed before the user  *     inputs text
+ * @param placeholderAttribute the text that will be displayed before the user  
+ *     inputs text
  * @param classAttribute the name of the class of this div element
  * @param idAttribute the name of the id of this div element
  * @return return an input element of type text
@@ -175,9 +176,9 @@ function createInputTextElement(nameAttribute, minLengthAttribute,
  */
 function createPElement(text, classAttribute, idAttribute) {
   const pElement = document.createElement('p');
-  pElement.innerText = text;
   pElement.setAttribute("class", classAttribute);
   pElement.setAttribute("id", idAttribute);
+  pElement.innerText = text;
   return pElement;
 }
 
