@@ -19,6 +19,10 @@
   width: 150px;
 }
 
+.listing-preview-name {
+  margin: 0;
+}
+
 @media only screen and (min-width: 2450px) {
   .preview-info {
     display: flex;

@@ -106,7 +106,7 @@ function createListingHeading() {
       '');
   
   divListingHeading.appendChild(
-    createHElement('Listing Name', 2, '', ''));
+    createHElement('Listing Name', 2, 'listing-preview-name', ''));
 
   console.log("Creating listing tags");
   divListingHeading.appendChild(createListingTags());
