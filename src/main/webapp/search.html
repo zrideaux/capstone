@@ -11,18 +11,18 @@
       <img id="logo" src="" alt="logo">
       
       <div id="search-keyword-container">
-        <i class="material-icons">search</i>
+        <i id="search-icon" class="material-icons">search</i>
         <input id="search-keyword" type="text" placeholder="Search by name">
       </div>
 
       <div id="search-options-container">
-        <div id="search-location">
+        <span id="search-location">
           <label for="search-location-input">Location</label>
           <input id="search-location-input" type="text" placeholder="Location">
-        </div>
+        </span>
 
         <span class="dropdown-box">
-          <button onclick="showDropdown('search-filters')">Filters</button>
+          <button onclick="toggleDropdown('search-filters')">Filters</button>
           <div id="search-filters" class="dropdown-menu shadow-box">
             <label>Filters</label>
             <br>
@@ -45,7 +45,7 @@
         </span>
         
         <span class="dropdown-box">
-          <button onclick="showDropdown('search-radius')">Radius</button> 
+          <button onclick="toggleDropdown('search-radius')">Radius</button> 
           <div id="search-radius" class="dropdown-menu shadow-box">
             <label>Radius</label>
             <br>
@@ -72,7 +72,7 @@
         </span>
 
         <span class="dropdown-box">
-          <button onclick="showDropdown('search-sort')">Sort By</button>
+          <button onclick="toggleDropdown('search-sort')">Sort By</button>
           <div id="search-sort" class="dropdown-menu shadow-box">
             <label>Sort By</label>
             <br>
@@ -93,30 +93,32 @@
     </header>
     
     <main>
-      <section class="listing shadow-box">
-        <div>
-          <img class="listing-image" src="" alt="Listing preview image.">
-          <span class="listing-reputation">Reputation: 205 Votes</span>
-        </div>
-        <div class="listing-info-container">
-          <div class="listing-heading-container">
-            <h2>Listing Name</h2>
-            <div class="listing-tags-container">
-              <span class="listing-tag fundraiser-tag">Fundraiser</span>
-              <span class="listing-tag event-tag">Event</span>
-            </div>
+      <a href="listing.html">
+        <section class="listing shadow-box">
+          <div>
+            <img class="listing-image" src="" alt="Listing preview image.">
+            <span class="listing-reputation">Reputation: 205 Votes</span>
           </div>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-            enim ad minim veniam, quis nostrud exercitation ullamco laboris
-            nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-            in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-            nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-            sunt in culpa qui officia deserunt mollit anim id est laborum.
-          </p>
-        </div>
-      </section>
+          <div class="listing-info-container">
+            <div class="listing-heading-container">
+              <h2>Listing Name</h2>
+              <div class="listing-tags-container">
+                <span class="listing-tag fundraiser-tag">Fundraiser</span>
+                <span class="listing-tag event-tag">Event</span>
+              </div>
+            </div>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+              in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+              sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+          </div>
+        </section>
+      </a>
     </main>
   </body>
 </html>
