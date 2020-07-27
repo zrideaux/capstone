@@ -5,22 +5,27 @@ body {
   margin: 0;
 }
 
-#nav-box {
-  border-radius: 0px 0px 15px 15px;
+nav {
   display: flex;
   justify-content: space-between;
+}
+
+#nav-box {
+  border-radius: 0px 0px 15px 15px;
   padding: 1em;
 }
 
-#nav-box a {
-  border: none;
+.nav-link {
+  border: 1px solid #FFFFFF;
   border-radius: 15px;
   padding: 0.5em;
+  text-decoration: none;
   transition: 0.2s;
 }
 
-#nav-box a:hover,
-#nav-box a:focus {
+.nav-link:hover,
+.nav-link:focus {
+  border: 1px solid #424242;
   background-color: #EEEEEE;
 }
 
