@@ -1,11 +1,17 @@
 html,
 body {
   background-color: #E0F2F1;
+  font-family: sans-serif;
   padding: 0;
   margin: 0;
 }
 
+#logo {
+  height: 2em;
+}
+
 nav {
+  align-items: center;
   display: flex;
   justify-content: space-between;
 }
@@ -15,12 +21,23 @@ nav {
   padding: 1em;
 }
 
+#nav-links {
+  display: flex;
+}
+
 .nav-link {
+  align-items: center;
   border: 1px solid #FFFFFF;
   border-radius: 15px;
-  padding: 0.5em;
+  display: flex;
+  margin: 0 0.3em;
+  padding: 0.3em;
   text-decoration: none;
   transition: 0.2s;
+}
+
+.nav-link span {
+  margin: 0 0.3em;
 }
 
 .nav-link:hover,
