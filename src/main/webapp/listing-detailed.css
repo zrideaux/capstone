@@ -1,14 +1,10 @@
-.title {
-  display: flex;
-}
-
-.pill {
-  border-radius: 2rem;
-  display: inline-block;
-}
-
 .listing-detailed-card {
   height: 85%;
+}
+
+pill {
+  border-radius: 2rem;
+  display: inline-block;
 }
 
 .reputation-pill {
@@ -17,6 +13,11 @@
   padding: .5rem;
 }
 
+.title {
+  display: flex;
+}
+
+.
 /* medium screens that are in portrait*/
 @media only screen and (max-width: 1550px) {
   .detailed-attribute {
@@ -24,13 +25,13 @@
     margin-bottom: 0rem;
   }
 
+  .listing-detail {
+    margin: 0rem;
+  }
+
   .listing-details {
     text-align: center;
     margin: 1rem;
-  }
-
-  .listing-detail {
-    margin: 0rem;
   }
 
   .pill {

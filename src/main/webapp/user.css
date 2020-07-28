@@ -7,20 +7,12 @@
   margin-right: 1.5rem;
 }
 
-.tab-listings-description {
-  align-self: flex-start !important;
-}
-
 .profile {
   align-self: flex-start;
 }
 
-.user-email {
-  margin: 0;
-}
-
-.user-listing-container {
-  font-size: 1.5rem;
+.tab-listings-description {
+  align-self: flex-start !important;
 }
 
 .upvoted-listings {
@@ -29,6 +21,14 @@
 
 .upvoted-listings-tab {
   margin-left: 1.5rem;
+}
+
+.user-email {
+  margin: 0;
+}
+
+.user-listing-container {
+  font-size: 1.5rem;
 }
 
 .user-name {
