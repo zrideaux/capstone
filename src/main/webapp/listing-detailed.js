@@ -32,15 +32,25 @@ function toggleDisplay(display, id) {
 /** 
  * Toggles the display of this tab Element, and make the display of the other 
  *     tab element none. 
+ * Also changes the background of this tab to #8EEEDE and the other tab to 
+ *     inherit
  * 
- * @param display the display of the element
- * @param id used to get an element with this id
- * @param otherId used to get the other tab element with this id
+ * @param elementDisplay the display of the element
+ * @param elementId used to get an element with this id
+ * @param otherElementId used to get the other tab element with this id
+ * @param otherTabId used to change the background of the other tab to inherit
+ * @param tabId used to change the background of this tab to #8EEEDE
  */
-function toggleTabDisplay(display, id, otherId) {
-    toggleDisplay(display, id);
-    let otherElement = document.getElementById(otherId);
-    otherElement.style.display = 'none';
+function toggleTabDisplay(elementDisplay, elementId, otherElementId,    
+    otherTabId, tabId) {
+  toggleDisplay(elementDisplay, elementId);
+  let tab = document.getElementById(tabId);
+  tab.style.background = '#8EEEDE';
+
+  let otherListing = document.getElementById(otherElementId);
+  otherListing.style.display = 'none';
+  let otherTab = document.getElementById(otherTabId);
+  otherTab.style.background = 'inherit';
 }
 
 // Listing Page
