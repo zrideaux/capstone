@@ -7,6 +7,8 @@ import {
   createSpanElement
 } from './htmlElement.js';
 
+import { toggleDisplay } from './miscellaneous.js';
+
 /**
  * Create an element that shows a listing detailed view and when clicked on will
  *     display the detailed view

@@ -5,11 +5,9 @@ import {
   createImgElement
 } from './htmlElement.js';
 
-import { toggleDisplay, toggleTabDisplay } from './listing-detailed.js'
+import { toggleTabDisplay } from './miscellaneous.js'
 
-import createListing from './listing.js';
-
-// User Page
+import createListings from './listing.js';
 
 /**
  * Create an element that shows a listing detailed view
@@ -129,7 +127,7 @@ function createListingTabs(listingsDisplay, createdListingsId,
 function createTab(elementDisplay, elementId, elementOtherId, hNum, otherTabId,
     tabClass, tabId, tabName) {
   // create createdListings tag
-  const hTab = createHElement(tabName, hNum, 'tab ' + tabClass, tabId);
+  const hTab = createHElement(tabName, hNum, 'tab pill ' + tabClass, tabId);
 
   hTab.setAttribute("tabindex", "0");
 
@@ -147,22 +145,4 @@ function createTab(elementDisplay, elementId, elementOtherId, hNum, otherTabId,
   });
   
   return hTab;
-}
-
-/**
- * Creates a div with a user's listings.
- *
- * @param listingsId the id of this element
- * @param listingsClass the class of this element
- * @param numListings the number of listings to display (CHANGE TO ARRAY)
- * @return a div with all of a user's listings.
- */
-function createListings(listingsClass, listingsId, numListings) {
-  const divListings = createDivElement('', listingsClass, listingsId);
-  for (let i = 0; i < numListings; i ++) {
-    const id = listingsId + (i + 1);
-    divListings.appendChild(createListing(id));
-  }
-
-  return divListings;
 }

@@ -27,7 +27,6 @@
 .card-information-container {
   align-items: center;
   display: flex;
-  font-size: 2rem;
   max-width: 1600px;
 }
 
@@ -35,7 +34,6 @@
   align-items: center;
   display: flex;
   flex-direction: column;
-  margin: 3rem;
   text-align: center;
 }
 
@@ -63,7 +61,7 @@
 .card-description {
   display: inline-flex;
   flex-direction: column;
-  align-self: flex-start;
+  align-self: center;
 }
 
 .tabs {
@@ -72,7 +70,6 @@
 }
 
 .tab {
-  border-radius: 2rem;
   color: black;
   cursor: pointer;
   margin-left: 2rem;
@@ -96,11 +93,28 @@
   z-index: 1;
 }
 
-/* medium - large screens */
-@media only screen and (min-width: 600px) {
+/* small - medium screens */
+@media only screen and (max-width: 1550px) {
+  .card {
+    font-size: 1.3rem;
+  }
+
+  .card-picture {
+    height: 150px;
+    width: 150px;
+  }  
+}
+
+/* large screens */
+@media only screen and (min-width: 1550px) {
   .card-name {
     font-size: 3rem;
   }
+
+  .card-picture {
+    height: 250px;
+    width: 250px;
+  }  
 }
 
 
@@ -125,13 +139,31 @@
 
 /* bigger screens */
 @media only screen and (min-width: 950px) and (orientation: landscape) {
-  .card-information {
+  .card-description {
     padding: 3rem;
+    width: 70%;
+  }
+}
+
+/* bigger screens */
+@media only screen and (max-width: 1550px) and (orientation: landscape) {
+  .card-description p {
+    margin: 0;
   }
 
-  .card-description {
-    height: 70%;
+  .card-information {
+    margin: 2rem;
+  }
+}
+
+/* bigger screens */
+@media only screen and (min-width: 1550px) and (orientation: landscape) {
+  .card-information {
     padding: 3rem;
-    width: 75%;
+    margin: 3rem;
+  }  
+
+  .card-information-container {
+    font-size: 2rem;
   }
 }

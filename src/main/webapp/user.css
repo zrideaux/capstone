@@ -31,13 +31,6 @@
   display: none;
 }
 
-/* medium - large screens */
-@media only screen and (min-width: 600px) {
-  .card-name {
-    font-size: 3rem;
-  }
-}
-
 /* Landscape */
 /* bigger screens */
 @media only screen and (min-width: 950px) and (orientation: landscape) {
