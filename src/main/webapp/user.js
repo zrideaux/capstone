@@ -21,7 +21,9 @@ export default function createUserProfile(divCardContainerElement) {
   divCardContainerElement.appendChild(divCardInfoElement);
   
   console.log('creating User card information');
-  divCardInfoElement.appendChild(createUserInformation());
+  const exEmail = 'abcde@gmail.com';
+  const exName = 'Android Studios';
+  divCardInfoElement.appendChild(createUserInformation(exEmail, exName));
 
   console.log('creating User card description');
   divCardInfoElement.appendChild(createUserListings());
@@ -34,7 +36,7 @@ export default function createUserProfile(divCardContainerElement) {
  *
  * @return a div with a picture, name, email, and form to create listing.
  */
-function createUserInformation() {
+function createUserInformation(email, name) {
   const divCardInformation = createDivElement('', 'card-information profile',
       '');
 
@@ -42,10 +44,10 @@ function createUserInformation() {
       createImgElement('', 'profile picture', 'card-picture', ''));
       
   divCardInformation.appendChild(
-      createHElement('Android Studios', 1, 'user-name', ''));
+      createHElement(name, 1, 'user-name', ''));
 
   divCardInformation.appendChild(
-      createHElement('abcde@gmail.com', 2, 'user-email', ''));      
+      createHElement(email, 2, 'user-email', ''));      
 
   divCardInformation.appendChild(
       createAElement('Create listing', 'newlisting.html', '', 'card-button create-listing', '')
@@ -60,7 +62,8 @@ function createUserInformation() {
  * @return a div with the description and comments of a listing.
  */
 function createUserListings() {
-  const divUserListings = createDivElement('', 'card-description', '');
+  const divUserListings = createDivElement('', 'card-description ' + 
+      'tab-listings-description', '');
 
   console.log("Creating user's listing tabs");
   const listingsDisplay = 'block';

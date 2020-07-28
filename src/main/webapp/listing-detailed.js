@@ -24,6 +24,44 @@ export default function createListingDetailedView(divCardContainerElement,
       '', 'card listing-detailed-card shadow-box', '');
   divCardContainerElement.appendChild(divCardElement);
 
+  
+  divCardElement.appendChild(createExitElement(
+    cardContainerElementDisplay, cardContainerElementId));
+  
+  const divCardInfoElement = createDivElement(
+      '', 'card-information-container', '');
+  divCardElement.appendChild(divCardInfoElement);
+  
+  console.log('creating listing card information');
+  const exCategory = 'Category';
+  const exDate = '01/02/20';
+  const exName = 'Los Angeles Food Bank';
+  const exUpvotes = 200;
+  const exViews = '1,234';
+  divCardInfoElement.appendChild(createListingCardInformation(exCategory, 
+      exDate, exName, exUpvotes, exViews));
+
+  console.log('creating listing card description');
+  const exComments = 'Users can write about experience with event/org/etc. ' +
+      'Moderation might be touchy though.';
+  const exDescription = 'Detailed description of what the event/fund/etc is '
+      + 'for.';
+  const exHowToHelp = 'Detailed description of what the user can do to help ' + 
+      'the cause. Information about when/where the event is, if physical; ' + 
+      'links to relevant pages / donation links if digital. Deliver or ship ' + 
+      'donations to Fake Address 123, Los Angeles, CA 34567 on weekdays. ' + 
+      'Volunteer at Fake Address 123, Los Angeles, CA 34567 at 8:30PM everyday';
+  divCardInfoElement.appendChild(createListingCardDescription(exComments, 
+      exDescription, exHowToHelp));
+
+  return divCardContainerElement;
+}
+
+/**
+ * Create an element that represenets an exit button for the user to exit the 
+ *     current "page"
+ */
+function createExitElement(elementDisplay, elementId) {
   const divExitElement = createDivElement('', 'exit', '');
   
   // Make div exit keyboard accessible 
@@ -33,30 +71,19 @@ export default function createListingDetailedView(divCardContainerElement,
   // when enter is pressed on this div, change the display to none and hide 
   //     this div
   divExitElement.addEventListener('click', function () {
-    toggleDisplay(cardContainerElementDisplay, cardContainerElementId);
+    toggleDisplay(elementDisplay, elementId);
   });
 
   divExitElement.addEventListener('keypress', function (e) {
     if (e.key === 'Enter') {
-      toggleDisplay(cardContainerElementDisplay, cardContainerElementId);
+      toggleDisplay(elementDisplay, elementId);
     }
   });
 
   divExitElement.appendChild(
     createIElement('close', 'material-icons', ''));
-  divCardElement.appendChild(divExitElement);
-  
-  const divCardInfoElement = createDivElement(
-      '', 'card-information-container', '');
-  divCardElement.appendChild(divCardInfoElement);
-  
-  console.log('creating listing card information');
-  divCardInfoElement.appendChild(createListingCardInformation());
 
-  console.log('creating listing card description');
-  divCardInfoElement.appendChild(createListingCardDescription());
-
-  return divCardContainerElement;
+    return divExitElement;
 }
 
 /**
@@ -65,22 +92,22 @@ export default function createListingDetailedView(divCardContainerElement,
  * @return a div with the picture, name, category, reputation, listing details 
  *     (see below) and website of a listing.
  */
-function createListingCardInformation() {
+function createListingCardInformation(category, date, name, upvotes, views) {
   const divCardInformation = createDivElement('', 'card-information', '');
   divCardInformation.appendChild(
       createImgElement('', 'picture of listing', 'card-picture', ''));
       
   divCardInformation.appendChild(
-      createHElement('Los Angeles Food Bank', 1, 'card-name', ''));
+      createHElement(name, 1, 'card-name', ''));
 
   divCardInformation.appendChild(
-      createHElement('Category', 2, 'detailed-attribute listing-tag pill', ''));      
+      createHElement(category, 2, 'detailed-attribute listing-tag pill', ''));      
 
   divCardInformation.appendChild(
-      createHElement('Reputation: 200 up votes', 2, 'detailed-attribute pill ' 
-      + 'reputation-pill', '')); 
+      createHElement('Reputation: ' + upvotes + ' up votes', 2, 
+      'detailed-attribute pill reputation-pill', '')); 
 
-  divCardInformation.appendChild(createListingDetails()); 
+  divCardInformation.appendChild(createListingDetails(date, views)); 
 
   divCardInformation.appendChild(
       createAElement('Website Link', '', '_blank', 'card-button', '')); 
@@ -94,14 +121,14 @@ function createListingCardInformation() {
  * @return a div with the date the listing was made, the amount of views it has 
  *     received, its verifitcation, and contact info.
  */
-function createListingDetails() {
+function createListingDetails(date, views) {
   const divListingDetails = createDivElement('', 'listing-details', '');
   
   divListingDetails.appendChild(
-    createPElement('Listing made on 01/02/20', 'listing-detail', ''));
+    createPElement('Listing made on ' + date, 'listing-detail', ''));
 
   divListingDetails.appendChild(
-    createPElement('1,234 Views', 'listing-detail', ''));
+    createPElement(views + ' Views', 'listing-detail', ''));
 
   divListingDetails.appendChild(
     createPElement('Verified or Community Reputation', 'listing-detail', ''));
@@ -117,32 +144,26 @@ function createListingDetails() {
  *
  * @return a div with the description and comments of a listing
  */
-function createListingCardDescription() {
+function createListingCardDescription(comments, description, howToHelp) {
   const divListingDetails = createDivElement('', 'card-description', '');
 
   divListingDetails.appendChild(
       createHElement('Description', '3', '', '')); 
 
   divListingDetails.appendChild(
-    createPElement('Detailed description of what the event/fund/etc is for.', 
-        '', ''));
+    createPElement(description, '', ''));
 
   divListingDetails.appendChild(
       createHElement('How to help', '3', '', '')); 
 
   divListingDetails.appendChild(
-    createPElement(
-        'Detailed description of what the user can do to help the cause. Information about when/where the event is, if physical; links to relevant pages / donation links if digital. \
-        Deliver or ship donations to Fake Address 123, Los Angeles, CA 34567 on weekdays. \
-        Volunteer at Fake Address 123, Los Angeles, CA 34567 at 8:30PM everyday', 
-        '', '')); 
+    createPElement(howToHelp,'', '')); 
   
   divListingDetails.appendChild(
       createHElement('Comments', '3', '', '')); 
 
   divListingDetails.appendChild(
-    createPElement(
-      'Users can write about experience with event/org/etc. Moderation might be touchy though.', '', ''));
+    createPElement(comments, '', ''));
 
   return divListingDetails;
 }
