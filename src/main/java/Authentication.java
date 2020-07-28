@@ -35,12 +35,11 @@ public class Authentication extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("application/json");
-    
     HashMap<String, String> authenticationInfo = new HashMap<String, String>();
     Gson gson = new Gson();
     UserService userService = UserServiceFactory.getUserService();
 
+    // Check if user is logged in to determine what info to generate.
     if (userService.isUserLoggedIn()) {
       String email = userService.getCurrentUser().getEmail();
       String loggedIn = "true";
@@ -62,7 +61,7 @@ public class Authentication extends HttpServlet {
     }
 
     String authenticationInfoJson = gson.toJson(authenticationInfo);
-    
+    response.setContentType("application/json");
     response.getWriter().println(authenticationInfoJson);
   }
 }

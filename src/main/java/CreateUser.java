@@ -38,17 +38,16 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/create-user")
 public class CreateUser extends HttpServlet {
 
+  private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/plain");
-    
     String message = new String();
     UserService userService = UserServiceFactory.getUserService();
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     // Verify that current user is logged in.
     if (userService.isUserLoggedIn()) {
-      // Verify that user doesn't already have a profile.
+      // Check if user's email is already associated with an account.
       String userEmail = userService.getCurrentUser().getEmail();
       Filter filter = new FilterPredicate("email", FilterOperator.EQUAL, userEmail);
       Query query = new Query("User").setFilter(filter);
@@ -56,16 +55,15 @@ public class CreateUser extends HttpServlet {
 
       if (results.countEntities(FetchOptions.Builder.withLimit(1)) == 0) {
         createUserEntity(request, userEmail);
-        System.out.println("New user created.");
         message = "New user created.";
       } else {
-        System.out.println("There is already a user associated with this email.");
         message = "No user created. There is already a user associated with this email.";
       }
     } else {
       message = "No user created. User is not signed in.";
     }
     
+    response.setContentType("text/plain");
     response.getWriter().println(message);
   }
 
@@ -82,7 +80,6 @@ public class CreateUser extends HttpServlet {
     newUserEntity.setProperty("createdListingKeys", "");
     newUserEntity.setProperty("upvotedListingKeys", "");
 
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(newUserEntity);
   }
 
