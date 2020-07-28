@@ -18,6 +18,10 @@
   font-size: 1.5rem;
 }
 
+.tab-listings {
+  display: none;
+}
+
 .created-listings {
   margin-right: 1.5rem;
 }

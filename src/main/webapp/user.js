@@ -5,6 +5,8 @@ import {
   createImgElement
 } from './htmlElement.js';
 
+import { toggleDisplay, toggleTabDisplay } from './listing-detailed.js'
+
 import createListing from './listing.js';
 
 // User Page
@@ -48,7 +50,7 @@ function createUserInformation() {
       createHElement('abcde@gmail.com', 2, 'user-email', ''));      
 
   divCardInformation.appendChild(
-      createAElement('Create listing', '', '', 'card-button create-listing', '')
+      createAElement('Create listing', 'newlisting.html', '', 'card-button create-listing', '')
       ); 
 
   return divCardInformation;
@@ -63,17 +65,25 @@ function createUserListings() {
   const divUserListings = createDivElement('', 'card-description', '');
 
   console.log("Creating user's listing tabs");
-  divUserListings.appendChild(createListingTabs());
+  const listingsDisplay = 'block';
+  const createdListingsId = 'created-listings';
+  const upvotedListingsId = 'upvoted-listings';
+  divUserListings.appendChild(createListingTabs(listingsDisplay, 
+      createdListingsId, upvotedListingsId));
 
   const divUserListingContainer = createDivElement('', 'user-listing-container',
       '');
   divUserListings.appendChild(divUserListingContainer);
 
   console.log("Creating user's created listings");
-  divUserListingContainer.appendChild(createCreatedListings());
+  const createdListingsClass = 'tab-listings';
+  divUserListingContainer.appendChild(createListings(
+      createdListingsId, createdListingsClass, 2));
 
   console.log("Creating user's upvoted listings");
-  divUserListingContainer.appendChild(createUpvotedListings());
+  const upvotedListingsClass = 'tab-listings';
+  divUserListingContainer.appendChild(createListings(
+      upvotedListingsId, upvotedListingsClass, 1));
 
   return divUserListings;
 }
@@ -84,48 +94,70 @@ function createUserListings() {
  * @return a div with two tabs one for a user's created listings and another 
  *     for their upvoted listings.
  */
-function createListingTabs() {
+function createListingTabs(listingsDisplay, createdListingsId, 
+    upvotedListingsId) {
   const divTabs = createDivElement('', 'tabs', '');
 
-  const aCreatedListings = createAElement('', '#created-listings', '', 
-      'tab created-listings', '');
-  aCreatedListings.appendChild(
-      createHElement('Created Listings', '3', '', ''));
-  divTabs.appendChild(aCreatedListings);
-
-  const aUpvotedListings = createAElement('', '#upvoted-listings', '', 
-      'tab upvoted-listings', '');
-  aUpvotedListings.appendChild(
-      createHElement('Upvoted Listings', '3', '', ''));  
-  divTabs.appendChild(aUpvotedListings);
+  divTabs.appendChild(createTab(
+    listingsDisplay, createdListingsId, upvotedListingsId, '3', 
+        'Created Listings'));
+  divTabs.appendChild(createTab(
+    listingsDisplay, upvotedListingsId, createdListingsId, '3', 
+        'Upvoted Listings'));
 
   return divTabs;
 }
 
 /**
- * Creates a div with a user's created listings.
+ * Creates a div that represents tab.
  *
- * @return a div with all of a user's created listings.
+ * @param elementDisplay the display of the element associated with this tab
+ * @param elementId the id of the element associated with this tab
+ * @param hNum the number for the heading (ex: h1 ,h2, h3)
+ * @param tabName the name of this name that is displayed to the user
+ * @return a div that represents a tab.
  */
-function createCreatedListings() {
-  const divCreatedListings = createDivElement('', '', 'created-listings');
-  for (let i = 0; i < 2; i ++) {
-    divCreatedListings.appendChild(createListing(i + 1));
-  }
+function createTab(elementDisplay, elementId, elementOtherId, hNum, tabName) {
+  // create createdListings tag
+  const divTab = createDivElement(
+      'toggleTabDisplay("'+ elementDisplay + '", "' + 
+      elementId + '", "' + elementOtherId + '")', 'tab created-listings', '');
 
-  return divCreatedListings;
+  // const divTab = createDivElement(
+  //     'toggleDisplay("'+ elementDisplay + '", "' + 
+  //     elementId + '")', 'tab created-listings', '');
+  
+  // Make div tab keyboard accessible 
+  //     (which includes tabs and enter keys)
+  divTab.setAttribute("tabindex", "0");
+
+  // when enter is pressed on this div, change the display to elementDisplay
+  divTab.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+      toggleTabDisplay(elementDisplay, elementId, elementOtherId);
+    }
+  });
+
+  divTab.appendChild(
+      createHElement(tabName, hNum, '', ''));
+  
+  return divTab;
 }
 
 /**
- * Creates a div with a user's upvoted listings.
+ * Creates a div with a user's listings.
  *
- * @return a div with all of a user's upvoted listings.
+ * @param listingsId the id of this element
+ * @param listingsClass the class of this element
+ * @param numListings the number of listings to display (CHANGE TO ARRAY)
+ * @return a div with all of a user's listings.
  */
-function createUpvotedListings() {
-  const divUpvotedListings = createDivElement('', '', 'upvoted-listings');
-  for (let i = 0; i < 1; i ++) {
-    divUpvotedListings.appendChild(createListing(i + 1));
+function createListings(listingsId, listingsClass, numListings) {
+  const divListings = createDivElement('', listingsClass, listingsId);
+  for (let i = 0; i < numListings; i ++) {
+    const id = listingsId + (i + 1);
+    divListings.appendChild(createListing(id));
   }
 
-  return divUpvotedListings;
+  return divListings;
 }

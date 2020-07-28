@@ -29,6 +29,20 @@ function toggleDisplay(display, id) {
   }  
 }
 
+/** 
+ * Toggles the display of this tab Element, and make the display of the other 
+ *     tab element none. 
+ * 
+ * @param display the display of the element
+ * @param id used to get an element with this id
+ * @param otherId used to get the other tab element with this id
+ */
+function toggleTabDisplay(display, id, otherId) {
+    toggleDisplay(display, id);
+    let otherElement = document.getElementById(otherId);
+    otherElement.style.display = 'none';
+}
+
 // Listing Page
 
 /**
@@ -49,6 +63,19 @@ function createListingDetailedView(divCardContainerElement,
   const divExitElement = createDivElement(
       'toggleDisplay("'+ cardContainerElementDisplay + '", "' + 
       cardContainerElementId + '")', 'exit', '');
+  
+  // Make div exit keyboard accessible 
+  //     (which includes tabs and enter keys)
+  divExitElement.setAttribute("tabindex", "0");
+
+  // when enter is pressed on this div, change the display to none and hide 
+  //     this div
+  divExitElement.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+      toggleDisplay(cardContainerElementDisplay, cardContainerElementId);
+    }
+  });
+
   divExitElement.appendChild(
     createIElement('close', 'material-icons', ''));
   divCardElement.appendChild(divExitElement);
@@ -153,4 +180,4 @@ function createListingCardDescription() {
   return divListingDetails;
 }
 
-export { toggleDisplay, createListingDetailedView };
+export { toggleDisplay, toggleTabDisplay, createListingDetailedView };
