@@ -2,7 +2,7 @@
   height: 85%;
 }
 
-pill {
+.pill {
   border-radius: 2rem;
   display: inline-block;
 }
@@ -17,7 +17,6 @@ pill {
   display: flex;
 }
 
-.
 /* medium screens that are in portrait*/
 @media only screen and (max-width: 1550px) {
   .detailed-attribute {
