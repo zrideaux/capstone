@@ -17,7 +17,7 @@ package com.google.sps.data;
 import java.sql.Timestamp;
 import java.util.Date;
 
-/** A user for the website */ 
+/** A listing */ 
 public final class Listing {
 
   private final String description;
@@ -38,7 +38,7 @@ public final class Listing {
     this.location = location;
     this.name = name;
 
-    // turn timeStamp 
+    // turn int of timestamp into Date object
     String dateCreated = timeStampToDate(timestamp);
     this.dateCreated = dateCreated;
     this.type = type;

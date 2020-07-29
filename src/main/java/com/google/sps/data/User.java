@@ -14,21 +14,21 @@
 
 package com.google.sps.data;
 
-/** A user for the website */ 
+/** A user */ 
 public final class User {
 
   private final String bio;
   private final String email;
   private final String username;
-  private final String[] createdListingKeys;
-  private final String[] upvotedListingKeys;
+  private final String createdListingKeys;
+  private final String upvotedListingKeys;
 
   public User(String bio, String email, String username, 
       String createdListingKeys, String upvotedListingKeys) {
     this.bio = bio;
     this.email = email;
     this.username = username;
-    this.createdListingKeys = createdListingKeys.split(" ");
-    this.upvotedListingKeys = upvotedListingKeys.split(" ");
+    this.createdListingKeys = createdListingKeys;
+    this.upvotedListingKeys = upvotedListingKeys;
   }
 }
