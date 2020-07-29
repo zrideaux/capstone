@@ -5,7 +5,7 @@ import {
   createImgElement
 } from './htmlElement.js';
 
-import { toggleTabDisplay } from './miscellaneous.js'
+import { toggleTabDisplay } from './miscellaneous.js';
 
 import createListings from './listing.js';
 
