@@ -26,7 +26,7 @@ export default function createListingDetailedView(divCardContainerElement,
 
   
   divCardElement.appendChild(createExitElement(
-    cardContainerElementDisplay, cardContainerElementId));
+      cardContainerElementDisplay, cardContainerElementId));
   
   const divCardInfoElement = createDivElement(
       '', 'card-information-container', '');
@@ -35,11 +35,12 @@ export default function createListingDetailedView(divCardContainerElement,
   console.log('creating listing card information');
   const exCategory = 'Category';
   const exDate = '01/02/20';
+  const exImgSrc = '';
   const exName = 'Los Angeles Food Bank';
-  const exUpvotes = 200;
+  const exUpvotes = 205;
   const exViews = '1,234';
   divCardInfoElement.appendChild(createListingCardInformation(exCategory, 
-      exDate, exName, exUpvotes, exViews));
+      exDate, exImgSrc, exName, exUpvotes, exViews));
 
   console.log('creating listing card description');
   const exComments = 'Users can write about experience with event/org/etc. ' +
@@ -60,6 +61,10 @@ export default function createListingDetailedView(divCardContainerElement,
 /**
  * Create an element that represenets an exit button for the user to exit the 
  *     current "page"
+ * 
+ * @param elementDisplay the display of the element this function is modifying
+ * @param elementId the id of the element this function is modifying
+ * @return an element that represents an exit button
  */
 function createExitElement(elementDisplay, elementId) {
   const divExitElement = createDivElement('', 'exit', '');
@@ -83,19 +88,26 @@ function createExitElement(elementDisplay, elementId) {
   divExitElement.appendChild(
     createIElement('close', 'material-icons', ''));
 
-    return divExitElement;
+  return divExitElement;
 }
 
 /**
  * Create an element with listing details
  *
+ * @param category the category of this listing
+ * @param date the date this listing was created
+ * @param imgSrc the source of the listing image
+ * @param name the name of this listing
+ * @param upvotes the number of upvotes this listing has
+ * @param views the number of views this listing has received
  * @return a div with the picture, name, category, reputation, listing details 
  *     (see below) and website of a listing.
  */
-function createListingCardInformation(category, date, name, upvotes, views) {
+function createListingCardInformation(category, date, imgSrc, name, upvotes, 
+    views) {
   const divCardInformation = createDivElement('', 'card-information', '');
   divCardInformation.appendChild(
-      createImgElement('', 'picture of listing', 'card-picture', ''));
+      createImgElement(imgSrc, 'picture of listing', 'card-picture', ''));
       
   divCardInformation.appendChild(
       createHElement(name, 1, 'card-name', ''));
@@ -104,7 +116,7 @@ function createListingCardInformation(category, date, name, upvotes, views) {
       createHElement(category, 2, 'detailed-attribute listing-tag pill', ''));      
 
   divCardInformation.appendChild(
-      createHElement('Reputation: ' + upvotes + ' up votes', 2, 
+      createHElement('Reputation: ' + upvotes + ' upvotes', 2, 
       'detailed-attribute pill reputation-pill', '')); 
 
   divCardInformation.appendChild(createListingDetails(date, views)); 
@@ -118,6 +130,8 @@ function createListingCardInformation(category, date, name, upvotes, views) {
 /**
  * Create a div with listing details
  *
+ * @param name the name of this listing
+ * @param views the number of views this listing has received 
  * @return a div with the date the listing was made, the amount of views it has 
  *     received, its verifitcation, and contact info.
  */
@@ -142,6 +156,9 @@ function createListingDetails(date, views) {
 /**
  * Creates a div with listing descriptions
  *
+ * @param comments the comments this listing has received
+ * @param description the description of this listing
+ * @param howToHelp the text that descripes how to help this cause/listing
  * @return a div with the description and comments of a listing
  */
 function createListingCardDescription(comments, description, howToHelp) {

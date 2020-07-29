@@ -34,6 +34,8 @@ export default function createUserProfile(divCardContainerElement) {
 /**
  * Create an element with User details
  *
+ * @param email the email of the user
+ * @param name the name of the user
  * @return a div with a picture, name, email, and form to create listing.
  */
 function createUserInformation(email, name) {
