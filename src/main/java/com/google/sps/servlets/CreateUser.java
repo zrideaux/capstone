@@ -55,22 +55,40 @@ public class CreateUser extends HttpServlet {
     if (userService.isUserLoggedIn()) {
       // Check if user's email is already associated with an account.
       String userEmail = userService.getCurrentUser().getEmail();
-      Filter emailFilter = new FilterPredicate("email", FilterOperator.EQUAL, userEmail);
-      Query userQuery = new Query("User").setFilter(emailFilter);
-      PreparedQuery preparedQuery = datastore.prepare(userQuery);
-
-      if (preparedQuery.countEntities(FetchOptions.Builder.withLimit(1)) == 0) {
+      
+      if (userAlreadyHasAccount(userEmail)) {
+        message = "No user created. There is already a user associated with this email.";
+      } else {
         createUserEntity(request, userEmail);
         message = "New user created.";
-      } else {
-        message = "No user created. There is already a user associated with this email.";
       }
     } else {
       message = "No user created. User is not signed in.";
     }
     
     response.setContentType("text/plain");
+    System.out.println(message);
     response.getWriter().println(message);
+  }
+  
+  /**
+   * Return a boolean detailing if there is an account associated with a given
+   * email.
+   * 
+   * @param email the email to check for in the query.
+   * @return true if account associated with email exists
+   */
+  private boolean userAlreadyHasAccount(String email) {
+    // Perform a query to find any accounts associated with email
+    Filter emailFilter = new FilterPredicate("email", FilterOperator.EQUAL, email);
+    Query userQuery = new Query("User").setFilter(emailFilter);
+    PreparedQuery preparedQuery = datastore.prepare(userQuery);
+    // If the query is empty, there isn't an account associated with email
+    if (preparedQuery.countEntities(FetchOptions.Builder.withLimit(1)) == 0) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   /**
@@ -80,15 +98,11 @@ public class CreateUser extends HttpServlet {
    * @param userEmail the email to be associated with a the new user entity
    */
   private void createUserEntity(HttpServletRequest request, String userEmail) {
-    // Get remaining fields 
-    String userName = getParameter(request, "name", "");
-    String userBio = getParameter(request, "bio", "");
-
     // Create User entity and add to datastore
     Entity newUserEntity = new Entity("User");
     newUserEntity.setProperty("email", userEmail);
-    newUserEntity.setProperty("username", userName);
-    newUserEntity.setProperty("bio", userBio);
+    newUserEntity.setProperty("username", "");
+    newUserEntity.setProperty("bio", "");
     newUserEntity.setProperty("createdListingKeys", "");
     newUserEntity.setProperty("upvotedListingKeys", "");
 
