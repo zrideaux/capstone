@@ -27,8 +27,8 @@ export default function createListingPreview(listingDisplay, listingId) {
 
   // When the user clicks or presses enter on the section listing, change the 
   //     display of the detailed listing div from none to listingDisplay
-  sectionListing.addEventListener("click", function(){ toggleDisplay(
-      listingDisplay, listingId) });
+  sectionListing.addEventListener("click", function() { 
+    toggleDisplay(listingDisplay, listingId) });
 
   sectionListing.addEventListener('keypress', function (e) {
     if (e.key === 'Enter') {

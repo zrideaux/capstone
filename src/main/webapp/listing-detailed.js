@@ -39,8 +39,9 @@ export default function createListingDetailedView(divCardContainerElement,
   const exName = 'Los Angeles Food Bank';
   const exUpvotes = 205;
   const exViews = '1,234';
+  const exWebsite = '';
   divCardInfoElement.appendChild(createListingCardInformation(exCategory, 
-      exDate, exImgSrc, exName, exUpvotes, exViews));
+      exDate, exImgSrc, exName, exUpvotes, exViews, exWebsite));
 
   console.log('creating listing card description');
   const exComments = 'Users can write about experience with event/org/etc. ' +
@@ -100,11 +101,12 @@ function createExitElement(elementDisplay, elementId) {
  * @param name the name of this listing
  * @param upvotes the number of upvotes this listing has
  * @param views the number of views this listing has received
+ * @param websiteLink the link to this listings website
  * @return a div with the picture, name, category, reputation, listing details 
  *     (see below) and website of a listing.
  */
 function createListingCardInformation(category, date, imgSrc, name, upvotes, 
-    views) {
+    views, websiteLink) {
   const divCardInformation = createDivElement('', 'card-information', '');
   divCardInformation.appendChild(
       createImgElement(imgSrc, 'picture of listing', 'card-picture', ''));
@@ -122,7 +124,7 @@ function createListingCardInformation(category, date, imgSrc, name, upvotes,
   divCardInformation.appendChild(createListingDetails(date, views)); 
 
   divCardInformation.appendChild(
-      createAElement('Website Link', '', '_blank', 'card-button', '')); 
+      createAElement('Website Link', websiteLink, '_blank', 'card-button', ''));
 
   return divCardInformation;
 }
