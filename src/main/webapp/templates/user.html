@@ -1,13 +1,20 @@
-<html lang="en">
+<!DOCTYPE html>
+<html>
   <head>
-    <title>Capstone Project</title>
-
-    <link href="master.css" rel="stylesheet">
-    <link href="index.css" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <title>STEP Capstone Project</title>
+    <link rel="stylesheet" type="text/css" href="stylesheets/master.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/user.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/card.css">
+    <link rel="stylesheet" type="text/css" 
+        href="stylesheets/listing-preview.css">
+    <link rel="stylesheet" type="text/css" 
+        href="stylesheets/listing-detailed.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-        rel="stylesheet"> 
+        rel="stylesheet">
+    <script type="module" src="sripts/user.js"></script>
   </head>
-  <body>    
+  <body>
     <header id="nav-box" class="shadow-box">
       <nav>
         <a href="index.html"><img id="logo" src="images/placeholder_logo.png" alt="logo"></a>
@@ -35,20 +42,13 @@
         </div>
       </nav>
     </header>
-    
-    <main class="box">
-      <a href="index.html" >   
-        <div class="rectangle shadow-box">
-          <p class="center rectangle-label">Make a post to find help</p>
-        </div>
-      </a>  
-    
-      <a href="search.html" >
-        <div class="rectangle shadow-box">
-          <p class="center rectangle-label">Look for ways to help</p>
-        </div>
-      </a>
-    </main>
-    
+
+    <div id="user" class="card card-container"></div>
+
+    <script type="module">
+      import createUserProfile from "/user.js";
+      const divCardContainerElement = document.getElementById("user");
+      createUserProfile(divCardContainerElement);
+    </script>
   </body>
 </html>

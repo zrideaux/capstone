@@ -1,16 +1,11 @@
-<!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <title>STEP Capstone Project</title>
-    <link rel="stylesheet" type="text/css" href="master.css">
-    <link rel="stylesheet" type="text/css" href="user.css">
-    <link rel="stylesheet" type="text/css" href="card.css">
-    <link rel="stylesheet" type="text/css" href="listing-preview.css">
-    <link rel="stylesheet" type="text/css" href="listing-detailed.css">
+    <title>Capstone Project</title>
+
+    <link href="stylesheets/master.css" rel="stylesheet">
+    <link href="stylesheets/index.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-        rel="stylesheet">
-    <script type="module" src="user.js"></script>
+        rel="stylesheet"> 
   </head>
   <body>
     <header id="nav-box" class="shadow-box">
@@ -40,13 +35,21 @@
         </div>
       </nav>
     </header>
+      
+      <main class="box">
+          <p>
+            Today there are numerous causes that often don’t receive the attention they need. 
+            Many organizations and individuals search for resources, but lack the platform to reach a sufficient amount of people. 
+            For those that are willing and able to provide help, there is a lack of a centralized collection of causes to contribute to. 
+            In the case of a student who is eager to provide community service, they often have to go through extensive lengths to find opportunities where they can contribute.
+            Similarly, it can be difficult for low income students to find fundraising or sponsorship opportunities in order to maintain their high school clubs or teams.  
+          <p>  
+      </main>
 
-    <div id="user" class="card card-container"></div>
+      <footer>
+          <p class="rectangle">
+      </footer>    
+  </body> 
 
-    <script type="module">
-      import createUserProfile from "/user.js";
-      const divCardContainerElement = document.getElementById("user");
-      createUserProfile(divCardContainerElement);
-    </script>
-  </body>
 </html>
+
