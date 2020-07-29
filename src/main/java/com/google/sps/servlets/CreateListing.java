@@ -14,10 +14,6 @@
  
 package com.google.sps.servlets;
 
-import java.util.List;
-import com.google.gson.Gson;
-import java.sql.Timestamp;
-import java.util.Date;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
