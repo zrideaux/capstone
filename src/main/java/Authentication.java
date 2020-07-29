@@ -33,6 +33,13 @@ public class Authentication extends HttpServlet {
   public final static String EMAIL_KEY = "email";
   public final static String IS_ADMIN_KEY = "isAdmin";
 
+  /**
+   * Check whether a user is logged in and respond with relevant json data.
+   * If user is logged in: email, loggedIn 
+   *
+   * @param request an http request to the servlet
+   * @param response the http response sent 
+   */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     HashMap<String, String> authenticationInfo = new HashMap<String, String>();

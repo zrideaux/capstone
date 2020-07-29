@@ -39,6 +39,13 @@ public class CreateUser extends HttpServlet {
 
   private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
+  /**
+   * Checks if a user has the ability to create a new user entity and creates
+   * and adds one to the database if they do.
+   * 
+   * @param request an http request to the servlet
+   * @param response the http response sent 
+   */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String message = new String();
@@ -48,11 +55,11 @@ public class CreateUser extends HttpServlet {
     if (userService.isUserLoggedIn()) {
       // Check if user's email is already associated with an account.
       String userEmail = userService.getCurrentUser().getEmail();
-      Filter filter = new FilterPredicate("email", FilterOperator.EQUAL, userEmail);
-      Query query = new Query("User").setFilter(filter);
-      PreparedQuery results = datastore.prepare(query);
+      Filter emailFilter = new FilterPredicate("email", FilterOperator.EQUAL, userEmail);
+      Query userQuery = new Query("User").setFilter(emailFilter);
+      PreparedQuery preparedQuery = datastore.prepare(userQuery);
 
-      if (results.countEntities(FetchOptions.Builder.withLimit(1)) == 0) {
+      if (preparedQuery.countEntities(FetchOptions.Builder.withLimit(1)) == 0) {
         createUserEntity(request, userEmail);
         message = "New user created.";
       } else {
@@ -66,6 +73,12 @@ public class CreateUser extends HttpServlet {
     response.getWriter().println(message);
   }
 
+  /**
+   * Create a new user entity and place it in the datastore.
+   * 
+   * @param request an http request to the servlet
+   * @param userEmail the email to be associated with a the new user entity
+   */
   private void createUserEntity(HttpServletRequest request, String userEmail) {
     // Get remaining fields 
     String userName = getParameter(request, "name", "");
@@ -83,8 +96,15 @@ public class CreateUser extends HttpServlet {
   }
 
   /**
+  * Retrieve and return a parameter from the URL, or a default if
+  * no parameter is provided.
+  * 
+  * @param request an http request to the servlet
+  * @param name the name of the parameter to retrieve
+  * @param defaultValue the value to return if a value for the parameter
+  *     is not provided
   * @return the request parameter, or the default value if the parameter
-  *         was not specified by the client
+  *     was not specified by the client
   */
   private String getParameter(HttpServletRequest request, String name, String defaultValue) {
     String value = request.getParameter(name);
