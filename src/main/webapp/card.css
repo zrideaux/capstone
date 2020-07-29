@@ -63,6 +63,7 @@
 .card-description {
   display: inline-flex;
   flex-direction: column;
+  align-self: flex-start;
 }
 
 .tabs {
@@ -71,8 +72,12 @@
 }
 
 .tab {
+  border-radius: 2rem;
   color: black;
+  cursor: pointer;
   margin-left: 2rem;
+  padding: .2rem;
+  text-align: center;
   text-decoration: underline;
 }
 

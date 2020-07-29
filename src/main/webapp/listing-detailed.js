@@ -29,6 +29,30 @@ function toggleDisplay(display, id) {
   }  
 }
 
+/** 
+ * Toggles the display of this tab Element, and make the display of the other 
+ *     tab element none. 
+ * Also changes the background of this tab to #8EEEDE and the other tab to 
+ *     inherit
+ * 
+ * @param elementDisplay the display of the element
+ * @param elementId used to get an element with this id
+ * @param otherElementId used to get the other tab element with this id
+ * @param otherTabId used to change the background of the other tab to inherit
+ * @param tabId used to change the background of this tab to #8EEEDE
+ */
+function toggleTabDisplay(elementDisplay, elementId, otherElementId,    
+    otherTabId, tabId) {
+  toggleDisplay(elementDisplay, elementId);
+  let tab = document.getElementById(tabId);
+  tab.style.background = '#8EEEDE';
+
+  let otherListing = document.getElementById(otherElementId);
+  otherListing.style.display = 'none';
+  let otherTab = document.getElementById(otherTabId);
+  otherTab.style.background = 'inherit';
+}
+
 // Listing Page
 
 /**
@@ -49,6 +73,19 @@ function createListingDetailedView(divCardContainerElement,
   const divExitElement = createDivElement(
       'toggleDisplay("'+ cardContainerElementDisplay + '", "' + 
       cardContainerElementId + '")', 'exit', '');
+  
+  // Make div exit keyboard accessible 
+  //     (which includes tabs and enter keys)
+  divExitElement.setAttribute("tabindex", "0");
+
+  // when enter is pressed on this div, change the display to none and hide 
+  //     this div
+  divExitElement.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+      toggleDisplay(cardContainerElementDisplay, cardContainerElementId);
+    }
+  });
+
   divExitElement.appendChild(
     createIElement('close', 'material-icons', ''));
   divCardElement.appendChild(divExitElement);
@@ -153,4 +190,4 @@ function createListingCardDescription() {
   return divListingDetails;
 }
 
-export { toggleDisplay, createListingDetailedView };
+export { toggleDisplay, toggleTabDisplay, createListingDetailedView };

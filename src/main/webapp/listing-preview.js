@@ -7,28 +7,6 @@ import {
   createSpanElement
 } from './htmlElement.js';
 
-// miscellaneous functions
-
-/** 
- * Toggles the display of an element. 
- * 
- * @param display the display of the element
- * @param id used to get an element with this id
- */
-function toggleDisplay(display, id) {
-  let element = document.getElementById(id);
-  const elementStyle = getComputedStyle(element, null).display;
-  if (elementStyle === display) {
-    console.log('Element with id ' + id + ' is now hidden.')
-    console.log('Display: ' + elementStyle + ' is now ' + display);
-    element.style.display = 'none';
-  } else {
-    console.log('Element with id ' + id + ' is now visible.')
-    console.log('Display: ' + elementStyle + ' is now ' + display);
-    element.style.display = display;
-  }  
-}
-
 /**
  * Create an element that shows a listing detailed view and when clicked on will
  *     display the detailed view
@@ -40,16 +18,27 @@ function toggleDisplay(display, id) {
 export default function createListingPreview(listingDisplay, listingId) {
 
   const sectionListing = createSectionElement('listing shadow-box', '');
+  
+  // Make section listing keyboard accessible 
+  //     (which includes tabs and enter keys)
   sectionListing.setAttribute("tabindex", "0");
+
+  // When the user clicks or presses enter on the section listing, change the 
+  //     display of the detailed listing div from none to listingDisplay
+  sectionListing.addEventListener("click", function(){ toggleDisplay(
+      listingDisplay, listingId) });
+
+  sectionListing.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+      toggleDisplay(listingDisplay, listingId);
+    }
+  });
 
   console.log("Creating listing information");
   sectionListing.appendChild(createListingInformation());
 
-  console.log('Creating listing information')
+  console.log('Creating listing details')
   sectionListing.appendChild(createListingDetails());
-
-  sectionListing.addEventListener("click", function(){ toggleDisplay(
-      listingDisplay, listingId) });
 
   return sectionListing;
 }

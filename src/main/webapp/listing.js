@@ -9,10 +9,9 @@ import {
   createListingDetailedView, 
 } from './listing-detailed.js'
 
-export default function createListing(number) {
+export default function createListing(cardElementId) {
   const sectionListing = createSectionElement('', '');
 
-  const cardElementId = 'listing' + (number);
   const cardElementDisplay = "flex";
   const divCardContainerElement = createDivElement('', 'card-container modal',
       cardElementId);

@@ -18,12 +18,17 @@
   font-size: 1.5rem;
 }
 
-.created-listings {
+.created-listings-tab {
+  background: #8EEEDE;
   margin-right: 1.5rem;
 }
 
-.upvoted-listings {
+.upvoted-listings-tab {
   margin-left: 1.5rem;
+}
+
+.upvoted-listings {
+  display: none;
 }
 
 /* medium - large screens */
