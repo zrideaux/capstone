@@ -7,53 +7,7 @@ import {
   createPElement 
 } from './htmlElement.js';
 
-// miscellaneous functions
-
-/** 
- * Toggles the display of an element. 
- * 
- * @param display the display of the element
- * @param id used to get an element with this id
- */
-function toggleDisplay(display, id) {
-  let element = document.getElementById(id);
-  const elementStyle = getComputedStyle(element, null).display;
-  if (elementStyle === display) {
-    console.log('Element with id ' + id + ' is now hidden.')
-    console.log('Display: ' + elementStyle + ' is now ' + display);
-    element.style.display = 'none';
-  } else {
-    console.log('Element with id ' + id + ' is now visible.')
-    console.log('Display: ' + elementStyle + ' is now ' + display);
-    element.style.display = display;
-  }  
-}
-
-/** 
- * Toggles the display of this tab Element, and make the display of the other 
- *     tab element none. 
- * Also changes the background of this tab to #8EEEDE and the other tab to 
- *     inherit
- * 
- * @param elementDisplay the display of the element
- * @param elementId used to get an element with this id
- * @param otherElementId used to get the other tab element with this id
- * @param otherTabId used to change the background of the other tab to inherit
- * @param tabId used to change the background of this tab to #8EEEDE
- */
-function toggleTabDisplay(elementDisplay, elementId, otherElementId,    
-    otherTabId, tabId) {
-  toggleDisplay(elementDisplay, elementId);
-  let tab = document.getElementById(tabId);
-  tab.style.background = '#8EEEDE';
-
-  let otherListing = document.getElementById(otherElementId);
-  otherListing.style.display = 'none';
-  let otherTab = document.getElementById(otherTabId);
-  otherTab.style.background = 'inherit';
-}
-
-// Listing Page
+import { toggleDisplay } from './miscellaneous.js';
 
 /**
  * Create an element that shows a listing detailed view
@@ -63,16 +17,14 @@ function toggleTabDisplay(elementDisplay, elementId, otherElementId,
  * @param cardContainerElementId the id of the card container
  * @return a div with all the information pertaining to a listing
  */
-function createListingDetailedView(divCardContainerElement, 
+export default function createListingDetailedView(divCardContainerElement, 
     cardContainerElementDisplay, cardContainerElementId) {
 
   const divCardElement = createDivElement( 
       '', 'card listing-detailed-card shadow-box', '');
   divCardContainerElement.appendChild(divCardElement);
 
-  const divExitElement = createDivElement(
-      'toggleDisplay("'+ cardContainerElementDisplay + '", "' + 
-      cardContainerElementId + '")', 'exit', '');
+  const divExitElement = createDivElement('', 'exit', '');
   
   // Make div exit keyboard accessible 
   //     (which includes tabs and enter keys)
@@ -80,6 +32,10 @@ function createListingDetailedView(divCardContainerElement,
 
   // when enter is pressed on this div, change the display to none and hide 
   //     this div
+  divExitElement.addEventListener('click', function () {
+    toggleDisplay(cardContainerElementDisplay, cardContainerElementId);
+  });
+
   divExitElement.addEventListener('keypress', function (e) {
     if (e.key === 'Enter') {
       toggleDisplay(cardContainerElementDisplay, cardContainerElementId);
@@ -118,10 +74,11 @@ function createListingCardInformation() {
       createHElement('Los Angeles Food Bank', 1, 'card-name', ''));
 
   divCardInformation.appendChild(
-      createHElement('Category', 2, 'category-pill listing-tag', ''));      
+      createHElement('Category', 2, 'detailed-attribute listing-tag pill', ''));      
 
   divCardInformation.appendChild(
-      createHElement('Reputation: 200 up votes', 2, 'reputation-pill', '')); 
+      createHElement('Reputation: 200 up votes', 2, 'detailed-attribute pill ' 
+      + 'reputation-pill', '')); 
 
   divCardInformation.appendChild(createListingDetails()); 
 
@@ -141,16 +98,16 @@ function createListingDetails() {
   const divListingDetails = createDivElement('', 'listing-details', '');
   
   divListingDetails.appendChild(
-    createPElement('Listing made on 01/02/20', '', ''));
+    createPElement('Listing made on 01/02/20', 'listing-detail', ''));
 
   divListingDetails.appendChild(
-    createPElement('1,234 Views', '', ''));
+    createPElement('1,234 Views', 'listing-detail', ''));
 
   divListingDetails.appendChild(
-    createPElement('Verified or Community Reputation', '', ''));
+    createPElement('Verified or Community Reputation', 'listing-detail', ''));
 
   divListingDetails.appendChild(
-    createPElement('Contact Info', '', ''));
+    createPElement('Contact Info', 'listing-detail', ''));
 
   return divListingDetails
 }
@@ -189,5 +146,3 @@ function createListingCardDescription() {
 
   return divListingDetails;
 }
-
-export { toggleDisplay, toggleTabDisplay, createListingDetailedView };

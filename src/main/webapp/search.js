@@ -1,8 +1,5 @@
+import createListings from './listing.js';
 
-import createListing from "/listing.js";
-
-export default function createListings(containerElement) {
-  for (let i = 0; i < 1; i ++) {
-    containerElement.appendChild(createListing(i + 1));
-  }
+export default function displayListings(containerElement) {
+  containerElement.appendChild(createListings('', 'search-listings', 1));
 }

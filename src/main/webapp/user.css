@@ -1,21 +1,5 @@
-.profile {
-  align-self: flex-start;
-}
-
-.user-name {
-  margin: 1.5rem;
-}
-
-.user-email {
-  margin: 0;
-}
-
 .create-listing {
   margin-top: 3rem;
-}
-
-.user-listing-container {
-  font-size: 1.5rem;
 }
 
 .created-listings-tab {
@@ -23,19 +7,32 @@
   margin-right: 1.5rem;
 }
 
-.upvoted-listings-tab {
-  margin-left: 1.5rem;
+.profile {
+  align-self: flex-start;
+}
+
+.tab-listings-description {
+  align-self: flex-start !important;
 }
 
 .upvoted-listings {
   display: none;
 }
 
-/* medium - large screens */
-@media only screen and (min-width: 600px) {
-  .card-name {
-    font-size: 3rem;
-  }
+.upvoted-listings-tab {
+  margin-left: 1.5rem;
+}
+
+.user-email {
+  margin: 0;
+}
+
+.user-listing-container {
+  font-size: 1.5rem;
+}
+
+.user-name {
+  margin: 1.5rem;
 }
 
 /* Landscape */

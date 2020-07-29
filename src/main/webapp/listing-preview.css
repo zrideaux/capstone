@@ -1,8 +1,3 @@
-.listing-heading-container {
-  display: flex;
-  justify-content: space-between;
-}
-
 .listing {
   display: flex;
   flex-flow: row nowrap;
@@ -11,6 +6,12 @@
 .listing:hover {
   cursor: pointer;
 }
+
+.listing-heading-container {
+  display: flex;
+  justify-content: space-between;
+}
+
 
 .listing-image {
   border: 5px solid #8EEEDE;

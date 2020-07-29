@@ -1,45 +1,50 @@
-.title {
-  display: flex;
-}
-
-.category-pill {
-  border-radius: 2rem;
-  display: inline-block;
-}
-
 .listing-detailed-card {
   height: 85%;
 }
 
-.reputation-pill {
-  border: .3rem solid green;
+.pill {
   border-radius: 2rem;
   display: inline-block;
+}
+
+.reputation-pill {
+  border: .3rem solid green;
   margin: 0;
   padding: .5rem;
 }
 
+.title {
+  display: flex;
+}
+
 /* medium screens that are in portrait*/
-@media only screen and (max-width: 1000px) and (orientation: portrait) {
+@media only screen and (max-width: 1550px) {
+  .detailed-attribute {
+    margin-top: 1rem;
+    margin-bottom: 0rem;
+  }
+
+  .listing-detail {
+    margin: 0rem;
+  }
+
   .listing-details {
     text-align: center;
+    margin: 1rem;
+  }
+
+  .pill {
+    font-size: 1.6rem;
   }
 }
 
 /* medium - large screens */
-@media only screen and (min-width: 600px) {
-  .category-pill {
-    font-size: 2rem;
-  }
-
-  .reputation-pill {
-    font-size: 2rem;
-  }
-}
-
-/* medium - large screens */
-@media only screen and (min-width: 1000px) {
+@media only screen and (min-width: 1550px) {
   .listing-details {
     text-align: left;
+  }
+
+  .pill {
+    font-size: 2rem;
   }
 }
