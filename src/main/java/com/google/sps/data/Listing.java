@@ -14,24 +14,62 @@
 
 package com.google.sps.data;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 /** A user for the website */ 
 public final class Listing {
 
-  private final String name;
-  private final String type;
-  private final String location;
-  private final String howToHelp;
   private final String description;
+  private final String howToHelp;
+  private final String location;
+  private final String name;
+  private final String dateCreated;
+  private final String type;
   private final int upvotes;
   private final int downvotes;
   private final int views;
-  private final long timestamp;
 
-  public Listing(String bio, String email, String name, 
-      String createdListingKeys, String upvotedListingKeys) {
-    this.bio = bio;
+  public Listing(String description, String howToHelp, String location, 
+      String name, long timestamp, String type, int upvotes, int downvotes, 
+      int views) {
+    this.description = description;
+    this.howToHelp = howToHelp;
+    this.location = location;
     this.name = name;
-    this.createdListingKeys = createdListingKeys;
-    this.upvotedListingKeys = upvotedListingKeys;
+
+    // turn timeStamp 
+    String dateCreated = timeStampToDate(timestamp);
+    this.dateCreated = dateCreated;
+    this.type = type;
+    this.upvotes = upvotes;
+    this.downvotes = downvotes;
+    this.views = views;
+  }
+
+  /**
+   * Create a date that is a String in the form of mon dd yyyy
+   *
+   * @param timestamp the timestamp of this listing
+   * @return a string that represents the month, day, and year this listing was 
+   *     created.
+   */
+  private String timeStampToDate(long timestamp) {
+    String dateCreated = createDateFromTimestamp(timestamp);
+    int dateLen = dateCreated.length();
+    String monthAndDay = dateCreated.substring(4, 7);
+    String year = dateCreated.substring(dateLen - 5, dateLen);
+    return monthAndDay + year;
+  }
+
+  /**
+   * Turns a Timestamp object into a Date object
+   * 
+   * @param timestamp the timestamp of this listing
+   * @return a Date object from the Timestamp object
+   */
+  public static String createDateFromTimestamp(long timestamp) {
+    Date date = new Date(timestamp);
+    return date.toString();
   }
 }
