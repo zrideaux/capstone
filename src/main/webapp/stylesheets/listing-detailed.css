@@ -17,8 +17,9 @@
   display: flex;
 }
 
-/* medium screens that are in portrait*/
-@media only screen and (max-width: 1550px) {
+/* small - medium screens */
+@media only screen and (max-width: 1550px) , only screen and 
+    (max-height: 1230px) {
   .detailed-attribute {
     margin-top: 1rem;
     margin-bottom: 0rem;
@@ -38,8 +39,9 @@
   }
 }
 
-/* medium - large screens */
-@media only screen and (min-width: 1550px) {
+/* large screens */
+@media only screen and (min-width: 1550px) , only screen and 
+    (min-height: 1230px) {
   .listing-details {
     text-align: left;
   }
