@@ -37,9 +37,6 @@ public class CreateListing extends HttpServlet {
     String description = getParameter(request, "cause-description", "");
     String website = getParameter(request, "cause-website", "");
     long timestamp = System.currentTimeMillis();
-    int upvotes = 0;
-    int downVotes = 0;
-    int views = 0; 
 
     Entity listingEntity = new Entity("Listing");
     listingEntity.setProperty("name", name);
