@@ -27,8 +27,8 @@ export default function createListingPreview(listingDisplay, listingId) {
 
   // When the user clicks or presses enter on the section listing, change the 
   //     display of the detailed listing div from none to listingDisplay
-  sectionListing.addEventListener("click", function(){ toggleDisplay(
-      listingDisplay, listingId) });
+  sectionListing.addEventListener("click", function() { 
+    toggleDisplay(listingDisplay, listingId) });
 
   sectionListing.addEventListener('keypress', function (e) {
     if (e.key === 'Enter') {
@@ -37,10 +37,22 @@ export default function createListingPreview(listingDisplay, listingId) {
   });
 
   console.log("Creating listing information");
-  sectionListing.appendChild(createListingInformation());
+  const exImgSrc = '';
+  const exUpvotes = 205;
+  sectionListing.appendChild(createListingInformation(exImgSrc, exUpvotes));
 
   console.log('Creating listing details')
-  sectionListing.appendChild(createListingDetails());
+  const exDescription = 'Lorem ipsum dolor sit amet, consectetur adipiscing \
+    elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\
+    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut \
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in \
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint\
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit\
+    anim id est laborum.';  
+  const exName = 'Listing Name';
+  const exTagNames = ['Fundraiser', 'Event'];
+  sectionListing.appendChild(createListingDetails(exDescription, exName, 
+      exTagNames));
 
   return sectionListing;
 }
@@ -48,17 +60,19 @@ export default function createListingPreview(listingDisplay, listingId) {
 /**
  * Create an element with listing information
  *
- * @return a div with the picture, name, category, reputation, listing details 
- *     (see below) and website of a listing.
+ * @param imgSrc the source of the listing image
+ * @param upvotes the number of upvotes this listing has received
+ * @return a div with the picture and the number of upvotes this listing has
  */
-function createListingInformation() {
+function createListingInformation(imgSrc, upvotes) {
   const divListingInfo = createDivElement('', 'preview-info', '');
 
   divListingInfo.appendChild(
-    createImgElement('', 'Listing preview image', 'listing-image', ''));
+    createImgElement(imgSrc, 'Listing preview image', 'listing-image', ''));
 
   divListingInfo.appendChild(
-    createSpanElement('Reputation: 205 Votes', 'listing-reputation', ''));
+    createSpanElement('Reputation: ' + upvotes + ' upvotes', 
+        'listing-reputation', ''));
 
   return divListingInfo;
 }
@@ -66,23 +80,19 @@ function createListingInformation() {
 /**
  * Create an element with listing details
  *
- * @return a div with the picture, name, category, and reputation of a listing
+ * @param description the description associated with this listing
+ * @param name the name of this listing
+ * @param tagNames an array of Strings or tag names 
+ * @return a div with the description, name, and tags of a listing
  */
-function createListingDetails() {
+function createListingDetails(description, name, tagNames) {
   const divListingDetails = createDivElement('', 'listing-info-container', '');
 
   console.log('Creating listing heading');
-  divListingDetails.appendChild(createListingHeading());
+  divListingDetails.appendChild(createListingHeading(name, tagNames));
 
-  const pDescription = 'Lorem ipsum dolor sit amet, consectetur adipiscing \
-    elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\
-    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut \
-    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in \
-    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint\
-    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit\
-    anim id est laborum.';
   divListingDetails.appendChild(
-    createPElement(pDescription, '', ''));
+    createPElement(description, '', ''));
 
   return divListingDetails;
 }
@@ -90,17 +100,19 @@ function createListingDetails() {
 /**
  * Create an element with listing heading
  *
+ * @param name the name of this listing
+ * @param tagNames an array of Strings or tag names
  * @return a div with the name and tags of a listing.
  */
-function createListingHeading() {
+function createListingHeading(name, tagNames) {
   const divListingHeading = createDivElement('', 'listing-heading-container', 
       '');
   
   divListingHeading.appendChild(
-    createHElement('Listing Name', 2, 'listing-preview-name', ''));
+    createHElement(name, 2, 'listing-preview-name', ''));
 
-  console.log("Creating listing tags");
-  divListingHeading.appendChild(createListingTags());
+  console.log('Creating listing tags');
+  divListingHeading.appendChild(createListingTags(tagNames));
 
   return divListingHeading;
 }
@@ -108,16 +120,16 @@ function createListingHeading() {
 /**
  * Create an element with listing tags
  *
+ * @param tagNames an array of Strings or tag names
  * @return a div with the tags of a listing
  */
-function createListingTags() {
+function createListingTags(tagNames) {
   const divListingTags = createDivElement('', 'listing-tags-container', '');
 
-  divListingTags.appendChild(
-    createSpanElement('Fundraiser', 'listing-tag fundraiser-tag', ''));
-
-  divListingTags.appendChild(
-    createSpanElement('Event', 'listing-tag event-tag', ''));
+  for (let i = 0; i < tagNames.length; i ++) {
+    divListingTags.appendChild(
+      createSpanElement(tagNames[i], 'listing-tag', ''));  
+  }
 
   return divListingTags;
 }

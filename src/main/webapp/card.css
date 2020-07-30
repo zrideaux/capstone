@@ -159,7 +159,6 @@
 /* bigger screens */
 @media only screen and (min-width: 1550px) and (orientation: landscape) {
   .card-information {
-    padding: 3rem;
     margin: 3rem;
   }  
 

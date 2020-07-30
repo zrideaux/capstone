@@ -2,7 +2,8 @@ import {
   createAElement,
   createDivElement, 
   createHElement,
-  createImgElement
+  createImgElement,
+  createPElement
 } from './htmlElement.js';
 
 import { toggleTabDisplay } from './miscellaneous.js';
@@ -21,7 +22,10 @@ export default function createUserProfile(divCardContainerElement) {
   divCardContainerElement.appendChild(divCardInfoElement);
   
   console.log('creating User card information');
-  divCardInfoElement.appendChild(createUserInformation());
+  const exBio = 'This is a fake bio!';
+  const exEmail = 'abcde@gmail.com';
+  const exName = 'Android Studios';
+  divCardInfoElement.appendChild(createUserInformation(exBio, exEmail, exName));
 
   console.log('creating User card description');
   divCardInfoElement.appendChild(createUserListings());
@@ -32,9 +36,12 @@ export default function createUserProfile(divCardContainerElement) {
 /**
  * Create an element with User details
  *
+ * @param bio the user's bio
+ * @param email the email of the user
+ * @param name the name of the user
  * @return a div with a picture, name, email, and form to create listing.
  */
-function createUserInformation() {
+function createUserInformation(bio, email, name) {
   const divCardInformation = createDivElement('', 'card-information profile',
       '');
 
@@ -42,13 +49,16 @@ function createUserInformation() {
       createImgElement('', 'profile picture', 'card-picture', ''));
       
   divCardInformation.appendChild(
-      createHElement('Android Studios', 1, 'user-name', ''));
+      createHElement(name, 1, 'user-name', ''));
 
   divCardInformation.appendChild(
-      createHElement('abcde@gmail.com', 2, 'user-email', ''));      
+      createHElement(email, 2, 'user-email', ''));    
 
   divCardInformation.appendChild(
-      createAElement('Create listing', 'newlisting.html', '', 'card-button create-listing', '')
+      createPElement(bio, 'user-bio', ''));
+
+  divCardInformation.appendChild(
+      createAElement('Create listing', 'newlisting.html', '', 'card-button', '')
       ); 
 
   return divCardInformation;
@@ -60,7 +70,8 @@ function createUserInformation() {
  * @return a div with the description and comments of a listing.
  */
 function createUserListings() {
-  const divUserListings = createDivElement('', 'card-description', '');
+  const divUserListings = createDivElement('', 'card-description ' + 
+      'tab-listings-description', '');
 
   console.log("Creating user's listing tabs");
   const listingsDisplay = 'block';
@@ -126,7 +137,7 @@ function createListingTabs(listingsDisplay, createdListingsId,
  */
 function createTab(elementDisplay, elementId, elementOtherId, hNum, otherTabId,
     tabClass, tabId, tabName) {
-  // create createdListings tag
+  // create <h> element that represents a tab button
   const hTab = createHElement(tabName, hNum, 'tab pill ' + tabClass, tabId);
 
   hTab.setAttribute("tabindex", "0");
