@@ -15,6 +15,8 @@
 package com.google.sps.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,49 +25,58 @@ import com.google.gson.Gson;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.sps.data.Listing;
-import com.google.sps.utility.GetParameter;
+import com.google.sps.utility.ValidateInput;
 
 /** 
  * Servlet that creates comment objects from entities and returns the list of 
  *    comment entities.
  */
-@WebServlet("/fetch-listings")
-public class ListCommentsServlet extends HttpServlet {
+@WebServlet("/fetch-user-listings")
+public class FetchUserListings extends HttpServlet {
 
   static final int COMMENT_LIMIT = 30;
 
   /** 
-   * Will only show the 30 most recent comments.
-   * Returns the comments associated with the page the user is on, which 
-   *    is found based on their input.
+   * Returns JSON which is a List of Listings associated with the user or an 
+   *     error message if an exception is caught.
    *
    * @param request which contains data to retrieve listings
-   * @param response listings in the form of json (List<Listings>)
+   * @param response listings in the form of json (List<Listings>) or an error 
+   *     message in the form of JSON
    */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) 
       throws IOException {
     // Receive input from the modify number of comments shown form
-    String listingKeys = GetParameter.getParameter(request, "listing-keys", "");
-    
-    if (listingKeys.length() == 0) {
-      // Return error no listings
-      throw new Exception("There are no listing keys.");
-    }
+    String listingKeysStr = ValidateInput.getParameter(request, "listing-keys",
+        "");
 
-    String[] listingKeysArray = listingKeys.split(" ");
-    
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-
-    // If there are comments then return a list of comments
+    // A Listings of listings to return
     List<Listing> listings = new ArrayList<> ();
 
-    for (String listingKey : listingKeysArray) {
-      Entity listing = datastore.get(listingKey);
-      listings.add(createListing(listing));
+    // Add Listings to the List if there are keys
+    if (listingKeysStr.length() > 0) {
+      String[] listingKeysStrArray = listingKeysStr.split(" ");
+      
+      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+      // If there are comments then return a list of comments
+      for (String listingKeyStr : listingKeysStrArray) {
+        Key listingKey = KeyFactory.stringToKey(listingKeyStr);
+        Entity listing;
+        try {
+          listing = datastore.get(listingKey);
+        } catch (Exception e) {
+          // Return a JSON errorMessage with the exception message
+          ValidateInput.createErrorMessage(e, response);
+          return;
+        }
+        listings.add(createListing(listing));
+      } 
     }
-   
 
     String jsonListings = new Gson().toJson(listings);
     response.setContentType("application/json;");
@@ -79,15 +90,15 @@ public class ListCommentsServlet extends HttpServlet {
    * @return a Listing with all of the properties from the Entity
    */
   public static Listing createListing(Entity entity) {
-    String description = entity.getProperty("description");
-    String howToHelp = entity.getProperty("howToHelp");
-    String location = entity.getProperty("location");
-    String name = entity.getProperty("name");
-    long timestamp = entity.getProperty("timestamp");
-    String type = entity.getProperty("type");
-    int upvotes = entity.getProperty("upvotes");
-    int downvotes = entity.getProperty("downvotes");
-    int views = entity.getProperty("views");
+    String description = (String) entity.getProperty("description");
+    String howToHelp = (String) entity.getProperty("howToHelp");
+    String location = (String) entity.getProperty("location");
+    String name = (String) entity.getProperty("name");
+    long timestamp = (long) entity.getProperty("timestamp");
+    String type = (String) entity.getProperty("type");
+    int upvotes = (int) entity.getProperty("upvotes");
+    int downvotes = (int) entity.getProperty("downvotes");
+    int views = (int) entity.getProperty("views");
 
     return new Listing(description, howToHelp, location, name, timestamp, type, 
         upvotes, downvotes, views);

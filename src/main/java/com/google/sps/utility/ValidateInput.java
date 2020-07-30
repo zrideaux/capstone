@@ -14,10 +14,13 @@
 
 package com.google.sps.utility;
 
+import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import com.google.gson.Gson;
 
 // Holds functions used by servlets in order to get parameters
-public final class GetParameter {
+public final class ValidateInput {
   /**
   * Retrieve and return a parameter from the URL, or a default if
   * no parameter is provided.
@@ -36,5 +39,37 @@ public final class GetParameter {
       return defaultValue;
     }
     return value;
+  }
+
+  /** 
+   * Creates an error message 
+   * 
+   * @param e the exception that was thrown
+   * @param response a json error message 
+   */
+  public static void createErrorMessage(Exception e, 
+      HttpServletResponse response) throws IOException {
+    String errorMessage = "Servlet Error: " + e.getMessage();
+    System.err.println(errorMessage);
+
+    String jsonErrorMessage = new Gson().toJson(errorMessage);
+    response.setContentType("application/json;");
+    response.getWriter().println(jsonErrorMessage);
+  }
+
+  /** 
+   * Creates an error message 
+   * 
+   * @param e the exception that was thrown
+   * @param response a json error message 
+   */
+  public static void createErrorMessage(String error, 
+      HttpServletResponse response) throws IOException {
+    String errorMessage = "Servlet Error: " + error;
+    System.err.println(errorMessage);
+
+    String jsonErrorMessage = new Gson().toJson(errorMessage);
+    response.setContentType("application/json;");
+    response.getWriter().println(jsonErrorMessage);
   }
 }
