@@ -1,19 +1,21 @@
 <html lang="en">
   <head>
     <title>Search</title>
-    <link rel="stylesheet" type="text/css" href="master.css">
-    <link rel="stylesheet" type="text/css" href="search.css">
-    <link rel="stylesheet" type="text/css" href="user.css">
-    <link rel="stylesheet" type="text/css" href="card.css">
-    <link rel="stylesheet" type="text/css" href="listing-preview.css">
-    <link rel="stylesheet" type="text/css" href="listing-detailed.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/master.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/search.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/user.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/card.css">
+    <link rel="stylesheet" type="text/css" 
+        href="stylesheets/listing-preview.css">
+    <link rel="stylesheet" type="text/css" 
+        href="stylesheets/listing-detailed.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script type="module" src="miscellaneous.js"></script>
-    <script type="module" src="search.js"></script>
+    <script type="module" src="scripts/miscellaneous.js"></script>
+    <script type="module" src="scripts/search.js"></script>
   </head>
   <body>
     <script type="module">
-      import { toggleDropdown } from './miscellaneous.js';
+      import { toggleDropdown } from './scripts/miscellaneous.js';
 
       window.toggleDropdown = function(menuName) {
         toggleDropdown(menuName);
@@ -130,7 +132,7 @@
     
     <main id="listings">
       <script type="module">
-        import displayListings from "/search.js";
+        import displayListings from "/scripts/search.js";
         const mainContainerElement = document.getElementById("listings");
         displayListings(mainContainerElement);
       </script>

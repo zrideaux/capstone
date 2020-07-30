@@ -60,7 +60,7 @@ export default function createListingDetailedView(divCardContainerElement,
 }
 
 /**
- * Create an element that represenets an exit button for the user to exit the 
+ * Create an element that represents an exit button for the user to exit the 
  *     current "page"
  * 
  * @param elementDisplay the display of the element this function is modifying
