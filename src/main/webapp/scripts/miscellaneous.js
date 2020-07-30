@@ -9,6 +9,45 @@ function hideDropdownMenus() {
 
 }
 
+/**
+ * If the string is an error message display the error message as an alert
+ *
+ * @param str A String that might be an error message
+ */
+function ifErrorDisplayMessage(str) {
+  if (isErrorMessage(str)) {
+    displayErrorMessage(str);
+  }
+}
+
+/** 
+ * Returns a boolean stating whether a String is an error message or not
+ *
+ * @param str a string that will be checked to see if it is an error message
+ * @return boolean stating whether or not it is an error message
+ */
+function isErrorMessage(str) {
+  const errorIntro = "Servlet Error:";
+  const isString = typeof str === "string";
+  const isLength = str.length > 15;
+  let isSubstring = false;
+  if (isLength) {
+    // the error message (str) comes with quotes
+    isSubstring = str.substring(1,15) === errorIntro;
+  }
+  return (isString && isLength && isSubstring);
+}
+
+/** 
+ * Creates an alert with the errorMessage
+ *
+ * @param errorMessage the error message to display to the user
+ */
+function displayErrorMessage(errorMessage) {
+  console.log(errorMessage);
+  window.alert(errorMessage);
+}
+
 /** 
  * Toggles the display of an element. 
  * 
@@ -71,4 +110,12 @@ function toggleTabDisplay(elementDisplay, elementId, otherElementId,
   otherTab.style.background = 'inherit';
 }
 
-export { hideDropdownMenus, toggleDisplay, toggleDropdown, toggleTabDisplay };
+export { 
+  hideDropdownMenus, 
+  ifErrorDisplayMessage,
+  isErrorMessage, 
+  displayErrorMessage,
+  toggleDisplay, 
+  toggleDropdown, 
+  toggleTabDisplay 
+  };

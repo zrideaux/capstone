@@ -12,13 +12,15 @@ import { toggleDisplay } from './miscellaneous.js';
 /**
  * Create an element that shows a listing detailed view
  *
- * @param divCardContainerElement a div element where the listing will pop up
+ * @param listing JSON that represents a listing and has listing information
  * @param cardContainerElementDisplay the display of the card container
  * @param cardContainerElementId the id of the card container
  * @return a div with all the information pertaining to a listing
  */
-export default function createListingDetailedView(divCardContainerElement, 
+export default function createListingDetailedView(listing, 
     cardContainerElementDisplay, cardContainerElementId) {
+  const divCardContainerElement = createDivElement('', 'card-container modal',
+      cardElementId);
 
   const divCardElement = createDivElement( 
       '', 'card listing-detailed-card shadow-box', '');

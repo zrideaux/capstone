@@ -13,11 +13,12 @@ import { toggleDisplay } from './miscellaneous.js';
  * Create an element that shows a listing detailed view and when clicked on will
  *     display the detailed view
  *
+ * @param listing JSON that represents a listing and has listing information 
  * @param listingDisplay the display property of the detailed view
  * @param listingId the id of the listing detailed view element
  * @return a div with all the preview information pertaining to a listing
  */
-export default function createListingPreview(listingDisplay, listingId) {
+export default function createListingPreview(listing, listingDisplay, listingId) {
 
   const sectionListing = createSectionElement('listing shadow-box', '');
   
