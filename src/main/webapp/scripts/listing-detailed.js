@@ -20,7 +20,7 @@ import { toggleDisplay } from './miscellaneous.js';
 export default function createListingDetailedView(listing, 
     cardContainerElementDisplay, cardContainerElementId) {
   const divCardContainerElement = createDivElement('', 'card-container modal',
-      cardElementId);
+      cardContainerElementId);
 
   const divCardElement = createDivElement( 
       '', 'card listing-detailed-card shadow-box', '');

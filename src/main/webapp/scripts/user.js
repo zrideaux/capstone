@@ -90,13 +90,12 @@ function createUserListings() {
 
   const exListings = [];
   console.log("Getting user's created listings");
-  divUserListingContainer.appendChild(getListings(
-      exListings, '', createdListingsId));
+  getListings(divUserListingContainer, exListings, '', createdListingsId);
 
   console.log("Getting user's upvoted listings");
   const upvotedListingsClass = 'upvoted-listings';
-  divUserListingContainer.appendChild(getListings(
-      exListings, upvotedListingsClass, upvotedListingsId));
+  getListings(divUserListingContainer, exListings, upvotedListingsClass, 
+      upvotedListingsId);
 
   return divUserListings;
 }
@@ -171,7 +170,7 @@ function createTab(elementDisplay, elementId, elementOtherId, hNum, otherTabId,
  * @param listingsId the id attribute for the listings div
  * @return a div that represents a group of listings
  */
-function getListings(listingKeys, listingsClass, listingsId) {
+function getListings(containerElement, listingKeys, listingsClass, listingsId) {
   let queryString = '/fetch-user-listings?listing-keys=' + listingKeys;
 
   console.log("Fetching user listings data");
@@ -180,7 +179,8 @@ function getListings(listingKeys, listingsClass, listingsId) {
         if (isErrorMessage(listingsArray)) {
           displayErrorMessage(listingsArray);
         } else {
-          return createListings(listingsArray, listingsClass, listingsId);
+          containerElement.appendChild(
+              createListings(listingsArray, listingsClass, listingsId));
         }
       })
 }
