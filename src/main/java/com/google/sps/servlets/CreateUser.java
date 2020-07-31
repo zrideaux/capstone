@@ -62,6 +62,7 @@ public class CreateUser extends HttpServlet {
     newUserEntity.setProperty("bio", "");
     newUserEntity.setProperty("createdListingKeys", "");
     newUserEntity.setProperty("upvotedListingKeys", "");
+    newUserEntity.setProperty("downvotedListingKeys", "");
 
     datastore.put(newUserEntity);
   }
