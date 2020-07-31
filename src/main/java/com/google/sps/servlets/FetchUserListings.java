@@ -31,14 +31,11 @@ import com.google.sps.data.Listing;
 import com.google.sps.utility.ValidateInput;
 
 /** 
- * Servlet that creates comment objects from entities and returns the list of 
- *    comment entities.
+ * Servlet that creates Listings from Entities and returns the list of 
+ *    Listings.
  */
 @WebServlet("/fetch-user-listings")
 public class FetchUserListings extends HttpServlet {
-
-  static final int COMMENT_LIMIT = 30;
-
   /** 
    * Returns JSON which is a List of Listings associated with the user or an 
    *     error message if an exception is caught.
@@ -50,25 +47,24 @@ public class FetchUserListings extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) 
       throws IOException {
-    // Receive input from the modify number of comments shown form
-    String listingKeysStr = ValidateInput.getParameter(request, "listing-keys",
-        "");
+    String listingEntityKeysString = ValidateInput.getParameter(request, 
+        "listing-keys", "");
 
     // A Listings of listings to return
-    List<Listing> listings = new ArrayList<> ();
+    List<Listing> listings = new ArrayList<Listing>();
 
     // Add Listings to the List if there are keys
-    if (listingKeysStr.length() > 0) {
-      String[] listingKeysStrArray = listingKeysStr.split(" ");
+    if (listingEntityKeysString.length() > 0) {
+      String[] listingEntityKeysStrArray = listingEntityKeysString.split(" ");
       
       DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
-      // If there are comments then return a list of comments
-      for (String listingKeyStr : listingKeysStrArray) {
-        Key listingKey = KeyFactory.stringToKey(listingKeyStr);
+      // If there are listing keys then return a List of Listings
+      for (String listingEntityKeyStr : listingEntityKeysStrArray) {
+        Key listingEntityKey = KeyFactory.stringToKey(listingEntityKeyStr);
         Entity listingEntity;
         try {
-          listingEntity = datastore.get(listingKey);
+          listingEntity = datastore.get(listingEntityKey);
         } catch (Exception e) {
           // Return a JSON errorMessage with the exception message
           ValidateInput.createErrorMessage(e, response);
@@ -77,6 +73,9 @@ public class FetchUserListings extends HttpServlet {
         listings.add(createListing(listingEntity));
       } 
     }
+
+    // Test Remove
+    listings.add(createListingTest());
 
     String jsonListings = new Gson().toJson(listings);
     response.setContentType("application/json;");
@@ -99,8 +98,28 @@ public class FetchUserListings extends HttpServlet {
     int upvotes = (int) entity.getProperty("upvotes");
     int downvotes = (int) entity.getProperty("downvotes");
     int views = (int) entity.getProperty("views");
+    String website = (String) entity.getProperty("website");
 
     return new Listing(description, howToHelp, location, name, timestamp, type, 
-        upvotes, downvotes, views);
+        upvotes, downvotes, views, website);
+  }
+
+  /**
+   * Creates a Listing object with random words
+   */
+  public static Listing createListingTest() {
+    String description = "Detailed description of what the event/fund/etc is for.";
+    String howToHelp = "Call (123) 456 - 7890 or drop off food at 123 N X Ave";
+    String location = "";
+    String name = "Movement for the Better";
+    long timestamp = System.currentTimeMillis();
+    String type = "Fundraiser";
+    int upvotes = 450;
+    int downvotes = 0;
+    int views = 1245;
+    String website = "";
+
+    return new Listing(description, howToHelp, location, name, timestamp, type, 
+        upvotes, downvotes, views, website);
   }
 }
