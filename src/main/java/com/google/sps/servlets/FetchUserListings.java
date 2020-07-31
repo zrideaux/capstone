@@ -74,9 +74,6 @@ public class FetchUserListings extends HttpServlet {
       } 
     }
 
-    // Test Remove
-    listings.add(createListingTest());
-
     String jsonListings = new Gson().toJson(listings);
     response.setContentType("application/json;");
     response.getWriter().println(jsonListings);
@@ -99,25 +96,6 @@ public class FetchUserListings extends HttpServlet {
     int downvotes = (int) entity.getProperty("downvotes");
     int views = (int) entity.getProperty("views");
     String website = (String) entity.getProperty("website");
-
-    return new Listing(description, howToHelp, location, name, timestamp, type, 
-        upvotes, downvotes, views, website);
-  }
-
-  /**
-   * Creates a Listing object with random words
-   */
-  public static Listing createListingTest() {
-    String description = "Detailed description of what the event/fund/etc is for.";
-    String howToHelp = "Call (123) 456 - 7890 or drop off food at 123 N X Ave";
-    String location = "";
-    String name = "Movement for the Better";
-    long timestamp = System.currentTimeMillis();
-    String type = "Fundraiser";
-    int upvotes = 450;
-    int downvotes = 0;
-    int views = 1245;
-    String website = "";
 
     return new Listing(description, howToHelp, location, name, timestamp, type, 
         upvotes, downvotes, views, website);
