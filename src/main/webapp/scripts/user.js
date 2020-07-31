@@ -182,5 +182,5 @@ function getListings(containerElement, listingKeys, listingsClass, listingsId) {
           containerElement.appendChild(
               createListings(listingsArray, listingsClass, listingsId));
         }
-      })
+      });
 }

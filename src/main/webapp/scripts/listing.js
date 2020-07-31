@@ -1,5 +1,6 @@
 import { 
   createDivElement, 
+  createPElement,
   createSectionElement
 } from './htmlElement.js';
 
@@ -17,11 +18,15 @@ import createListingDetailedView from './listing-detailed.js'
  */
 export default function createListings(listings, listingsClass, listingsId) {
   const divListings = createDivElement('', listingsClass, listingsId);
-
-  for (let i = 0; i < listings.length; i ++) {
-    const listing = listings[i];
-    const id = listingsId + (i + 1);
-    divListings.appendChild(createListing(id, listing));
+  const numListings = listings.length;
+  if (numListings > 0) {
+    for (let i = 0; i < numListings; i ++) {
+      const listing = listings[i];
+      const id = listingsId + (i + 1);
+      divListings.appendChild(createListing(id, listing));
+    }
+  } else {
+    divListings.appendChild(createPElement('No listings', '', ''));
   }
 
   return divListings;
