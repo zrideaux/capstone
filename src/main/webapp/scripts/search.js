@@ -1,5 +1,7 @@
-import createListings from './listing.js';
+import getListings from './listing.js';
 
 export default function displayListings(containerElement) {
-  containerElement.appendChild(createListings([''], '', 'search-listings'));
+  const exListingKeys = [];
+  const queryString = '/fetch-user-listings?listing-keys=' + exListingKeys;
+  containerElement.appendChild(getListings(containerElement, '', 'search-listings', queryString));
 }

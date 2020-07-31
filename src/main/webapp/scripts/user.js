@@ -7,12 +7,10 @@ import {
 } from './htmlElement.js';
 
 import { 
-  isErrorMessage,
-  displayErrorMessage,
   toggleTabDisplay
 } from './miscellaneous.js';
 
-import createListings from './listing.js';
+import getListings from './listing.js';
 
 /**
  * Create an element that shows a listing detailed view
@@ -88,14 +86,19 @@ function createUserListings() {
       '');
   divUserListings.appendChild(divUserListingContainer);
 
-  const exListings = [];
+  const exListingKeys = [];
+  const queryString = '/fetch-user-listings?listing-keys=';
+  
   console.log("Getting user's created listings");
-  getListings(divUserListingContainer, exListings, '', createdListingsId);
+  const queryStringCreatedListings = queryString + exListingKeys;
+  getListings(divUserListingContainer, '', createdListingsId, 
+      queryStringCreatedListings);
 
   console.log("Getting user's upvoted listings");
   const upvotedListingsClass = 'upvoted-listings';
-  getListings(divUserListingContainer, exListings, upvotedListingsClass, 
-      upvotedListingsId);
+  const queryStringUpvotedListings = queryString + exListingKeys;
+  getListings(divUserListingContainer, upvotedListingsClass, 
+      upvotedListingsId, queryStringUpvotedListings);
 
   return divUserListings;
 }
@@ -162,26 +165,26 @@ function createTab(elementDisplay, elementId, elementOtherId, hNum, otherTabId,
   return hTab;
 }
 
-/**
- * Creates a div that contains listings
- *
- * @param listingKeys a List of listingKeys in the form of a String
- * @param listingsClass the class attribute for the listings div
- * @param listingsId the id attribute for the listings div
- * @return a div that represents a group of listings
- */
-function getListings(containerElement, listingKeys, listingsClass, listingsId) {
-  let queryString = '/fetch-user-listings?listing-keys=' + listingKeys;
+// /**
+//  * Creates a div that contains listings
+//  *
+//  * @param listingKeys a List of listingKeys in the form of a String
+//  * @param listingsClass the class attribute for the listings div
+//  * @param listingsId the id attribute for the listings div
+//  * @return a div that represents a group of listings
+//  */
+// function getListings(containerElement, listingKeys, listingsClass, listingsId) {
+//   let queryString = '/fetch-user-listings?listing-keys=' + listingKeys;
 
-  console.log("Fetching user listings data");
-  fetch(queryString).then(response => response.json())
-      .then((listingsArray) => {
-        if (isErrorMessage(listingsArray)) {
-          displayErrorMessage(listingsArray);
-        } else {
-          console.log("Listing: " + listingsArray);
-          containerElement.appendChild(
-              createListings(listingsArray, listingsClass, listingsId));
-        }
-      });
-}
+//   console.log("Fetching user listings data");
+//   fetch(queryString).then(response => response.json())
+//       .then((listingsArray) => {
+//         if (isErrorMessage(listingsArray)) {
+//           displayErrorMessage(listingsArray);
+//         } else {
+//           console.log("Listing: " + listingsArray);
+//           containerElement.appendChild(
+//               createListings(listingsArray, listingsClass, listingsId));
+//         }
+//       });
+// }

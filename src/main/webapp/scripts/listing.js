@@ -8,6 +8,36 @@ import createListingPreview from './listing-preview.js'
 
 import createListingDetailedView from './listing-detailed.js'
 
+import { 
+  isErrorMessage,
+  displayErrorMessage
+} from './miscellaneous.js';
+
+/**
+ * Creates a div that contains listings
+ *
+ * @param containerElement the element that append the listings to
+ * @param listingsClass the class attribute for the listings div
+ * @param listingsId the id attribute for the listings div
+ * @param queryString the String the represents the query
+ * @return a div that represents a group of listings
+ */
+export default function getListings(containerElement, listingsClass, listingsId,
+    queryString) {
+  console.log("Fetching user listings data");
+  fetch(queryString).then(response => response.json())
+      .then((listingsArray) => {
+        if (isErrorMessage(listingsArray)) {
+          displayErrorMessage(listingsArray);
+        } else {
+          console.log("Listing: " + listingsArray);
+          containerElement.appendChild(
+              createListings(listingsArray, listingsClass, listingsId));
+        }
+      });
+}
+
+
 /**
  * Creates a div with a user's listings.
  *
@@ -16,7 +46,7 @@ import createListingDetailedView from './listing-detailed.js'
  * @param listingsClass the class of this element
  * @return a div with all of a user's listings.
  */
-export default function createListings(listings, listingsClass, listingsId) {
+function createListings(listings, listingsClass, listingsId) {
   const divListings = createDivElement('', listingsClass, listingsId);
   const numListings = listings.length;
   if (numListings > 0) {
