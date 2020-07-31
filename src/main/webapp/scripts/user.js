@@ -179,6 +179,7 @@ function getListings(containerElement, listingKeys, listingsClass, listingsId) {
         if (isErrorMessage(listingsArray)) {
           displayErrorMessage(listingsArray);
         } else {
+          console.log("Listing: " + listingsArray);
           containerElement.appendChild(
               createListings(listingsArray, listingsClass, listingsId));
         }

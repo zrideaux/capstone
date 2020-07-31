@@ -35,28 +35,24 @@ export default function createListingDetailedView(listing,
   divCardElement.appendChild(divCardInfoElement);
   
   console.log('creating listing card information');
-  const exCategory = 'Category';
-  const exDate = '01/02/20';
+
+  const type = listing.type;
+  const dateCreated = listing.dateCreated;
   const exImgSrc = '';
-  const exName = 'Los Angeles Food Bank';
-  const exUpvotes = 205;
-  const exViews = '1,234';
-  const exWebsite = '';
-  divCardInfoElement.appendChild(createListingCardInformation(exCategory, 
-      exDate, exImgSrc, exName, exUpvotes, exViews, exWebsite));
+  const name = listing.name;
+  const upvotes = listing.upvotes.toLocaleString();
+  const views = listing.views.toLocaleString();
+  const website = '';  
+  divCardInfoElement.appendChild(createListingCardInformation(type, 
+      dateCreated, exImgSrc, name, upvotes, views, website));
 
   console.log('creating listing card description');
-  const exComments = 'Users can write about experience with event/org/etc. ' +
-      'Moderation might be touchy though.';
-  const exDescription = 'Detailed description of what the event/fund/etc is '
-      + 'for.';
-  const exHowToHelp = 'Detailed description of what the user can do to help ' + 
-      'the cause. Information about when/where the event is, if physical; ' + 
-      'links to relevant pages / donation links if digital. Deliver or ship ' + 
-      'donations to Fake Address 123, Los Angeles, CA 34567 on weekdays. ' + 
-      'Volunteer at Fake Address 123, Los Angeles, CA 34567 at 8:30PM everyday';
-  divCardInfoElement.appendChild(createListingCardDescription(exComments, 
-      exDescription, exHowToHelp));
+
+  const comments = '';
+  const description = listing.description;
+  const howToHelp = listing.howToHelp;
+  divCardInfoElement.appendChild(createListingCardDescription(comments, 
+      description, howToHelp));
 
   return divCardContainerElement;
 }
@@ -97,18 +93,18 @@ function createExitElement(elementDisplay, elementId) {
 /**
  * Create an element with listing details
  *
- * @param category the category of this listing
- * @param date the date this listing was created
+ * @param type the type of this listing
+ * @param dateCreated the date this listing was created
  * @param imgSrc the source of the listing image
  * @param name the name of this listing
  * @param upvotes the number of upvotes this listing has
  * @param views the number of views this listing has received
  * @param websiteLink the link to this listings website
- * @return a div with the picture, name, category, reputation, listing details 
+ * @return a div with the picture, name, type, reputation, listing details 
  *     (see below) and website of a listing.
  */
-function createListingCardInformation(category, date, imgSrc, name, upvotes, 
-    views, websiteLink) {
+function createListingCardInformation(type, dateCreated, imgSrc, name, 
+    upvotes, views, websiteLink) {
   const divCardInformation = createDivElement('', 'card-information', '');
   divCardInformation.appendChild(
       createImgElement(imgSrc, 'picture of listing', 'card-picture', ''));
@@ -117,13 +113,13 @@ function createListingCardInformation(category, date, imgSrc, name, upvotes,
       createHElement(name, 1, 'card-name', ''));
 
   divCardInformation.appendChild(
-      createHElement(category, 2, 'detailed-attribute listing-tag pill', ''));      
+      createHElement(type, 2, 'detailed-attribute listing-tag pill', ''));      
 
   divCardInformation.appendChild(
       createHElement('Reputation: ' + upvotes + ' upvotes', 2, 
       'detailed-attribute pill reputation-pill', '')); 
 
-  divCardInformation.appendChild(createListingDetails(date, views)); 
+  divCardInformation.appendChild(createListingDetails(dateCreated, views)); 
 
   divCardInformation.appendChild(
       createAElement('Website Link', websiteLink, '_blank', 'card-button', ''));
@@ -134,16 +130,16 @@ function createListingCardInformation(category, date, imgSrc, name, upvotes,
 /**
  * Create a div with listing details
  *
- * @param name the name of this listing
+ * @param dateCreated the date this listing was created
  * @param views the number of views this listing has received 
  * @return a div with the date the listing was made, the amount of views it has 
  *     received, its verifitcation, and contact info.
  */
-function createListingDetails(date, views) {
+function createListingDetails(dateCreated, views) {
   const divListingDetails = createDivElement('', 'listing-details', '');
   
   divListingDetails.appendChild(
-    createPElement('Listing made on ' + date, 'listing-detail', ''));
+    createPElement('Listing made on ' + dateCreated, 'listing-detail', ''));
 
   divListingDetails.appendChild(
     createPElement(views + ' Views', 'listing-detail', ''));

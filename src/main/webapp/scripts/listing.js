@@ -26,6 +26,7 @@ export default function createListings(listings, listingsClass, listingsId) {
       divListings.appendChild(createListing(id, listing));
     }
   } else {
+    console.log("No listings");
     divListings.appendChild(createPElement('No listings', '', ''));
   }
 
@@ -43,22 +44,16 @@ function createListing(cardElementId, listing) {
   const sectionListing = createSectionElement('', '');
 
   const cardElementDisplay = "flex";
-  // const divCardContainerElement = createDivElement('', 'card-container modal',
-  //     cardElementId);
 
+  // Create listing preview
   console.log("Creating listing preview");
   sectionListing.appendChild(createListingPreview(listing, cardElementDisplay, 
       cardElementId));
     
+  // Create listing view (detiled view)
   console.log("Creating listing view");
   sectionListing.appendChild(createListingDetailedView(listing, 
       cardElementDisplay, cardElementId));
-    
-  // sectionListing.appendChild(divCardContainerElement);
-    
-  // console.log("Creating listing");
-  // createListingDetailedView(divCardContainerElement, cardElementDisplay, 
-  //       cardElementId);  
 
   return sectionListing;
 }
