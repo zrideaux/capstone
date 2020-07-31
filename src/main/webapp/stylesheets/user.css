@@ -1,0 +1,47 @@
+.created-listings-tab {
+  background: #8EEEDE;
+  margin-right: 1.5rem;
+}
+
+.profile {
+  align-self: flex-start;
+}
+
+.tab-listings-description {
+  align-self: flex-start !important;
+}
+
+.upvoted-listings {
+  display: none;
+}
+
+.upvoted-listings-tab {
+  margin-left: 1.5rem;
+}
+
+.user-bio {
+  margin: 1.5rem;
+}
+
+.user-email {
+  margin: 0;
+}
+
+.user-listing-container {
+  font-size: 1.5rem;
+}
+
+.user-name {
+  font-size: 3.5rem;
+  margin: 1.5rem;
+}
+
+/* Landscape */
+/* bigger screens */
+@media only screen and (min-width: 950px) and (orientation: landscape) {
+  .profile {
+    position: -webkit-sticky; /* for Safari */
+    position: sticky;
+    top: 0;
+  }
+}
