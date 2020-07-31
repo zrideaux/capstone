@@ -3,3 +3,5 @@ target/
 secret.txt
 AuthenticationLegacy.java
 CreateUserLegacy.java
+auth.js
+authtest.html
