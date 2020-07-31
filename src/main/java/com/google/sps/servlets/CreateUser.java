@@ -14,20 +14,13 @@
 
 package com.google.sps.servlets;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.FetchOptions;
-import com.google.appengine.api.datastore.FetchOptions.Builder;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.Filter;
-import com.google.appengine.api.datastore.Query.FilterOperator;
-import com.google.appengine.api.datastore.Query.FilterPredicate;
-import com.google.appengine.api.datastore.Query.SortDirection;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
+import com.google.sps.utility.Utility;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -48,47 +41,34 @@ public class CreateUser extends HttpServlet {
    */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    Utility utility = new Utility();
     String message = new String();
-    UserService userService = UserServiceFactory.getUserService();
 
-    // Verify that current user is logged in.
-    if (userService.isUserLoggedIn()) {
-      // Check if user's email is already associated with an account.
-      String userEmail = userService.getCurrentUser().getEmail();
-      
-      if (userAlreadyHasAccount(userEmail)) {
+    // Verify that user is signed in with a valid account
+    GoogleIdToken idToken = utility.getIdToken(request);
+
+    if (idToken != null) {
+      // Get payload for user
+      Payload user = idToken.getPayload();
+
+      // Get user email
+      String userEmail = user.getEmail();
+      System.out.println(utility.getUserByEmail(userEmail));
+
+      // Check if user's email is already associated with an account.        
+      if (utility.userAlreadyHasAccount(userEmail)) {
         message = "No user created. There is already a user associated with this email.";
       } else {
-        createUserEntity(request, userEmail);
+        createUgiserEntity(request, userEmail);
         message = "New user created.";
       }
     } else {
-      message = "No user created. User is not signed in.";
+      System.out.println("Invalid ID token.");
     }
-    
+  
     response.setContentType("text/plain");
     System.out.println(message);
     response.getWriter().println(message);
-  }
-  
-  /**
-   * Return a boolean detailing if there is an account associated with a given
-   * email.
-   * 
-   * @param email the email to check for in the query.
-   * @return true if account associated with email exists
-   */
-  private boolean userAlreadyHasAccount(String email) {
-    // Perform a query to find any accounts associated with email
-    Filter emailFilter = new FilterPredicate("email", FilterOperator.EQUAL, email);
-    Query userQuery = new Query("User").setFilter(emailFilter);
-    PreparedQuery preparedQuery = datastore.prepare(userQuery);
-    // If the query is empty, there isn't an account associated with email
-    if (preparedQuery.countEntities(FetchOptions.Builder.withLimit(1)) == 0) {
-      return false;
-    } else {
-      return true;
-    }
   }
 
   /**
@@ -107,25 +87,5 @@ public class CreateUser extends HttpServlet {
     newUserEntity.setProperty("upvotedListingKeys", "");
 
     datastore.put(newUserEntity);
-  }
-
-  /**
-  * Retrieve and return a parameter from the URL, or a default if
-  * no parameter is provided.
-  * 
-  * @param request an http request to the servlet
-  * @param name the name of the parameter to retrieve
-  * @param defaultValue the value to return if a value for the parameter
-  *     is not provided
-  * @return the request parameter, or the default value if the parameter
-  *     was not specified by the client
-  */
-  private String getParameter(HttpServletRequest request, String name, String defaultValue) {
-    String value = request.getParameter(name);
-    if (value == null) {
-      System.out.println("Default");
-      return defaultValue;
-    }
-    return value;
   }
 }

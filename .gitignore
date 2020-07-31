@@ -1,2 +1,5 @@
 target/
 .idea
+secret.txt
+AuthenticationLegacy.java
+CreateUserLegacy.java
