@@ -12,6 +12,11 @@
   justify-content: space-between;
 }
 
+.listing-info-container {
+  display: flex;
+  flex-direction: column;
+  width: -webkit-fill-available;
+}
 
 .listing-image {
   border: 5px solid #8EEEDE;
@@ -25,9 +30,7 @@
   margin: 0;
 }
 
-@media only screen and (min-width: 2450px) {
-  .preview-info {
-    display: flex;
-    flex-direction: column;
-  }
+.preview-info {
+  display: flex;
+  flex-direction: column;
 }
