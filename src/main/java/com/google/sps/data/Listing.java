@@ -39,7 +39,7 @@ public final class Listing {
     this.name = name;
 
     // turn int of timestamp into Date object
-    String dateCreated = timeStampToDate(timestamp);
+    String dateCreated = timestampToDate(timestamp);
     this.dateCreated = dateCreated;
     this.type = type;
     this.upvotes = upvotes;
@@ -54,7 +54,7 @@ public final class Listing {
    * @return a string that represents the month, day, and year this listing was 
    *     created.
    */
-  private String timeStampToDate(long timestamp) {
+  private String timestampToDate(long timestamp) {
     String dateCreated = createDateFromTimestamp(timestamp);
     int dateLen = dateCreated.length();
     String monthAndDay = dateCreated.substring(4, 7);
