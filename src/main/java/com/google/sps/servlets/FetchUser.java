@@ -29,20 +29,16 @@ import com.google.sps.data.User;
 import com.google.sps.utility.ValidateInput;
 
 /** 
- * Servlet that creates comment objects from entities and returns the list of 
- *    comment entities.
+ * Servlet that creates a User object from email and returns the User object.
  */
-@WebServlet("/fetch-user-listings")
+@WebServlet("/fetch-user")
 public class FetchUser extends HttpServlet {
-
-  static final int COMMENT_LIMIT = 30;
-
   /** 
-   * Returns JSON which is a List of Listings associated with the user or an 
+   * Returns JSON which is a User object or an 
    *     error message if an exception is caught.
    *
-   * @param request which contains data to retrieve listings
-   * @param response listings in the form of json (List<Listings>) or an error 
+   * @param request which contains data to retrieve user Entity
+   * @param response User in the form of json or an error 
    *     message in the form of JSON
    */
   @Override
