@@ -66,15 +66,15 @@ public class FetchUserListings extends HttpServlet {
       // If there are comments then return a list of comments
       for (String listingKeyStr : listingKeysStrArray) {
         Key listingKey = KeyFactory.stringToKey(listingKeyStr);
-        Entity listing;
+        Entity listingEntity;
         try {
-          listing = datastore.get(listingKey);
+          listingEntity = datastore.get(listingKey);
         } catch (Exception e) {
           // Return a JSON errorMessage with the exception message
           ValidateInput.createErrorMessage(e, response);
           return;
         }
-        listings.add(createListing(listing));
+        listings.add(createListing(listingEntity));
       } 
     }
 
