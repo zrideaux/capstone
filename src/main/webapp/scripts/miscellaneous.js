@@ -30,7 +30,7 @@ function isErrorMessage(str) {
   const errorIntro = "Servlet Error:";
   const errorIntroLength = errorIntro.length;
   const isString = typeof str === "string";
-  const isLength = str.length > errorIntroLength + 1;
+  const isLength = str.length > errorIntroLength;
   let isSubstring = false;
   if (isLength) {
     // the error message (str) comes with quotes
