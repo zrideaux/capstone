@@ -55,13 +55,13 @@ public class FetchUserListings extends HttpServlet {
 
     // Add Listings to the List if there are keys
     if (listingEntityKeysString.length() > 0) {
-      String[] listingEntityKeysStrArray = listingEntityKeysString.split(" ");
+      String[] listingEntityKeysStringArray = listingEntityKeysString.split(" ");
       
       DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
       // If there are listing keys then return a List of Listings
-      for (String listingEntityKeyStr : listingEntityKeysStrArray) {
-        Key listingEntityKey = KeyFactory.stringToKey(listingEntityKeyStr);
+      for (String listingEntityKeyString : listingEntityKeysStringArray) {
+        Key listingEntityKey = KeyFactory.stringToKey(listingEntityKeyString);
         Entity listingEntity;
         try {
           listingEntity = datastore.get(listingEntityKey);

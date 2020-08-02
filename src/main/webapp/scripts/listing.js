@@ -25,7 +25,8 @@ import {
 export default function getListings(containerElement, listingsClass, listingsId,
     queryString) {
   console.log("Fetching user listings data");
-  fetch(queryString).then(response => response.json())
+  fetch(queryString)
+      .then(response => response.json())
       .then((listingsArray) => {
         if (isErrorMessage(listingsArray)) {
           displayErrorMessage(listingsArray);

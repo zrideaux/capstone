@@ -28,12 +28,13 @@ function ifErrorDisplayMessage(str) {
  */
 function isErrorMessage(str) {
   const errorIntro = "Servlet Error:";
+  const errorIntroLength = errorIntro.length;
   const isString = typeof str === "string";
-  const isLength = str.length > 15;
+  const isLength = str.length > errorIntroLength + 1;
   let isSubstring = false;
   if (isLength) {
     // the error message (str) comes with quotes
-    isSubstring = str.substring(1,15) === errorIntro;
+    isSubstring = str.substring(1, errorIntroLength + 1) === errorIntro;
   }
   return (isString && isLength && isSubstring);
 }

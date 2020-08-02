@@ -164,27 +164,3 @@ function createTab(elementDisplay, elementId, elementOtherId, hNum, otherTabId,
   
   return hTab;
 }
-
-// /**
-//  * Creates a div that contains listings
-//  *
-//  * @param listingKeys a List of listingKeys in the form of a String
-//  * @param listingsClass the class attribute for the listings div
-//  * @param listingsId the id attribute for the listings div
-//  * @return a div that represents a group of listings
-//  */
-// function getListings(containerElement, listingKeys, listingsClass, listingsId) {
-//   let queryString = '/fetch-user-listings?listing-keys=' + listingKeys;
-
-//   console.log("Fetching user listings data");
-//   fetch(queryString).then(response => response.json())
-//       .then((listingsArray) => {
-//         if (isErrorMessage(listingsArray)) {
-//           displayErrorMessage(listingsArray);
-//         } else {
-//           console.log("Listing: " + listingsArray);
-//           containerElement.appendChild(
-//               createListings(listingsArray, listingsClass, listingsId));
-//         }
-//       });
-// }
