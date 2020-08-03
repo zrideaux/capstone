@@ -56,4 +56,20 @@ public final class ValidateInput {
     response.setContentType("application/json;");
     response.getWriter().println(jsonErrorMessage);
   }
+
+  /** 
+   * Creates an error message 
+   * 
+   * @param e the exception that was thrown
+   * @param response a json error message 
+   */
+  public static void createErrorMessage(String error, 
+      HttpServletResponse response) throws IOException {
+    String errorMessage = "Servlet Error: " + error;
+    System.err.println(errorMessage);
+
+    String jsonErrorMessage = new Gson().toJson(errorMessage);
+    response.setContentType("application/json;");
+    response.getWriter().println(jsonErrorMessage);
+  }
 }

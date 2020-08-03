@@ -4,9 +4,9 @@ import {
   createSectionElement
 } from './htmlElement.js';
 
-import createListingPreview from './listing-preview.js'
+import createListingPreview from './listing-preview.js';
 
-import createListingDetailedView from './listing-detailed.js'
+import createListingDetailedView from './listing-detailed.js';
 
 import { 
   isErrorMessage,

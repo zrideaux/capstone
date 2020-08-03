@@ -6,7 +6,6 @@ function hideDropdownMenus() {
   for (let i = 0; i < allDropdowns.length; i ++) {
     allDropdowns[i].style.display = 'none';
   }
-
 }
 
 /**
