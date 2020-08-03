@@ -3,16 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <title>STEP Capstone Project</title>
-    <link rel="stylesheet" type="text/css" href="master.css">
-    <link rel="stylesheet" type="text/css" href="user.css">
-    <link rel="stylesheet" type="text/css" href="card.css">
-    <link rel="stylesheet" type="text/css" href="listing-preview.css">
-    <link rel="stylesheet" type="text/css" href="listing-detailed.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/master.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/user.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/card.css">
+    <link rel="stylesheet" type="text/css" 
+        href="stylesheets/listing-preview.css">
+    <link rel="stylesheet" type="text/css" 
+        href="stylesheets/listing-detailed.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
         rel="stylesheet">
     <script src="miscellaneous.js"></script>
-    <script type="module" src="user.js"></script>
-
+    <script type="module" src="scripts/user.js"></script>
+  
     <meta name="google-signin-client_id">
     <script src="/scripts/script.js"></script>
   </head>
@@ -41,12 +43,10 @@
       </nav>
     </header>
 
-    <div id="user" class="card-container">
-
-    </div>
+    <div id="user" class="card card-container"></div>
 
     <script type="module">
-      import createUserProfile from "/user.js";
+      import createUserProfile from "/scripts/user.js";
       const divCardContainerElement = document.getElementById("user");
       createUserProfile(divCardContainerElement);
     </script>

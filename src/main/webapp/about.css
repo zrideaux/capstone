@@ -1,0 +1,129 @@
+h2 {
+  padding: 2px;
+  position: relative;
+  text-align: center;
+}
+
+p {
+  font-size: 24px;  
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.container {
+  margin: 240px auto;
+  margin-top: 0;
+  position: relative;
+  width: 1200px;
+}
+
+.box {
+  border-radius: 10px;   
+  box-sizing: border-box;   
+  float: left;
+  height: 270px;
+  margin: 15px;
+  position: relative;
+  overflow: hidden;
+  width: 370px
+}
+
+.container .box .icon {
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  transition: 0.5s;
+  width: 100%;
+  z-index: 1;
+}
+
+ footer i{
+  color: #fff;     
+}
+
+.box:hover .icon {
+  border-radius: 50%;    
+  height: 80px;
+  left: calc(50% - 40px);
+  top: 20px;
+  width: 80px; 
+}
+
+.container .box .icon .fa {
+  font-size: 60px;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  transition: 0.5s;
+}
+
+.box:hover .icon .fa {
+  font-size: 40px;
+}
+
+.container .box .content {
+  box-sizing:  border-box;
+  height: calc(100% - 100px);
+  justify-content: center;
+  padding: 20px;
+  position: absolute;
+  text-align: center;
+  transition: 0.5s;
+}
+
+.container .box .content h3 {
+  color: #fff;  
+  font-size: 24px; 
+  line-height: 80%;
+  margin: 0px; 
+  padding: 0px;  
+  position: relative;    
+}
+
+.container .box .content p {
+  color: #fff;
+  font-size: 13px;
+  margin: 0px;
+  padding: 0px;
+}
+
+.container .box:nth-child(1) .icon {
+  background: cornflowerblue;
+}
+.container .box:nth-child(1) {
+  background: rgba(100, 148, 237, 0.822);
+}
+
+.container .box:nth-child(2) .icon {
+  background: rgb(83, 170, 62);
+}
+.container .box:nth-child(2) {
+  background: rgba(83, 170, 62, 0.89);
+}
+
+.container .box:nth-child(3) .icon {
+  background: rgb(231, 53, 207);
+}
+.container .box:nth-child(3) {
+  background: rgba(231, 53, 207, 0.884);
+}
+
+@media only screen and (max-width: 600px) and (orientation: portrait) {
+  .container {
+    display: table-cell;
+  }
+  .container .box .icon {
+    display: none;
+   }
+  p {
+    font-size: 18px;    
+   }
+  .container .box .content p {
+    color: #fff;
+    font-size: 16px;
+    margin: 0px;
+    padding: 0px;
+  }
+}

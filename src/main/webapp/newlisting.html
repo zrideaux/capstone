@@ -1,17 +1,29 @@
 <html lang="en">
   <head>
     <title>New Listing</title>
-    <link rel="stylesheet" type="text/css" href="master.css">
-    <link rel="stylesheet" type="text/css" href="newlisting.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/master.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/newlisting.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/search.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/card.css">
+    <link rel="stylesheet" type="text/css" 
+        href="stylesheets/listing-preview.css">
+    <link rel="stylesheet" type="text/css" 
+        href="stylesheets/listing-detailed.css">    
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-    <script src="search.js"></script>
-    <script src="listing.js"></script>
-
+    <script type="module" src="scripts/new-listing.js"></script>
+  
     <meta name="google-signin-client_id">
     <script src="/scripts/script.js"></script>
   </head>
   <body onload="init()">
+    <script type="module">
+      import displayPreviewListing from './scripts/new-listing.js'
+
+      window.displayPreviewListing = function() {
+        displayPreviewListing();
+      }
+    </script>
     <header id="nav-box" class="shadow-box">
       <nav>
         <a href="index.html"><img id="logo" src="images/placeholder_logo.png" alt="logo"></a>
@@ -41,49 +53,73 @@
         <h1>Create New Listing</h1>
         <ul>
           <li>
-            <label for="cause-name" class="form-label">A Name for the Cause</label>
-            <p class="sublabel">Give a short, descriptive name to the cause. This will be the first thing people see.</p>
-            <input id="cause-name" type="text">
+            <label for="cause-name" class="form-label">
+              A Name for the Cause
+            </label>
+            <p class="sublabel">
+              Give a short, descriptive name to the cause. This will be the 
+              first thing people see.
+            </p>
+            <input id="cause-name" type="text" maxlength="50">
           </li>
           <li>
           <ul>
             <label class="form-label">Type of Cause</label>
-            <p class="sublabel">Check the boxes which best describe your cause. This will help people find it.</p>
+            <p class="sublabel">
+              Check the boxes which best describe your cause. This will help 
+              people find it.
+            </p>
             <li>
-            <input id="fundraiser-checkbox" class="search-filter" type="checkbox" value="fundraiser">
-            <label for="fundraiser-checkbox">Fundraiser</label>
+              <input id="fundraiser-radio" class="search-filter" type="radio" 
+                  value="fundraiser" name="cause-type">
+              <label for="fundraiser-radio">Fundraiser</label>
             </li>
             <li>
-            <input id="petition-checkbox" class="search-filter" type="checkbox" value="petition">
-            <label for="petition-checkbox">Petition</label>
+              <input id="petition-radio" class="search-filter" type="radio" 
+                  value="petition" name="cause-type">
+              <label for="petition-radio">Petition</label>
             </li>
             <li>
-            <input id="event-checkbox" class="search-filter" type="checkbox" value="event">
-            <label for="event-checkbox">Event</label>
+              <input id="event-radio" class="search-filter" type="radio" 
+                  value="event" name="cause-type">
+              <label for="event-radio">Event</label>
             </li>
             <li>
-            <input id="other-checkbox" class="search-filter" type="checkbox" value="other">
-            <label for="other-checkbox">Other</label>
+              <input id="other-radio" class="search-filter" type="radio" 
+                  value="other" name="cause-type">
+              <label for="other-radio">Other</label>
             </li>
           </ul>
           <li>
             <label for="cause-location" class="form-label">Location</label>
-            <p class="sublabel">Select the location for the cause. Try to be as specific as possible, but as broad as needed.</p>
+            <p class="sublabel">
+              Select the location for the cause. Try to be as specific as 
+              possible, but as broad as needed.
+            </p>
             <input id="cause-location" type="text">
           </li>
           <li>
-            <label for="cause-description" class="form-label">Description</label>
+            <label for="cause-description" class="form-label">
+              Description
+            </label>
             <p class="sublabel">Describe your cause and why it's important.</p>
-            <textarea id="cause-description"></textarea>
+            <textarea id="cause-description" maxlength="256"></textarea>
           </li>
           <li>
-            <label for="cause-how-to-help" class="form-label">How To Help</label>
-            <p class="sublabel">Describe how people can contribute to the cause. Be sure to include any specific addresses or links that may be important.</p>
-            <textarea id="cause-how-to-help"></textarea>
+            <label for="cause-how-to-help" class="form-label">
+              How To Help
+            </label>
+            <p class="sublabel">
+              Describe how people can contribute to the cause. Be sure to 
+              include any specific addresses or links that may be important.
+            </p>
+            <textarea id="cause-how-to-help" maxlength="256"></textarea>
           </li>
           <li>
             <label for="cause-website" class="form-label">Website</label>
-            <p class="sublabel">If you have a website surrounding the cause, be sure to link it here.</p>
+            <p class="sublabel">
+              If you have a website surrounding the cause, be sure to link it here.
+            </p>
             <input id="cause-website" type="text">
           </li>
           <li>
@@ -95,27 +131,12 @@
         </ul>
         <a href="user.html">"Submit"</a>
         <button>Submit</button>
+        <button type="button" onclick="displayPreviewListing()">
+          Make Preview
+        </button>
       </section>
 
-      <section id="listing-preview" class="listing shadow-box">
-        <h1>Preview</h1>
-        <div>
-          <img class="listing-image" src="" alt="Listing preview image.">
-          <span class="listing-reputation">Reputation: 205 Votes</span>
-        </div>
-        <div class="listing-info-container">
-          <div class="listing-heading-container">
-            <h2 id="listing-name">Listing Name</h2>
-            <div class="listing-tags-container">
-              <span class="listing-tag fundraiser-tag">Fundraiser</span>
-              <span class="listing-tag event-tag">Event</span>
-            </div>
-          </div>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          </p>
-        </div>
-      </section>
+      <section id="preview"></section>
     </main>
 
     <script src="https://apis.google.com/js/platform.js?online=renderButton" async defer></script>

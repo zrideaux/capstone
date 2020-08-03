@@ -1,8 +1,25 @@
+.created-listings-tab {
+  background: #8EEEDE;
+  margin-right: 1.5rem;
+}
+
 .profile {
   align-self: flex-start;
 }
 
-.user-name {
+.tab-listings-description {
+  align-self: flex-start !important;
+}
+
+.upvoted-listings {
+  display: none;
+}
+
+.upvoted-listings-tab {
+  margin-left: 1.5rem;
+}
+
+.user-bio {
   margin: 1.5rem;
 }
 
@@ -10,27 +27,13 @@
   margin: 0;
 }
 
-.create-listing {
-  margin-top: 3rem;
-}
-
 .user-listing-container {
   font-size: 1.5rem;
 }
 
-.created-listings {
-  margin-right: 1.5rem;
-}
-
-.upvoted-listings {
-  margin-left: 1.5rem;
-}
-
-/* medium - large screens */
-@media only screen and (min-width: 600px) {
-  .card-name {
-    font-size: 3rem;
-  }
+.user-name {
+  font-size: 3.5rem;
+  margin: 1.5rem;
 }
 
 /* Landscape */

@@ -1,12 +1,14 @@
 <html lang="en">
   <head>
     <title>Search</title>
-    <link rel="stylesheet" type="text/css" href="master.css">
-    <link rel="stylesheet" type="text/css" href="search.css">
-    <link rel="stylesheet" type="text/css" href="user.css">
-    <link rel="stylesheet" type="text/css" href="card.css">
-    <link rel="stylesheet" type="text/css" href="listing-preview.css">
-    <link rel="stylesheet" type="text/css" href="listing-detailed.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/master.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/search.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/user.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/card.css">
+    <link rel="stylesheet" type="text/css" 
+        href="stylesheets/listing-preview.css">
+    <link rel="stylesheet" type="text/css" 
+        href="stylesheets/listing-detailed.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="miscellaneous.js"></script>
     <script type="module" src="search.js"></script>
@@ -15,6 +17,14 @@
     <script src="/scripts/script.js"></script>
   </head>
   <body onload="init()">
+    <script type="module">
+      import { toggleDropdown } from './scripts/miscellaneous.js'
+
+      window.toggleDropdown = function(menuName) {
+        toggleDropdown(menuName);
+      }
+    </script>
+
     <header id="search-box" class="shadow-box">
       <nav>
         <a href="index.html"><img id="logo" src="images/placeholder_logo.png" alt="logo"></a>
@@ -122,9 +132,9 @@
     
     <main id="listings">
       <script type="module">
-        import createListings from "/search.js";
+        import displayListings from "/scripts/search.js";
         const mainContainerElement = document.getElementById("listings");
-        createListings(mainContainerElement);
+        displayListings(mainContainerElement);
       </script>
     </main>
 
