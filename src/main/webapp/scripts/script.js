@@ -24,7 +24,7 @@ function renderButton() {
   gapi.signin2.render('signInButton', {
     'scope': 'profile email',
     'width': 180,
-    'height': 50,
+    'height': 40,
     'longtitle': false,
     'theme': 'light',
     'onsuccess': onSignIn,
