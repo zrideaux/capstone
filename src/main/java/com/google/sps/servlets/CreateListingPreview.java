@@ -47,7 +47,7 @@ public class CreateListingPreview extends HttpServlet {
    *     message in the form of JSON
    */
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) 
+  public void doPost(HttpServletRequest request, HttpServletResponse response) 
       throws IOException {
     
     // The following variables are required and have a max char limit
@@ -97,7 +97,7 @@ public class CreateListingPreview extends HttpServlet {
     } 
 
     // There are no char limit for website and website is optional
-    String website = ValidateInput.getParameter(request, "website", "");    
+    String website = ValidateInput.getUploadedFileUrl(request, "website", "");    
 
     int upvotes = 0;
 
