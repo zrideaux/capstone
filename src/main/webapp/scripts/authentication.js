@@ -71,7 +71,8 @@ function onSignIn(googleUser) {
     if (http.readyState == 4 && http.status == 200) {
       console.log(http.responseText);
     } else if (http.status >= 400) {
-      displayErrorMessage(http.responseText);
+      console.log(http.responseText);
+      window.alert(http.responseText);
     }
   }
   
