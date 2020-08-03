@@ -1,7 +1,8 @@
 target/
 .idea
-secret.txt
+secret.*
 AuthenticationLegacy.java
 CreateUserLegacy.java
 auth.js
 authtest.html
+script-legacy.js
