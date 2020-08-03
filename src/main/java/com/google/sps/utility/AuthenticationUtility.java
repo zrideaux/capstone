@@ -42,37 +42,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class Utility extends HttpServlet { 
-  
-  private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
-  /**
-  * Retrieve and return a parameter from the URL, or a default if
-  * no parameter is provided.
-  * 
-  * @param request an http request to the servlet
-  * @param name the name of the parameter to retrieve
-  * @param defaultValue the value to return if a value for the parameter
-  *     is not provided
-  * @return the request parameter, or the default value if the parameter
-  *     was not specified by the client
-  */
-  public String getParameter(HttpServletRequest request, String name, String defaultValue) {
-    String value = request.getParameter(name);
-    if (value == null) {
-      System.out.println("Default");
-      return defaultValue;
-    }
-    return value;
-  }
-
+public class AuthenticationUtility extends HttpServlet { 
   /**
    * Return a User Entity that matches a provided email.
    * 
    * @param email the email to check for in the query.
    * @return a User Entity matching email
    */
-  public Entity getUserByEmail(String email) {
+  public Entity getUserByEmail(DatastoreService datastore, String email) {
     // Perform a query to find the account associated with email
     Filter emailFilter = new FilterPredicate("email", FilterOperator.EQUAL, email);
     Query userQuery = new Query("User").setFilter(emailFilter);
@@ -89,9 +67,9 @@ public class Utility extends HttpServlet {
    *     parameter
    * @return a verified Google id token or null if it is invalid
    */
-  public GoogleIdToken getIdToken(HttpServletRequest request) {
+  public GoogleIdToken getIdToken(HttpServletRequest request) throws Exception {
     try {
-      String CLIENT_ID = "client_id_goes_here";
+      final String CLIENT_ID = "client_id_goes_here";
 
       HttpTransport transport = GoogleNetHttpTransport.newTrustedTransport();
       JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
@@ -107,7 +85,7 @@ public class Utility extends HttpServlet {
 
       return idToken;
     } catch (Exception e) {
-      return null;
+      throw e;
     }
   }
   
@@ -118,7 +96,7 @@ public class Utility extends HttpServlet {
    * @param email the email to check for in the query.
    * @return true if account associated with email exists
    */
-  public boolean userAlreadyHasAccount(String email) {
+  public boolean userAlreadyHasAccount(DatastoreService datastore, String email) {
     // Perform a query to find any accounts associated with email
     Filter emailFilter = new FilterPredicate("email", FilterOperator.EQUAL, email);
     Query userQuery = new Query("User").setFilter(emailFilter);
@@ -139,25 +117,26 @@ public class Utility extends HttpServlet {
    * @param request an http request to the servlet, should include "idtoken"
    *     parameter
    */
-  public Entity getCurrentUserEntity(HttpServletRequest request) {
-    // Verify that user is signed in with a valid account
-    GoogleIdToken idToken = getIdToken(request);
-    Entity userEntity = new Entity("User");
-
+  public Entity getCurrentUserEntity(DatastoreService datastore, 
+      HttpServletRequest request) throws Exception {
     try {
+      // Verify that user is signed in with a valid account
+      GoogleIdToken idToken = getIdToken(request);
+      Entity userEntity = new Entity("User");
+
       if (idToken != null) {
         // Get payload for user
         Payload userPayload = idToken.getPayload();
         String userEmail = userPayload.getEmail();
-        userEntity = getUserByEmail(userEmail);
+        userEntity = getUserByEmail(datastore, userEmail);
+        
+        return userEntity;
       } else {
         throw new Exception("idToken is null");
       }
     } catch (Exception e) {
-      System.err.println(e);
+      throw e;
     }
-
-    return userEntity;
   }
 
   /**
@@ -166,23 +145,21 @@ public class Utility extends HttpServlet {
    * @param request an http request to the servlet, should include "idtoken"
    *     parameter
    */
-  public String getCurrentUserEmail(HttpServletRequest request) {
-    // Verify that user is signed in with a valid account
-    GoogleIdToken idToken = getIdToken(request);
-    String userEmail = new String();
-
-    try {
+  public String getCurrentUserEmail(HttpServletRequest request) throws Exception {
+    try {  
+      // Verify that user is signed in with a valid account
+      GoogleIdToken idToken = getIdToken(request);
+      String userEmail = new String();
       if (idToken != null) {
         // Get payload for user
         Payload userPayload = idToken.getPayload();
         userEmail = userPayload.getEmail();
+        return userEmail;
       } else {
         throw new Exception("idToken is null");
       }
     } catch (Exception e) {
-      System.err.println(e);
+      throw e;
     }
-
-    return userEmail;
   }
 }
