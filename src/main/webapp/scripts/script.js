@@ -1,7 +1,7 @@
 
 // Functions to handle authentication
 
-var auth2;
+let auth2;
 
 /**
  * Run on page load. Sets up authentication.
@@ -56,8 +56,8 @@ function attachSignin(element) {
  * user is already signed in.
  */
 function onSignIn(googleUser) {
-  var userProfile = googleUser.getBasicProfile();
-  var idToken = googleUser.getAuthResponse().id_token;
+  let userProfile = googleUser.getBasicProfile();
+  let idToken = googleUser.getAuthResponse().id_token;
   console.log('Email: ' + userProfile.getEmail());
   
   // Send user's token to CreateUser servlet.
@@ -83,8 +83,8 @@ function onSignIn(googleUser) {
  */
 function example() {
   // Get the current user and their token.
-  var googleUser = GoogleAuth.currentUser.get();
-  var idToken = googleUser.getAuthResponse().id_token;
+  let googleUser = GoogleAuth.currentUser.get();
+  let idToken = googleUser.getAuthResponse().id_token;
 
   // Use getBasicProfile() to get allowed properties of the account.
   console.log(googleUser.getBasicProfile().getEmail());
