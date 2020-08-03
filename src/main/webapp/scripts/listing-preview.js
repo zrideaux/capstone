@@ -122,7 +122,6 @@ function createListingTags(type) {
   const divListingTags = createDivElement('', 'listing-tags-container', '');
 
   divListingTags.appendChild(createSpanElement(type, 'listing-tag', ''));
-  divListingTags.appendChild(createSpanElement(type, 'listing-tag', ''));
 
   return divListingTags;
 }

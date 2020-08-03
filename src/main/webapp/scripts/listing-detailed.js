@@ -42,7 +42,7 @@ export default function createListingDetailedView(listing,
   const name = listing.name;
   const upvotes = listing.upvotes.toLocaleString();
   const views = listing.views.toLocaleString();
-  const website = '';  
+  const website = listing.website;  
   divCardInfoElement.appendChild(createListingCardInformation(type, 
       dateCreated, exImgSrc, name, upvotes, views, website));
 
@@ -121,8 +121,10 @@ function createListingCardInformation(type, dateCreated, imgSrc, name,
 
   divCardInformation.appendChild(createListingDetails(dateCreated, views)); 
 
-  divCardInformation.appendChild(
-      createAElement('Website Link', websiteLink, '_blank', 'card-button', ''));
+  if (websiteLink.length > 0) {
+    divCardInformation.appendChild(
+        createAElement('Website Link', websiteLink, '_blank', 'card-button', ''));  
+  }
 
   return divCardInformation;
 }
