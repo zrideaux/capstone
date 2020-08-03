@@ -25,7 +25,6 @@ export default function createListingDetailedView(listing,
   const divCardElement = createDivElement( 
       '', 'card listing-detailed-card shadow-box', '');
   divCardContainerElement.appendChild(divCardElement);
-
   
   divCardElement.appendChild(createExitElement(
       cardContainerElementDisplay, cardContainerElementId));
@@ -176,12 +175,14 @@ function createListingCardDescription(comments, description, howToHelp) {
       createHElement('How to help', '3', '', '')); 
 
   divListingDetails.appendChild(
+
     createPElement(howToHelp,'', '')); 
   
   divListingDetails.appendChild(
       createHElement('Comments', '3', '', '')); 
 
   divListingDetails.appendChild(
+
     createPElement(comments, '', ''));
 
   return divListingDetails;

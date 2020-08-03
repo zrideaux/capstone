@@ -11,9 +11,11 @@
         href="stylesheets/listing-detailed.css">    
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <meta name="google-signin-client_id">
     <script type="module" src="scripts/new-listing.js"></script>
+    <script src="/scripts/script.js"></script>
   </head>
-  <body>
+  <body onload="init()">
     <script type="module">
       import { 
         createNewListing,
@@ -34,24 +36,20 @@
         <div id="nav-links">
           <a class="nav-link" href="search.html">
             <i class="material-icons">search</i>
-            <!-- <span>Search</span> -->
           </a>
           <a class="nav-link" href="newlisting.html">
             <i class="material-icons">add_box</i>
-            <!-- <span>Post</span> -->
           </a>
           <a class="nav-link" href="about.html">
             <i class="material-icons">book</i>
-            <!-- <span>About</span> -->
           </a>
           <a class="nav-link" href="search.html">
             <i class="material-icons">phone</i>
-            <!-- <span>Contact</span> -->
           </a>
           <a class="nav-link" href="user.html">
             <i class="material-icons">account_box</i>
-            <!-- <span>Profile</span> -->
           </a>
+          <div id="signInButton" data-onsuccess="onSignIn"></div>
         </div>
       </nav>
     </header>
@@ -68,7 +66,7 @@
               Give a short, descriptive name to the cause. This will be the 
               first thing people see.
             </p>
-            <input id="cause-name" type="text">
+            <input id="cause-name" type="text" maxlength="50">
           </li>
           <li>
           <ul>
@@ -111,7 +109,7 @@
               Description
             </label>
             <p class="sublabel">Describe your cause and why it's important.</p>
-            <textarea id="cause-description"></textarea>
+            <textarea id="cause-description" maxlength="256"></textarea>
           </li>
           <li>
             <label for="cause-how-to-help" class="form-label">
@@ -121,7 +119,7 @@
               Describe how people can contribute to the cause. Be sure to 
               include any specific addresses or links that may be important.
             </p>
-            <textarea id="cause-how-to-help"></textarea>
+            <textarea id="cause-how-to-help" maxlength="256"></textarea>
           </li>
           <li>
             <label for="cause-website" class="form-label">Website</label>
@@ -149,5 +147,6 @@
       <section id="preview"></section>
     </main>
 
+    <script src="https://apis.google.com/js/platform.js?online=renderButton" async defer></script>
   </body>
 </html>
