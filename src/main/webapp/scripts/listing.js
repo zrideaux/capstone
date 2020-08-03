@@ -19,7 +19,8 @@ import {
  * @param containerElement the element that append the listings to
  * @param listingsClass the class attribute for the listings div
  * @param listingsId the id attribute for the listings div
- * @param queryString the String the represents the query
+ * @param queryString the String the represents the query to a servlet that 
+ *     returns a List of Listings
  * @return a div that represents a group of listings
  */
 export default function getListings(containerElement, listingsClass, listingsId,
