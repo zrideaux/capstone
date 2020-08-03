@@ -42,7 +42,7 @@ p {
   color: #fff;     
 }
 
-.box:hover .icon{
+.box:hover .icon {
   border-radius: 50%;    
   height: 80px;
   left: calc(50% - 40px);
@@ -59,11 +59,11 @@ p {
   transition: 0.5s;
 }
 
-.box:hover .icon .fa{
+.box:hover .icon .fa {
   font-size: 40px;
 }
 
-.container .box .content{
+.container .box .content {
   box-sizing:  border-box;
   height: calc(100% - 100px);
   justify-content: center;
@@ -73,7 +73,7 @@ p {
   transition: 0.5s;
 }
 
-.container .box .content h3{
+.container .box .content h3 {
   color: #fff;  
   font-size: 24px; 
   line-height: 80%;
@@ -82,31 +82,31 @@ p {
   position: relative;    
 }
 
-.container .box .content p{
+.container .box .content p {
   color: #fff;
   font-size: 13px;
   margin: 0px;
   padding: 0px;
 }
 
-.container .box:nth-child(1) .icon{
+.container .box:nth-child(1) .icon {
   background: cornflowerblue;
 }
-.container .box:nth-child(1){
+.container .box:nth-child(1) {
   background: rgba(100, 148, 237, 0.822);
 }
 
-.container .box:nth-child(2) .icon{
+.container .box:nth-child(2) .icon {
   background: rgb(83, 170, 62);
 }
-.container .box:nth-child(2){
+.container .box:nth-child(2) {
   background: rgba(83, 170, 62, 0.89);
 }
 
-.container .box:nth-child(3) .icon{
+.container .box:nth-child(3) .icon {
   background: rgb(231, 53, 207);
 }
-.container .box:nth-child(3){
+.container .box:nth-child(3) {
   background: rgba(231, 53, 207, 0.884);
 }
 
@@ -117,10 +117,10 @@ p {
   .container .box .icon {
     display: none;
    }
-  p{
+  p {
     font-size: 18px;    
    }
-  .container .box .content p{
+  .container .box .content p {
     color: #fff;
     font-size: 16px;
     margin: 0px;
