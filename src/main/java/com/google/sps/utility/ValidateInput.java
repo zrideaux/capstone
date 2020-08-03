@@ -317,8 +317,4 @@ public final class ValidateInput {
     response.setContentType("application/json;");
     response.getWriter().println(jsonErrorMessage);
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 1fee853fce0c2dc746834e358154e1a35fdf03e1
