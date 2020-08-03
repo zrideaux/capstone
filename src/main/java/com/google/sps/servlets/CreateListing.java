@@ -30,12 +30,61 @@ public class CreateListing extends HttpServlet {
   /** Uses getParmeter function to obtain user input and inserts that input into  Entity for storage.*/
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String name = getParameter(request, "cause-name", "");
-    String type = getParameter(request, "type", "");
-    String location = getParameter(request, "location", "");
-    String howToHelp = getParameter(request, "cause-how-to-help", "");    
-    String description = getParameter(request, "cause-description", "");
-    String website = getParameter(request, "cause-website", "");
+        // The following variables are required and have a max char limit
+    String description;
+    try {
+      description = ValidateInput.getUserString(request, "description", 1, 
+          ListingConstants.MAX_CONTENT_LEN);
+    } catch (Exception e) {
+      ValidateInput.createErrorMessage(e, response);
+      return;
+    }  
+
+    String howToHelp;
+    try {
+      howToHelp = ValidateInput.getUserString(request, "howToHelp", 1, 
+          ListingConstants.MAX_CONTENT_LEN);
+    } catch (Exception e) {
+      ValidateInput.createErrorMessage(e, response);
+      return;
+    }  
+
+    String location;
+    try {
+      location = ValidateInput.getUserString(request, "location", 1, 
+          ListingConstants.MAX_LOCATION_LEN);
+    } catch (Exception e) {
+      ValidateInput.createErrorMessage(e, response);
+      return;
+    } 
+
+    String name;
+    try {
+      name = ValidateInput.getUserString(request, "name", 1, 
+          ListingConstants.MAX_NAME_LEN);
+    } catch (Exception e) {
+      ValidateInput.createErrorMessage(e, response);
+      return;
+    } 
+
+    String type;
+    try {
+      type = ValidateInput.getUserString(request, "type", 1, 
+          ListingConstants.MAX_TYPE_LEN);
+    } catch (Exception e) {
+      ValidateInput.createErrorMessage(e, response);
+      return;
+    } 
+
+    // Uploading an image is optional
+    String imageURL = ValidateInput.getUploadedFileUrl(request, "image", ""); 
+
+    // There are no char limit for website and website is optional
+    String website = ValidateInput.getParameter(request, "website", "");
+
+    int upvotes = 0;
+    int downvotes = 0;
+    int views = 0;  
     long timestamp = System.currentTimeMillis();
 
     Entity listingEntity = new Entity("Listing");
@@ -44,9 +93,9 @@ public class CreateListing extends HttpServlet {
     listingEntity.setProperty("location", location);
     listingEntity.setProperty("howToHelp", howToHelp);
     listingEntity.setProperty("description", description);
-    listingEntity.setProperty("upvotes", 0);
-    listingEntity.setProperty("downvotes", 0);
-    listingEntity.setProperty("views", 0);
+    listingEntity.setProperty("upvotes", upvotes);
+    listingEntity.setProperty("downvotes", downvotes);
+    listingEntity.setProperty("views", views);
     listingEntity.setProperty("timestamp",timestamp);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();    
