@@ -85,12 +85,13 @@ public class Utility extends HttpServlet {
   /**
    * Verifies and returns an id token from the "idtoken" parameter
    *
-   * @param request an http request to the servlet
+   * @param request an http request to the servlet, should include "idtoken"
+   *     parameter
    * @return a verified Google id token or null if it is invalid
    */
   public GoogleIdToken getIdToken(HttpServletRequest request) {
     try {
-      String CLIENT_ID = "CLIENT_ID_GOES_HERE";
+      String CLIENT_ID = "client_id_goes_here";
 
       HttpTransport transport = GoogleNetHttpTransport.newTrustedTransport();
       JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
@@ -129,5 +130,59 @@ public class Utility extends HttpServlet {
     } else {
       return true;
     }
+  }
+
+  /**
+   * Retrieves the User entity associated with the currently logged in user
+   * if one exists.
+   *
+   * @param request an http request to the servlet, should include "idtoken"
+   *     parameter
+   */
+  public Entity getCurrentUserEntity(HttpServletRequest request) {
+    // Verify that user is signed in with a valid account
+    GoogleIdToken idToken = getIdToken(request);
+    Entity userEntity = new Entity("User");
+
+    try {
+      if (idToken != null) {
+        // Get payload for user
+        Payload userPayload = idToken.getPayload();
+        String userEmail = userPayload.getEmail();
+        userEntity = getUserByEmail(userEmail);
+      } else {
+        throw new Exception("idToken is null");
+      }
+    } catch (Exception e) {
+      System.err.println(e);
+    }
+
+    return userEntity;
+  }
+
+  /**
+   * Retrieves the email associated with the currently logged in user.
+   *
+   * @param request an http request to the servlet, should include "idtoken"
+   *     parameter
+   */
+  public String getCurrentUserEmail(HttpServletRequest request) {
+    // Verify that user is signed in with a valid account
+    GoogleIdToken idToken = getIdToken(request);
+    String userEmail = new String();
+
+    try {
+      if (idToken != null) {
+        // Get payload for user
+        Payload userPayload = idToken.getPayload();
+        userEmail = userPayload.getEmail();
+      } else {
+        throw new Exception("idToken is null");
+      }
+    } catch (Exception e) {
+      System.err.println(e);
+    }
+
+    return userEmail;
   }
 }

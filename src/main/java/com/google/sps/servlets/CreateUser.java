@@ -41,6 +41,7 @@ public class CreateUser extends HttpServlet {
    */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
     Utility utility = new Utility();
     String message = new String();
 
@@ -59,7 +60,7 @@ public class CreateUser extends HttpServlet {
       if (utility.userAlreadyHasAccount(userEmail)) {
         message = "No user created. There is already a user associated with this email.";
       } else {
-        createUgiserEntity(request, userEmail);
+        createUserEntity(request, userEmail);
         message = "New user created.";
       }
     } else {
