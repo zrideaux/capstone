@@ -34,7 +34,7 @@ function isErrorMessage(str) {
   let isSubstring = false;
   if (isLength) {
     // the error message (str) comes with quotes
-    isSubstring = str.substring(0, errorIntroLength) === errorIntro;
+    isSubstring = str.startsWith(errorIntro);
   }
   return (isString && isLength && isSubstring);
 }
