@@ -127,8 +127,9 @@
             <label for="cause-image" class="form-label">Add An Image</label>
             <p class="sublabel">Add a preview image for the cause. </p>
             <br>
-            <form type="multipart/form-data" id="new-listing-form">
-              <input id="cause-image" type="file" id="myFile" name="filename" form="new-listing-form">
+            <form enctype="multipart/form-data" id="new-listing-form" 
+                name="new-listing-form">
+              <input id="cause-image" type="file" id="myFile" name="image" form="new-listing-form">
             </form>
           </li>
         </ul>

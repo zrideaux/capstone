@@ -96,24 +96,29 @@ public class CreateListingPreview extends HttpServlet {
       return;
     } 
 
+    // Uploading an image is optional
+    // String imageURL = ValidateInput.getUploadedFileUrl(request, "image"); 
+    String imageURL; 
+    try {
+      imageURL = ValidateInput.getUploadedFileUrl(request, "image");
+    } catch (Exception e) {
+      ValidateInput.createErrorMessage(e, response);
+      return;
+    }
+
     // There are no char limit for website and website is optional
-    String website = ValidateInput.getUploadedFileUrl(request, "website", "");    
+    String website = ValidateInput.getParameter(request, "website", "");
 
     int upvotes = 0;
-
     int downvotes = 0;
-
     int views = 0;  
-
     long timestamp = System.currentTimeMillis();
 
-    List<Listing> listings = new ArrayList<Listing>();
-    Listing listing = new Listing(description, howToHelp, location, name, 
-        timestamp, type, upvotes, downvotes, views, website);
-    listings.add(listing);
+    Listing listing = new Listing(description, howToHelp, imageURL, location, 
+        name, timestamp, type, upvotes, downvotes, views, website);
 
-    String jsonListings = new Gson().toJson(listings);
+    String jsonListing = new Gson().toJson(listing);
     response.setContentType("application/json;");
-    response.getWriter().println(jsonListings);
+    response.getWriter().println(jsonListing);
   }
 }

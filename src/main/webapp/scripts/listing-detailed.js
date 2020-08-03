@@ -38,13 +38,13 @@ export default function createListingDetailedView(listing,
 
   const type = listing.type;
   const dateCreated = listing.dateCreated;
-  const exImgSrc = '';
+  const imageURL = listing.imageURL;
   const name = listing.name;
   const upvotes = listing.upvotes.toLocaleString();
   const views = listing.views.toLocaleString();
   const website = listing.website;  
   divCardInfoElement.appendChild(createListingCardInformation(type, 
-      dateCreated, exImgSrc, name, upvotes, views, website));
+      dateCreated, imageURL, name, upvotes, views, website));
 
   console.log('creating listing card description');
 
@@ -95,7 +95,7 @@ function createExitElement(elementDisplay, elementId) {
  *
  * @param type the type of this listing
  * @param dateCreated the date this listing was created
- * @param imgSrc the source of the listing image
+ * @param imageURL the source of the listing image
  * @param name the name of this listing
  * @param upvotes the number of upvotes this listing has
  * @param views the number of views this listing has received
@@ -103,11 +103,11 @@ function createExitElement(elementDisplay, elementId) {
  * @return a div with the picture, name, type, reputation, listing details 
  *     (see below) and website of a listing.
  */
-function createListingCardInformation(type, dateCreated, imgSrc, name, 
+function createListingCardInformation(type, dateCreated, imageURL, name, 
     upvotes, views, websiteLink) {
   const divCardInformation = createDivElement('', 'card-information', '');
   divCardInformation.appendChild(
-      createImgElement(imgSrc, 'picture of listing', 'card-picture', ''));
+      createImgElement(imageURL, 'picture of listing', 'card-picture', ''));
       
   divCardInformation.appendChild(
       createHElement(name, 1, 'card-name', ''));

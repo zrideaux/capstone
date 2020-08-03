@@ -33,8 +33,11 @@ function isErrorMessage(str) {
   let isSubstring = false;
   if (isLength) {
     // the error message (str) comes with quotes
-    isSubstring = str.substring(0, errorIntroLength) === errorIntro;
+    isSubstring = str.startsWith(errorIntro);
   }
+  console.log("String: " + str);
+  console.log("String length: " + str.length);
+  console.log(isString + " " + isLength + " " + isSubstring);
   return (isString && isLength && isSubstring);
 }
 

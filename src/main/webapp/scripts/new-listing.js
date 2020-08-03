@@ -1,4 +1,4 @@
-import getListings from './listing.js';
+import { createListing } from './listing.js';
 
 import { 
   isErrorMessage,
@@ -15,6 +15,12 @@ export default function displayPreviewListing() {
   containerElement.innerHTML = '';
 
   fetchBlobstoreUrl(queryString);
+}
+
+function createPreviewListing(listing) {
+  const containerElement = document.getElementById("preview");
+  containerElement.appendChild(
+      createListing('preview-listings', listing));
 }
 
 function fetchBlobstoreUrl(servletUrl) {
@@ -41,7 +47,7 @@ function fetchBlobstoreUrl(servletUrl) {
 function sendFormData(commentForm, imageUploadUrl) {
   const data = new FormData(commentForm);
 
-  // This func works
+  // Add parameters to the formData
   appendParameterToFormData(data);
 
   // prints the input name and value
@@ -54,14 +60,15 @@ function sendFormData(commentForm, imageUploadUrl) {
   req.onload = function() {
     // when response is ready and status is ok
     if (req.status == 200) {
-      const response = req.responseText;
+      console.log("Response text: " + req.responseText);
+      const response = JSON.parse(req.responseText);
       if (isErrorMessage(response)) {
         displayErrorMessage(response);
       } else {
         console.log("Uploaded!");
         const containerElement = document.getElementById("preview");
         containerElement.appendChild(
-            createListings(response, '', 'preview-listings'));
+            createListing('preview-listings', response));
       }
     } else {
       const errorMessage = "Error " + req.status + 
@@ -75,8 +82,6 @@ function sendFormData(commentForm, imageUploadUrl) {
   };
   req.send(data);
 }
-
-
 
 /**
  * Creates a string of parameters to query a servlet

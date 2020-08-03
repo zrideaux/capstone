@@ -1,4 +1,4 @@
-import getListings from './listing.js';
+import { getListings } from './listing.js';
 
 export default function displayListings(containerElement) {
   const exListingKeys = [];
