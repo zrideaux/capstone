@@ -1,5 +1,7 @@
 
-// Functions to handle authentication
+import { 
+  displayErrorMessage
+} from './miscellaneous.js';
 
 let auth2;
 
@@ -71,7 +73,7 @@ function onSignIn(googleUser) {
     if (http.readyState == 4 && http.status == 200) {
       console.log(http.responseText);
     } else if (http.status >= 400) {
-      console.log(http.responseText)
+      displayErrorMessage(http.responseText);
     }
   }
   
