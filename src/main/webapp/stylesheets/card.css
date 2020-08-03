@@ -94,7 +94,8 @@
 }
 
 /* small - medium screens */
-@media only screen and (max-width: 1550px) {
+@media only screen and (max-width: 1550px) , only screen and 
+    (max-height: 1230px) {
   .card {
     font-size: 1.3rem;
   }
@@ -106,7 +107,8 @@
 }
 
 /* large screens */
-@media only screen and (min-width: 1550px) {
+@media only screen and (min-width: 1550px) , only screen and 
+    (min-height: 1230px) {
   .card-name {
     font-size: 3rem;
   }
@@ -157,7 +159,7 @@
 }
 
 /* bigger screens */
-@media only screen and (min-width: 1550px) and (orientation: landscape) {
+@media only screen and (min-width: 1550px) and (min-height: 1230px) and (orientation: landscape) {
   .card-information {
     margin: 3rem;
   }  

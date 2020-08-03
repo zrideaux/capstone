@@ -29,10 +29,11 @@ public final class Listing {
   private final int upvotes;
   private final int downvotes;
   private final int views;
+  private final String website;
 
   public Listing(String description, String howToHelp, String location, 
       String name, long timestamp, String type, int upvotes, int downvotes, 
-      int views) {
+      int views, String website) {
     this.description = description;
     this.howToHelp = howToHelp;
     this.location = location;
@@ -45,6 +46,7 @@ public final class Listing {
     this.upvotes = upvotes;
     this.downvotes = downvotes;
     this.views = views;
+    this.website = website;
   }
 
   /**

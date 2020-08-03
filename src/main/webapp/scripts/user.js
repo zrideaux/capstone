@@ -6,9 +6,11 @@ import {
   createPElement
 } from './htmlElement.js';
 
-import { toggleTabDisplay } from './miscellaneous.js';
+import { 
+  toggleTabDisplay
+} from './miscellaneous.js';
 
-import createListings from './listing.js';
+import getListings from './listing.js';
 
 /**
  * Create an element that shows a listing detailed view
@@ -84,14 +86,19 @@ function createUserListings() {
       '');
   divUserListings.appendChild(divUserListingContainer);
 
-  console.log("Creating user's created listings");
-  divUserListingContainer.appendChild(createListings(
-      '', createdListingsId, 2));
+  const exListingKeys = [];
+  const queryString = '/fetch-user-listings?listing-keys=';
+  
+  console.log("Getting user's created listings");
+  const queryStringCreatedListings = queryString + exListingKeys;
+  getListings(divUserListingContainer, '', createdListingsId, 
+      queryStringCreatedListings);
 
-  console.log("Creating user's upvoted listings");
+  console.log("Getting user's upvoted listings");
   const upvotedListingsClass = 'upvoted-listings';
-  divUserListingContainer.appendChild(createListings(
-      upvotedListingsClass, upvotedListingsId, 1));
+  const queryStringUpvotedListings = queryString + exListingKeys;
+  getListings(divUserListingContainer, upvotedListingsClass, 
+      upvotedListingsId, queryStringUpvotedListings);
 
   return divUserListings;
 }
