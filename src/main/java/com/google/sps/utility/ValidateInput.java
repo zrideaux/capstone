@@ -357,7 +357,7 @@ public final class ValidateInput {
       String parameter, String defaultValue) {
     String uploadedFileUrl;
     try {
-      uploadedFileUrl = getUploadedFileUrl(request, parameter) ;
+      uploadedFileUrl = getUploadedFileUrl(request, parameter);
     } catch (Exception e) {
       uploadedFileUrl = defaultValue;
     }
