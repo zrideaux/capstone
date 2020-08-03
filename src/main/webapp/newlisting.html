@@ -15,8 +15,15 @@
   </head>
   <body>
     <script type="module">
-      import displayPreviewListing from './scripts/new-listing.js'
+      import { 
+        createNewListing,
+        displayPreviewListing
+      } from './scripts/new-listing.js'
 
+      window.createNewListing = function() {
+        createNewListing();
+      }
+      
       window.displayPreviewListing = function() {
         displayPreviewListing();
       }
@@ -133,7 +140,7 @@
             </form>
           </li>
         </ul>
-        <button type="button">Submit</button>
+        <button type="button" onclick="createNewListing()">Submit</button>
         <button type="button" onclick="displayPreviewListing()">
           Make Preview
         </button>

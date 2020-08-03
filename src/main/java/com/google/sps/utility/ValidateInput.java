@@ -379,4 +379,19 @@ public final class ValidateInput {
     response.setContentType("application/json;");
     response.getWriter().println(jsonErrorMessage);
   }
+
+  /** 
+   * Creates an success message 
+   * 
+   * @param response a json success message 
+   */
+  public static void createSuccessMessage(HttpServletResponse response) 
+      throws IOException {
+    String successMessage = "Servlet Success";
+    System.err.println(successMessage);
+
+    String jsonSuccessMessage = new Gson().toJson(successMessage);
+    response.setContentType("application/json;");
+    response.getWriter().println(jsonSuccessMessage);
+  }  
 }

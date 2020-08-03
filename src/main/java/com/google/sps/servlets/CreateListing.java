@@ -22,6 +22,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import com.google.sps.utility.ListingConstants;
+import com.google.sps.utility.ValidateInput;
 
 /** Servlet takes in information from form on newlisting.html and creates listing entity*/
 @WebServlet("/create-listing")
@@ -88,21 +90,24 @@ public class CreateListing extends HttpServlet {
     long timestamp = System.currentTimeMillis();
 
     Entity listingEntity = new Entity("Listing");
-    listingEntity.setProperty("name", name);
-    listingEntity.setProperty("type", type);
-    listingEntity.setProperty("location", location);
-    listingEntity.setProperty("howToHelp", howToHelp);
     listingEntity.setProperty("description", description);
+    listingEntity.setProperty("howToHelp", howToHelp);
+    listingEntity.setProperty("imageURL", imageURL);
+    listingEntity.setProperty("location", location);
+    listingEntity.setProperty("name", name);
+    listingEntity.setProperty("timestamp",timestamp);
+    listingEntity.setProperty("type", type);
     listingEntity.setProperty("upvotes", upvotes);
     listingEntity.setProperty("downvotes", downvotes);
     listingEntity.setProperty("views", views);
-    listingEntity.setProperty("timestamp",timestamp);
+    listingEntity.setProperty("website", website);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();    
     
     datastore.put(listingEntity);
     
-    response.sendRedirect("/index.html");
+    // Returns a success message since everything went smoothly
+    ValidateInput.createSuccessMessage(response);
   }
   /**
    * Obtains user input and returns the value of that input.
