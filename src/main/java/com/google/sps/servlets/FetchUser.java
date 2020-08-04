@@ -26,6 +26,7 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.sps.data.User;
+import com.google.sps.utility.AuthenticationUtility;
 import com.google.sps.utility.ValidateInput;
 
 /** 
@@ -44,35 +45,21 @@ public class FetchUser extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) 
       throws IOException {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
     // Receive input from the modify number of comments shown form
-    // String userEmail = ValidateInput.getIdToken(request, "idtoken");
+    Entity userEntity;
+    try {
+      userEntity = AuthenticationUtility.getCurrentUserEntity(datastore, 
+          request);
+    } catch (Exception e) {
+      ValidateInput.createErrorMessage(e, response);
+    }
 
-    // Get user email?
-    // Entity userEntity = getUserByEmail(userEmail);
+    User user = User.createUser(userEntity);
 
-    // Filter query for this entity
-
-    // User user = createUser(userEntity);
-
-    // String jsonUser = new Gson().toJson(user);
-    // response.setContentType("application/json;");
-    // response.getWriter().println(jsonUser);
-  }
-
-  /**
-   * Creates a User object from an Entity object that represents a user
-   *
-   * @param entity the entity that represents a user
-   * @return a User with all of the properties from the Entity
-   */
-  public static User createUser(Entity entity) {
-    String bio = (String) entity.getProperty("bio");
-    String email = (String) entity.getProperty("email");
-    String username = (String) entity.getProperty("username");
-    String createdListingKeys = (String) entity.getProperty("createdListingKeys");
-    String upvotedListingKeys = (String) entity.getProperty("upvotedListingKeys");
-
-    return new User(bio, email, username, createdListingKeys, 
-        upvotedListingKeys);
+    String jsonUser = new Gson().toJson(user);
+    response.setContentType("application/json;");
+    response.getWriter().println(jsonUser);
   }
 }

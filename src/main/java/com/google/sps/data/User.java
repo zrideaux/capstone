@@ -31,4 +31,21 @@ public final class User {
     this.createdListingKeys = createdListingKeys;
     this.upvotedListingKeys = upvotedListingKeys;
   }
+
+  /**
+   * Creates a User object from an Entity object that represents a user
+   *
+   * @param entity the entity that represents a user
+   * @return a User with all of the properties from the Entity
+   */
+  public static User createUser(Entity entity) {
+    String bio = (String) entity.getProperty("bio");
+    String email = (String) entity.getProperty("email");
+    String username = (String) entity.getProperty("username");
+    String createdListingKeys = (String) entity.getProperty("createdListingKeys");
+    String upvotedListingKeys = (String) entity.getProperty("upvotedListingKeys");
+
+    return new User(bio, email, username, createdListingKeys, 
+        upvotedListingKeys);
+  }  
 }
