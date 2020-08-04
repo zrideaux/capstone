@@ -83,10 +83,7 @@ public class CreateListing extends HttpServlet {
 
     // There are no char limit for website and website is optional
     String website = ValidateInput.getParameter(request, "website", "");
-
-    int upvotes = 0;
-    int downvotes = 0;
-    int views = 0;  
+  
     long timestamp = System.currentTimeMillis();
 
     Entity listingEntity = new Entity("Listing");
@@ -97,9 +94,9 @@ public class CreateListing extends HttpServlet {
     listingEntity.setProperty("name", name);
     listingEntity.setProperty("timestamp",timestamp);
     listingEntity.setProperty("type", type);
-    listingEntity.setProperty("upvotes", upvotes);
-    listingEntity.setProperty("downvotes", downvotes);
-    listingEntity.setProperty("views", views);
+    listingEntity.setProperty("upvotes", 0);
+    listingEntity.setProperty("downvotes", 0);
+    listingEntity.setProperty("views", 0);
     listingEntity.setProperty("website", website);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();    
