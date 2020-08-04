@@ -17,13 +17,17 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Key;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import com.google.sps.data.User;
+import com.google.sps.utility.AuthenticationUtility;
 import com.google.sps.utility.ListingConstants;
 import com.google.sps.utility.ValidateInput;
+
 
 /** Servlet takes in information from form on newlisting.html and creates listing entity*/
 @WebServlet("/create-listing")
@@ -100,9 +104,20 @@ public class CreateListing extends HttpServlet {
     listingEntity.setProperty("website", website);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();    
-    
-    datastore.put(listingEntity);
-    
+    Key listingEntityKey = datastore.put(listingEntity);
+
+    // Get entity associated with current user and update createdListingKeys property
+    // TODO: Get entity associated with current user.
+    User.addListingKeyToUserEntity(datastore, currentUserEntity, listingEntityKey, "createdListingKeys");
+
+    // try{
+    //   AuthenticationUtility utility = new AuthenticationUtility();
+    //   Entity currentUserEntity = utility.getUserByEmail(datastore, "zrideaux@google.com");
+    //   User.addListingKeyToUserEntity(datastore, currentUserEntity, listingEntityKey, "createdListingKeys");
+    // } catch (Exception e) {
+    //   System.out.println(e);
+    // }
+
     // Returns a success message since everything went smoothly
     ValidateInput.createSuccessMessage(response);
   }
