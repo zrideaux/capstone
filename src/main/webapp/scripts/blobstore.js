@@ -19,7 +19,7 @@ function fetchBlobstoreUrlAndSendData(servletUrl, sendFormDataFunc) {
         if(isErrorMessage(imageUploadUrl)) {
           displayErrorMessage(imageUploadUrl);
         } else {
-          console.log("Send form data.")
+          console.log("Send form data.");
           sendFormDataFunc(imageUploadUrl);
         }
       })
