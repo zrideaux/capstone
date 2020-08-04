@@ -22,6 +22,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import com.google.sps.utility.ListingConstants;
+import com.google.sps.utility.ValidateInput;
 
 /** Servlet takes in information from form on newlisting.html and creates listing entity*/
 @WebServlet("/create-listing")
@@ -30,30 +32,79 @@ public class CreateListing extends HttpServlet {
   /** Uses getParmeter function to obtain user input and inserts that input into  Entity for storage.*/
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String name = getParameter(request, "cause-name", "");
-    String type = getParameter(request, "type", "");
-    String location = getParameter(request, "location", "");
-    String howToHelp = getParameter(request, "cause-how-to-help", "");    
-    String description = getParameter(request, "cause-description", "");
-    String website = getParameter(request, "cause-website", "");
+        // The following variables are required and have a max char limit
+    String description;
+    try {
+      description = ValidateInput.getUserString(request, "description", 1, 
+          ListingConstants.MAX_CONTENT_LEN);
+    } catch (Exception e) {
+      ValidateInput.createErrorMessage(e, response);
+      return;
+    }  
+
+    String howToHelp;
+    try {
+      howToHelp = ValidateInput.getUserString(request, "howToHelp", 1, 
+          ListingConstants.MAX_CONTENT_LEN);
+    } catch (Exception e) {
+      ValidateInput.createErrorMessage(e, response);
+      return;
+    }  
+
+    String location;
+    try {
+      location = ValidateInput.getUserString(request, "location", 1, 
+          ListingConstants.MAX_LOCATION_LEN);
+    } catch (Exception e) {
+      ValidateInput.createErrorMessage(e, response);
+      return;
+    } 
+
+    String name;
+    try {
+      name = ValidateInput.getUserString(request, "name", 1, 
+          ListingConstants.MAX_NAME_LEN);
+    } catch (Exception e) {
+      ValidateInput.createErrorMessage(e, response);
+      return;
+    } 
+
+    String type;
+    try {
+      type = ValidateInput.getUserString(request, "type", 1, 
+          ListingConstants.MAX_TYPE_LEN);
+    } catch (Exception e) {
+      ValidateInput.createErrorMessage(e, response);
+      return;
+    } 
+
+    // Uploading an image is optional
+    String imageURL = ValidateInput.getUploadedFileUrl(request, "image", ""); 
+
+    // There are no char limit for website and website is optional
+    String website = ValidateInput.getParameter(request, "website", "");
+  
     long timestamp = System.currentTimeMillis();
 
     Entity listingEntity = new Entity("Listing");
-    listingEntity.setProperty("name", name);
-    listingEntity.setProperty("type", type);
-    listingEntity.setProperty("location", location);
-    listingEntity.setProperty("howToHelp", howToHelp);
     listingEntity.setProperty("description", description);
+    listingEntity.setProperty("howToHelp", howToHelp);
+    listingEntity.setProperty("imageURL", imageURL);
+    listingEntity.setProperty("location", location);
+    listingEntity.setProperty("name", name);
+    listingEntity.setProperty("timestamp",timestamp);
+    listingEntity.setProperty("type", type);
     listingEntity.setProperty("upvotes", 0);
     listingEntity.setProperty("downvotes", 0);
     listingEntity.setProperty("views", 0);
-    listingEntity.setProperty("timestamp",timestamp);
+    listingEntity.setProperty("website", website);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();    
     
     datastore.put(listingEntity);
     
-    response.sendRedirect("/index.html");
+    // Returns a success message since everything went smoothly
+    ValidateInput.createSuccessMessage(response);
   }
   /**
    * Obtains user input and returns the value of that input.

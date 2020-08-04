@@ -19,11 +19,11 @@ import {
  * @param containerElement the element that append the listings to
  * @param listingsClass the class attribute for the listings div
  * @param listingsId the id attribute for the listings div
- * @param queryString the String the represents the query to a servlet that 
+ * @param queryString the String that represents the query to a servlet that 
  *     returns a List of Listings
  * @return a div that represents a group of listings
  */
-export default function getListings(containerElement, listingsClass, listingsId,
+function getListings(containerElement, listingsClass, listingsId,
     queryString) {
   console.log("Fetching user listings data");
   fetch(queryString)
@@ -79,6 +79,8 @@ function createListing(cardElementId, listing) {
 
   // Create listing preview
   console.log("Creating listing preview");
+  console.log("Listing: " + listing);
+  console.log("Listing type: " + (typeof listing));
   sectionListing.appendChild(createListingPreview(listing, cardElementDisplay, 
       cardElementId));
     
@@ -89,3 +91,8 @@ function createListing(cardElementId, listing) {
 
   return sectionListing;
 }
+
+export {
+  createListing,
+  getListings
+};

@@ -20,22 +20,24 @@ import java.util.Date;
 /** A listing */ 
 public final class Listing {
 
+  private final String dateCreated;
   private final String description;
   private final String howToHelp;
+  private final String imageURL;
   private final String location;
   private final String name;
-  private final String dateCreated;
   private final String type;
   private final int upvotes;
   private final int downvotes;
   private final int views;
   private final String website;
 
-  public Listing(String description, String howToHelp, String location, 
-      String name, long timestamp, String type, int upvotes, int downvotes, 
-      int views, String website) {
+  public Listing(String description, String howToHelp, String imageURL, 
+      String location, String name, long timestamp, String type, int upvotes, 
+      int downvotes, int views, String website) {
     this.description = description;
     this.howToHelp = howToHelp;
+    this.imageURL = imageURL;
     this.location = location;
     this.name = name;
 

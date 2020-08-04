@@ -39,9 +39,9 @@ export default function createListingPreview(listing, listingDisplay, listingId)
   });
 
   console.log("Creating listing information");
-  const exImgSrc = '';
+  const imageURL = listing.imageURL;
   const upvotes = listing.upvotes.toLocaleString();
-  sectionListing.appendChild(createListingInformation(exImgSrc, upvotes));
+  sectionListing.appendChild(createListingInformation(imageURL, upvotes));
 
   console.log('Creating listing details')
   const description = listing.description;  
@@ -56,15 +56,15 @@ export default function createListingPreview(listing, listingDisplay, listingId)
 /**
  * Create an element with listing information
  *
- * @param imgSrc the source of the listing image
+ * @param imageURL the source of the listing image
  * @param upvotes the number of upvotes this listing has received
  * @return a div with the picture and the number of upvotes this listing has
  */
-function createListingInformation(imgSrc, upvotes) {
+function createListingInformation(imageURL, upvotes) {
   const divListingInfo = createDivElement('', 'preview-info', '');
 
   divListingInfo.appendChild(
-    createImgElement(imgSrc, 'Listing preview image', 'listing-image', ''));
+    createImgElement(imageURL, 'Listing preview image', 'listing-image', ''));
 
   divListingInfo.appendChild(
     createSpanElement('Reputation: ' + upvotes + ' upvotes', 

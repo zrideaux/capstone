@@ -13,18 +13,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <meta name="google-signin-client_id">
     <script src="miscellaneous.js"></script>
-    <script type="module">
-      window.displayErrorMessage = function(errorMessage) {
-        displayErrorMessage(errorMessage);
-      }
-    </script>
     <script type="module" src="scripts/new-listing.js"></script>
     <script src="/scripts/authentication.js"></script>
   </head>
   <body onload="init()">
     <script type="module">
-      import displayPreviewListing from './scripts/new-listing.js'
+      import { 
+        createNewListing,
+        displayPreviewListing
+      } from './scripts/new-listing.js'
 
+      window.createNewListing = function() {
+        createNewListing();
+      }
+      
       window.displayPreviewListing = function() {
         displayPreviewListing();
       }
@@ -131,11 +133,13 @@
             <label for="cause-image" class="form-label">Add An Image</label>
             <p class="sublabel">Add a preview image for the cause. </p>
             <br>
-            <input id="cause-image" type="file" id="myFile" name="filename">
+            <form enctype="multipart/form-data" id="new-listing-form" 
+                name="new-listing-form">
+              <input id="cause-image" type="file" id="myFile" name="image" form="new-listing-form">
+            </form>
           </li>
         </ul>
-        <a href="user.html">"Submit"</a>
-        <button>Submit</button>
+        <button type="button" onclick="createNewListing()">Submit</button>
         <button type="button" onclick="displayPreviewListing()">
           Make Preview
         </button>
