@@ -70,35 +70,12 @@ public class FetchUserListings extends HttpServlet {
           ValidateInput.createErrorMessage(e, response);
           return;
         }
-        listings.add(createListing(listingEntity));
+        listings.add(Listing.createListing(listingEntity));
       } 
     }
 
     String jsonListings = new Gson().toJson(listings);
     response.setContentType("application/json;");
     response.getWriter().println(jsonListings);
-  }
-
-  /**
-   * Creates a Listing object from an Entity object that represents a listing
-   *
-   * @param entity the entity that represents a listing
-   * @return a Listing with all of the properties from the Entity
-   */
-  public static Listing createListing(Entity entity) {
-    String description = (String) entity.getProperty("description");
-    String howToHelp = (String) entity.getProperty("howToHelp");
-    String imageURL = (String) entity.getProperty("imageURL");
-    String location = (String) entity.getProperty("location");
-    String name = (String) entity.getProperty("name");
-    long timestamp = (long) entity.getProperty("timestamp");
-    String type = (String) entity.getProperty("type");
-    int upvotes = (int) entity.getProperty("upvotes");
-    int downvotes = (int) entity.getProperty("downvotes");
-    int views = (int) entity.getProperty("views");
-    String website = (String) entity.getProperty("website");
-
-    return new Listing(description, howToHelp, imageURL, location, name, 
-        timestamp, type, upvotes, downvotes, views, website);
   }
 }
