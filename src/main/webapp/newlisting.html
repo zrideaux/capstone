@@ -18,8 +18,15 @@
   </head>
   <body onload="init()">
     <script type="module">
-      import displayPreviewListing from './scripts/new-listing.js'
+      import { 
+        createNewListing,
+        displayPreviewListing
+      } from './scripts/new-listing.js'
 
+      window.createNewListing = function() {
+        createNewListing();
+      }
+      
       window.displayPreviewListing = function() {
         displayPreviewListing();
       }
@@ -126,11 +133,13 @@
             <label for="cause-image" class="form-label">Add An Image</label>
             <p class="sublabel">Add a preview image for the cause. </p>
             <br>
-            <input id="cause-image" type="file" id="myFile" name="filename">
+            <form enctype="multipart/form-data" id="new-listing-form" 
+                name="new-listing-form">
+              <input id="cause-image" type="file" id="myFile" name="image" form="new-listing-form">
+            </form>
           </li>
         </ul>
-        <a href="user.html">"Submit"</a>
-        <button>Submit</button>
+        <button type="button" onclick="createNewListing()">Submit</button>
         <button type="button" onclick="displayPreviewListing()">
           Make Preview
         </button>

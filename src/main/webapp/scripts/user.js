@@ -10,7 +10,7 @@ import {
   toggleTabDisplay
 } from './miscellaneous.js';
 
-import getListings from './listing.js';
+import { getListings } from './listing.js';
 
 /**
  * Create an element that shows a listing detailed view

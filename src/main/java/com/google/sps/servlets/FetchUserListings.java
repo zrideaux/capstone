@@ -88,6 +88,7 @@ public class FetchUserListings extends HttpServlet {
   public static Listing createListing(Entity entity) {
     String description = (String) entity.getProperty("description");
     String howToHelp = (String) entity.getProperty("howToHelp");
+    String imageURL = (String) entity.getProperty("imageURL");
     String location = (String) entity.getProperty("location");
     String name = (String) entity.getProperty("name");
     long timestamp = (long) entity.getProperty("timestamp");
@@ -97,7 +98,7 @@ public class FetchUserListings extends HttpServlet {
     int views = (int) entity.getProperty("views");
     String website = (String) entity.getProperty("website");
 
-    return new Listing(description, howToHelp, location, name, timestamp, type, 
-        upvotes, downvotes, views, website);
+    return new Listing(description, howToHelp, imageURL, location, name, 
+        timestamp, type, upvotes, downvotes, views, website);
   }
 }
