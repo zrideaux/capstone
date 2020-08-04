@@ -14,6 +14,11 @@
 
 package com.google.sps.data;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+
 /** A user */ 
 public final class User {
 
@@ -30,5 +35,26 @@ public final class User {
     this.username = username;
     this.createdListingKeys = createdListingKeys;
     this.upvotedListingKeys = upvotedListingKeys;
+  }
+
+    /**
+   * Add a specified listing key to a property in a userEntity.  
+   *
+   * @param datastore a datastore service instance
+   * @param userEntity an entity representing a User
+   * @param listingKey the key representing a specific Listing entity
+   * @param property the property to append the key to 
+   */
+  public static void addListingKeyToUserEntity(DatastoreService datastore,
+      Entity userEntity, Key listingKey, String property) {
+    // Get the string of listing keys from userEntity's specified property
+    // This should most likely be createdListingKeys, upvotedListingKeys,
+    // or downvotedListingKeys
+    String listingKeysString = (String) userEntity.getProperty(property);
+    
+    // Append a new listing key to the end of listingKeysString and update userEntity
+    listingKeysString += KeyFactory.keyToString(listingKey) + " ";
+    userEntity.setProperty(property, listingKeysString);
+    datastore.put(userEntity);
   }
 }
