@@ -47,13 +47,16 @@ public class FetchUser extends HttpServlet {
       throws IOException {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
-    // Receive input from the modify number of comments shown form
+    System.err.println("BRO WE IN THE SERVER SERVER");
+
+    // Get the user Entity object from the 
     Entity userEntity;
     try {
       userEntity = AuthenticationUtility.getCurrentUserEntity(datastore, 
           request);
     } catch (Exception e) {
       ValidateInput.createErrorMessage(e, response);
+      return;
     }
 
     User user = User.createUser(userEntity);

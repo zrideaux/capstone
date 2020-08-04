@@ -14,22 +14,27 @@
 
 package com.google.sps.data;
 
+import com.google.appengine.api.datastore.Entity;
+
 /** A user */ 
 public final class User {
 
   private final String bio;
   private final String email;
   private final String username;
-  private final String createdListingKeys;
-  private final String upvotedListingKeys;
+  private final String[] createdListingKeys;
+  private final String[] upvotedListingKeys;
+  private final String[] downvotedListingKeys;
 
   public User(String bio, String email, String username, 
-      String createdListingKeys, String upvotedListingKeys) {
+      String[] createdListingKeys, String[] upvotedListingKeys, 
+      String[] downvotedListingKeys) {
     this.bio = bio;
     this.email = email;
     this.username = username;
     this.createdListingKeys = createdListingKeys;
     this.upvotedListingKeys = upvotedListingKeys;
+    this.downvotedListingKeys = downvotedListingKeys;
   }
 
   /**
@@ -42,10 +47,14 @@ public final class User {
     String bio = (String) entity.getProperty("bio");
     String email = (String) entity.getProperty("email");
     String username = (String) entity.getProperty("username");
-    String createdListingKeys = (String) entity.getProperty("createdListingKeys");
-    String upvotedListingKeys = (String) entity.getProperty("upvotedListingKeys");
+    String[] createdListingKeys = (String[]) entity
+        .getProperty("createdListingKeys");
+    String[] upvotedListingKeys = (String[]) entity
+        .getProperty("upvotedListingKeys");
+    String[] downvotedListingKeys = (String[]) entity
+        .getProperty("downvotedListingKeys");
 
     return new User(bio, email, username, createdListingKeys, 
-        upvotedListingKeys);
+        upvotedListingKeys, downvotedListingKeys);
   }  
 }
