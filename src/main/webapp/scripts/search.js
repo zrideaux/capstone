@@ -16,6 +16,8 @@ export default function displayListings(containerElement) {
  */
 function getSearchParameters() {
   const filterTypes = getCheckboxesByName('search-type-option');
+  console.log("FILTER type: " + filterTypes);
+  console.log("LENGTH filter type: " + filterTypes.length);
   const filterRadius = getRadioByName('search-radius-option');
   const sort = getRadioByName('search-sort-option');
   let param = 'type-filters=' + filterTypes;

@@ -41,13 +41,14 @@ import com.google.sps.utility.ValidateInput;
 @WebServlet("/fetch-listings")
 public class FetchListings extends HttpServlet {
 
-  // Based on the lenght of the shortest/longest filter category
-  static final int FILTER_MIN = 5;
-  static final int FILTER_MAX = 9;
-  // Based on the lenght of the shortest/longest radius category 
+  // Based on the length of the String when no filters are checked (MIN) or 
+  //     when all filters are checked and separated by "@" (MAX)
+  static final int FILTER_MIN = 0;
+  static final int FILTER_MAX = 31;
+  // Based on the length of the shortest/longest radius category 
   static final int RADIUS_MIN = 2;
   static final int RADIUS_MAX = 4;
-  // Based on the lenght of the shortest/longest sort category 
+  // Based on the length of the shortest/longest sort category 
   static final int SORT_MIN = 10;
   static final int SORT_MAX = 12;
 
@@ -65,36 +66,49 @@ public class FetchListings extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) 
       throws IOException {
     // Get the parameters
-    String listingTypeFilter;
+    String typeFiltersString;
     try {
-      listingTypeFilter = ValidateInput.getUserString(request, 
-        "type-filters", FILTER_MIN, FILTER_MAX, "");
+      typeFiltersString = ValidateInput.getUserString(request, 
+        "type-filters", FILTER_MIN, FILTER_MAX);
     } catch (Exception e) {
       ValidateInput.createErrorMessage(e, response);
       return;
     } 
 
-    String listingRadiusFilter;
+    String radiusFilter;
     try {
-      listingRadiusFilter = ValidateInput.getUserString(request, 
+      radiusFilter = ValidateInput.getUserString(request, 
         "radius-filter", RADIUS_MIN, RADIUS_MAX, "");
     } catch (Exception e) {
       ValidateInput.createErrorMessage(e, response);
       return;
     } 
 
-    String listingSortBy;
+    String sortBy;
     try {
-      listingSortBy = ValidateInput.getUserString(request, 
+      sortBy = ValidateInput.getUserString(request, 
         "sort", SORT_MIN, SORT_MAX, "recommended");
     } catch (Exception e) {
       ValidateInput.createErrorMessage(e, response);
       return;
     } 
 
-    // Filter the Listings in the backend
+    // Prepare to fetch entities from the backend
     Query queryListing = new Query("Listing");
-    if (listingTypeFilter.length() > 0) {
+
+    // Filter the Listings in the backend
+    int typeFiltersStringLength = typeFiltersString.length();
+    boolean someTypeFiltersChecked = typeFiltersStringLength > 0 && 
+        typeFiltersStringLength < FILTER_MAX;
+    if (someTypeFiltersChecked) {
+      List<Query.Filter> listingTypeFilters = new ArrayList<Query.Filter>();
+
+      String[] typeFilters = typeFiltersString.split("@");
+      for (String typeFilter : typeFilters) {
+        listingTypeFilters.add(new FilterPredicate("type", FilterOperator.EQUAL,
+            typeFilter));
+      }
+      
       FilterPredicate filterListings = new FilterPredicate("type", 
           FilterOperator.EQUAL, listingTypeFilter);
       queryListing = queryListing.setFilter(filterListings);
