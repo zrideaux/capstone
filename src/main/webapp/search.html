@@ -10,41 +10,40 @@
     <link rel="stylesheet" type="text/css" 
         href="stylesheets/listing-detailed.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script type="module" src="scripts/miscellaneous.js"></script>
-    <script type="module" src="scripts/search.js"></script>
+
+    <script src="miscellaneous.js"></script>
+    <script type="module" src="/scripts/authentication.js"></script>
+    <script type="module" src="/scripts/search.js"></script>
   </head>
   <body>
     <script type="module">
-      import { toggleDropdown } from './scripts/miscellaneous.js';
+      import { toggleDropdown } from './scripts/miscellaneous.js'
 
       window.toggleDropdown = function(menuName) {
         toggleDropdown(menuName);
       }
     </script>
+
     <header id="search-box" class="shadow-box">
       <nav>
         <a href="index.html"><img id="logo" src="images/placeholder_logo.png" alt="logo"></a>
         <div id="nav-links">
           <a class="nav-link" href="search.html">
             <i class="material-icons">search</i>
-            <!-- <span>Search</span> -->
           </a>
-          <a class="nav-link" href="newlisting.html">
+          <a class="nav-link user-only" href="newlisting.html">
             <i class="material-icons">add_box</i>
-            <!-- <span>Post</span> -->
           </a>
           <a class="nav-link" href="about.html">
             <i class="material-icons">book</i>
-            <!-- <span>About</span> -->
           </a>
-          <a class="nav-link" href="search.html">
+          <a class="nav-link" href="#">
             <i class="material-icons">phone</i>
-            <!-- <span>Contact</span> -->
           </a>
-          <a class="nav-link" href="user.html">
+          <a class="nav-link user-only" href="user.html">
             <i class="material-icons">account_box</i>
-            <!-- <span>Profile</span> -->
           </a>
+          <a id="authentication-link" class="nav-link"></a>
         </div>
       </nav>
       
