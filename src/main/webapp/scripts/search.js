@@ -2,24 +2,7 @@ import {
   getListings
 } from './listing.js';
 
-import { 
-  getCheckboxesByName,
-  getRadioByName
-} from './miscellaneous.js';
-
 export default function displayListings(containerElement) {
-  const queryString = '/fetch-listings?' + getSearchParameters();
+  const queryString = '/fetch-listings';
   getListings(containerElement, '', 'search-listings', queryString);
-}
-
-/**
- */
-function getSearchParameters() {
-  const filterTypes = getCheckboxesByName('search-type-option');
-  const filterRadius = getRadioByName('search-radius-option');
-  const sort = getRadioByName('search-sort-option');
-  let param = 'type-filters=' + filterTypes;
-  param += '&radius-filter' + filterRadius;
-  param += '&sort' + sort;
-  return param;
 }

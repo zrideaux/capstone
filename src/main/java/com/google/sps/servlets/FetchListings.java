@@ -41,16 +41,6 @@ import com.google.sps.utility.ValidateInput;
 @WebServlet("/fetch-listings")
 public class FetchListings extends HttpServlet {
 
-  // Based on the lenght of the shortest/longest filter category
-  static final int FILTER_MIN = 5;
-  static final int FILTER_MAX = 9;
-  // Based on the lenght of the shortest/longest radius category 
-  static final int RADIUS_MIN = 2;
-  static final int RADIUS_MAX = 4;
-  // Based on the lenght of the shortest/longest sort category 
-  static final int SORT_MIN = 10;
-  static final int SORT_MAX = 12;
-
   static final int LISTING_LIMIT = 50;
 
   /** 
@@ -64,52 +54,21 @@ public class FetchListings extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) 
       throws IOException {
-    // Get the parameters
-    String listingTypeFilter;
-    try {
-      listingTypeFilter = ValidateInput.getUserString(request, 
-        "type-filters", FILTER_MIN, FILTER_MAX, "");
-    } catch (Exception e) {
-      ValidateInput.createErrorMessage(e, response);
-      return;
-    } 
+    // Get Parameters here
 
-    String listingRadiusFilter;
-    try {
-      listingRadiusFilter = ValidateInput.getUserString(request, 
-        "radius-filter", RADIUS_MIN, RADIUS_MAX, "");
-    } catch (Exception e) {
-      ValidateInput.createErrorMessage(e, response);
-      return;
-    } 
-
-    String listingSortBy;
-    try {
-      listingSortBy = ValidateInput.getUserString(request, 
-        "sort", SORT_MIN, SORT_MAX, "recommended");
-    } catch (Exception e) {
-      ValidateInput.createErrorMessage(e, response);
-      return;
-    } 
-
-    // Filter the Listings in the backend
     Query queryListing = new Query("Listing");
-    if (listingTypeFilter.length() > 0) {
-      FilterPredicate filterListings = new FilterPredicate("type", 
-          FilterOperator.EQUAL, listingTypeFilter);
-      queryListing = queryListing.setFilter(filterListings);
-    }
+
+    // Filter Listings here
     
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery preparedQueryListings = datastore.prepare(queryListing);
 
-    FetchOptions entitiesLimit = FetchOptions.Builder.withLimit(10);
+    FetchOptions entitiesLimit = FetchOptions.Builder.withLimit(LISTING_LIMIT);
     List<Entity> listingEntities = preparedQueryListings.asList(entitiesLimit);
 
     // Turn Entities into Listings
     List<Listing> listings = new ArrayList<Listing>();
     for (Entity listingEntity : listingEntities) {
-      // Entity listingEntity = listingEntities.get(i);
       listings.add(Listing.createListing(listingEntity));
     }
 
