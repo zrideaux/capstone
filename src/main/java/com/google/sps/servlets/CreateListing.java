@@ -17,11 +17,14 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Key;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import com.google.sps.data.User;
+import com.google.sps.utility.AuthenticationUtility;
 import com.google.sps.utility.ListingConstants;
 import com.google.sps.utility.ValidateInput;
 
@@ -100,9 +103,8 @@ public class CreateListing extends HttpServlet {
     listingEntity.setProperty("website", website);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();    
-    
-    datastore.put(listingEntity);
-    
+    Key listingEntityKey = datastore.put(listingEntity);
+
     // Returns a success message since everything went smoothly
     ValidateInput.createSuccessMessage(response);
   }

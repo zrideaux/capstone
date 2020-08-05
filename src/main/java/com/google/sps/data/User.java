@@ -14,6 +14,11 @@
 
 package com.google.sps.data;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+
 /** A user */ 
 public final class User {
 
@@ -30,5 +35,24 @@ public final class User {
     this.username = username;
     this.createdListingKeys = createdListingKeys;
     this.upvotedListingKeys = upvotedListingKeys;
+  }
+
+  /**
+   * Create and return a new user entity.
+   * 
+   * @param request an http request to the servlet
+   * @param userEmail the email to be associated with a the new user entity
+   */
+  public static Entity createUserEntity(String userEmail) {
+    // Create User entity and add to datastore
+    Entity newUserEntity = new Entity("User");
+    newUserEntity.setProperty("email", userEmail);
+    newUserEntity.setProperty("username", "");
+    newUserEntity.setProperty("bio", "");
+    newUserEntity.setProperty("createdListingKeys", " ");
+    newUserEntity.setProperty("upvotedListingKeys", " ");
+    newUserEntity.setProperty("downvotedListingKeys", " ");
+
+    return newUserEntity;
   }
 }

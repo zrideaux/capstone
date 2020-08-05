@@ -87,10 +87,10 @@ public class CreateUser extends HttpServlet {
     newUserEntity.setProperty("email", userEmail);
     newUserEntity.setProperty("username", "");
     newUserEntity.setProperty("bio", "");
-    newUserEntity.setProperty("createdListingKeys", "");
-    newUserEntity.setProperty("upvotedListingKeys", "");
-    newUserEntity.setProperty("downvotedListingKeys", "");
-    
+    newUserEntity.setProperty("createdListingKeys", " ");
+    newUserEntity.setProperty("upvotedListingKeys", " ");
+    newUserEntity.setProperty("downvotedListingKeys", " ");
+
     return newUserEntity;
   }
 }
