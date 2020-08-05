@@ -18,6 +18,8 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -102,22 +104,18 @@ public class CreateListing extends HttpServlet {
     listingEntity.setProperty("views", 0);
     listingEntity.setProperty("website", website);
 
+    // Place the new listing entity in datastore and save its key
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();    
     Key listingEntityKey = datastore.put(listingEntity);
+    
+    // Get current user and place the entity in their created listings property
+    UserService userService = UserServiceFactory.getUserService();
+    Entity currentUser = AuthenticationUtility.getCurrentUserEntity(
+        datastore, userService);
+    User.addListingKeyToUserEntity(datastore, currentUser, 
+        listingEntityKey, "createdListingKeys");
 
     // Returns a success message since everything went smoothly
     ValidateInput.createSuccessMessage(response);
-  }
-  /**
-   * Obtains user input and returns the value of that input.
-   * 
-   * @returns The value of the input, or defaultValue if name does not exist.
-   */
-  private String getParameter(HttpServletRequest request, String attribute, String defaultValue) {
-    String value = request.getParameter(attribute);
-    if (value == null) {
-      return defaultValue;
-    }
-    return value;
   }
 }
