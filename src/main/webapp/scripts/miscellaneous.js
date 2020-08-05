@@ -7,14 +7,16 @@
  */
 function getCheckboxesByName(name) {
   const checkboxGroup = document.getElementsByName(name);
-  let checkedChechboxes = '';
+  let checkedCheckboxes = '';
   for (let i = 0; i < checkboxGroup.length; i++) {
     const checkbox = checkboxGroup[i];
     if (checkbox.checked) {
-      checkedChechboxes += ' ' + checkbox.value;
+      checkedCheckboxes += checkbox.value + '@';
     }
   }
-  return checkedChechboxes;
+
+  // Remove the last @ and return the String
+  return checkedCheckboxes.substring(0, checkedCheckboxes.length - 1);
 }
 
 /**

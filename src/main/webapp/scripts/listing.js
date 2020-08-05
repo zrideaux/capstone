@@ -26,12 +26,8 @@ import {
 function getListings(containerElement, listingsClass, listingsId,
     queryString) {
   console.log("Fetching user listings data");
-  console.log("SERVLET: " + queryString);
   fetch(queryString)
-      .then((response) => {
-        console.log("RESPONSE: " + response);
-        return response.json()
-      })
+      .then(response => response.json())
       .then((listingsArray) => {
         console.log("RESPONSE JSON: " + listingsArray);
         if (isErrorMessage(listingsArray)) {
