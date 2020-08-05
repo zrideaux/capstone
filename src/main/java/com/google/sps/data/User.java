@@ -38,7 +38,7 @@ public final class User {
   }
 
   /**
-   * Create a new user entity and place it in the datastore.
+   * Create and return a new user entity.
    * 
    * @param request an http request to the servlet
    * @param userEmail the email to be associated with a the new user entity
