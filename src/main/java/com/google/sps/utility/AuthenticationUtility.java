@@ -40,6 +40,7 @@ public class AuthenticationUtility {
   /**
    * Return a User Entity that matches a provided email.
    *
+   * @param datastore an instance of DatastoreService
    * @param email the email to check for in the query.
    * @return a User Entity matching email
    */
@@ -57,10 +58,12 @@ public class AuthenticationUtility {
    * Return a boolean detailing if there is an account associated with a given
    * email.
    * 
+   * @param datastore an instance of DatastoreService
    * @param email the email to check for in the query.
    * @return true if account associated with email exists
    */
-  public static boolean userAlreadyHasAccount(DatastoreService datastore, String email) {
+  public static boolean userAlreadyHasAccount(DatastoreService datastore,
+      String email) {
     // Perform a query to find any accounts associated with email
     Filter emailFilter = new FilterPredicate("email", FilterOperator.EQUAL, email);
     Query userQuery = new Query("User").setFilter(emailFilter);
@@ -74,7 +77,15 @@ public class AuthenticationUtility {
     }
   }
 
-  public static Entity getCurrentUserEntity(DatastoreService datastore, UserService userService) {
+  /**
+   * Gets the entity associated with the currently logged in user.
+   * 
+   * @param datastore an instance of DatastoreService
+   * @param userService an instance of UserService
+   * @return the entity associated with the currently logged in user
+   */
+  public static Entity getCurrentUserEntity(DatastoreService datastore,
+      UserService userService) {
     String userEmail = userService.getCurrentUser().getEmail();
     Entity userEntity = getUserByEmail(datastore, userEmail);
     return userEntity;
