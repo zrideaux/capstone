@@ -68,16 +68,16 @@ public class FetchListings extends HttpServlet {
     String listingTypeFilter;
     try {
       listingTypeFilter = ValidateInput.getUserString(request, 
-        "filters", FILTER_MIN, FILTER_MAX, "");
+        "type-filters", FILTER_MIN, FILTER_MAX, "");
     } catch (Exception e) {
       ValidateInput.createErrorMessage(e, response);
       return;
     } 
 
-    String listingRadius;
+    String listingRadiusFilter;
     try {
-      listingRadius = ValidateInput.getUserString(request, 
-        "radius", RADIUS_MIN, RADIUS_MAX, "recommended");
+      listingRadiusFilter = ValidateInput.getUserString(request, 
+        "radius-filter", RADIUS_MIN, RADIUS_MAX, "");
     } catch (Exception e) {
       ValidateInput.createErrorMessage(e, response);
       return;
@@ -103,12 +103,13 @@ public class FetchListings extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery preparedQueryListings = datastore.prepare(queryListing);
 
-    FetchOptions entitiesLimit = FetchOptions.Builder.withLimit(LISTING_LIMIT);
+    FetchOptions entitiesLimit = FetchOptions.Builder.withLimit(10);
     List<Entity> listingEntities = preparedQueryListings.asList(entitiesLimit);
 
     // Turn Entities into Listings
     List<Listing> listings = new ArrayList<Listing>();
     for (Entity listingEntity : listingEntities) {
+      // Entity listingEntity = listingEntities.get(i);
       listings.add(Listing.createListing(listingEntity));
     }
 

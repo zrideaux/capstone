@@ -14,6 +14,7 @@
 
 package com.google.sps.data;
 
+import java.lang.Math;
 import java.sql.Timestamp;
 import java.util.Date;
 import com.google.appengine.api.datastore.Entity;
@@ -92,9 +93,9 @@ public final class Listing {
     String name = (String) entity.getProperty("name");
     long timestamp = (long) entity.getProperty("timestamp");
     String type = (String) entity.getProperty("type");
-    int upvotes = (int) entity.getProperty("upvotes");
-    int downvotes = (int) entity.getProperty("downvotes");
-    int views = (int) entity.getProperty("views");
+    int upvotes = Math.toIntExact((long) entity.getProperty("upvotes"));
+    int downvotes = Math.toIntExact((long) entity.getProperty("downvotes"));
+    int views = Math.toIntExact((long) entity.getProperty("views"));
     String website = (String) entity.getProperty("website");
 
     return new Listing(description, howToHelp, imageURL, location, name, 
