@@ -1,4 +1,40 @@
 /**
+ * Gets the checkbox value(s) that have been checked or '' if none have been 
+ *     checked
+ * 
+ * @param name the name of the checkbox group
+ * @return the values of the checkbox that are checked or '' if none are checked
+ */
+function getCheckboxesByName(name) {
+  const checkboxGroup = document.getElementsByName(name);
+  let checkedChechboxes = '';
+  for (let i = 0; i < checkboxGroup.length; i++) {
+    const checkbox = checkboxGroup[i];
+    if (checkbox.checked) {
+      checkedChechboxes += ' ' + checkbox.value;
+    }
+  }
+  return checkedChechboxes;
+}
+
+/**
+ * Gets the radio value that has been checked or '' if none have been checked
+ * 
+ * @param name the name of the radio group
+ * @return the value of the radio that is checked or '' if none are checked
+ */
+function getRadioByName(name) {
+  const radioGroup = document.getElementsByName(name);
+  for (let i = 0; i < radioGroup.length; i++) {
+    const radio = radioGroup[i];
+    if (radio.checked) {
+      return radio.value;
+    }
+  }
+  return '';
+}
+
+/**
  * Hide all dropdown menus when called.
  */
 function hideDropdownMenus() {
@@ -114,6 +150,8 @@ function toggleTabDisplay(elementDisplay, elementId, otherElementId,
 }
 
 export { 
+  getCheckboxesByName,
+  getRadioByName,
   hideDropdownMenus, 
   ifErrorDisplayMessage,
   isErrorMessage, 
