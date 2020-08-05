@@ -35,7 +35,7 @@ public class Authentication extends HttpServlet {
   /**
    * Checks if a user is logged in and performs appropriate actions
    * depending whether they are or not.
-   * 
+   *
    * @param request an http request to the servlet
    * @param response the http response sent 
    */
@@ -43,7 +43,6 @@ public class Authentication extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
 
-    AuthenticationUtility utility = new AuthenticationUtility();
     UserService userService = UserServiceFactory.getUserService();
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     
@@ -70,7 +69,7 @@ public class Authentication extends HttpServlet {
 
       // Check if an existing user entity is associated with the current user's
       // email. If not, create a new user entity that is.
-      if (utility.userAlreadyHasAccount(datastore, userEmail)) {
+      if (AuthenticationUtility.userAlreadyHasAccount(datastore, userEmail)) {
         userEntityStatus = "No user entity created."
             + " There is already a user associated with this email.";
       } else {
