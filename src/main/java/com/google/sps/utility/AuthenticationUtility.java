@@ -110,63 +110,9 @@ public class AuthenticationUtility {
     }
   }
 
-  /**
-   * Retrieves the User entity associated with the currently logged in user
-   * if one exists.
-   * @deprecated
-   *
-   * @param request an http request to the servlet, should include "idtoken"
-   *     parameter
-   */
-  public static Entity getCurrentUserEntity(DatastoreService datastore, 
-      HttpServletRequest request) throws Exception {
-    try {
-      // Verify that user is signed in with a valid account
-      GoogleIdToken idToken = getIdToken(request);
-      Entity userEntity = new Entity("User");
-
-      if (idToken != null) {
-        // Get payload for user
-        Payload userPayload = idToken.getPayload();
-        String userEmail = userPayload.getEmail();
-        userEntity = getUserByEmail(datastore, userEmail);
-        
-        return userEntity;
-      } else {
-        throw new Exception("idToken is null");
-      }
-    } catch (Exception e) {
-      throw e;
-    }
-  }
-
   public static Entity getCurrentUserEntity(DatastoreService datastore, UserService userService) {
     String userEmail = userService.getCurrentUser().getEmail();
     Entity userEntity = getUserByEmail(datastore, userEmail);
     return userEntity;
-  }
-
-  /**
-   * Retrieves the email associated with the currently logged in user.
-   *
-   * @param request an http request to the servlet, should include "idtoken"
-   *     parameter
-   */
-  public static String getCurrentUserEmail(HttpServletRequest request) throws Exception {
-    try {  
-      // Verify that user is signed in with a valid account
-      GoogleIdToken idToken = getIdToken(request);
-      String userEmail = new String();
-      if (idToken != null) {
-        // Get payload for user
-        Payload userPayload = idToken.getPayload();
-        userEmail = userPayload.getEmail();
-        return userEmail;
-      } else {
-        throw new Exception("idToken is null");
-      }
-    } catch (Exception e) {
-      throw e;
-    }
   }
 }
