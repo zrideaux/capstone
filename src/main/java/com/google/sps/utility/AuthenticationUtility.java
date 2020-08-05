@@ -43,20 +43,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-public class AuthenticationUtility extends HttpServlet { 
+public class AuthenticationUtility {
   /**
    * Return a User Entity that matches a provided email.
-   * 
+   *
    * @param email the email to check for in the query.
    * @return a User Entity matching email
    */
-  public Entity getUserByEmail(DatastoreService datastore, String email) {
+  public static Entity getUserByEmail(DatastoreService datastore, String email) {
     // Perform a query to find the account associated with email
     Filter emailFilter = new FilterPredicate("email", FilterOperator.EQUAL, email);
     Query userQuery = new Query("User").setFilter(emailFilter);
     PreparedQuery preparedQuery = datastore.prepare(userQuery);
     Entity user = preparedQuery.asSingleEntity();
-    
+
     return user;
   }
 
@@ -67,7 +67,7 @@ public class AuthenticationUtility extends HttpServlet {
    *     parameter
    * @return a verified Google id token or null if it is invalid
    */
-  public GoogleIdToken getIdToken(HttpServletRequest request) throws Exception {
+  public static GoogleIdToken getIdToken(HttpServletRequest request) throws Exception {
     try {
       final String CLIENT_ID = "client_id_goes_here";
 
@@ -77,7 +77,7 @@ public class AuthenticationUtility extends HttpServlet {
       // Get token to be verified
       String idTokenString = request.getParameter("idtoken");
 
-      // Check if the token is valid, set idToken to null if it isn't 
+      // Check if the token is valid, set idToken to null if it isn't
       GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
           .setAudience(Collections.singletonList(CLIENT_ID))
           .build();
@@ -88,7 +88,7 @@ public class AuthenticationUtility extends HttpServlet {
       throw e;
     }
   }
-  
+
   /**
    * Return a boolean detailing if there is an account associated with a given
    * email.
@@ -96,7 +96,7 @@ public class AuthenticationUtility extends HttpServlet {
    * @param email the email to check for in the query.
    * @return true if account associated with email exists
    */
-  public boolean userAlreadyHasAccount(DatastoreService datastore, String email) {
+  public static boolean userAlreadyHasAccount(DatastoreService datastore, String email) {
     // Perform a query to find any accounts associated with email
     Filter emailFilter = new FilterPredicate("email", FilterOperator.EQUAL, email);
     Query userQuery = new Query("User").setFilter(emailFilter);
@@ -113,11 +113,12 @@ public class AuthenticationUtility extends HttpServlet {
   /**
    * Retrieves the User entity associated with the currently logged in user
    * if one exists.
+   * @depracated
    *
    * @param request an http request to the servlet, should include "idtoken"
    *     parameter
    */
-  public Entity getCurrentUserEntity(DatastoreService datastore, 
+  public static Entity getCurrentUserEntity(DatastoreService datastore, 
       HttpServletRequest request) throws Exception {
     try {
       // Verify that user is signed in with a valid account
@@ -139,13 +140,19 @@ public class AuthenticationUtility extends HttpServlet {
     }
   }
 
+  public static Entity getCurrentUserEntity(DatastoreService datastore, UserService userService) {
+    String userEmail = userService.getCurrentUser().getEmail();
+    Entity userEntity = getUserByEmail(datastore, userEmail);
+    return userEntity;
+  }
+
   /**
    * Retrieves the email associated with the currently logged in user.
    *
    * @param request an http request to the servlet, should include "idtoken"
    *     parameter
    */
-  public String getCurrentUserEmail(HttpServletRequest request) throws Exception {
+  public static String getCurrentUserEmail(HttpServletRequest request) throws Exception {
     try {  
       // Verify that user is signed in with a valid account
       GoogleIdToken idToken = getIdToken(request);
