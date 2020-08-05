@@ -40,13 +40,20 @@ public class Authentication extends HttpServlet {
    * @param response the http response sent 
    */
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response)
+      throws IOException {
 
     AuthenticationUtility utility = new AuthenticationUtility();
     UserService userService = UserServiceFactory.getUserService();
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     
     HashMap<String, String> authenticationInfo = new HashMap<String, String>();
+    final String USER_IS_LOGGED_IN_KEY = "userIsLoggedIn";
+    final String USER_IS_ADMIN_KEY = "userIsAdmin";
+    final String USER_EMAIL_KEY = "userEmail";
+    final String USER_ENTITY_STATUS_KEY = "userEntityStatus";
+    final String LOGOUT_LINK_KEY = "logoutLink";
+    final String LOGIN_LINK_KEY = "loginLink";
     Gson gson = new Gson();
 
     // Check whether or not current user is logged in.
@@ -58,34 +65,37 @@ public class Authentication extends HttpServlet {
       String userEntityStatus = "";
 
       String urlToRedirectToAfterUserLogsOut = "/";
-      String logoutLink = userService.createLogoutURL(urlToRedirectToAfterUserLogsOut);
+      String logoutLink = userService.createLogoutURL(
+          urlToRedirectToAfterUserLogsOut);
 
       // Check if an existing user entity is associated with the current user's
       // email. If not, create a new user entity that is.
       if (utility.userAlreadyHasAccount(datastore, userEmail)) {
-        userEntityStatus = "No user entity created. There is already a user associated with this email.";
+        userEntityStatus = "No user entity created."
+            + " There is already a user associated with this email.";
       } else {
         datastore.put(User.createUserEntity(userEmail));
         userEntityStatus = "New user entity created.";
       }
 
       // Add information to be returned to a hashmap.
-      authenticationInfo.put("userIsLoggedIn", userIsLoggedIn);
-      authenticationInfo.put("userIsAdmin", userIsAdmin);
-      authenticationInfo.put("userEmail", userEmail);
-      authenticationInfo.put("userEntityStatus", userEntityStatus);
-      authenticationInfo.put("logoutLink", logoutLink);
+      authenticationInfo.put(USER_IS_LOGGED_IN_KEY, userIsLoggedIn);
+      authenticationInfo.put(USER_IS_ADMIN_KEY, userIsAdmin);
+      authenticationInfo.put(USER_EMAIL_KEY, userEmail);
+      authenticationInfo.put(USER_ENTITY_STATUS_KEY, userEntityStatus);
+      authenticationInfo.put(LOGOUT_LINK_KEY, logoutLink);
     } else {
       // Create information to return to front end.
       String userIsLoggedIn = "false";
       String userIsAdmin = "false";
       String urlToRedirectToAfterUserLogsIn = "/";
-      String loginLink = userService.createLoginURL(urlToRedirectToAfterUserLogsIn);
+      String loginLink = userService.createLoginURL(
+          urlToRedirectToAfterUserLogsIn);
       
       // Add information to be returned to a hashmap.
-      authenticationInfo.put("userIsLoggedIn", userIsLoggedIn);
-      authenticationInfo.put("userIsAdmin", userIsAdmin);
-      authenticationInfo.put("loginLink", loginLink);
+      authenticationInfo.put(USER_IS_LOGGED_IN_KEY, userIsLoggedIn);
+      authenticationInfo.put(USER_IS_ADMIN_KEY, userIsAdmin);
+      authenticationInfo.put(LOGIN_LINK_KEY, loginLink);
     }
   
     // Convert the authenticationInfo hashmap into JSON.
