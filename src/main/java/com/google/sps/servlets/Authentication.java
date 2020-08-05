@@ -61,11 +61,8 @@ public class Authentication extends HttpServlet {
       String userIsLoggedIn = "true";
       String userIsAdmin = String.valueOf(userService.isUserAdmin());
       String userEmail = userService.getCurrentUser().getEmail();
-      String userEntityStatus = "";
-
-      String urlToRedirectToAfterUserLogsOut = "/";
-      String logoutLink = userService.createLogoutURL(
-          urlToRedirectToAfterUserLogsOut);
+      String userEntityStatus;
+      String logoutLink = userService.createLogoutURL("/");
 
       // Check if an existing user entity is associated with the current user's
       // email. If not, create a new user entity that is.
@@ -87,9 +84,7 @@ public class Authentication extends HttpServlet {
       // Create information to return to front end.
       String userIsLoggedIn = "false";
       String userIsAdmin = "false";
-      String urlToRedirectToAfterUserLogsIn = "/";
-      String loginLink = userService.createLoginURL(
-          urlToRedirectToAfterUserLogsIn);
+      String loginLink = userService.createLoginURL("/");
       
       // Add information to be returned to a hashmap.
       authenticationInfo.put(USER_IS_LOGGED_IN_KEY, userIsLoggedIn);
