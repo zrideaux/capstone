@@ -113,7 +113,7 @@ public class AuthenticationUtility {
   /**
    * Retrieves the User entity associated with the currently logged in user
    * if one exists.
-   * @depracated
+   * @deprecated
    *
    * @param request an http request to the servlet, should include "idtoken"
    *     parameter
