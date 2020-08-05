@@ -14,13 +14,6 @@
 
 package com.google.sps.utility;
 
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.json.JsonFactory;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -58,35 +51,6 @@ public class AuthenticationUtility {
     Entity user = preparedQuery.asSingleEntity();
 
     return user;
-  }
-
-  /**
-   * Verifies and returns an id token from the "idtoken" parameter
-   *
-   * @param request an http request to the servlet, should include "idtoken"
-   *     parameter
-   * @return a verified Google id token or null if it is invalid
-   */
-  public static GoogleIdToken getIdToken(HttpServletRequest request) throws Exception {
-    try {
-      final String CLIENT_ID = "client_id_goes_here";
-
-      HttpTransport transport = GoogleNetHttpTransport.newTrustedTransport();
-      JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-
-      // Get token to be verified
-      String idTokenString = request.getParameter("idtoken");
-
-      // Check if the token is valid, set idToken to null if it isn't
-      GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
-          .setAudience(Collections.singletonList(CLIENT_ID))
-          .build();
-      GoogleIdToken idToken = verifier.verify(idTokenString);
-
-      return idToken;
-    } catch (Exception e) {
-      throw e;
-    }
   }
 
   /**
