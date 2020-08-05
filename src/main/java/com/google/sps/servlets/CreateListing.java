@@ -108,7 +108,7 @@ public class CreateListing extends HttpServlet {
 
     // Get entity associated with current user and update createdListingKeys property
     // TODO: Get entity associated with current user.
-    User.addListingKeyToUserEntity(datastore, currentUserEntity, listingEntityKey, "createdListingKeys");
+    // User.addListingKeyToUserEntity(datastore, currentUserEntity, listingEntityKey, "createdListingKeys");
 
     // try{
     //   AuthenticationUtility utility = new AuthenticationUtility();
