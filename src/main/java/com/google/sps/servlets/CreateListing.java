@@ -28,7 +28,6 @@ import com.google.sps.utility.AuthenticationUtility;
 import com.google.sps.utility.ListingConstants;
 import com.google.sps.utility.ValidateInput;
 
-
 /** Servlet takes in information from form on newlisting.html and creates listing entity*/
 @WebServlet("/create-listing")
 public class CreateListing extends HttpServlet {
