@@ -29,7 +29,6 @@ function getListings(containerElement, listingsClass, listingsId,
   fetch(queryString)
       .then(response => response.json())
       .then((listingsArray) => {
-        console.log("RESPONSE JSON: " + listingsArray);
         if (isErrorMessage(listingsArray)) {
           displayErrorMessage(listingsArray);
         } else {
