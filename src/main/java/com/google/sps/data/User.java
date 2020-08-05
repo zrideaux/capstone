@@ -38,6 +38,18 @@ public final class User {
   }
 
   /**
+   * Used to transform a String of listingkeys into a String[] of listingkeys
+   *
+   * @param entity An Entity that has a ListingKeys property
+   * @param property the name of the ListingKeys property
+   * @return a String[] of listing keys
+   */
+  private static String[] getListingKeys(Entity entity, String property) {
+    String listingKeysString = (String) entity.getProperty(property);
+    return listingKeysString.split(" ");
+  }
+
+  /**
    * Creates a User object from an Entity object that represents a user
    *
    * @param entity the entity that represents a user
@@ -47,12 +59,12 @@ public final class User {
     String bio = (String) entity.getProperty("bio");
     String email = (String) entity.getProperty("email");
     String username = (String) entity.getProperty("username");
-    String[] createdListingKeys = (String[]) entity
-        .getProperty("createdListingKeys");
-    String[] upvotedListingKeys = (String[]) entity
-        .getProperty("upvotedListingKeys");
-    String[] downvotedListingKeys = (String[]) entity
-        .getProperty("downvotedListingKeys");
+    String[] createdListingKeys = getListingKeys(entity, 
+        "createdListingKeys");
+    String[] upvotedListingKeys = getListingKeys(entity, 
+        "upvotedListingKeys");
+    String[] downvotedListingKeys = getListingKeys(entity, 
+        "downvotedListingKeys");  
 
     return new User(bio, email, username, createdListingKeys, 
         upvotedListingKeys, downvotedListingKeys);
