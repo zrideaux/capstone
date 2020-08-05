@@ -14,13 +14,6 @@
 
 package com.google.sps.utility;
 
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.json.JsonFactory;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -47,6 +40,7 @@ public class AuthenticationUtility {
   /**
    * Return a User Entity that matches a provided email.
    *
+   * @param datastore an instance of DatastoreService
    * @param email the email to check for in the query.
    * @return a User Entity matching email
    */
@@ -61,42 +55,15 @@ public class AuthenticationUtility {
   }
 
   /**
-   * Verifies and returns an id token from the "idtoken" parameter
-   *
-   * @param request an http request to the servlet, should include "idtoken"
-   *     parameter
-   * @return a verified Google id token or null if it is invalid
-   */
-  public static GoogleIdToken getIdToken(HttpServletRequest request) throws Exception {
-    try {
-      final String CLIENT_ID = "client_id_goes_here";
-
-      HttpTransport transport = GoogleNetHttpTransport.newTrustedTransport();
-      JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-
-      // Get token to be verified
-      String idTokenString = request.getParameter("idtoken");
-
-      // Check if the token is valid, set idToken to null if it isn't
-      GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
-          .setAudience(Collections.singletonList(CLIENT_ID))
-          .build();
-      GoogleIdToken idToken = verifier.verify(idTokenString);
-
-      return idToken;
-    } catch (Exception e) {
-      throw e;
-    }
-  }
-
-  /**
    * Return a boolean detailing if there is an account associated with a given
    * email.
    * 
+   * @param datastore an instance of DatastoreService
    * @param email the email to check for in the query.
    * @return true if account associated with email exists
    */
-  public static boolean userAlreadyHasAccount(DatastoreService datastore, String email) {
+  public static boolean userAlreadyHasAccount(DatastoreService datastore,
+      String email) {
     // Perform a query to find any accounts associated with email
     Filter emailFilter = new FilterPredicate("email", FilterOperator.EQUAL, email);
     Query userQuery = new Query("User").setFilter(emailFilter);
@@ -111,62 +78,16 @@ public class AuthenticationUtility {
   }
 
   /**
-   * Retrieves the User entity associated with the currently logged in user
-   * if one exists.
-   * @deprecated
-   *
-   * @param request an http request to the servlet, should include "idtoken"
-   *     parameter
+   * Gets the entity associated with the currently logged in user.
+   * 
+   * @param datastore an instance of DatastoreService
+   * @param userService an instance of UserService
+   * @return the entity associated with the currently logged in user
    */
-  public static Entity getCurrentUserEntity(DatastoreService datastore, 
-      HttpServletRequest request) throws Exception {
-    try {
-      // Verify that user is signed in with a valid account
-      GoogleIdToken idToken = getIdToken(request);
-      Entity userEntity = new Entity("User");
-
-      if (idToken != null) {
-        // Get payload for user
-        Payload userPayload = idToken.getPayload();
-        String userEmail = userPayload.getEmail();
-        userEntity = getUserByEmail(datastore, userEmail);
-        
-        return userEntity;
-      } else {
-        throw new Exception("idToken is null");
-      }
-    } catch (Exception e) {
-      throw e;
-    }
-  }
-
-  public static Entity getCurrentUserEntity(DatastoreService datastore, UserService userService) {
+  public static Entity getCurrentUserEntity(DatastoreService datastore,
+      UserService userService) {
     String userEmail = userService.getCurrentUser().getEmail();
     Entity userEntity = getUserByEmail(datastore, userEmail);
     return userEntity;
-  }
-
-  /**
-   * Retrieves the email associated with the currently logged in user.
-   *
-   * @param request an http request to the servlet, should include "idtoken"
-   *     parameter
-   */
-  public static String getCurrentUserEmail(HttpServletRequest request) throws Exception {
-    try {  
-      // Verify that user is signed in with a valid account
-      GoogleIdToken idToken = getIdToken(request);
-      String userEmail = new String();
-      if (idToken != null) {
-        // Get payload for user
-        Payload userPayload = idToken.getPayload();
-        userEmail = userPayload.getEmail();
-        return userEmail;
-      } else {
-        throw new Exception("idToken is null");
-      }
-    } catch (Exception e) {
-      throw e;
-    }
   }
 }
