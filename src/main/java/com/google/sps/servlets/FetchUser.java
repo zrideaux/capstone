@@ -45,24 +45,22 @@ public class FetchUser extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) 
       throws IOException {
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    // DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
-    System.err.println("BRO WE IN THE SERVER SERVER");
+    // // Get the user Entity object from the 
+    // Entity userEntity;
+    // try {
+    //   userEntity = AuthenticationUtility.getCurrentUserEntity(datastore, 
+    //       request);
+    // } catch (Exception e) {
+    //   ValidateInput.createErrorMessage(e, response);
+    //   return;
+    // }
 
-    // Get the user Entity object from the 
-    Entity userEntity;
-    try {
-      userEntity = AuthenticationUtility.getCurrentUserEntity(datastore, 
-          request);
-    } catch (Exception e) {
-      ValidateInput.createErrorMessage(e, response);
-      return;
-    }
+    // User user = User.createUser(userEntity);
 
-    User user = User.createUser(userEntity);
-
-    String jsonUser = new Gson().toJson(user);
-    response.setContentType("application/json;");
-    response.getWriter().println(jsonUser);
+    // String jsonUser = new Gson().toJson(user);
+    // response.setContentType("application/json;");
+    // response.getWriter().println(jsonUser);
   }
 }
