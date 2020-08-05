@@ -25,22 +25,22 @@ function appendParameterToFormData(formData) {
   formData.append('website', website);
 }
 
-/**	
- * Gets the type of the the listing chosen in the form.	
- *	
- * @return the value of the radio type or an empty sting if none have been 	
- *     chosen.	
- */	
-function getType() {	
-  const radioTypes = document.getElementsByName("cause-type");	
-  for (let i = 0; i < radioTypes.length; i++) {	
-    const radioType = radioTypes[i];	
-    if (radioType.checked) {	
-      return radioType.value;	
-    }	
-  }	
-  return "";	
-}	
+/**
+ * Gets the type of the the listing chosen in the form.
+ *
+ * @return the value of the radio type or an empty sting if none have been 
+ *     chosen.
+ */
+function getType() {
+  const radioTypes = document.getElementsByName("cause-type");
+  for (let i = 0; i < radioTypes.length; i++) {
+    const radioType = radioTypes[i];
+    if (radioType.checked) {
+      return radioType.value;
+    }
+  }
+  return "";
+}
 
 // The following functions are used to create a preview of the new listing
 
