@@ -4,6 +4,11 @@ import {
 } from './blobstore.js';
 
 import { createListing } from './listing.js';
+import { authenticate } from './authentication.js';
+
+window.onload = function() {
+  authenticate();
+}
 
 /**
  * Creates a string of parameters to query a servlet.

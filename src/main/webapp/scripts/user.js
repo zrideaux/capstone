@@ -6,11 +6,13 @@ import {
   createPElement
 } from './htmlElement.js';
 
-import { 
-  toggleTabDisplay
-} from './miscellaneous.js';
-
+import { toggleTabDisplay } from './miscellaneous.js';
 import { getListings } from './listing.js';
+import { authenticate } from './authentication.js';
+
+window.onload = function() {
+  authenticate();
+}
 
 /**
  * Create an element that shows a listing detailed view
