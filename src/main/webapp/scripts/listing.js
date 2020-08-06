@@ -25,15 +25,13 @@ import {
  */
 function getListings(containerElement, listingsClass, listingsId,
     queryString) {
-  console.log("Fetching user listings data");
+  // Fetching user listings data
   fetch(queryString)
       .then(response => response.json())
       .then((listingsArray) => {
-        console.log("RESPONSE JSON: " + listingsArray);
         if (isErrorMessage(listingsArray)) {
           displayErrorMessage(listingsArray);
         } else {
-          console.log("Listing: " + listingsArray);
           containerElement.appendChild(
               createListings(listingsArray, listingsClass, listingsId));
         }
@@ -58,7 +56,6 @@ function createListings(listings, listingsClass, listingsId) {
       divListings.appendChild(createListing(id, listing));
     }
   } else {
-    console.log("No listings");
     divListings.appendChild(createPElement('No listings', '', ''));
   }
 
@@ -78,14 +75,10 @@ function createListing(cardElementId, listing) {
   const cardElementDisplay = "flex";
 
   // Create listing preview
-  console.log("Creating listing preview");
-  console.log("Listing: " + listing);
-  console.log("Listing type: " + (typeof listing));
   sectionListing.appendChild(createListingPreview(listing, cardElementDisplay, 
       cardElementId));
     
   // Create listing view (detiled view)
-  console.log("Creating listing view");
   sectionListing.appendChild(createListingDetailedView(listing, 
       cardElementDisplay, cardElementId));
 

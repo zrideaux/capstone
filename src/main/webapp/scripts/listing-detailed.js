@@ -33,8 +33,7 @@ export default function createListingDetailedView(listing,
       '', 'card-information-container', '');
   divCardElement.appendChild(divCardInfoElement);
   
-  console.log('creating listing card information');
-
+  // Creating listing card information
   const type = listing.type;
   const dateCreated = listing.dateCreated;
   const imageURL = listing.imageURL;
@@ -45,8 +44,7 @@ export default function createListingDetailedView(listing,
   divCardInfoElement.appendChild(createListingCardInformation(type, 
       dateCreated, imageURL, name, upvotes, views, website));
 
-  console.log('creating listing card description');
-
+  // Creating listing card description
   const comments = '';
   const description = listing.description;
   const howToHelp = listing.howToHelp;

@@ -19,8 +19,7 @@ import { toggleDisplay } from './miscellaneous.js';
  * @return a div with all the preview information pertaining to a listing
  */
 
-export default function createListingPreview(listing, listingDisplay, listingId) {
-
+export default function createListingPreview(listing, listingDisplay, listingId){
   const sectionListing = createSectionElement('listing shadow-box', '');
   
   // Make section listing keyboard accessible 
@@ -38,12 +37,12 @@ export default function createListingPreview(listing, listingDisplay, listingId)
     }
   });
 
-  console.log("Creating listing information");
+  // Creating listing information
   const imageURL = listing.imageURL;
   const upvotes = listing.upvotes.toLocaleString();
   sectionListing.appendChild(createListingInformation(imageURL, upvotes));
 
-  console.log('Creating listing details')
+  // Creating listing details
   const description = listing.description;  
   const name = listing.name;
   const type = listing.type;
@@ -84,7 +83,7 @@ function createListingInformation(imageURL, upvotes) {
 function createListingDetails(description, name, type) {
   const divListingDetails = createDivElement('', 'listing-info-container', '');
 
-  console.log('Creating listing heading');
+  // Creating listing heading
   divListingDetails.appendChild(createListingHeading(name, type));
 
   divListingDetails.appendChild(
@@ -107,9 +106,8 @@ function createListingHeading(name, type) {
   divListingHeading.appendChild(
     createHElement(name, 2, 'listing-preview-name', ''));
 
-  console.log('Creating listing tags');
+  // Creating listing tags
   divListingHeading.appendChild(createListingTags(type));
-
   return divListingHeading;
 }
 
