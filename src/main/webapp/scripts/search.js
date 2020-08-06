@@ -1,3 +1,4 @@
+
 import { getListings } from './listing.js';
 import { authenticate } from './authentication.js';
 
@@ -6,7 +7,6 @@ window.onload = function() {
 }
 
 export default function displayListings(containerElement) {
-  const exListingKeys = [];
-  const queryString = '/fetch-user-listings?listing-keys=' + exListingKeys;
-  containerElement.appendChild(getListings(containerElement, '', 'search-listings', queryString));
+  const queryString = '/fetch-listings';
+  getListings(containerElement, '', 'search-listings', queryString);
 }

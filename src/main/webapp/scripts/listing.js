@@ -39,7 +39,6 @@ function getListings(containerElement, listingsClass, listingsId,
       });
 }
 
-
 /**
  * Creates a div with a user's listings.
  *
