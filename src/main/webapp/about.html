@@ -7,11 +7,14 @@
     <link href="stylesheets/master.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
         rel="stylesheet"> 
-    <meta name="google-signin-client_id">
-    <script src="/scripts/authentication.js"></script>
-    <script type="module" src="/scripts/miscellaneous.js"></script>
+    <script type="module" src="scripts/authentication.js"></script>    
+    <script type="module" src="scripts/miscellaneous.js"></script>
+    <script type="module">
+      import { authenticate } from "/scripts/authentication.js";
+      authenticate();
+    </script>
   </head>
-  <body onload="init()">
+  <body>
     <header id="nav-box" class="shadow-box">
       <nav>
         <a href="index.html"><img id="logo" src="images/placeholder_logo.png" alt="logo"></a>
@@ -19,19 +22,19 @@
           <a class="nav-link" href="search.html">
             <i class="material-icons">search</i>
           </a>
-          <a class="nav-link" href="newlisting.html">
+          <a class="nav-link user-only" href="newlisting.html">
             <i class="material-icons">add_box</i>
           </a>
           <a class="nav-link" href="about.html">
             <i class="material-icons">book</i>
           </a>
-          <a class="nav-link" href="search.html">
+          <a class="nav-link" href="#">
             <i class="material-icons">phone</i>
           </a>
-          <a class="nav-link" href="user.html">
+          <a class="nav-link user-only" href="user.html">
             <i class="material-icons">account_box</i>
           </a>
-          <div id="signInButton" data-onsuccess="onSignIn"></div>
+          <a id="authentication-link" class="nav-link"></a>
         </div>
       </nav>
     </header>
@@ -50,56 +53,53 @@
 
     <footer>
       <h2>About the Creators</h2>
-        <div class="container">
-          <div class ="box"> 
-            <div class="icon">
-              <i class="material-icons fa">K</i>
-            </div>
-            <div class="content">
-              <br><br>
-              <h3>Kevin</h3>
-              <p>
-                I am a rising sophomore at Northeastern University in Massachusetts. 
-                During quarantine I have taken this time to learn new things. 
-                So far I have learned how to use a DSLR camera, cut my own hair, and build my own pc (AMD all the way).
-                Aside from learning new things, I love to run, watch anime, and dance salsa/bachata. 
-                If you are interested in any of these hobbies please feel free to ping me, I would love to talk about them with you!
-              </p>
-            </div> 
+      <div class="container">
+        <div class ="box"> 
+          <div class="icon">
+            <i class="material-icons fa">K</i>
           </div>
-             
-          <div class="box">
-            <div class="icon">
-              <i class="material-icons fa">J</i>
-            </div>
-            <div class="content">
-              <br><br>
-              <h3>Jaden</h3>
-              <p>
-                I am a rising sophmore CyberSecurity major attending Hampton university.
-                I am an active member of the NROTC program and NSBE program.
-                I love writing code and I hope that one day my code can make a positive impact on the world.
-              </p>
-            </div>
-          </div>
+          <div class="content">
+            <br><br>
+            <h3>Kevin</h3>
+            <p>
+              I am a rising sophomore at Northeastern University in Massachusetts. 
+              During quarantine I have taken this time to learn new things. 
+              So far I have learned how to use a DSLR camera, cut my own hair, and build my own pc (AMD all the way).
+              Aside from learning new things, I love to run, watch anime, and dance salsa/bachata. 
+              If you are interested in any of these hobbies please feel free to ping me, I would love to talk about them with you!
+            </p>
+          </div> 
+        </div>
 
-          <div class="box">
-            <div class="icon">
-              <i class="material-icons fa">Z</i>
-            </div>
-            <div class="content">
-              <br><br>
-              <h3>Z</h3>
-              <p>
-                I am a California-based computer science student at UC Irvine with a passion for creating!
-                I have always loved to make things that help or entertain others!
-              </p>
-            </div> 
+        <div class="box">
+          <div class="icon">
+            <i class="material-icons fa">J</i>
+          </div>
+          <div class="content">
+            <br><br>
+            <h3>Jaden</h3>
+            <p>
+              I am a rising sophmore CyberSecurity major attending Hampton university.
+              I am an active member of the NROTC program and NSBE program.
+              I love writing code and I hope that one day my code can make a positive impact on the world.
+            </p>
           </div>
         </div>
-      </footer>
 
-      <script src="https://apis.google.com/js/platform.js?online=renderButton" 
-          async defer></script>
+        <div class="box">
+          <div class="icon">
+            <i class="material-icons fa">Z</i>
+          </div>
+          <div class="content">
+            <br><br>
+            <h3>Z</h3>
+            <p>
+              I am a California-based computer science student at UC Irvine with a passion for creating!
+              I have always loved to make things that help or entertain others!
+            </p>
+          </div> 
+        </div>
+      </div>
+    </footer>
   </body> 
 </html>

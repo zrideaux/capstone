@@ -4,8 +4,11 @@ import {
 } from './blobstore.js';
 
 import { createListing } from './listing.js';
+import { authenticate } from './authentication.js';
 
-import { getRadioByName } from './miscellaneous.js';
+window.onload = function() {
+  authenticate();
+}
 
 /**
  * Creates a string of parameters to query a servlet.
@@ -20,11 +23,28 @@ function appendParameterToFormData(formData) {
   const howToHelp = document.getElementById('cause-how-to-help').value;
   const website = document.getElementById('cause-website').value;
   formData.append('name', name);
-  formData.append('type', getRadioByName('cause-type'));
+  formData.append('type', getType());
   formData.append('location', location);
   formData.append('description', description);
   formData.append('howToHelp', howToHelp);
   formData.append('website', website);
+}
+
+/**
+ * Gets the type of the the listing chosen in the form.
+ *
+ * @return the value of the radio type or an empty sting if none have been 
+ *     chosen.
+ */
+function getType() {
+  const radioTypes = document.getElementsByName("cause-type");
+  for (let i = 0; i < radioTypes.length; i++) {
+    const radioType = radioTypes[i];
+    if (radioType.checked) {
+      return radioType.value;
+    }
+  }
+  return "";
 }
 
 // The following functions are used to create a preview of the new listing

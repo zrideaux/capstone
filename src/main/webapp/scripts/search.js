@@ -1,10 +1,10 @@
 import { getListings } from './listing.js';
 
-import { 
-  getCheckboxesByName,
-  getRadioByName
-} from './miscellaneous.js';
+import { authenticate } from './authentication.js';
 
+window.onload = function() {
+  authenticate();
+}
 /**
  * Displays listings based on the search parameters (includes type filters, 
  *     radius filter, and sortBy).

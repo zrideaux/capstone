@@ -113,7 +113,6 @@ public class FetchListings extends HttpServlet {
     // Turn Entities into Listings
     List<Listing> listings = new ArrayList<Listing>();
     for (Entity listingEntity : listingEntities) {
-      // Entity listingEntity = listingEntities.get(i);
       listings.add(Listing.createListing(listingEntity));
     }
 

@@ -10,10 +10,9 @@
     <link rel="stylesheet" type="text/css" 
         href="stylesheets/listing-preview.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <meta name="google-signin-client_id">
-    <script src="scripts/authentication.js"></script>
-    <script type="module" src="scripts/miscellaneous.js"></script>
-    <script type="module" src="scripts/search.js"></script>
+    <script type="module" src="/scripts/authentication.js"></script>
+    <script type="module" src="/scripts/miscellaneous.js"></script>
+    <script type="module" src="/scripts/search.js"></script>
   </head>
   <body>
     <script type="module">
@@ -36,19 +35,19 @@
           <a class="nav-link" href="search.html">
             <i class="material-icons">search</i>
           </a>
-          <a class="nav-link" href="newlisting.html">
+          <a class="nav-link user-only" href="newlisting.html">
             <i class="material-icons">add_box</i>
           </a>
           <a class="nav-link" href="about.html">
             <i class="material-icons">book</i>
           </a>
-          <a class="nav-link" href="search.html">
+          <a class="nav-link" href="#">
             <i class="material-icons">phone</i>
           </a>
-          <a class="nav-link" href="user.html">
+          <a class="nav-link user-only" href="user.html">
             <i class="material-icons">account_box</i>
           </a>
-          <div id="signInButton" data-onsuccess="onSignIn"></div>
+          <a id="authentication-link" class="nav-link"></a>
         </div>
       </nav>
       
@@ -147,7 +146,5 @@
         displayListings();
       </script>
     </main>
-
-    <script src="https://apis.google.com/js/platform.js?online=renderButton" async defer></script>
   </body>
 </html>
