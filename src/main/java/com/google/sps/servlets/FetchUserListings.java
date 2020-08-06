@@ -55,7 +55,7 @@ public class FetchUserListings extends HttpServlet {
 
     // Add Listings to the List if there are keys
     if (listingEntityKeysString.length() > 0) {
-      String[] listingEntityKeysStringArray = listingEntityKeysString.split(" ");
+      String[] listingEntityKeysStringArray = listingEntityKeysString.trim().split(",");
       
       DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 

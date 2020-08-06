@@ -6,36 +6,60 @@ import {
   createPElement
 } from './htmlElement.js';
 
-import { toggleTabDisplay } from './miscellaneous.js';
-import { getListings } from './listing.js';
+
 import { authenticate } from './authentication.js';
 import { getListings } from './listing.js';
+import { 
+  displayErrorMessage,
+  isErrorMessage, 
+  toggleTabDisplay
+} from './miscellaneous.js';
 
+/**
+ * When the page loads check if the user if logged in, and if so create user 
+ *     profile.
+ */
 window.onload = function() {
-  authenticate();
+  authenticate(getUserProfile);
+}
+
+export default function getUserProfile() {
+  const divCardContainerElement = document.getElementById("user");
+
+  fetch('/fetch-user')
+      .then(response => response.json())
+      .then((user) => {
+        if(isErrorMessage(user)) {
+          displayErrorMessage(user);
+        } else {
+          divCardContainerElement.appendChild(createUserProfile(user));
+        }
+      })
 }
 
 /**
  * Create an element that shows a listing detailed view
  *
- * @param divCardContainerElement a div element for the user's profile page
+ * @param user JSON that represents a user
  * @return a div with all the information pertaining to a user
  */
-export default function createUserProfile(divCardContainerElement) {
+function createUserProfile(user) {
   const divCardInfoElement = createDivElement(
       '', 'card-information-container shadow-box', '');
-  divCardContainerElement.appendChild(divCardInfoElement);
   
   // Creating User card information.
-  const exBio = 'This is a fake bio!';
-  const exEmail = 'abcde@gmail.com';
-  const exName = 'Android Studios';
+  // const exBio = 'This is a fake bio!';
+  // const exEmail = 'abcde@gmail.com';
+  // const exName = 'Android Studios';
+  const exBio = user.bio;
+  const exEmail = user.email;
+  const exName = user.name;
   divCardInfoElement.appendChild(createUserInformation(exBio, exEmail, exName));
 
   // Creating User card description.
-  divCardInfoElement.appendChild(createUserListings());
+  divCardInfoElement.appendChild(createUserListings(user.createdListingKeys, user.upvotedListingKeys));
 
-  return divCardContainerElement;
+  return divCardInfoElement;
 }  
 
 /**
@@ -74,7 +98,7 @@ function createUserInformation(bio, email, name) {
  *
  * @return a div with the description and comments of a listing.
  */
-function createUserListings() {
+function createUserListings(createdListingKeys, upvotedListingKeys) {
   const divUserListings = createDivElement('', 'card-description ' + 
       'tab-listings-description', '');
 
@@ -89,17 +113,16 @@ function createUserListings() {
       '');
   divUserListings.appendChild(divUserListingContainer);
 
-  const exListingKeys = [];
   const queryString = '/fetch-user-listings?listing-keys=';
   
   // Getting user's created listings.
-  const queryStringCreatedListings = queryString + exListingKeys;
+  const queryStringCreatedListings = queryString + createdListingKeys;
   getListings(divUserListingContainer, '', createdListingsId, 
       queryStringCreatedListings);
 
   // Getting user's upvoted listings.
   const upvotedListingsClass = 'upvoted-listings';
-  const queryStringUpvotedListings = queryString + exListingKeys;
+  const queryStringUpvotedListings = queryString + upvotedListingKeys;
   getListings(divUserListingContainer, upvotedListingsClass, 
       upvotedListingsId, queryStringUpvotedListings);
 
