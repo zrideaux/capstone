@@ -1,6 +1,12 @@
+import { authenticate } from './authentication.js';
+
 import { getListings } from './listing.js';
 
-import { authenticate } from './authentication.js';
+import { 	
+  getCheckboxesByName,	
+  getRadioByName	
+} from './miscellaneous.js';	
+
 
 window.onload = function() {
   authenticate();
