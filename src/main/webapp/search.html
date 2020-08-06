@@ -11,7 +11,7 @@
         href="stylesheets/listing-detailed.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <script src="miscellaneous.js"></script>
+    <script type="module" src="/scripts/miscellaneous.js"></script>
     <script type="module" src="/scripts/authentication.js"></script>
     <script type="module" src="/scripts/search.js"></script>
   </head>
@@ -63,20 +63,24 @@
           <div id="search-filters" class="dropdown-menu shadow-box">
             <label>Filters</label>
             <br>
-            <input id="fundraiser-radio" class="search-filter"
-                   type="checkbox" value="fundraiser" checked>
+            <input id="fundraiser-radio" class="search-filter" 
+                   name="search-type-option" type="checkbox" value="fundraiser" 
+                   checked>
             <label for="fundraiser-radio">Fundraiser</label>
             <br>
             <input id="petition-radio" class="search-filter" 
-                   type="checkbox" value="petition" checked>
+                   name="search-type-option" type="checkbox" value="petition" 
+                   checked>
             <label for="petition-radio">Petition</label>
             <br>
             <input id="event-radio" class="search-filter" 
-                   type="checkbox" value="event" checked>
+                   name="search-type-option" type="checkbox" value="event" 
+                   checked>
             <label for="event-radio">Event</label>
             <br>
             <input id="other-radio" class="search-filter" 
-                   type="checkbox" value="other" checked>
+                   name="search-type-option" type="checkbox" value="other" 
+                   checked>
             <label for="other-radio">Other</label>
           </div>
         </span>

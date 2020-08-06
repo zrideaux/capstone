@@ -9,6 +9,7 @@ import {
 import { toggleTabDisplay } from './miscellaneous.js';
 import { getListings } from './listing.js';
 import { authenticate } from './authentication.js';
+import { getListings } from './listing.js';
 
 window.onload = function() {
   authenticate();

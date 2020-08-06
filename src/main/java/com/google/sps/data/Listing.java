@@ -14,8 +14,10 @@
 
 package com.google.sps.data;
 
+import java.lang.Math;
 import java.sql.Timestamp;
 import java.util.Date;
+import com.google.appengine.api.datastore.Entity;
 
 /** A listing */ 
 public final class Listing {
@@ -76,4 +78,27 @@ public final class Listing {
     Date date = new Date(timestamp);
     return date.toString();
   }
+
+  /**
+   * Creates a Listing object from an Entity object that represents a listing
+   *
+   * @param entity the entity that represents a listing
+   * @return a Listing with all of the properties from the Entity
+   */
+  public static Listing createListing(Entity entity) {
+    String description = (String) entity.getProperty("description");
+    String howToHelp = (String) entity.getProperty("howToHelp");
+    String imageURL = (String) entity.getProperty("imageURL");
+    String location = (String) entity.getProperty("location");
+    String name = (String) entity.getProperty("name");
+    long timestamp = (long) entity.getProperty("timestamp");
+    String type = (String) entity.getProperty("type");
+    int upvotes = Math.toIntExact((long) entity.getProperty("upvotes"));
+    int downvotes = Math.toIntExact((long) entity.getProperty("downvotes"));
+    int views = Math.toIntExact((long) entity.getProperty("views"));
+    String website = (String) entity.getProperty("website");
+
+    return new Listing(description, howToHelp, imageURL, location, name, 
+        timestamp, type, upvotes, downvotes, views, website);
+  }  
 }

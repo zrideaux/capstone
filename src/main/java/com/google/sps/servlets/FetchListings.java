@@ -25,8 +25,12 @@ import com.google.gson.Gson;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.sps.data.Listing;
 import com.google.sps.utility.ValidateInput;
 
@@ -34,8 +38,11 @@ import com.google.sps.utility.ValidateInput;
  * Servlet that creates Listings from Entities and returns the list of 
  *    Listings.
  */
-@WebServlet("/fetch-user-listings")
-public class FetchUserListings extends HttpServlet {
+@WebServlet("/fetch-listings")
+public class FetchListings extends HttpServlet {
+
+  static final int LISTING_LIMIT = 50;
+
   /** 
    * Returns JSON which is a List of Listings associated with the user or an 
    *     error message if an exception is caught.
@@ -47,32 +54,27 @@ public class FetchUserListings extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) 
       throws IOException {
-    String listingEntityKeysString = ValidateInput.getParameter(request, 
-        "listing-keys", "");
+    // Get Parameters here
 
-    // A Listings of listings to return
+    Query queryListing = new Query("Listing");
+
+    // Filter Listings here
+    
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery preparedQueryListings = datastore.prepare(queryListing);
+
+    FetchOptions entitiesLimit = FetchOptions.Builder.withLimit(LISTING_LIMIT);
+    List<Entity> listingEntities = preparedQueryListings.asList(entitiesLimit);
+
+    // Turn Entities into Listings
     List<Listing> listings = new ArrayList<Listing>();
-
-    // Add Listings to the List if there are keys
-    if (listingEntityKeysString.length() > 0) {
-      String[] listingEntityKeysStringArray = listingEntityKeysString.split(" ");
-      
-      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-
-      // If there are listing keys then return a List of Listings
-      for (String listingEntityKeyString : listingEntityKeysStringArray) {
-        Key listingEntityKey = KeyFactory.stringToKey(listingEntityKeyString);
-        Entity listingEntity;
-        try {
-          listingEntity = datastore.get(listingEntityKey);
-        } catch (Exception e) {
-          // Return a JSON errorMessage with the exception message
-          ValidateInput.createErrorMessage(e, response);
-          return;
-        }
-        listings.add(Listing.createListing(listingEntity));
-      } 
+    for (Entity listingEntity : listingEntities) {
+      listings.add(Listing.createListing(listingEntity));
     }
+
+    // Sort the Listings based on sort parameter
+    // The sorting algorithm will be given a List<Listing> and will return a 
+    //     List<Listing>
 
     String jsonListings = new Gson().toJson(listings);
     response.setContentType("application/json;");
