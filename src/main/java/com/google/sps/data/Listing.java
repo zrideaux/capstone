@@ -81,6 +81,7 @@ public final class Listing {
    */
   public static String createDateFromTimestamp(long timestamp) {
     Date date = new Date(timestamp);
+    
     return date.toString();
   }
 
@@ -115,8 +116,9 @@ public final class Listing {
    * @return a Listing with all of the properties from the Entity
    */
   public static Listing createListing(DatastoreService datastore, 
-      Key listingEntityKey) throws Exception{
+      Key listingEntityKey) throws Exception {
     Entity listingEntity = datastore.get(listingEntityKey);
+
     return createListing(listingEntity);
   }  
 
@@ -131,6 +133,7 @@ public final class Listing {
   public static Listing createListing(DatastoreService datastore, 
       String listingEntityKeyString) throws Exception {
     Key listingEntityKey = KeyFactory.stringToKey(listingEntityKeyString);
+
     return createListing(datastore, listingEntityKey);
   }  
 
@@ -143,11 +146,12 @@ public final class Listing {
    * @return List<Listing> from the String[] of listing entity key strings.
    */
   public static List<Listing> createListingArray(DatastoreService datastore, 
-      String[] listingEntityKeysStringArray) throws Exception{
+      String[] listingEntityKeysStringArray) throws Exception {
     List<Listing> listings = new ArrayList<Listing>();
     for (String listingEntityKeyString : listingEntityKeysStringArray) {
       listings.add(createListing(datastore, listingEntityKeyString));
     } 
+
     return listings;
   }
 }

@@ -30,17 +30,14 @@ public final class User {
   private final String username;
   private final List<Listing> createdListings;
   private final List<Listing> upvotedListings;
-  private final String[] downvotedListingKeys;
 
   public User(String bio, String email, String username, 
-      List<Listing> createdListings, List<Listing> upvotedListings, 
-      String[] downvotedListingKeys) {
+      List<Listing> createdListings, List<Listing> upvotedListings) {
     this.bio = bio;
     this.email = email;
     this.username = username;
     this.createdListings = createdListings;
     this.upvotedListings = upvotedListings;
-    this.downvotedListingKeys = downvotedListingKeys;
   }
 
   /**
@@ -62,6 +59,7 @@ public final class User {
       String[] listingKeyStringArray = listingKeysString.trim().split(" ");
       listings = Listing.createListingArray(datastore, listingKeyStringArray);
     }
+
     return listings;
   }
 
@@ -74,6 +72,7 @@ public final class User {
    */
   private static String[] getListingKeys(Entity entity, String property) {
     String listingKeysString = (String) entity.getProperty(property);
+
     return listingKeysString.trim().split(" ");
   }
 
@@ -92,11 +91,9 @@ public final class User {
         "createdListingKeys");
     List<Listing> upvotedListings = getListings(datastore, entity, 
         "upvotedListingKeys");
-    String[] downvotedListingKeys = getListingKeys(entity,
-        "downvotedListingKeys");  
 
     return new User(bio, email, username, createdListings, 
-        upvotedListings, downvotedListingKeys);
+        upvotedListings);
   }  
 
   /**
@@ -104,6 +101,7 @@ public final class User {
    * 
    * @param request an http request to the servlet
    * @param userEmail the email to be associated with a the new user entity
+   * @return An Entity who's email is userEmail
    */
   public static Entity createUserEntity(String userEmail) {
     // Create User entity and add to datastore
