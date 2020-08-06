@@ -14,6 +14,14 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+import com.google.gson.Gson;
+import com.google.sps.data.Listing;
+import com.google.sps.utility.ValidateInput;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,14 +29,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.google.gson.Gson;
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.sps.data.Listing;
-import com.google.sps.utility.ValidateInput;
 
 /** 
  * Servlet that creates Listings from Entities and returns the list of 
@@ -60,22 +60,20 @@ public class FetchUserListings extends HttpServlet {
       DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
       // If there are listing keys then return a List of Listings
-      for (String listingEntityKeyString : listingEntityKeysStringArray) {
-        Key listingEntityKey = KeyFactory.stringToKey(listingEntityKeyString);
-        Entity listingEntity;
-        try {
-          listingEntity = datastore.get(listingEntityKey);
-        } catch (Exception e) {
-          // Return a JSON errorMessage with the exception message
-          ValidateInput.createErrorMessage(e, response);
-          return;
-        }
-        listings.add(Listing.createListing(listingEntity));
-      } 
+      try {
+        listings = Listing.createListingArray(datastore, 
+            listingEntityKeysStringArray);
+      } catch (Exception e) {
+        // Return a JSON errorMessage with the exception message
+        ValidateInput.createErrorMessage(e, response);
+        return;
+      }
     }
 
     String jsonListings = new Gson().toJson(listings);
     response.setContentType("application/json;");
     response.getWriter().println(jsonListings);
   }
+
+  
 }
