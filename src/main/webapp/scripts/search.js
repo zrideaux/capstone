@@ -19,6 +19,8 @@ export default function displayListings() {
 /**
  * Get the search parameters (type filters, radius filter, and sortBy) from the 
  *     search page.
+ *
+ * @return a String that represents a query parameter
  */
 function getSearchParameters() {
   const filterTypes = getCheckboxesByName('search-type-option');
