@@ -52,13 +52,7 @@ function createUserProfile(user) {
       '', 'card-information-container shadow-box', '');
   
   // Creating User card information.
-  // const exBio = 'This is a fake bio!';
-  // const exEmail = 'abcde@gmail.com';
-  // const exName = 'Android Studios';
-  const exBio = user.bio;
-  const exEmail = user.email;
-  const exName = user.name;
-  divCardInfoElement.appendChild(createUserInformation(exBio, exEmail, exName));
+  divCardInfoElement.appendChild(createUserInformation(user.bio, user.email, user.username));
 
   // Creating User card description.
   divCardInfoElement.appendChild(createUserListings(user.createdListings, 
@@ -82,6 +76,7 @@ function createUserInformation(bio, email, name) {
   divCardInformation.appendChild(
       createImgElement('', 'profile picture', 'card-picture', ''));
       
+  console.log("NAME: " + name);
   divCardInformation.appendChild(
       createHElement(name, 1, 'user-name', ''));
 

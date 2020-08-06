@@ -11,6 +11,7 @@ import {
 window.onload = function() {
   authenticate();
 }
+
 /**
  * Displays listings based on the search parameters (includes type filters, 
  *     radius filter, and sortBy).
