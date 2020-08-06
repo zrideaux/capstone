@@ -18,6 +18,9 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.sps.data.Listing;
+import java.util.ArrayList;
+import java.util.List;
 
 /** A user */ 
 public final class User {
@@ -25,19 +28,41 @@ public final class User {
   private final String bio;
   private final String email;
   private final String username;
-  private final String[] createdListingKeys;
-  private final String[] upvotedListingKeys;
+  private final List<Listing> createdListings;
+  private final List<Listing> upvotedListings;
   private final String[] downvotedListingKeys;
 
   public User(String bio, String email, String username, 
-      String[] createdListingKeys, String[] upvotedListingKeys, 
+      List<Listing> createdListings, List<Listing> upvotedListings, 
       String[] downvotedListingKeys) {
     this.bio = bio;
     this.email = email;
     this.username = username;
-    this.createdListingKeys = createdListingKeys;
-    this.upvotedListingKeys = upvotedListingKeys;
+    this.createdListings = createdListings;
+    this.upvotedListings = upvotedListings;
     this.downvotedListingKeys = downvotedListingKeys;
+  }
+
+  /**
+   * Used to transform a String of listingkeys into a String[] of listingkeys
+   *
+   * @param datastore 
+   * @param entity An Entity that has a ListingKeys property
+   * @param property the name of the ListingKeys property
+   * @return a String[] of listing keys
+   */
+  private static List<Listing> getListings(DatastoreService datastore,   
+      Entity entity, String property) throws Exception {
+    String listingKeysString = (String) entity.getProperty(property);
+    List<Listing> listings = new ArrayList<Listing>();
+    // If the user doesn't have any keys it is stored as " " a String of length 1. 
+    // Thus, if the length of the String is greater than one that we have a key
+    if (listingKeysString.length() > 1) {
+      System.err.println("GET KEYS: " + listingKeysString);
+      String[] listingKeyStringArray = listingKeysString.trim().split(" ");
+      listings = Listing.createListingArray(datastore, listingKeyStringArray);
+    }
+    return listings;
   }
 
   /**
@@ -58,19 +83,20 @@ public final class User {
    * @param entity the entity that represents a user
    * @return a User with all of the properties from the Entity
    */
-  public static User createUser(Entity entity) {
+  public static User createUser(DatastoreService datastore, Entity entity) 
+      throws Exception {
     String bio = (String) entity.getProperty("bio");
     String email = (String) entity.getProperty("email");
     String username = (String) entity.getProperty("username");
-    String[] createdListingKeys = getListingKeys(entity, 
+    List<Listing> createdListings = getListings(datastore, entity, 
         "createdListingKeys");
-    String[] upvotedListingKeys = getListingKeys(entity, 
+    List<Listing> upvotedListings = getListings(datastore, entity, 
         "upvotedListingKeys");
-    String[] downvotedListingKeys = getListingKeys(entity, 
+    String[] downvotedListingKeys = getListingKeys(entity,
         "downvotedListingKeys");  
 
-    return new User(bio, email, username, createdListingKeys, 
-        upvotedListingKeys, downvotedListingKeys);
+    return new User(bio, email, username, createdListings, 
+        upvotedListings, downvotedListingKeys);
   }  
 
   /**

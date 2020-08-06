@@ -48,15 +48,22 @@ public class FetchUser extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) 
       throws IOException {
     UserService userService = UserServiceFactory.getUserService();
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     if (userService.isUserLoggedIn()) {
       String userEmail = userService.getCurrentUser().getEmail();
+      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
       if (AuthenticationUtility.userAlreadyHasAccount(datastore, userEmail)) {
         Entity userEntity = AuthenticationUtility.getUserByEmail(datastore, 
             userEmail);
 
-        User user = User.createUser(userEntity);
+        User user;
+        try {
+          user = User.createUser(datastore, userEntity);
+        } catch (Exception e) {
+          // Return a JSON errorMessage with the exception message
+          ValidateInput.createErrorMessage(e, response);
+          return;
+        }
 
         String jsonUser = new Gson().toJson(user);
         response.setContentType("application/json;");
