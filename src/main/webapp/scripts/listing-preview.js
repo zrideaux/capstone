@@ -19,7 +19,7 @@ import { toggleDisplay } from './miscellaneous.js';
  * @return a div with all the preview information pertaining to a listing
  */
 
-export default function createListingPreview(listing, listingDisplay, listingId){
+export default function createListingPreview(listing, listingDisplay, listingId) {
   const sectionListing = createSectionElement('listing shadow-box', '');
   
   // Make section listing keyboard accessible 
