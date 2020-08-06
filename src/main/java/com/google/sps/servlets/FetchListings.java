@@ -127,8 +127,8 @@ public class FetchListings extends HttpServlet {
   }
 
   /**
-   * Apply a filter to a query if there are some filters that have been checked 
-   *     opposed to no filters checked or all of the filters being checked.
+   * Apply a filter to a query if some filters have been checked as opposed to 
+   *     no filters checked or all filters checked.
    * 
    * @param filtersString The string that contains filters separated by an "@"
    * @param property The property of the Entity to filter
@@ -139,7 +139,7 @@ public class FetchListings extends HttpServlet {
     boolean someTypeFiltersChecked = filtersStringLength > FILTER_MIN_LENGTH - 1
         && filtersStringLength < FILTER_MAX;
     // If no filters are checked or all of the filters have been checked then 
-    //     don't add any filters
+    //     don't add any filters.
     if (someTypeFiltersChecked) {
       String[] typeFilters = filtersString.split("@");
 
