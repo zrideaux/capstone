@@ -73,9 +73,6 @@ function isErrorMessage(str) {
     // the error message (str) comes with quotes
     isSubstring = str.startsWith(errorIntro);
   }
-  console.log("String: " + str);
-  console.log("String length: " + str.length);
-  console.log(isString + " " + isLength + " " + isSubstring);
   return (isString && isLength && isSubstring);
 }
 

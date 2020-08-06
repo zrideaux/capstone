@@ -23,13 +23,13 @@ export default function createUserProfile(divCardContainerElement) {
       '', 'card-information-container shadow-box', '');
   divCardContainerElement.appendChild(divCardInfoElement);
   
-  console.log('creating User card information');
+  // Creating User card information.
   const exBio = 'This is a fake bio!';
   const exEmail = 'abcde@gmail.com';
   const exName = 'Android Studios';
   divCardInfoElement.appendChild(createUserInformation(exBio, exEmail, exName));
 
-  console.log('creating User card description');
+  // Creating User card description.
   divCardInfoElement.appendChild(createUserListings());
 
   return divCardContainerElement;
@@ -75,7 +75,7 @@ function createUserListings() {
   const divUserListings = createDivElement('', 'card-description ' + 
       'tab-listings-description', '');
 
-  console.log("Creating user's listing tabs");
+  // Creating user's listing tabs.
   const listingsDisplay = 'block';
   const createdListingsId = 'created-listings';
   const upvotedListingsId = 'upvoted-listings';
@@ -89,12 +89,12 @@ function createUserListings() {
   const exListingKeys = [];
   const queryString = '/fetch-user-listings?listing-keys=';
   
-  console.log("Getting user's created listings");
+  // Getting user's created listings.
   const queryStringCreatedListings = queryString + exListingKeys;
   getListings(divUserListingContainer, '', createdListingsId, 
       queryStringCreatedListings);
 
-  console.log("Getting user's upvoted listings");
+  // Getting user's upvoted listings.
   const upvotedListingsClass = 'upvoted-listings';
   const queryStringUpvotedListings = queryString + exListingKeys;
   getListings(divUserListingContainer, upvotedListingsClass, 
@@ -113,18 +113,19 @@ function createListingTabs(listingsDisplay, createdListingsId,
     upvotedListingsId) {
   const divTabs = createDivElement('', 'tabs', '');
   
-  // Create tabs
+  // Create tabs.
   const createdListingsTabId = "created-listings-tab";
   const upvotedListingsTabId = "upvoted-listings-tab";
   const createdListingsTabClass = "created-listings-tab";
   const upvotedListingsTabClass = "upvoted-listings-tab";
-  // Create Created Listings tab
+
+  // Create Created Listings tab.
   divTabs.appendChild(createTab(
     listingsDisplay, createdListingsId, upvotedListingsId, '3', 
     upvotedListingsTabId, createdListingsTabClass, createdListingsTabId, 
     'Created Listings'));
     
-  // Create Upvoted Listings tab
+  // Create Upvoted Listings tab.
   divTabs.appendChild(createTab(
     listingsDisplay, upvotedListingsId, createdListingsId, '3', 
     createdListingsTabId, upvotedListingsTabClass, upvotedListingsTabId, 
@@ -144,12 +145,12 @@ function createListingTabs(listingsDisplay, createdListingsId,
  */
 function createTab(elementDisplay, elementId, elementOtherId, hNum, otherTabId,
     tabClass, tabId, tabName) {
-  // create <h> element that represents a tab button
+  // Create <h> element that represents a tab button.
   const hTab = createHElement(tabName, hNum, 'tab pill ' + tabClass, tabId);
 
   hTab.setAttribute("tabindex", "0");
 
-  // when enter is pressed on this div, change the display to elementDisplay
+  // When enter is pressed on this div, change the display to elementDisplay.
   hTab.addEventListener("click", function(){ 
     toggleTabDisplay(elementDisplay, elementId, elementOtherId, otherTabId,   
         tabId) 

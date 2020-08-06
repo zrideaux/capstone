@@ -19,7 +19,6 @@ function fetchBlobstoreUrlAndSendData(servletUrl, sendFormDataFunc) {
         if(isErrorMessage(imageUploadUrl)) {
           displayErrorMessage(imageUploadUrl);
         } else {
-          console.log("Send form data.")
           sendFormDataFunc(imageUploadUrl);
         }
       })
@@ -55,7 +54,6 @@ function sendFormData(appendData, form, uploadURL, onloadFunc) {
   req.onload = function() {
     // when response is ready and status is ok
     if (req.status == 200) {
-      console.log("Response text: " + req.responseText);
       const response = JSON.parse(req.responseText);
       if (isErrorMessage(response)) {
         displayErrorMessage(response);
