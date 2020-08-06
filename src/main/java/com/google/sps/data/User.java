@@ -49,7 +49,7 @@ public final class User {
    */
   private static String[] getListingKeys(Entity entity, String property) {
     String listingKeysString = (String) entity.getProperty(property);
-    return listingKeysString.split(" ");
+    return listingKeysString.trim().split(" ");
   }
 
   /**
