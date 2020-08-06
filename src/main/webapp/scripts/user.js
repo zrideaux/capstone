@@ -1,3 +1,5 @@
+import { authenticate } from './authentication.js';
+
 import { 
   createAElement,
   createDivElement, 
@@ -6,9 +8,8 @@ import {
   createPElement
 } from './htmlElement.js';
 
+import { createListings } from './listing.js';
 
-import { authenticate } from './authentication.js';
-import { getListings } from './listing.js';
 import { 
   displayErrorMessage,
   isErrorMessage, 
@@ -16,13 +17,16 @@ import {
 } from './miscellaneous.js';
 
 /**
- * When the page loads check if the user if logged in, and if so create user 
- *     profile.
+ * When the page loads check if the user if logged in, and if so create a user's
+ *     profile page.
  */
 window.onload = function() {
   authenticate(getUserProfile);
 }
 
+/**
+ * Retrieves a User and creates a profile for them
+ */
 export default function getUserProfile() {
   const divCardContainerElement = document.getElementById("user");
 
@@ -57,7 +61,8 @@ function createUserProfile(user) {
   divCardInfoElement.appendChild(createUserInformation(exBio, exEmail, exName));
 
   // Creating User card description.
-  divCardInfoElement.appendChild(createUserListings(user.createdListingKeys, user.upvotedListingKeys));
+  divCardInfoElement.appendChild(createUserListings(user.createdListings, 
+      user.upvotedListings));
 
   return divCardInfoElement;
 }  
@@ -96,9 +101,13 @@ function createUserInformation(bio, email, name) {
 /**
  * Creates a div with user descriptions
  *
+ * @param createdListings An array that contains JSON that represents a User's 
+ *     creates Listings.
+ * @param upvotedListings An array that contains JSON that represents a User's 
+ *     upvoted Listings.
  * @return a div with the description and comments of a listing.
  */
-function createUserListings(createdListingKeys, upvotedListingKeys) {
+function createUserListings(createdListings, upvotedListings) {
   const divUserListings = createDivElement('', 'card-description ' + 
       'tab-listings-description', '');
 
@@ -112,19 +121,16 @@ function createUserListings(createdListingKeys, upvotedListingKeys) {
   const divUserListingContainer = createDivElement('', 'user-listing-container',
       '');
   divUserListings.appendChild(divUserListingContainer);
-
-  const queryString = '/fetch-user-listings?listing-keys=';
   
-  // Getting user's created listings.
-  const queryStringCreatedListings = queryString + createdListingKeys;
-  getListings(divUserListingContainer, '', createdListingsId, 
-      queryStringCreatedListings);
+  // Create user's created listings.
+  divUserListingContainer.appendChild(
+      createListings(createdListings, '', createdListingsId));
 
-  // Getting user's upvoted listings.
+  // Create user's upvoted listings.
   const upvotedListingsClass = 'upvoted-listings';
-  const queryStringUpvotedListings = queryString + upvotedListingKeys;
-  getListings(divUserListingContainer, upvotedListingsClass, 
-      upvotedListingsId, queryStringUpvotedListings);
+  divUserListingContainer.appendChild(
+      createListings(upvotedListings, upvotedListingsClass, 
+          upvotedListingsId));
 
   return divUserListings;
 }

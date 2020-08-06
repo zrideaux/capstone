@@ -87,5 +87,6 @@ function createListing(cardElementId, listing) {
 
 export {
   createListing,
+  createListings,
   getListings
 };
