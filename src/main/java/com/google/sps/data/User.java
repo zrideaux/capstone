@@ -103,13 +103,47 @@ public final class User {
   public static void addListingKeyToUserEntity(DatastoreService datastore,
       Entity userEntity, Key listingKey, String property) {
     // Get the string of listing keys from userEntity's specified property
-    // This should most likely be createdListingKeys, upvotedListingKeys,
-    // or downvotedListingKeys
-    String listingKeysString = (String) userEntity.getProperty(property);
+    //    This should most likely be createdListingKeys, upvotedListingKeys,
+    //    or downvotedListingKeys
+    String listingKeysString = getListingKeysAsString(userEntity, property);
     
     // Append a new listing key to the end of listingKeysString and update userEntity
     listingKeysString += KeyFactory.keyToString(listingKey) + " ";
     userEntity.setProperty(property, listingKeysString);
     datastore.put(userEntity);
+  }
+
+  /**
+   * Remove a specified listing key from a property in a userEntity.  
+   *
+   * @param datastore a datastore service instance
+   * @param userEntity an entity representing a User
+   * @param listingKey the key representing a specific Listing entity
+   * @param property the property to remove the key from 
+   */
+  public static void removeListingKeyFromUserEntity(DatastoreService datastore,
+      Entity userEntity, Key listingKey, String property) {
+    // Get the string of listing keys from userEntity's specified property
+    //    This should most likely be createdListingKeys, upvotedListingKeys,
+    //    or downvotedListingKeys
+    String listingKeysString = getListingKeysAsString(userEntity, property);
+    
+    // Remove a specified key from listingKeysString and update userEntity
+    listingKeysString = listingKeysString.replaceFirst(
+        KeyFactory.keyToString(listingKey) + " ", "");
+    userEntity.setProperty(property, listingKeysString);
+    datastore.put(userEntity);
+  }
+
+  /**
+   * Get an array of listing keys
+   */
+  public static String[] getListingKeysAsArray(Entity userEntity, String property) {
+    String listingKeysString = (String) userEntity.getProperty(property);
+    return listingKeysString.trim().split(" ");
+  }
+
+  public static String getListingKeysAsString(Entity userEntity, String property) {
+    return (String) userEntity.getProperty(property);
   }
 }
