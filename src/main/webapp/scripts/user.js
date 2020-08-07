@@ -1,3 +1,5 @@
+import { authenticate } from './authentication.js';
+
 import { 
   createAElement,
   createDivElement, 
@@ -6,33 +8,57 @@ import {
   createPElement
 } from './htmlElement.js';
 
+import { createListings } from './listing.js';
+
 import { 
+  displayErrorMessage,
+  isErrorMessage, 
   toggleTabDisplay
 } from './miscellaneous.js';
 
-import getListings from './listing.js';
+/**
+ * When the page loads check if the user if logged in, and if so create a user's
+ *     profile page.
+ */
+window.onload = function() {
+  authenticate(getUserProfile);
+}
+
+/**
+ * Retrieves a User and creates a profile for them
+ */
+export default function getUserProfile() {
+  const divCardContainerElement = document.getElementById("user");
+
+  fetch('/fetch-user')
+      .then(response => response.json())
+      .then((user) => {
+        if(isErrorMessage(user)) {
+          displayErrorMessage(user);
+        } else {
+          divCardContainerElement.appendChild(createUserProfile(user));
+        }
+      })
+}
 
 /**
  * Create an element that shows a listing detailed view
  *
- * @param divCardContainerElement a div element for the user's profile page
+ * @param user JSON that represents a user
  * @return a div with all the information pertaining to a user
  */
-export default function createUserProfile(divCardContainerElement) {
+function createUserProfile(user) {
   const divCardInfoElement = createDivElement(
       '', 'card-information-container shadow-box', '');
-  divCardContainerElement.appendChild(divCardInfoElement);
   
-  console.log('creating User card information');
-  const exBio = 'This is a fake bio!';
-  const exEmail = 'abcde@gmail.com';
-  const exName = 'Android Studios';
-  divCardInfoElement.appendChild(createUserInformation(exBio, exEmail, exName));
+  // Creating User card information.
+  divCardInfoElement.appendChild(createUserInformation(user.bio, user.email, user.username));
 
-  console.log('creating User card description');
-  divCardInfoElement.appendChild(createUserListings());
+  // Creating User card description.
+  divCardInfoElement.appendChild(createUserListings(user.createdListings, 
+      user.upvotedListings));
 
-  return divCardContainerElement;
+  return divCardInfoElement;
 }  
 
 /**
@@ -50,6 +76,7 @@ function createUserInformation(bio, email, name) {
   divCardInformation.appendChild(
       createImgElement('', 'profile picture', 'card-picture', ''));
       
+  console.log("NAME: " + name);
   divCardInformation.appendChild(
       createHElement(name, 1, 'user-name', ''));
 
@@ -69,13 +96,17 @@ function createUserInformation(bio, email, name) {
 /**
  * Creates a div with user descriptions
  *
+ * @param createdListings An array that contains JSON that represents a User's 
+ *     creates Listings.
+ * @param upvotedListings An array that contains JSON that represents a User's 
+ *     upvoted Listings.
  * @return a div with the description and comments of a listing.
  */
-function createUserListings() {
+function createUserListings(createdListings, upvotedListings) {
   const divUserListings = createDivElement('', 'card-description ' + 
       'tab-listings-description', '');
 
-  console.log("Creating user's listing tabs");
+  // Creating user's listing tabs.
   const listingsDisplay = 'block';
   const createdListingsId = 'created-listings';
   const upvotedListingsId = 'upvoted-listings';
@@ -85,20 +116,16 @@ function createUserListings() {
   const divUserListingContainer = createDivElement('', 'user-listing-container',
       '');
   divUserListings.appendChild(divUserListingContainer);
-
-  const exListingKeys = [];
-  const queryString = '/fetch-user-listings?listing-keys=';
   
-  console.log("Getting user's created listings");
-  const queryStringCreatedListings = queryString + exListingKeys;
-  getListings(divUserListingContainer, '', createdListingsId, 
-      queryStringCreatedListings);
+  // Create user's created listings.
+  divUserListingContainer.appendChild(
+      createListings(createdListings, '', createdListingsId));
 
-  console.log("Getting user's upvoted listings");
+  // Create user's upvoted listings.
   const upvotedListingsClass = 'upvoted-listings';
-  const queryStringUpvotedListings = queryString + exListingKeys;
-  getListings(divUserListingContainer, upvotedListingsClass, 
-      upvotedListingsId, queryStringUpvotedListings);
+  divUserListingContainer.appendChild(
+      createListings(upvotedListings, upvotedListingsClass, 
+          upvotedListingsId));
 
   return divUserListings;
 }
@@ -113,18 +140,19 @@ function createListingTabs(listingsDisplay, createdListingsId,
     upvotedListingsId) {
   const divTabs = createDivElement('', 'tabs', '');
   
-  // Create tabs
+  // Create tabs.
   const createdListingsTabId = "created-listings-tab";
   const upvotedListingsTabId = "upvoted-listings-tab";
   const createdListingsTabClass = "created-listings-tab";
   const upvotedListingsTabClass = "upvoted-listings-tab";
-  // Create Created Listings tab
+
+  // Create Created Listings tab.
   divTabs.appendChild(createTab(
     listingsDisplay, createdListingsId, upvotedListingsId, '3', 
     upvotedListingsTabId, createdListingsTabClass, createdListingsTabId, 
     'Created Listings'));
     
-  // Create Upvoted Listings tab
+  // Create Upvoted Listings tab.
   divTabs.appendChild(createTab(
     listingsDisplay, upvotedListingsId, createdListingsId, '3', 
     createdListingsTabId, upvotedListingsTabClass, upvotedListingsTabId, 
@@ -144,12 +172,12 @@ function createListingTabs(listingsDisplay, createdListingsId,
  */
 function createTab(elementDisplay, elementId, elementOtherId, hNum, otherTabId,
     tabClass, tabId, tabName) {
-  // create <h> element that represents a tab button
+  // Create <h> element that represents a tab button.
   const hTab = createHElement(tabName, hNum, 'tab pill ' + tabClass, tabId);
 
   hTab.setAttribute("tabindex", "0");
 
-  // when enter is pressed on this div, change the display to elementDisplay
+  // When enter is pressed on this div, change the display to elementDisplay.
   hTab.addEventListener("click", function(){ 
     toggleTabDisplay(elementDisplay, elementId, elementOtherId, otherTabId,   
         tabId) 
