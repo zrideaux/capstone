@@ -76,12 +76,12 @@ public class ExcludeByRadius{
    * @param baseURL base url of api 
    */ 
   private String distanceMatrixJsonUrl(String userLocation, String[] listingLocations, String baseURL) {
-    String completeUrl = baseURL+"origins="+userLocation+"&destinations=";
+    String completeURL = baseURL+"origins="+userLocation+"&destinations=";
     for(int i = 0; i < listingLocations.length; i++){
-        completeUrl += listingLocations[i] + "|";
+        completeURL += listingLocations[i] + "|";
     }
-    completeUrl += "&departure_time=now&API_KEY=" + API_KEY; 
-    return completeUrl;
+    completeURL += "&departure_time=now&API_KEY=" + API_KEY; 
+    return completeURL;
   }
 
   /**
