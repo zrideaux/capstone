@@ -35,7 +35,8 @@ export default function displayListings() {
  */
 function addOnclickToInputs() {
   const seeAllElement = document.getElementById('see-all');
-  keyboardAccessible(seeAllElement, displayListingsShowAllFilters, "0");
+  keyboardAccessible(seeAllElement, displayListingsShowAllFilters, 
+      displayListingsShowAllFilters, "0");
  
   // Checkbox is tab accessible
   mapElementsByName(displayListingsOnClickCheckbox, 'search-type-option');

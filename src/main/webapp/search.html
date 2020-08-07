@@ -20,11 +20,6 @@
   <body>
     <script type="module">
       import { toggleDropdown } from './scripts/miscellaneous.js'
-      import displayListings from "/scripts/search.js";
-
-      window.displayListings = function() {
-        displayListings();
-      }
       
       window.toggleDropdown = function(menuName) {
         toggleDropdown(menuName);
@@ -56,14 +51,14 @@
       
       <div id="search-keyword-container">
         <i id="search-icon" class="material-icons">search</i>
-        <input id="search-keyword" onchange="displayListings()" 
+        <input id="search-keyword"  
             placeholder="Search by name" type="text" >
       </div>
 
       <div id="search-options-container">
         <span id="search-location">
           <label for="search-location-input">Location</label>
-          <input id="search-location-input" onchange="displayListings()"
+          <input id="search-location-input" 
               type="text" placeholder="Location" >
         </span>
 
@@ -129,20 +124,20 @@
             <label>Sort By</label>
             <br>
             <input id="search-sort-recommended" checked 
-                name="search-sort-option" onchange="displayListings()"
+                name="search-sort-option" 
                 type="radio" value="Recommended">
             <label class="search-label" for="search-sort-recommended">
               Recommended
             </label>
             <br>
             <input id="search-sort-reputation" name="search-sort-option"
-                onchange="displayListings()" type="radio" value="Reputation" >
+                type="radio" value="Reputation" >
             <label class="search-label" for="search-sort-reputation">
               Reputation
             </label>
             <br>
             <input id="search-sort-leastviewed" name="search-sort-option"
-                onchange="displayListings()" type="radio" value="Least Viewed"> 
+                type="radio" value="Least Viewed"> 
             <label class="search-label" for="search-sort-leastviewed">
               Least Viewed
             </label>
