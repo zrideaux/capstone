@@ -102,7 +102,7 @@ public class CreateListingPreview extends HttpServlet {
     long timestamp = System.currentTimeMillis();
 
     Listing listing = new Listing(description, howToHelp, imageURL, location, 
-        name, timestamp, type, upvotes, downvotes, views, website);
+        name, timestamp, type, upvotes, downvotes, views, website, "");
 
     String jsonListing = new Gson().toJson(listing);
     response.setContentType("application/json;");
