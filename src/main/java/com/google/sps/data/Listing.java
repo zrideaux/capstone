@@ -85,6 +85,7 @@ public final class Listing {
     return date.toString();
   }
 
+
   /**
    * Creates a Listing object from an Entity object that represents a listing
    *
@@ -153,5 +154,14 @@ public final class Listing {
     } 
 
     return listings;
+  }
+
+  /**
+   * Return location of listing
+   * 
+   * @return location of listing
+   */
+  public String getLocation(){
+    return location;
   }
 }
