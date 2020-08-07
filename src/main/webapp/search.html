@@ -70,26 +70,28 @@
         <span class="dropdown-box">
           <button onclick="toggleDropdown('search-filters')">Filters</button>
           <div id="search-filters" class="dropdown-menu shadow-box">
-            <label>Filters</label>
-            <br>
+            <div class="search-filter-title">
+              <label>Filters</label>
+              <span id="see-all" class="see-all-filter">see all</span>
+            </div>
             <input id="fundraiser-radio" class="search-filter" checked 
-                name="search-type-option" onchange="displayListings()" 
-                type="checkbox" value="fundraiser" >
+                name="search-type-option" 
+                type="checkbox" value="1" >
             <label for="fundraiser-radio">Fundraiser</label>
             <br>
             <input id="petition-radio" class="search-filter" checked
-                name="search-type-option" onchange="displayListings()" 
-                type="checkbox" value="petition">
+                name="search-type-option" 
+                type="checkbox" value="2">
             <label for="petition-radio">Petition</label>
             <br>
             <input id="event-radio" class="search-filter" checked
-                name="search-type-option" onchange="displayListings()" 
-                type="checkbox" value="event">
+                name="search-type-option" 
+                type="checkbox" value="3">
             <label for="event-radio">Event</label>
             <br>
             <input id="other-radio" class="search-filter" checked
-                name="search-type-option" onchange="displayListings()" 
-                type="checkbox" value="other">
+                name="search-type-option" 
+                type="checkbox" value="4">
             <label for="other-radio">Other</label>
           </div>
         </span>
@@ -100,23 +102,23 @@
             <label>Radius</label>
             <br>
             <input id="search-radius-10" name="search-radius-option"
-                onchange="displayListings()" type="radio" value="10">
+                type="radio" value="10">
             <label for="search-radius-10">10 km</label>
             <br>
             <input id="search-radius-25" name="search-radius-option" checked
-                onchange="displayListings()" type="radio" value="25" >
+                type="radio" value="25" >
             <label for="search-radius-25">25 km</label>
             <br>
             <input id="search-radius-50" name="search-radius-option"
-                onchange="displayListings()" type="radio" value="50">
+                type="radio" value="50">
             <label for="search-radius-50">50 km</label>
             <br>
             <input id="search-radius-100" name="search-radius-option"
-                onchange="displayListings()" type="radio" value="100" >
+                type="radio" value="100" >
             <label for="search-radius-100">100 km</label>
             <br>
             <input id="search-radius-100+" name="search-radius-option"
-                onchange="displayListings()" type="radio" value="100+" >
+                type="radio" value="100+" >
             <label for="search-radius-100+">100+ km</label>
           </div>
         </span>
