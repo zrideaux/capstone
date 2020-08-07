@@ -36,14 +36,6 @@ function addOnclickToInputs() {
   keyboardAccessible(seeAllElement, displayListingsShowAllFilters, "0");
  
   // Checkbox is tab accessible
-  // const displayListingsOnClickCheckbox = (checkbox) => {
-  //   const changeCheckedAndDisplayListings = () => {
-  //     checkbox.checked = !checkbox.checked;
-  //     displayListings();
-  //   }
-  //   keyboardAccessibleOnClick(checkbox, displayListings, 
-  //       changeCheckedAndDisplayListings);
-  // };
   mapElementsByName(displayListingsOnClickCheckbox, 'search-type-option');
 
   // Radio is not tab accessible
