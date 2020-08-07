@@ -14,10 +14,14 @@
 
 package com.google.sps.data;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import java.lang.Math;
 import java.sql.Timestamp;
 import java.util.Date;
-import com.google.appengine.api.datastore.Entity;
 
 /** A listing */ 
 public final class Listing {
@@ -33,10 +37,11 @@ public final class Listing {
   private final int downvotes;
   private final int views;
   private final String website;
+  private final String key; 
 
   public Listing(String description, String howToHelp, String imageURL, 
       String location, String name, long timestamp, String type, int upvotes, 
-      int downvotes, int views, String website) {
+      int downvotes, int views, String website, String keyString) {
     this.description = description;
     this.howToHelp = howToHelp;
     this.imageURL = imageURL;
@@ -51,6 +56,7 @@ public final class Listing {
     this.downvotes = downvotes;
     this.views = views;
     this.website = website;
+    this.key = keyString;
   }
 
   /**
@@ -97,8 +103,44 @@ public final class Listing {
     int downvotes = Math.toIntExact((long) entity.getProperty("downvotes"));
     int views = Math.toIntExact((long) entity.getProperty("views"));
     String website = (String) entity.getProperty("website");
+    String key = (String) KeyFactory.keyToString(
+        entity.getKey());
 
     return new Listing(description, howToHelp, imageURL, location, name, 
-        timestamp, type, upvotes, downvotes, views, website);
-  }  
+        timestamp, type, upvotes, downvotes, views, website, key);
+  }
+
+  /**
+   *
+   */
+  public static void incrementListingProperty(DatastoreService datastore,
+      Key listingKey, String property) {
+    System.out.println("INCREMENT");
+    try {
+      Entity listingEntity = datastore.get(listingKey);
+      long propertyValue = (long) listingEntity.getProperty(property);
+      propertyValue++;
+      listingEntity.setProperty(property, propertyValue);
+      datastore.put(listingEntity);
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+  }
+
+  /**
+   *
+   */
+  public static void decrementListingProperty(DatastoreService datastore,
+      Key listingKey, String property) {
+    System.out.println("DECREMENT");
+    try {
+      Entity listingEntity = datastore.get(listingKey);
+      long propertyValue = (long) listingEntity.getProperty(property);
+      propertyValue--;
+      listingEntity.setProperty(property, propertyValue);
+      datastore.put(listingEntity);
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+  }
 }
