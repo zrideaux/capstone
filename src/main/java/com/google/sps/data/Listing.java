@@ -145,7 +145,7 @@ public final class Listing {
    *     Strings that will each be used to create a Listing.
    * @return List<Listing> from the String[] of listing entity key strings.
    */
-  public static List<Listing> createListingArray(DatastoreService datastore, 
+  public static List<Listing> createListings(DatastoreService datastore, 
       String[] listingEntityKeysStringArray) throws Exception {
     List<Listing> listings = new ArrayList<Listing>();
     for (String listingEntityKeyString : listingEntityKeysStringArray) {

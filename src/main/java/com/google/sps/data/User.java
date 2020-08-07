@@ -25,6 +25,8 @@ import java.util.List;
 /** A user */ 
 public final class User {
 
+  private static final String DELIMITER = " "; 
+
   private final String bio;
   private final String email;
   private final String username;
@@ -41,9 +43,10 @@ public final class User {
   }
 
   /**
-   * Used to transform a String of listingkeys into a String[] of listingkeys
+   * Used to transform a user Entity's String of listingkeys into a 
+   *     List<Listing>.
    *
-   * @param datastore 
+   * @param datastore the DatastoreService that connects to the back end.
    * @param entity An Entity that has a ListingKeys property
    * @param property the name of the ListingKeys property
    * @return a String[] of listing keys
@@ -53,18 +56,18 @@ public final class User {
     String listingKeysString = (String) entity.getProperty(property);
     List<Listing> listings = new ArrayList<Listing>();
     // If the user doesn't have any keys it is stored as " " a String of length 1. 
-    // Thus, if the length of the String is greater than one that we have a key
+    // If the length of the String is greater than one, we have key(s)
     if (listingKeysString.length() > 1) {
-      System.err.println("GET KEYS: " + listingKeysString);
-      String[] listingKeyStringArray = listingKeysString.trim().split(" ");
-      listings = Listing.createListingArray(datastore, listingKeyStringArray);
+      String[] listingKeyStringArray = listingKeysString.trim().split(DELIMITER);
+      listings = Listing.createListings(datastore, listingKeyStringArray);
     }
 
     return listings;
   }
 
   /**
-   * Used to transform a String of listingkeys into a String[] of listingkeys
+   * Used to transform a user Entity's String of listingkeys into a String[] of 
+   *     listingkeys.
    *
    * @param entity An Entity that has a ListingKeys property
    * @param property the name of the ListingKeys property
@@ -73,7 +76,7 @@ public final class User {
   private static String[] getListingKeys(Entity entity, String property) {
     String listingKeysString = (String) entity.getProperty(property);
 
-    return listingKeysString.trim().split(" ");
+    return listingKeysString.trim().split(DELIMITER);
   }
 
   /**
