@@ -1,62 +1,70 @@
 <html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    
     <title>Search</title>
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/card.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/master.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/search.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/user.css">
-    <link rel="stylesheet" type="text/css" href="stylesheets/card.css">
-    <link rel="stylesheet" type="text/css" 
-        href="stylesheets/listing-preview.css">
     <link rel="stylesheet" type="text/css" 
         href="stylesheets/listing-detailed.css">
+    <link rel="stylesheet" type="text/css" 
+        href="stylesheets/listing-preview.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script type="module" src="scripts/miscellaneous.js"></script>
-    <script type="module" src="scripts/search.js"></script>
+
+    <script type="module" src="/scripts/miscellaneous.js"></script>
+    <script type="module" src="/scripts/search.js"></script>
   </head>
   <body>
     <script type="module">
       import { toggleDropdown } from './scripts/miscellaneous.js'
+      import displayListings from "/scripts/search.js";
 
+      window.displayListings = function() {
+        displayListings();
+      }
+      
       window.toggleDropdown = function(menuName) {
         toggleDropdown(menuName);
       }
     </script>
+
     <header id="search-box" class="shadow-box">
       <nav>
         <a href="index.html"><img id="logo" src="images/placeholder_logo.png" alt="logo"></a>
         <div id="nav-links">
           <a class="nav-link" href="search.html">
             <i class="material-icons">search</i>
-            <!-- <span>Search</span> -->
           </a>
-          <a class="nav-link" href="newlisting.html">
+          <a class="nav-link user-only" href="newlisting.html">
             <i class="material-icons">add_box</i>
-            <!-- <span>Post</span> -->
           </a>
           <a class="nav-link" href="about.html">
             <i class="material-icons">book</i>
-            <!-- <span>About</span> -->
           </a>
-          <a class="nav-link" href="search.html">
+          <a class="nav-link" href="#">
             <i class="material-icons">phone</i>
-            <!-- <span>Contact</span> -->
           </a>
-          <a class="nav-link" href="user.html">
+          <a class="nav-link user-only" href="user.html">
             <i class="material-icons">account_box</i>
-            <!-- <span>Profile</span> -->
           </a>
+          <a id="authentication-link" class="nav-link"></a>
         </div>
       </nav>
       
       <div id="search-keyword-container">
         <i id="search-icon" class="material-icons">search</i>
-        <input id="search-keyword" type="text" placeholder="Search by name">
+        <input id="search-keyword" onchange="displayListings()" 
+            placeholder="Search by name" type="text" >
       </div>
 
       <div id="search-options-container">
         <span id="search-location">
           <label for="search-location-input">Location</label>
-          <input id="search-location-input" type="text" placeholder="Location">
+          <input id="search-location-input" onchange="displayListings()"
+              type="text" placeholder="Location" >
         </span>
 
         <span class="dropdown-box">
@@ -64,20 +72,24 @@
           <div id="search-filters" class="dropdown-menu shadow-box">
             <label>Filters</label>
             <br>
-            <input id="fundraiser-radio" class="search-filter"
-                   type="checkbox" value="fundraiser" checked>
+            <input id="fundraiser-radio" class="search-filter" checked 
+                name="search-type-option" onchange="displayListings()" 
+                type="checkbox" value="fundraiser" >
             <label for="fundraiser-radio">Fundraiser</label>
             <br>
-            <input id="petition-radio" class="search-filter" 
-                   type="checkbox" value="petition" checked>
+            <input id="petition-radio" class="search-filter" checked
+                name="search-type-option" onchange="displayListings()" 
+                type="checkbox" value="petition">
             <label for="petition-radio">Petition</label>
             <br>
-            <input id="event-radio" class="search-filter" 
-                   type="checkbox" value="event" checked>
+            <input id="event-radio" class="search-filter" checked
+                name="search-type-option" onchange="displayListings()" 
+                type="checkbox" value="event">
             <label for="event-radio">Event</label>
             <br>
-            <input id="other-radio" class="search-filter" 
-                   type="checkbox" value="other" checked>
+            <input id="other-radio" class="search-filter" checked
+                name="search-type-option" onchange="displayListings()" 
+                type="checkbox" value="other">
             <label for="other-radio">Other</label>
           </div>
         </span>
@@ -88,23 +100,23 @@
             <label>Radius</label>
             <br>
             <input id="search-radius-10" name="search-radius-option"
-                   type="radio" value="10">
+                onchange="displayListings()" type="radio" value="10">
             <label for="search-radius-10">10 km</label>
             <br>
-            <input id="search-radius-25" name="search-radius-option"
-                   type="radio" value="25" checked>
+            <input id="search-radius-25" name="search-radius-option" checked
+                onchange="displayListings()" type="radio" value="25" >
             <label for="search-radius-25">25 km</label>
             <br>
             <input id="search-radius-50" name="search-radius-option"
-                   type="radio" value="50">
+                onchange="displayListings()" type="radio" value="50">
             <label for="search-radius-50">50 km</label>
             <br>
             <input id="search-radius-100" name="search-radius-option"
-                   type="radio" value="100">
+                onchange="displayListings()" type="radio" value="100" >
             <label for="search-radius-100">100 km</label>
             <br>
             <input id="search-radius-100+" name="search-radius-option"
-                   type="radio" value="100+">
+                onchange="displayListings()" type="radio" value="100+" >
             <label for="search-radius-100+">100+ km</label>
           </div>
         </span>
@@ -114,16 +126,17 @@
           <div id="search-sort" class="dropdown-menu shadow-box">
             <label>Sort By</label>
             <br>
-            <input id="search-sort-recommended" name="search-sort-option"
-                   type="radio" value="Recommended" checked>
+            <input id="search-sort-recommended" checked 
+                name="search-sort-option" onchange="displayListings()"
+                type="radio" value="Recommended">
             <label for="search-sort-recommended">Recommended</label>
             <br>
             <input id="search-sort-reputation" name="search-sort-option"
-                   type="radio" value="Reputation">
+                onchange="displayListings()" type="radio" value="Reputation" >
             <label for="search-sort-reputation">Reputation</label>
             <br>
             <input id="search-sort-leastviewed" name="search-sort-option"
-                   type="radio" value="Least Viewed"> 
+                onchange="displayListings()" type="radio" value="Least Viewed"> 
             <label for="search-sort-leastviewed">Least Viewed</label>
           </div>
         </span>
@@ -133,8 +146,7 @@
     <main id="listings">
       <script type="module">
         import displayListings from "/scripts/search.js";
-        const mainContainerElement = document.getElementById("listings");
-        displayListings(mainContainerElement);
+        displayListings();
       </script>
     </main>
   </body>

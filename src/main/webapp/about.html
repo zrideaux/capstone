@@ -1,12 +1,20 @@
 <html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    
     <title>Capstone Project</title>
 
     <link href="about.css" rel="stylesheet">
-    <link href="stylesheets/master.css" rel="stylesheet">
     <link href="stylesheets/index.css" rel="stylesheet">
+    <link href="stylesheets/master.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
         rel="stylesheet"> 
+    <script type="module" src="scripts/authentication.js"></script>    
+    <script type="module" src="scripts/miscellaneous.js"></script>
+    <script type="module">
+      import { authenticate } from "/scripts/authentication.js";
+      authenticate();
+    </script>
   </head>
   <body>
     <header id="nav-box" class="shadow-box">
@@ -15,90 +23,85 @@
         <div id="nav-links">
           <a class="nav-link" href="search.html">
             <i class="material-icons">search</i>
-            <!-- <span>Search</span> -->
           </a>
-          <a class="nav-link" href="newlisting.html">
+          <a class="nav-link user-only" href="newlisting.html">
             <i class="material-icons">add_box</i>
-            <!-- <span>Post</span> -->
           </a>
           <a class="nav-link" href="about.html">
             <i class="material-icons">book</i>
-            <!-- <span>About</span> -->
           </a>
-          <a class="nav-link" href="search.html">
+          <a class="nav-link" href="#">
             <i class="material-icons">phone</i>
-            <!-- <span>Contact</span> -->
           </a>
-          <a class="nav-link" href="user.html">
+          <a class="nav-link user-only" href="user.html">
             <i class="material-icons">account_box</i>
-            <!-- <span>Profile</span> -->
           </a>
+          <a id="authentication-link" class="nav-link"></a>
         </div>
       </nav>
     </header>
       
-      <main>
-          <h2>About the site</h2>
-          <p>
-            Today there are numerous causes that often don't receive the attention they need. 
-            Many organizations and individuals search for resources, but lack the platform to reach a sufficient amount of people. 
-            For those that are willing and able to provide help, there is a lack of a centralized collection of causes to contribute to. 
-            In the case of a student who is eager to provide community service, they often have to go through extensive lengths to find opportunities where they can contribute.
-            Similarly, it can be difficult for low income students to find fundraising or sponsorship opportunities in order to maintain their high school clubs or teams.  
-            With this site, We hope to provide a opportunities for the eager and give a voice to those who might not be heard anywhere else.
-          <p>  
-      </main>
-      
-      <footer>
-          <h2>About the Creators</h2>
-          <div class="container">
-            <div class ="box"> 
-                <div class="icon">
-                  <i class="material-icons fa">K</i>
-                </div>
-                <div class="content">
-                  <br><br>
-                  <h3>Kevin</h3>
-                  <p>
-                    I am a rising sophomore at Northeastern University in Massachusetts. 
-                    During quarantine I have taken this time to learn new things. 
-                    So far I have learned how to use a DSLR camera, cut my own hair, and build my own pc (AMD all the way).
-                    Aside from learning new things, I love to run, watch anime, and dance salsa/bachata. 
-                    If you are interested in any of these hobbies please feel free to ping me, I would love to talk about them with you!
-                  </p>
-                </div> 
-            </div>
-             
-            <div class="box">
-              <div class="icon">
-                <i class="material-icons fa">J</i>
-              </div>
-              <div class="content">
-                <br><br>
-                <h3>Jaden</h3>
-                <p>
-                  I am a rising sophmore CyberSecurity major attending Hampton university.
-                  I am an active member of the NROTC program and NSBE program.
-                  I love writing code and I hope that one day my code can make a positive impact on the world.
-                </p>
-              </div>
-            </div>
+    <main>
+      <h2>About the site</h2>
+      <p>
+        Today there are numerous causes that often don't receive the attention they need. 
+        Many organizations and individuals search for resources, but lack the platform to reach a sufficient amount of people. 
+        For those that are willing and able to provide help, there is a lack of a centralized collection of causes to contribute to. 
+        In the case of a student who is eager to provide community service, they often have to go through extensive lengths to find opportunities where they can contribute.
+        Similarly, it can be difficult for low income students to find fundraising or sponsorship opportunities in order to maintain their high school clubs or teams.  
+        With this site, We hope to provide a opportunities for the eager and give a voice to those who might not be heard anywhere else.
+      <p>  
+    </main>
 
-            <div class="box">
-              <div class="icon">
-                <i class="material-icons fa">Z</i>
-              </div>
-              <div class="content">
-                <br><br>
-                <h3>Z</h3>
-                <p>
-                  I am a California-based computer science student at UC Irvine with a passion for creating!
-                  I have always loved to make things that help or entertain others!
-                </p>
-              </div> 
-            </div>
-      </footer>               
+    <footer>
+      <h2>About the Creators</h2>
+      <div class="container">
+        <div class ="box"> 
+          <div class="icon">
+            <i class="material-icons fa">K</i>
+          </div>
+          <div class="content">
+            <br><br>
+            <h3>Kevin</h3>
+            <p>
+              I am a rising sophomore at Northeastern University in Massachusetts. 
+              During quarantine I have taken this time to learn new things. 
+              So far I have learned how to use a DSLR camera, cut my own hair, and build my own pc (AMD all the way).
+              Aside from learning new things, I love to run, watch anime, and dance salsa/bachata. 
+              If you are interested in any of these hobbies please feel free to ping me, I would love to talk about them with you!
+            </p>
+          </div> 
+        </div>
+
+        <div class="box">
+          <div class="icon">
+            <i class="material-icons fa">J</i>
+          </div>
+          <div class="content">
+            <br><br>
+            <h3>Jaden</h3>
+            <p>
+              I am a rising sophmore CyberSecurity major attending Hampton university.
+              I am an active member of the NROTC program and NSBE program.
+              I love writing code and I hope that one day my code can make a positive impact on the world.
+            </p>
+          </div>
+        </div>
+
+        <div class="box">
+          <div class="icon">
+            <i class="material-icons fa">Z</i>
+          </div>
+          <div class="content">
+            <br><br>
+            <h3>Z</h3>
+            <p>
+              I am a California-based computer science student at UC Irvine with a passion for creating!
+              I have always loved to make things that help or entertain others!
+            </p>
+          </div> 
+        </div>
+      </div>
+    </footer>
   </body> 
-
 </html>
-

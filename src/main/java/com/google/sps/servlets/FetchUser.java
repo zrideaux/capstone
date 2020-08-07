@@ -14,6 +14,15 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
+import com.google.gson.Gson;
+import com.google.sps.data.User;
+import com.google.sps.utility.AuthenticationUtility;
+import com.google.sps.utility.ValidateInput;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +30,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.google.gson.Gson;
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.sps.data.User;
-import com.google.sps.utility.ValidateInput;
 
 /** 
  * Servlet that creates a User object from email and returns the User object.
@@ -44,35 +47,33 @@ public class FetchUser extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) 
       throws IOException {
-    // Receive input from the modify number of comments shown form
-    // String userEmail = ValidateInput.getIdToken(request, "idtoken");
+    UserService userService = UserServiceFactory.getUserService();
 
-    // Get user email?
-    // Entity userEntity = getUserByEmail(userEmail);
+    if (userService.isUserLoggedIn()) {
+      String userEmail = userService.getCurrentUser().getEmail();
+      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+      if (AuthenticationUtility.userAlreadyHasAccount(datastore, userEmail)) {
+        Entity userEntity = AuthenticationUtility.getUserByEmail(datastore, 
+            userEmail);
 
-    // Filter query for this entity
+        User user;
+        try {
+          user = User.createUser(datastore, userEntity);
+        } catch (Exception e) {
+          // Return a JSON errorMessage with the exception message
+          ValidateInput.createErrorMessage(e, response);
+          return;
+        }
 
-    // User user = createUser(userEntity);
-
-    // String jsonUser = new Gson().toJson(user);
-    // response.setContentType("application/json;");
-    // response.getWriter().println(jsonUser);
-  }
-
-  /**
-   * Creates a User object from an Entity object that represents a user
-   *
-   * @param entity the entity that represents a user
-   * @return a User with all of the properties from the Entity
-   */
-  public static User createUser(Entity entity) {
-    String bio = (String) entity.getProperty("bio");
-    String email = (String) entity.getProperty("email");
-    String username = (String) entity.getProperty("username");
-    String createdListingKeys = (String) entity.getProperty("createdListingKeys");
-    String upvotedListingKeys = (String) entity.getProperty("upvotedListingKeys");
-
-    return new User(bio, email, username, createdListingKeys, 
-        upvotedListingKeys);
+        String jsonUser = new Gson().toJson(user);
+        response.setContentType("application/json;");
+        response.getWriter().println(jsonUser);    
+      } else {
+        ValidateInput.createErrorMessage("User needs to create an account", 
+            response);
+      }
+    } else {
+      ValidateInput.createErrorMessage("User needs to login", response);
+    }
   }
 }

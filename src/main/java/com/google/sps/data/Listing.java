@@ -14,28 +14,37 @@
 
 package com.google.sps.data;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+import java.lang.Math;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /** A listing */ 
 public final class Listing {
 
+  private final String dateCreated;
   private final String description;
   private final String howToHelp;
+  private final String imageURL;
   private final String location;
   private final String name;
-  private final String dateCreated;
   private final String type;
   private final int upvotes;
   private final int downvotes;
   private final int views;
   private final String website;
 
-  public Listing(String description, String howToHelp, String location, 
-      String name, long timestamp, String type, int upvotes, int downvotes, 
-      int views, String website) {
+  public Listing(String description, String howToHelp, String imageURL, 
+      String location, String name, long timestamp, String type, int upvotes, 
+      int downvotes, int views, String website) {
     this.description = description;
     this.howToHelp = howToHelp;
+    this.imageURL = imageURL;
     this.location = location;
     this.name = name;
 
@@ -72,14 +81,87 @@ public final class Listing {
    */
   public static String createDateFromTimestamp(long timestamp) {
     Date date = new Date(timestamp);
+    
     return date.toString();
   }
-  
+
+
   /**
+   * Creates a Listing object from an Entity object that represents a listing
+   *
+   * @param entity the entity that represents a listing
+   * @return a Listing with all of the properties from the Entity
+   */
+  public static Listing createListing(Entity entity) {
+    String description = (String) entity.getProperty("description");
+    String howToHelp = (String) entity.getProperty("howToHelp");
+    String imageURL = (String) entity.getProperty("imageURL");
+    String location = (String) entity.getProperty("location");
+    String name = (String) entity.getProperty("name");
+    long timestamp = (long) entity.getProperty("timestamp");
+    String type = (String) entity.getProperty("type");
+    int upvotes = Math.toIntExact((long) entity.getProperty("upvotes"));
+    int downvotes = Math.toIntExact((long) entity.getProperty("downvotes"));
+    int views = Math.toIntExact((long) entity.getProperty("views"));
+    String website = (String) entity.getProperty("website");
+
+    return new Listing(description, howToHelp, imageURL, location, name, 
+        timestamp, type, upvotes, downvotes, views, website);
+  }  
+
+  /**
+   * Creates a Listing object from an Entity object that represents a listing
+   *
+   * @param datastore the DatastoreService that connects to the back end.
+   * @param listingEntityKey the key of an entity that represents a listing
+   * @return a Listing with all of the properties from the Entity
+   */
+  public static Listing createListing(DatastoreService datastore, 
+      Key listingEntityKey) throws Exception {
+    Entity listingEntity = datastore.get(listingEntityKey);
+
+    return createListing(listingEntity);
+  }  
+
+  /**
+   * Creates a Listing object from an Entity object that represents a listing
+   *
+   * @param datastore the DatastoreService that connects to the back end.
+   * @param listingEntityKeyString the string of the key of an entity that 
+   *     represents a listing
+   * @return a Listing with all of the properties from the Entity
+   */
+  public static Listing createListing(DatastoreService datastore, 
+      String listingEntityKeyString) throws Exception {
+    Key listingEntityKey = KeyFactory.stringToKey(listingEntityKeyString);
+
+    return createListing(datastore, listingEntityKey);
+  }  
+
+  /**
+   * Turns a String[] of listing entity key Strings into a List<Listing>.
+   *
+   * @param datastore the DatastoreService that connects to the back end.
+   * @param listingEntityKeysStringArray the String[] of listing entity key.
+   *     Strings that will each be used to create a Listing.
+   * @return List<Listing> from the String[] of listing entity key strings.
+   */
+  public static List<Listing> createListings(DatastoreService datastore, 
+      String[] listingEntityKeysStringArray) throws Exception {
+    List<Listing> listings = new ArrayList<Listing>();
+    for (String listingEntityKeyString : listingEntityKeysStringArray) {
+      listings.add(createListing(datastore, listingEntityKeyString));
+    } 
+
+    return listings;
+  }
+
+  /**
+   * Return location of listing
+   * 
    * @return location of listing
    */
   public String getLocation(){
     return location;
   }
-
 }

@@ -18,8 +18,8 @@ import { toggleDisplay } from './miscellaneous.js';
  * @param listingId the id of the listing detailed view element
  * @return a div with all the preview information pertaining to a listing
  */
-export default function createListingPreview(listing, listingDisplay, listingId) {
 
+export default function createListingPreview(listing, listingDisplay, listingId) {
   const sectionListing = createSectionElement('listing shadow-box', '');
   
   // Make section listing keyboard accessible 
@@ -37,12 +37,12 @@ export default function createListingPreview(listing, listingDisplay, listingId)
     }
   });
 
-  console.log("Creating listing information");
-  const exImgSrc = '';
+  // Creating listing information
+  const imageURL = listing.imageURL;
   const upvotes = listing.upvotes.toLocaleString();
-  sectionListing.appendChild(createListingInformation(exImgSrc, upvotes));
+  sectionListing.appendChild(createListingInformation(imageURL, upvotes));
 
-  console.log('Creating listing details')
+  // Creating listing details
   const description = listing.description;  
   const name = listing.name;
   const type = listing.type;
@@ -55,15 +55,15 @@ export default function createListingPreview(listing, listingDisplay, listingId)
 /**
  * Create an element with listing information
  *
- * @param imgSrc the source of the listing image
+ * @param imageURL the source of the listing image
  * @param upvotes the number of upvotes this listing has received
  * @return a div with the picture and the number of upvotes this listing has
  */
-function createListingInformation(imgSrc, upvotes) {
+function createListingInformation(imageURL, upvotes) {
   const divListingInfo = createDivElement('', 'preview-info', '');
 
   divListingInfo.appendChild(
-    createImgElement(imgSrc, 'Listing preview image', 'listing-image', ''));
+    createImgElement(imageURL, 'Listing preview image', 'listing-image', ''));
 
   divListingInfo.appendChild(
     createSpanElement('Reputation: ' + upvotes + ' upvotes', 
@@ -83,7 +83,7 @@ function createListingInformation(imgSrc, upvotes) {
 function createListingDetails(description, name, type) {
   const divListingDetails = createDivElement('', 'listing-info-container', '');
 
-  console.log('Creating listing heading');
+  // Creating listing heading
   divListingDetails.appendChild(createListingHeading(name, type));
 
   divListingDetails.appendChild(
@@ -106,9 +106,8 @@ function createListingHeading(name, type) {
   divListingHeading.appendChild(
     createHElement(name, 2, 'listing-preview-name', ''));
 
-  console.log('Creating listing tags');
+  // Creating listing tags
   divListingHeading.appendChild(createListingTags(type));
-
   return divListingHeading;
 }
 
