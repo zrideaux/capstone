@@ -74,4 +74,12 @@ public final class Listing {
     Date date = new Date(timestamp);
     return date.toString();
   }
+  
+  /**
+   * @return location of listing
+   */
+  public String getLocation(){
+    return location;
+  }
+
 }
