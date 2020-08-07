@@ -163,13 +163,24 @@ public final class User {
   }
 
   /**
-   * Get an array of listing keys
+   * Get an array of listing key strings from a property in a user entity.
+   *
+   * @param userEntity an entity associated with a specific user
+   * @param property string of the property to get listing key strings from
+   * @return String[] of listing key strings
    */
   public static String[] getListingKeysAsArray(Entity userEntity, String property) {
     String listingKeysString = (String) userEntity.getProperty(property);
     return listingKeysString.trim().split(" ");
   }
 
+  /**
+   * Get the string of listing key strings from a property in a user entity.
+   *
+   * @param userEntity an entity associated with a specific user
+   * @param property string of the property to get listing key strings from
+   * @return String of listing keys
+   */
   public static String getListingKeysAsString(Entity userEntity, String property) {
     return (String) userEntity.getProperty(property);
   }
