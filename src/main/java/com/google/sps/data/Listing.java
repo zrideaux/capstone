@@ -15,13 +15,14 @@
 package com.google.sps.data;
 
 import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import java.lang.Math;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /** A listing */ 
 public final class Listing {
@@ -82,6 +83,7 @@ public final class Listing {
    */
   public static String createDateFromTimestamp(long timestamp) {
     Date date = new Date(timestamp);
+    
     return date.toString();
   }
 
@@ -106,12 +108,17 @@ public final class Listing {
     String key = (String) KeyFactory.keyToString(
         entity.getKey());
 
-    return new Listing(description, howToHelp, imageURL, location, name, 
+    return new Listing(description, howToHelp, imageURL, location, name,
         timestamp, type, upvotes, downvotes, views, website, key);
   }
 
   /**
+   * Increment a specified property in a listing entity and update it in
+   * datastore.
    *
+   * @param datastore an instance of datastore service
+   * @param listingKey a key associated with a listing entity
+   * @param property string of the name of the property to increment
    */
   public static void incrementListingProperty(DatastoreService datastore,
       Key listingKey, String property) {
@@ -128,7 +135,12 @@ public final class Listing {
   }
 
   /**
+   * Decrement a specified property in a listing entity and update it in
+   * datastore.
    *
+   * @param datastore an instance of datastore service
+   * @param listingKey a key associated with a listing entity
+   * @param property string of the name of the property to decrement
    */
   public static void decrementListingProperty(DatastoreService datastore,
       Key listingKey, String property) {
@@ -142,5 +154,52 @@ public final class Listing {
     } catch (Exception e) {
       System.out.println(e);
     }
+  }  
+
+  /**
+   * Creates a Listing object from an Entity object that represents a listing
+   *
+   * @param datastore the DatastoreService that connects to the back end.
+   * @param listingEntityKey the key of an entity that represents a listing
+   * @return a Listing with all of the properties from the Entity
+   */
+  public static Listing createListing(DatastoreService datastore, 
+      Key listingEntityKey) throws Exception {
+    Entity listingEntity = datastore.get(listingEntityKey);
+
+    return createListing(listingEntity);
+  }  
+
+  /**
+   * Creates a Listing object from an Entity object that represents a listing
+   *
+   * @param datastore the DatastoreService that connects to the back end.
+   * @param listingEntityKeyString the string of the key of an entity that 
+   *     represents a listing
+   * @return a Listing with all of the properties from the Entity
+   */
+  public static Listing createListing(DatastoreService datastore, 
+      String listingEntityKeyString) throws Exception {
+    Key listingEntityKey = KeyFactory.stringToKey(listingEntityKeyString);
+
+    return createListing(datastore, listingEntityKey);
+  }  
+
+  /**
+   * Turns a String[] of listing entity key Strings into a List<Listing>.
+   *
+   * @param datastore the DatastoreService that connects to the back end.
+   * @param listingEntityKeysStringArray the String[] of listing entity key.
+   *     Strings that will each be used to create a Listing.
+   * @return List<Listing> from the String[] of listing entity key strings.
+   */
+  public static List<Listing> createListings(DatastoreService datastore, 
+      String[] listingEntityKeysStringArray) throws Exception {
+    List<Listing> listings = new ArrayList<Listing>();
+    for (String listingEntityKeyString : listingEntityKeysStringArray) {
+      listings.add(createListing(datastore, listingEntityKeyString));
+    }
+
+    return listings;
   }
 }
