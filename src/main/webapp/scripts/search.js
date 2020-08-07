@@ -31,22 +31,28 @@ export default function displayListings() {
 }
 
 /**
- * 
+ * Add on click and when submit key is pressed to checkbox/radio inputs and to 
+ *     see all span element.
  */
 function addOnclickToInputs() {
+  // // Add onclick and onsubmit function to see all span element.
   const seeAllElement = document.getElementById('see-all');
   keyboardAccessible(seeAllElement, displayListingsShowAllFilters, 
       displayListingsShowAllFilters, "0");
  
-  // Checkbox is tab accessible
+  // Checkbox is tab accessible.
+  // Add onclick and onsubmit function to filter checkbox inputs.
   mapElementsByName(displayListingsOnClickCheckbox, 'search-type-option');
 
-  // Radio is not tab accessible
+  // Radio is not tab accessible.
   const displayListingsOnClickRadio = (radio) => {
     keyboardAccessibleOnClick(radio, displayListings, displayListings);
   }
 
+  // Add onclick and onsubmit function to radius radio inputs.
   mapElementsByName(displayListingsOnClickRadio, 'search-radius-option');
+
+  // Add onclick and onsubmit function to sort radio inputs.
   mapElementsByName(displayListingsOnClickRadio, 'search-sort-option');
 }
 
