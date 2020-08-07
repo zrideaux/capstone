@@ -35,11 +35,11 @@ public class ExcludeByRadius{
   /**
    * Takes in a list of Listings that have had their filter applied and omits the Listings that are not 
    *   located inside the users requested radius. 
-   * 
-   * @return ArrayList  of desired listings that are within the radius set by the user.  
-   * @param ArrayList of listings that are compatible with user.
-   * @param String input of current users location.
-   * @param int Integer value of radius slected in meters.
+   *  
+   * @param listings ArrayList of listings that are compatible with user.
+   * @param userLocation input of current users location.
+   * @param radius Integer value of radius slected in meters.
+   * @return ArrayList of desired listings that are within the radius set by the user.
    */ 
   public ArrayList<Listing> removeListingsNotInRadius(ArrayList<Listing> listings, String userLocation, int radius)
       throws IOException{
@@ -78,7 +78,7 @@ public class ExcludeByRadius{
   private String distanceMatrixJsonUrl(String userLocation, String[] listingLocations, String baseURL) {
     String completeURL = baseURL+"origins="+userLocation+"&destinations=";
     for(int i = 0; i < listingLocations.length; i++){
-        completeURL += listingLocations[i] + "|";
+      completeURL += listingLocations[i] + "|";
     }
     completeURL += "&departure_time=now&API_KEY=" + API_KEY; 
     return completeURL;
@@ -87,7 +87,7 @@ public class ExcludeByRadius{
   /**
    * Converts Distance Matrix JSON Object to Java object 
    *  
-   * @param String Url for api call
+   * @param JsonObjURL Url for api call
    * @return parsable Java Object
    */ 
   private DistanceMatrixOBJ convertJsonToDMObject(String JsonObjURL)
@@ -133,12 +133,12 @@ public class ExcludeByRadius{
   /**
    * Cuts list size based on how many of the listings fit in the radius
    *
-   * @param ArrayList<Listings> of listings compatible with the radius 
-   * @param DistanceMatrixOBJ containing all the distances to compare with radius
-   * @param int value of radius in meters
+   * @param listings ArrayList of listings compatible with the radius 
+   * @param distance DistanceMatrixOBJ containing all the distances to compare with radius
+   * @param radius integer value of radius in meters
    * @return list of listings that are within radius in no particular order
    */
-  private static ArrayList<Listing> cutList(ArrayList<Listing> listings, DistanceMatrixOBJ distance, int radius) {
+  private ArrayList<Listing> cutList(ArrayList<Listing> listings, DistanceMatrixOBJ distance, int radius) {
     double[] distancesInMeters = distance.getDoubleDistanceValues();
     String[] destinations = distance.getListingAddresses();
     ArrayList<Listing> returnList = new ArrayList<>();
@@ -157,9 +157,5 @@ public class ExcludeByRadius{
     }
       
     return returnList;
-<<<<<<< HEAD
   }
-=======
-   }
->>>>>>> c13a2ccad79466cc0382fae4f08ae05f206726de
 }

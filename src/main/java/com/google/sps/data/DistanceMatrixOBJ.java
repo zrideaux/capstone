@@ -44,6 +44,7 @@ public class DistanceMatrixOBJ {
     @SerializedName("value")
     public double value;
   }
+
   /**
    * Returns user input starting location.
    *  
@@ -62,13 +63,13 @@ public class DistanceMatrixOBJ {
     return destination_addresses;
   }
 
-   /**
-    * Returns an array of String values that show the users distance from the
-    *    listings in kilometers.
-    *
-    * @return String array of values that represent the distance in kilometers 
-    *    between user and listings i.e("980km")
-    */
+  /**
+   * Returns an array of String values that show the users distance from the
+   *    listings in kilometers.
+   *
+   * @return String array of values that represent the distance in kilometers 
+   *    between user and listings i.e("980km")
+   */
   public String[] getStringDistanceValues() {
     String[] listingDistanceTextValues = new String[row[0].elements.length];
     for(int i = 0; i < row[0].elements.length; i++) {
@@ -77,13 +78,14 @@ public class DistanceMatrixOBJ {
     
     return listingDistanceTextValues;
   }
-   /**
-    * Returns a double array of values that show the users distance from the listing
-    *    in meters.
-    *
-    * @return double array of values that represent the distance in meters 
-    *   between user and listings i.e(980000.0)
-    */
+  
+  /**
+   * Returns a double array of values that show the users distance from the listing
+   *    in meters.
+   *
+   * @return double array of values that represent the distance in meters 
+   *   between user and listings i.e(980000.0)
+   */
   public double[] getDoubleDistanceValues() {
     double[] listingDistanceValues = new double[row[0].elements.length];
     for(int i =0; i < row[0].elements.length; i++) {
