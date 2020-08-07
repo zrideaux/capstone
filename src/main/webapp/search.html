@@ -77,22 +77,22 @@
             <input id="fundraiser-radio" class="search-filter" checked 
                 name="search-type-option" 
                 type="checkbox" value="1" >
-            <label for="fundraiser-radio">Fundraiser</label>
+            <label class="search-label" for="fundraiser-radio">Fundraiser</label>
             <br>
             <input id="petition-radio" class="search-filter" checked
                 name="search-type-option" 
                 type="checkbox" value="2">
-            <label for="petition-radio">Petition</label>
+            <label class="search-label" for="petition-radio">Petition</label>
             <br>
             <input id="event-radio" class="search-filter" checked
                 name="search-type-option" 
                 type="checkbox" value="3">
-            <label for="event-radio">Event</label>
+            <label class="search-label" for="event-radio">Event</label>
             <br>
             <input id="other-radio" class="search-filter" checked
                 name="search-type-option" 
                 type="checkbox" value="4">
-            <label for="other-radio">Other</label>
+            <label class="search-label" for="other-radio">Other</label>
           </div>
         </span>
         
@@ -103,23 +103,23 @@
             <br>
             <input id="search-radius-10" name="search-radius-option"
                 type="radio" value="10">
-            <label for="search-radius-10">10 km</label>
+            <label class="search-label" for="search-radius-10">10 km</label>
             <br>
             <input id="search-radius-25" name="search-radius-option" checked
                 type="radio" value="25" >
-            <label for="search-radius-25">25 km</label>
+            <label class="search-label" for="search-radius-25">25 km</label>
             <br>
             <input id="search-radius-50" name="search-radius-option"
                 type="radio" value="50">
-            <label for="search-radius-50">50 km</label>
+            <label class="search-label" for="search-radius-50">50 km</label>
             <br>
             <input id="search-radius-100" name="search-radius-option"
                 type="radio" value="100" >
-            <label for="search-radius-100">100 km</label>
+            <label class="search-label" for="search-radius-100">100 km</label>
             <br>
             <input id="search-radius-100+" name="search-radius-option"
                 type="radio" value="100+" >
-            <label for="search-radius-100+">100+ km</label>
+            <label class="search-label" for="search-radius-100+">100+ km</label>
           </div>
         </span>
 
@@ -131,15 +131,21 @@
             <input id="search-sort-recommended" checked 
                 name="search-sort-option" onchange="displayListings()"
                 type="radio" value="Recommended">
-            <label for="search-sort-recommended">Recommended</label>
+            <label class="search-label" for="search-sort-recommended">
+              Recommended
+            </label>
             <br>
             <input id="search-sort-reputation" name="search-sort-option"
                 onchange="displayListings()" type="radio" value="Reputation" >
-            <label for="search-sort-reputation">Reputation</label>
+            <label class="search-label" for="search-sort-reputation">
+              Reputation
+            </label>
             <br>
             <input id="search-sort-leastviewed" name="search-sort-option"
                 onchange="displayListings()" type="radio" value="Least Viewed"> 
-            <label for="search-sort-leastviewed">Least Viewed</label>
+            <label class="search-label" for="search-sort-leastviewed">
+              Least Viewed
+            </label>
           </div>
         </span>
       </div>
