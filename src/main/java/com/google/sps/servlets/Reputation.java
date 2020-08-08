@@ -52,12 +52,9 @@ public class Reputation extends HttpServlet {
       String vote = ValidateInput.getParameter(request, "vote", "");
 
       // Make sure vote is a valid type.
-      try {
-        if (voteIsInvalid(vote)) {
-          throw new Exception("'" + vote + "' is an invalid vote type.");
-        }
-      } catch (Exception e) {
-        ValidateInput.createErrorMessage(e, response);
+      if (voteIsInvalid(vote)) {
+        String errorMessage = "'" + vote + "' is an invalid vote type.";
+        ValidateInput.createErrorMessage(errorMessage, response);  
         return;
       }
 
@@ -92,19 +89,17 @@ public class Reputation extends HttpServlet {
       //    is called, they are changing their vote (to downvote or neutral)
       removeVote(datastore, userEntity, listingKey, "upvote");
       
-      // If their new vote was a downvote, add it to them and the listing
-      if (vote.equals("downvote")) {
-        addVote(datastore, userEntity, listingKey, "downvote");
-      } 
+      // Check if their new vote was an upvote, and add it to the user and the
+      //    listing if it was.
+      addVote(datastore, userEntity, listingKey, vote);
     } else if (userDownvotes.contains(listingKeyString)) {
       // If a listing is already present in a user's downvotes when this function
       //    is called, they are changing their vote (to upvote or neutral)
       removeVote(datastore, userEntity, listingKey, "downvote");
 
-      // If their new vote was an upvote, add it to them and the listing
-      if (vote.equals("upvote")) {
-        addVote(datastore, userEntity, listingKey, "upvote");
-      } 
+      // Check if their new vote was an upvote, and add it to the user and the
+      //    listing if it was.
+      addVote(datastore, userEntity, listingKey, vote);
     } else {
       // If the user's vote was previously neutral, just add their new vote
       addVote(datastore, userEntity, listingKey, vote);
@@ -182,10 +177,10 @@ public class Reputation extends HttpServlet {
     final double WEIGHT_1 = .20;
     final double WEIGHT_2 = .80;
     
-    double upvotes = new Long(
-        (long) listingEntity.getProperty("upvotes")).doubleValue();
-    double downvotes = new Long(
-        (long) listingEntity.getProperty("downvotes")).doubleValue();
+    int upvotes = (int) new Long(
+        (long) listingEntity.getProperty("upvotes")).intValue();
+    int downvotes = (int) new Long(
+        (long) listingEntity.getProperty("downvotes")).intValue();
     double upvotePercentage = upvotes / (upvotes + downvotes);
 
     int reputationScore = (int) ((upvotes * WEIGHT_1) 
