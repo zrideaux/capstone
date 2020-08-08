@@ -66,20 +66,6 @@ public final class User {
   }
 
   /**
-   * Used to transform a user Entity's String of listingkeys into a String[] of 
-   *     listingkeys.
-   *
-   * @param entity An Entity that has a ListingKeys property
-   * @param property the name of the ListingKeys property
-   * @return a String[] of listing keys
-   */
-  private static String[] getListingKeys(Entity entity, String property) {
-    String listingKeysString = (String) entity.getProperty(property);
-
-    return listingKeysString.trim().split(DELIMITER);
-  }
-
-  /**
    * Creates a User object from an Entity object that represents a user
    *
    * @param entity the entity that represents a user
@@ -130,7 +116,7 @@ public final class User {
   public static void addListingKeyToUserEntity(DatastoreService datastore,
       Entity userEntity, Key listingKey, String property) {
     // Get the string of listing keys from userEntity's specified property
-    //    This should most likely be createdListingKeys, upvotedListingKeys,
+    // This should most likely be createdListingKeys, upvotedListingKeys,
     //    or downvotedListingKeys
     String listingKeysString = getListingKeysAsString(userEntity, property);
     
@@ -151,7 +137,7 @@ public final class User {
   public static void removeListingKeyFromUserEntity(DatastoreService datastore,
       Entity userEntity, Key listingKey, String property) {
     // Get the string of listing keys from userEntity's specified property
-    //    This should most likely be createdListingKeys, upvotedListingKeys,
+    // This should most likely be createdListingKeys, upvotedListingKeys,
     //    or downvotedListingKeys
     String listingKeysString = getListingKeysAsString(userEntity, property);
     
@@ -169,9 +155,10 @@ public final class User {
    * @param property string of the property to get listing key strings from
    * @return String[] of listing key strings
    */
-  public static String[] getListingKeysAsArray(Entity userEntity, String property) {
+  public static String[] getListingKeysAsArray(Entity userEntity, String property,
+      String delimiter) {
     String listingKeysString = (String) userEntity.getProperty(property);
-    return listingKeysString.trim().split(" ");
+    return listingKeysString.trim().split(delimiter);
   }
 
   /**
