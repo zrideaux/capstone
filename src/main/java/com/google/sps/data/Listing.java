@@ -31,6 +31,7 @@ public final class Listing {
   private final String description;
   private final String howToHelp;
   private final String imageURL;
+  private String key;
   private final String location;
   private final String name;
   private final String type;
@@ -38,11 +39,30 @@ public final class Listing {
   private final int downvotes;
   private final int views;
   private final String website;
-  private final String key; 
 
-  public Listing(String description, String howToHelp, String imageURL, 
-      String location, String name, long timestamp, String type, int upvotes, 
-      int downvotes, int views, String website, String keyString) {
+  public Listing(String description, String howToHelp, String imageURL,
+      String keyString, String location, String name, long timestamp,
+      String type, int upvotes, int downvotes, int views, String website) {
+    this.description = description;
+    this.howToHelp = howToHelp;
+    this.key = keyString;
+    this.imageURL = imageURL;
+    this.location = location;
+    this.name = name;
+
+    // turn int of timestamp into Date object
+    String dateCreated = timestampToDate(timestamp);
+    this.dateCreated = dateCreated;
+    this.type = type;
+    this.upvotes = upvotes;
+    this.downvotes = downvotes;
+    this.views = views;
+    this.website = website;
+  }
+
+  public Listing(String description, String howToHelp, String imageURL,
+      String location, String name, long timestamp, String type, int upvotes,
+      int downvotes, int views, String website) {
     this.description = description;
     this.howToHelp = howToHelp;
     this.imageURL = imageURL;
@@ -57,7 +77,6 @@ public final class Listing {
     this.downvotes = downvotes;
     this.views = views;
     this.website = website;
-    this.key = keyString;
   }
 
   /**
@@ -97,6 +116,8 @@ public final class Listing {
     String description = (String) entity.getProperty("description");
     String howToHelp = (String) entity.getProperty("howToHelp");
     String imageURL = (String) entity.getProperty("imageURL");
+    String key = (String) KeyFactory.keyToString(
+        entity.getKey());
     String location = (String) entity.getProperty("location");
     String name = (String) entity.getProperty("name");
     long timestamp = (long) entity.getProperty("timestamp");
@@ -105,11 +126,9 @@ public final class Listing {
     int downvotes = Math.toIntExact((long) entity.getProperty("downvotes"));
     int views = Math.toIntExact((long) entity.getProperty("views"));
     String website = (String) entity.getProperty("website");
-    String key = (String) KeyFactory.keyToString(
-        entity.getKey());
 
-    return new Listing(description, howToHelp, imageURL, location, name,
-        timestamp, type, upvotes, downvotes, views, website, key);
+    return new Listing(description, howToHelp, imageURL, key, location, name,
+        timestamp, type, upvotes, downvotes, views, website);
   }
 
   /**
