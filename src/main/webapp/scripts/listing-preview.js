@@ -29,8 +29,8 @@ export default function createListingPreview(listing, listingDisplay, listingId)
     toggleDisplay(listingDisplay, listingId);
   }
 
-  // // Make section listing keyboard accessible 
-  // //     (which includes tabs and enter keys)
+  // Make section listing keyboard accessible 
+  //     (which includes tabs and enter keys)
   keyboardAccessible(sectionListing, toggleListingDisplay, toggleListingDisplay,
       "0");
 

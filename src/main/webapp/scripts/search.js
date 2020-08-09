@@ -35,7 +35,7 @@ export default function displayListings() {
  *     see all span element.
  */
 function addOnclickToInputs() {
-  // // Add onclick and onsubmit function to see all span element.
+  // Add onclick and onsubmit function to see all span element.
   const seeAllElement = document.getElementById('see-all');
   keyboardAccessible(seeAllElement, displayListingsShowAllFilters, 
       displayListingsShowAllFilters, "0");
