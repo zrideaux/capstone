@@ -33,8 +33,10 @@ function getSearchParameters() {
   const filterTypes = getCheckboxesByName('search-type-option');
   const filterRadius = getRadioByName('search-radius-option');
   const sort = getRadioByName('search-sort-option');
+  const location = document.getElementById('search-location-input').value;
   let param = 'type-filters=' + filterTypes;
   param += '&radius-filter=' + filterRadius;
   param += '&sortBy=' + sort;
+  param += '&location=' + location;
   return param;
 }

@@ -27,6 +27,7 @@ import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.gson.Gson;
 import com.google.sps.data.Listing;
+import com.google.sps.utility.ExcludeByRadius;
 import com.google.sps.utility.ValidateInput;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -119,8 +120,23 @@ public class FetchListings extends HttpServlet {
     // Sort the Listings based on sort parameter
     // The sorting algorithm will be given a List<Listing> and will return a 
     //     List<Listing>
-
-    String jsonListings = new Gson().toJson(listings);
+    int radius;
+     try {
+      radius = ValidateInput.getParameter(request, "radius-filter", 10);
+    } catch (Exception e) {
+      ValidateInput.createErrorMessage(e, response);
+      return;
+    } 
+    String userLocation = ValidateInput.getParameter(request, "location", "");
+    String jsonListings;
+    
+    if(userLocation.equals("")) {
+      jsonListings = new Gson().toJson(listings);
+    }else{
+      ArrayList<Listing> modifiedlistings = ExcludeByRadius.removeListingsNotInRadius(listings, userLocation, radius);
+      jsonListings = new Gson().toJson(modifiedlistings);
+    }
+    
     response.setContentType("application/json;");
     response.getWriter().println(jsonListings);
   }
