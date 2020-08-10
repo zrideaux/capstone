@@ -20,6 +20,8 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 import com.google.sps.data.Listing;
 import com.google.sps.filter.FilterQuery;
@@ -28,6 +30,7 @@ import com.google.sps.utility.ListingConstants;
 import com.google.sps.utility.ValidateInput;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -40,6 +43,8 @@ import javax.servlet.http.HttpServletRequest;
  */
 @WebServlet("/fetch-listings")
 public class FetchListings extends HttpServlet {
+
+  static final HashMap<String, String> FILTERS = new HashMap<String, String>();
 
   /** 
    * Returns JSON which is a List of Listings associated with the user or an 
@@ -73,11 +78,10 @@ public class FetchListings extends HttpServlet {
       return;
     } 
 
-    String sortBy;
+    int sortBy;
     try {
-      sortBy = ValidateInput.getUserString(request, 
-        "sortBy", ListingConstants.SORT_MIN, ListingConstants.SORT_MAX, 
-        "recommended");
+      sortBy = ValidateInput.getUserNum(request, 
+        "sortBy", ListingConstants.SORT_MIN, ListingConstants.SORT_MAX);
     } catch (Exception e) {
       ValidateInput.createErrorMessage(e, response);
       return;
@@ -87,7 +91,8 @@ public class FetchListings extends HttpServlet {
     Query queryListing = new Query("Listing");
 
     // Add a type filter for the Listings property if there are any filters
-    FilterQuery.filterQuery(typeFiltersString, "type", queryListing);
+    initializeFilters();
+    FilterQuery.filterQuery(typeFiltersString, FILTERS, "type", queryListing);
     
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery preparedQueryListings = datastore.prepare(queryListing);
@@ -105,9 +110,27 @@ public class FetchListings extends HttpServlet {
     // Sort the Listings based on sort parameter
     // The sorting algorithm will be given a List<Listing> and will return a 
     //     List<Listing>
+    if (sortBy == 1) {
+      UserService userService = UserServiceFactory.getUserService();
+      listings = Recommended.sortByRecommended(datastore, listings, userService);
+    } else if (sortBy == 2) {
+      // TODO call on Reputation sorting algorithm
+    } else {
+      // TODO call on LeastViewed sorting algorithm
+    }
 
     String jsonListings = new Gson().toJson(listings);
     response.setContentType("application/json;");
     response.getWriter().println(jsonListings);
+  }
+
+  /**
+   * Populate the FILTERS HashMap constant
+   */
+  private static void initializeFilters() {
+    FILTERS.put("1", "fundraiser");
+    FILTERS.put("2", "petition");
+    FILTERS.put("3", "event");
+    FILTERS.put("4", "other");
   }
 }
