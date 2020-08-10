@@ -9,3 +9,8 @@ script-legacy.js
 CreateUser.java
 reputation_test.html
 reputation.js
+reputation_copy.js
+src/main/java/com/google/sps/data/Listing.java
+src/main/webapp/scripts/listing-detailed.js
+src/main/webapp/stylesheets/listing-detailed.css
+src/main/webapp/stylesheets/master.css
