@@ -21,4 +21,17 @@ public final class ListingConstants {
   public static final int MAX_NAME_LEN = 50; 
   // Based on the length of the longest category name (fundraiser)
   public static final int MAX_TYPE_LEN = 10; 
+
+  // Based on the length of the String when no filters are checked (MIN) or 
+  //     when all filters are checked and separated by "@" (MAX)
+  public static final int FILTER_MIN = 0;
+  public static final int FILTER_MAX = 7;
+  // Based on the length of the shortest/longest radius category 
+  public static final int RADIUS_MIN = 2;
+  public static final int RADIUS_MAX = 4;
+  // Based on the number of sort categories
+  public static final int SORT_MIN = 1;
+  public static final int SORT_MAX = 3;
+
+  public static final int LISTING_LIMIT = 50;
 } 

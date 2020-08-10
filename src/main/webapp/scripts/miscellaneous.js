@@ -83,7 +83,7 @@ function isErrorMessage(str) {
   const isString = typeof str === "string";
   const isLength = str.length > errorIntroLength;
   let isSubstring = false;
-  if (isLength) {
+  if (isString && isLength) {
     // the error message (str) comes with quotes
     isSubstring = str.startsWith(errorIntro);
   }
