@@ -194,7 +194,6 @@ public final class User {
     String currentUserKeyString = KeyFactory.keyToString(currentUserEntity.getKey());
     System.out.println(currentUserKeyString);
 
-
     if (!upvotedUsersString.contains(currentUserKeyString)) {
       upvotedUsersString += currentUserKeyString + " ";
       listingEntity.setProperty(property, upvotedUsersString);
