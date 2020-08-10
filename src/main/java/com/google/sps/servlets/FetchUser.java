@@ -52,26 +52,21 @@ public class FetchUser extends HttpServlet {
     if (userService.isUserLoggedIn()) {
       String userEmail = userService.getCurrentUser().getEmail();
       DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-      if (AuthenticationUtility.userAlreadyHasAccount(datastore, userEmail)) {
-        Entity userEntity = AuthenticationUtility.getUserByEmail(datastore, 
-            userEmail);
+      Entity userEntity = AuthenticationUtility.getUserByEmail(datastore, 
+          userEmail);
 
-        User user;
-        try {
-          user = User.createUser(datastore, userEntity);
-        } catch (Exception e) {
-          // Return a JSON errorMessage with the exception message
-          ValidateInput.createErrorMessage(e, response);
-          return;
-        }
-
-        String jsonUser = new Gson().toJson(user);
-        response.setContentType("application/json;");
-        response.getWriter().println(jsonUser);    
-      } else {
-        ValidateInput.createErrorMessage("User needs to create an account", 
-            response);
+      User user;
+      try {
+        user = User.createUser(datastore, userEntity);
+      } catch (Exception e) {
+        // Return a JSON errorMessage with the exception message
+        ValidateInput.createErrorMessage(e, response);
+        return;
       }
+
+      String jsonUser = new Gson().toJson(user);
+      response.setContentType("application/json;");
+      response.getWriter().println(jsonUser);    
     } else {
       ValidateInput.createErrorMessage("User needs to login", response);
     }
