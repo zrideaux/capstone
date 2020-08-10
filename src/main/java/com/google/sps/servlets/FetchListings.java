@@ -20,17 +20,17 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.CompositeFilter;
-import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
-import com.google.appengine.api.datastore.Query.Filter;
-import com.google.appengine.api.datastore.Query.FilterOperator;
-import com.google.appengine.api.datastore.Query.FilterPredicate;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 import com.google.sps.data.Listing;
+import com.google.sps.filter.FilterQuery;
+import com.google.sps.sort.RecommendedSort;
+import com.google.sps.utility.ListingConstants;
 import com.google.sps.utility.ValidateInput;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -44,20 +44,7 @@ import javax.servlet.http.HttpServletRequest;
 @WebServlet("/fetch-listings")
 public class FetchListings extends HttpServlet {
 
-  // Based on the length of the String when no filters are checked (MIN) or 
-  //     when all filters are checked and separated by "@" (MAX)
-  static final int FILTER_MIN = 0;
-  static final int FILTER_MAX = 31;
-  // Based on the shortest filter type String length ("other".length = 5)
-  static final int FILTER_MIN_LENGTH = 5;
-  // Based on the length of the shortest/longest radius category 
-  static final int RADIUS_MIN = 2;
-  static final int RADIUS_MAX = 4;
-  // Based on the length of the shortest/longest sort category 
-  static final int SORT_MIN = 10;
-  static final int SORT_MAX = 12;
-
-  static final int LISTING_LIMIT = 50;
+  static final HashMap<String, String> FILTERS = new HashMap<String, String>();
 
   /** 
    * Returns JSON which is a List of Listings associated with the user or an 
@@ -74,7 +61,8 @@ public class FetchListings extends HttpServlet {
     String typeFiltersString;
     try {
       typeFiltersString = ValidateInput.getUserString(request, 
-        "type-filters", FILTER_MIN, FILTER_MAX);
+        "type-filters", ListingConstants.FILTER_MIN, 
+        ListingConstants.FILTER_MAX);
     } catch (Exception e) {
       ValidateInput.createErrorMessage(e, response);
       return;
@@ -83,16 +71,17 @@ public class FetchListings extends HttpServlet {
     String radiusFilter;
     try {
       radiusFilter = ValidateInput.getUserString(request, 
-        "radius-filter", RADIUS_MIN, RADIUS_MAX, "");
+        "radius-filter", ListingConstants.RADIUS_MIN, 
+        ListingConstants.RADIUS_MAX, "");
     } catch (Exception e) {
       ValidateInput.createErrorMessage(e, response);
       return;
     } 
 
-    String sortBy;
+    int sortBy;
     try {
-      sortBy = ValidateInput.getUserString(request, 
-        "sortBy", SORT_MIN, SORT_MAX, "recommended");
+      sortBy = ValidateInput.getUserNum(request, 
+        "sortBy", ListingConstants.SORT_MIN, ListingConstants.SORT_MAX);
     } catch (Exception e) {
       ValidateInput.createErrorMessage(e, response);
       return;
@@ -102,12 +91,14 @@ public class FetchListings extends HttpServlet {
     Query queryListing = new Query("Listing");
 
     // Add a type filter for the Listings property if there are any filters
-    filterQuery(typeFiltersString, "type", queryListing);
+    initializeFilters();
+    FilterQuery.filterQuery(typeFiltersString, FILTERS, "type", queryListing);
     
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery preparedQueryListings = datastore.prepare(queryListing);
 
-    FetchOptions entitiesLimit = FetchOptions.Builder.withLimit(LISTING_LIMIT);
+    FetchOptions entitiesLimit = FetchOptions.Builder.withLimit(
+        ListingConstants.LISTING_LIMIT);
     List<Entity> listingEntities = preparedQueryListings.asList(entitiesLimit);
 
     // Turn Entities into Listings
@@ -119,6 +110,15 @@ public class FetchListings extends HttpServlet {
     // Sort the Listings based on sort parameter
     // The sorting algorithm will be given a List<Listing> and will return a 
     //     List<Listing>
+    if (sortBy == 1) {
+      UserService userService = UserServiceFactory.getUserService();
+      listings = RecommendedSort.sortByRecommended(datastore, listings, 
+          userService);
+    } else if (sortBy == 2) {
+      // TODO call on Reputation sorting algorithm
+    } else {
+      // TODO call on LeastViewed sorting algorithm
+    }
 
     String jsonListings = new Gson().toJson(listings);
     response.setContentType("application/json;");
@@ -126,38 +126,12 @@ public class FetchListings extends HttpServlet {
   }
 
   /**
-   * Apply a filter to a query if some filters have been checked as opposed to 
-   *     no filters checked or all filters checked.
-   * 
-   * @param filtersString The string that contains filters separated by an "@"
-   * @param property The property of the Entity to filter
-   * @param query The query to add a filter to
+   * Populate the FILTERS HashMap constant
    */
-  private void filterQuery(String filtersString, String property, Query query) {
-    int filtersStringLength = filtersString.length();
-    boolean someTypeFiltersChecked = filtersStringLength > FILTER_MIN_LENGTH - 1
-        && filtersStringLength < FILTER_MAX;
-    // If no filters are checked or all of the filters have been checked then 
-    //     don't add any filters.
-    if (someTypeFiltersChecked) {
-      String[] typeFilters = filtersString.split("@");
-
-      // If there are more than one filters use a CompositeFilter
-      Filter filter;
-      if (typeFilters.length > 1) {
-        Collection<Filter> filterPredicates = new ArrayList<Filter>();
-        for (String typeFilter : typeFilters) {
-          filterPredicates.add(new FilterPredicate(property, 
-              FilterOperator.EQUAL, typeFilter));
-        }
-
-        filter = new CompositeFilter(CompositeFilterOperator.OR,filterPredicates);
-      // If there are only one filter use a FilterPredicate
-      } else {
-        filter = new FilterPredicate("type", 
-            FilterOperator.EQUAL, typeFilters[0]);
-      }
-      query = query.setFilter(filter);
-    } 
+  private static void initializeFilters() {
+    FILTERS.put("1", "fundraiser");
+    FILTERS.put("2", "petition");
+    FILTERS.put("3", "event");
+    FILTERS.put("4", "other");
   }
 }

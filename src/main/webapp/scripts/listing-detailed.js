@@ -7,7 +7,10 @@ import {
   createPElement 
 } from './htmlElement.js';
 
-import { toggleDisplay } from './miscellaneous.js';
+import { 
+  keyboardAccessible,
+  toggleDisplay 
+} from './miscellaneous.js';
 
 /**
  * Create an element that shows a listing detailed view
@@ -67,19 +70,12 @@ function createExitElement(elementDisplay, elementId) {
   
   // Make div exit keyboard accessible 
   //     (which includes tabs and enter keys)
-  divExitElement.setAttribute("tabindex", "0");
-
-  // when enter is pressed on this div, change the display to none and hide 
-  //     this div
-  divExitElement.addEventListener('click', function () {
+  const toggleListingDisplay = () => {
     toggleDisplay(elementDisplay, elementId);
-  });
+  }
 
-  divExitElement.addEventListener('keypress', function (e) {
-    if (e.key === 'Enter') {
-      toggleDisplay(elementDisplay, elementId);
-    }
-  });
+  keyboardAccessible(divExitElement, toggleListingDisplay, toggleListingDisplay,
+      "0");
 
   divExitElement.appendChild(
     createIElement('close', 'material-icons', ''));

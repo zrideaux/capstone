@@ -7,7 +7,10 @@ import {
   createSpanElement
 } from './htmlElement.js';
 
-import { toggleDisplay } from './miscellaneous.js';
+import { 
+  keyboardAccessible,
+  toggleDisplay 
+} from './miscellaneous.js';
 
 /**
  * Create an element that shows a listing detailed view and when clicked on will
@@ -21,21 +24,15 @@ import { toggleDisplay } from './miscellaneous.js';
 
 export default function createListingPreview(listing, listingDisplay, listingId) {
   const sectionListing = createSectionElement('listing shadow-box', '');
-  
+
+  const toggleListingDisplay = () => {
+    toggleDisplay(listingDisplay, listingId);
+  }
+
   // Make section listing keyboard accessible 
   //     (which includes tabs and enter keys)
-  sectionListing.setAttribute("tabindex", "0");
-
-  // When the user clicks or presses enter on the section listing, change the 
-  //     display of the detailed listing div from none to listingDisplay
-  sectionListing.addEventListener("click", function() { 
-    toggleDisplay(listingDisplay, listingId) });
-
-  sectionListing.addEventListener('keypress', function (e) {
-    if (e.key === 'Enter') {
-      toggleDisplay(listingDisplay, listingId);
-    }
-  });
+  keyboardAccessible(sectionListing, toggleListingDisplay, toggleListingDisplay,
+      "0");
 
   // Creating listing information
   const imageURL = listing.imageURL;
