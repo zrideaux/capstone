@@ -4,10 +4,16 @@ import {
   createHElement,
   createIElement,  
   createImgElement, 
-  createPElement 
+  createPElement, 
+  createSpanElement
 } from './htmlElement.js';
 
 import { toggleDisplay } from './miscellaneous.js';
+
+import { 
+  setInitialVoteState,
+  voteClicked
+} from './reputation.js';
 
 /**
  * Create an element that shows a listing detailed view
@@ -36,13 +42,16 @@ export default function createListingDetailedView(listing,
   // Creating listing card information
   const type = listing.type;
   const dateCreated = listing.dateCreated;
+  const downvotes = listing.downvotes.toLocaleString();
   const imageURL = listing.imageURL;
+  const key = listing.key;
   const name = listing.name;
   const upvotes = listing.upvotes.toLocaleString();
+  const vote = listing.vote
   const views = listing.views.toLocaleString();
   const website = listing.website;  
-  divCardInfoElement.appendChild(createListingCardInformation(type, 
-      dateCreated, imageURL, name, upvotes, views, website));
+  divCardInfoElement.appendChild(createListingCardInformation(type, dateCreated,
+      downvotes, imageURL, key, name, upvotes, views, vote, website));
 
   // Creating listing card description
   const comments = '';
@@ -100,8 +109,8 @@ function createExitElement(elementDisplay, elementId) {
  * @return a div with the picture, name, type, reputation, listing details 
  *     (see below) and website of a listing.
  */
-function createListingCardInformation(type, dateCreated, imageURL, name, 
-    upvotes, views, websiteLink) {
+function createListingCardInformation(type, dateCreated, downvotes, imageURL,
+    key, name, upvotes, views, vote, websiteLink) {
   const divCardInformation = createDivElement('', 'card-information', '');
   divCardInformation.appendChild(
       createImgElement(imageURL, 'picture of listing', 'card-picture', ''));
@@ -114,7 +123,19 @@ function createListingCardInformation(type, dateCreated, imageURL, name,
 
   divCardInformation.appendChild(
       createHElement('Reputation: ' + upvotes + ' upvotes', 2, 
-      'detailed-attribute pill reputation-pill', '')); 
+      'detailed-attribute pill reputation-pill', ''));
+  
+  
+  /////////////////
+  divCardInformation.appendChild(
+    createPElement(key, '', '')
+  );
+  divCardInformation.appendChild(
+    createReputationContainer(downvotes, key, upvotes, vote)
+  );
+
+  /////////////////
+
 
   divCardInformation.appendChild(createListingDetails(dateCreated, views)); 
 
@@ -184,4 +205,40 @@ function createListingCardDescription(comments, description, howToHelp) {
     createPElement(comments, '', ''));
 
   return divListingDetails;
+}
+
+function createReputationContainer(downvotes, key, upvotes, vote) {
+  let reputationContainer = createDivElement('', '', 'reputation-button-container');
+  
+  let upvoteButton = document.createElement('button');
+  upvoteButton.id = 'reputation-upvote-' + key;
+  upvoteButton.className = 'reputation-button';
+  upvoteButton.onclick = () => {
+    voteClicked(upvoteButton, 'upvote', key);
+    console.log('upvote clicked');
+  };
+
+  let upvoteIcon = createIElement('thumb_up', 'material-icons', '');
+  let upvoteCount = createSpanElement(upvotes, '', 'reputation-count-upvotes-' + key);
+  upvoteButton.appendChild(upvoteIcon);
+  upvoteButton.appendChild(upvoteCount);
+  
+  let downvoteButton = document.createElement('button');
+  downvoteButton.id = 'reputation-downvote-' + key;
+  downvoteButton.className = 'reputation-button';
+  downvoteButton.onclick = () => {
+    voteClicked(downvoteButton, 'downvote', key);
+    console.log('downvote clicked');
+  };
+  let downvoteIcon = createIElement('thumb_down', 'material-icons', '');
+  let downvoteCount = createSpanElement(downvotes, '', 'reputation-count-downvotes-' + key);
+  downvoteButton.appendChild(downvoteIcon);
+  downvoteButton.appendChild(downvoteCount);
+
+  setInitialVoteState(downvoteButton, upvoteButton, vote);
+
+  reputationContainer.appendChild(upvoteButton);
+  reputationContainer.appendChild(downvoteButton);
+
+  return reputationContainer;
 }

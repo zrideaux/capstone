@@ -1,5 +1,7 @@
 .listing-detailed-card {
   height: 85%;
+  margin: 30px;
+  width: 100%;
 }
 
 .pill {
