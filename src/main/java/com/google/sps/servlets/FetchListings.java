@@ -25,7 +25,7 @@ import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 import com.google.sps.data.Listing;
 import com.google.sps.filter.FilterQuery;
-import com.google.sps.sort.Recommended;
+import com.google.sps.sort.RecommendedSort;
 import com.google.sps.utility.ListingConstants;
 import com.google.sps.utility.ValidateInput;
 import java.io.IOException;
@@ -112,7 +112,8 @@ public class FetchListings extends HttpServlet {
     //     List<Listing>
     if (sortBy == 1) {
       UserService userService = UserServiceFactory.getUserService();
-      listings = Recommended.sortByRecommended(datastore, listings, userService);
+      listings = RecommendedSort.sortByRecommended(datastore, listings, 
+          userService);
     } else if (sortBy == 2) {
       // TODO call on Reputation sorting algorithm
     } else {
