@@ -31,7 +31,7 @@ import java.util.Scanner;
  */ 
 public class ExcludeByRadius{
   //API key used to access the DistanceMatrix api
-  private static final String API_KEY = "AIzaSyAedupccWadwYfI-rv-8GxEsV2NIo9cFok";
+  private static final String API_KEY = "API_KEY";
   
   /**
    * Takes in a list of Listings that have had their filter applied and omits the Listings that are not 
