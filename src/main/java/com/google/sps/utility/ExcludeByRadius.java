@@ -49,12 +49,8 @@ public class ExcludeByRadius{
     //Replaces spaces with + to make url valid
     userLocation = userLocation.replace(" ", "+");
       
-    if(userLocation.length() == 0){
-      return modifiedList;
-    }
-    
     //If the radius input is 100+ we change the value to 100,000 km (100 million m) if not multiply input by 1000.
-    if(radius == 101){
+    if(radius == 102){
       radius = 100000000;
     }else{
       radius *= 1000;

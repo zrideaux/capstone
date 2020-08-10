@@ -7,7 +7,6 @@ import {
   getRadioByName	
 } from './miscellaneous.js';	
 
-
 window.onload = function() {
   authenticate();
 }

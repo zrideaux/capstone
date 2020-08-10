@@ -136,7 +136,6 @@ public class FetchListings extends HttpServlet {
       ArrayList<Listing> modifiedlistings = ExcludeByRadius.removeListingsNotInRadius(listings, userLocation, radius);
       jsonListings = new Gson().toJson(modifiedlistings);
     }
-    
     response.setContentType("application/json;");
     response.getWriter().println(jsonListings);
   }
