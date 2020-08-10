@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // The alogrithm to sort Listings by Recommended
-public final class Recommended {
+public final class RecommendedSort {
   /**
    * Sorts the given List<Listing> based on a User's upvoted listings if they 
    *     created an account with us and based on the listings reputation and 
@@ -40,15 +40,13 @@ public final class Recommended {
     // If the user is logged in then sort by upvoted listings first
     if (userService.isUserLoggedIn()) {
       String userEmail = userService.getCurrentUser().getEmail();
-      if (AuthenticationUtility.userAlreadyHasAccount(datastore, userEmail)) {
-        Entity userEntity = AuthenticationUtility.getUserByEmail(datastore, 
-            userEmail);
-      
-        // Removes the Listings in the List it returns from listings 
-        sortedListings.addAll(sortByUpvotedListings(listings, userEntity));
-      } 
+      Entity userEntity = AuthenticationUtility.getUserByEmail(datastore, 
+          userEmail);
+    
+      // Removes the Listings in the List it returns from listings 
+      sortedListings.addAll(sortByUpvotedListings(listings, userEntity));
     } 
-    sortedListings.addAll(sortByRepAndLocation(listings));
+    sortedListings.addAll(sortByRadiusAndReputation(listings));
 
     return sortedListings;
   }
@@ -73,7 +71,7 @@ public final class Recommended {
   /**
    * TODO
    */
-  public static List<Listing> sortByRepAndLocation(List<Listing> listings) {
+  public static List<Listing> sortByRadiusAndReputation(List<Listing> listings) {
     // TODO
     return listings;
   }
