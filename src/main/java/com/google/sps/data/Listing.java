@@ -31,6 +31,7 @@ public final class Listing {
   private final String description;
   private final String howToHelp;
   private final String imageURL;
+  private String key;
   private final String location;
   private final String name;
   private final String type;
@@ -39,8 +40,28 @@ public final class Listing {
   private final int views;
   private final String website;
 
-  public Listing(String description, String howToHelp, String imageURL, 
-      String location, String name, long timestamp, String type, int upvotes, 
+  public Listing(String description, String howToHelp, String imageURL,
+      String keyString, String location, String name, long timestamp,
+      String type, int upvotes, int downvotes, int views, String website) {
+    this.description = description;
+    this.howToHelp = howToHelp;
+    this.key = keyString;
+    this.imageURL = imageURL;
+    this.location = location;
+    this.name = name;
+
+    // turn int of timestamp into Date object
+    String dateCreated = timestampToDate(timestamp);
+    this.dateCreated = dateCreated;
+    this.type = type;
+    this.upvotes = upvotes;
+    this.downvotes = downvotes;
+    this.views = views;
+    this.website = website;
+  }
+
+  public Listing(String description, String howToHelp, String imageURL,
+      String location, String name, long timestamp, String type, int upvotes,
       int downvotes, int views, String website) {
     this.description = description;
     this.howToHelp = howToHelp;
@@ -96,6 +117,8 @@ public final class Listing {
     String description = (String) entity.getProperty("description");
     String howToHelp = (String) entity.getProperty("howToHelp");
     String imageURL = (String) entity.getProperty("imageURL");
+    String key = (String) KeyFactory.keyToString(
+        entity.getKey());
     String location = (String) entity.getProperty("location");
     String name = (String) entity.getProperty("name");
     long timestamp = (long) entity.getProperty("timestamp");
@@ -105,8 +128,46 @@ public final class Listing {
     int views = Math.toIntExact((long) entity.getProperty("views"));
     String website = (String) entity.getProperty("website");
 
-    return new Listing(description, howToHelp, imageURL, location, name, 
+    return new Listing(description, howToHelp, imageURL, key, location, name,
         timestamp, type, upvotes, downvotes, views, website);
+  }
+
+  /**
+   * Increment a specified property in a listing entity and update it in
+   * datastore.
+   *
+   * @param datastore an instance of datastore service
+   * @param listingKey a key associated with a listing entity
+   * @param property string of the name of the property to increment
+   */
+  public static void incrementListingProperty(DatastoreService datastore,
+      Key listingKey, String property) throws Exception {
+    System.out.println("INCREMENT");
+
+    Entity listingEntity = datastore.get(listingKey);
+    long propertyValue = (long) listingEntity.getProperty(property);
+    propertyValue++;
+    listingEntity.setProperty(property, propertyValue);
+    datastore.put(listingEntity);
+  }
+
+  /**
+   * Decrement a specified property in a listing entity and update it in
+   * datastore.
+   *
+   * @param datastore an instance of datastore service
+   * @param listingKey a key associated with a listing entity
+   * @param property string of the name of the property to decrement
+   */
+  public static void decrementListingProperty(DatastoreService datastore,
+      Key listingKey, String property) throws Exception {
+    System.out.println("DECREMENT");
+
+    Entity listingEntity = datastore.get(listingKey);
+    long propertyValue = (long) listingEntity.getProperty(property);
+    propertyValue--;
+    listingEntity.setProperty(property, propertyValue);
+    datastore.put(listingEntity);
   }  
 
   /**
@@ -151,7 +212,7 @@ public final class Listing {
     List<Listing> listings = new ArrayList<Listing>();
     for (String listingEntityKeyString : listingEntityKeysStringArray) {
       listings.add(createListing(datastore, listingEntityKeyString));
-    } 
+    }
 
     return listings;
   }
