@@ -3,12 +3,22 @@ import { authenticate } from './authentication.js';
 import { getListings } from './listing.js';
 
 import { 	
+  checkAllCheckboxes,
   getCheckboxesByName,	
-  getRadioByName	
+  getRadioByName,
+  keyboardAccessible,
+  keyboardAccessibleOnClick,
+  mapElementsByName
 } from './miscellaneous.js';	
 
+
+/**
+ * When the search page loads, add on click functions to input tags and see all 
+ *     span tag.
+ */
+
 window.onload = function() {
-  authenticate();
+  authenticate(addOnclickToInputs);
 }
 
 /**
@@ -20,6 +30,60 @@ export default function displayListings() {
   containerElement.innerHTML = '';
   const queryString = '/fetch-listings?' + getSearchParameters();
   getListings(containerElement, '', 'search-listings', queryString);
+}
+
+/**
+ * Add on click and when submit key is pressed to checkbox/radio inputs and to 
+ *     see all span element.
+ */
+function addOnclickToInputs() {
+  // Add onclick and onsubmit function to see all span element.
+  const seeAllElement = document.getElementById('see-all');
+  keyboardAccessible(seeAllElement, displayListingsShowAllFilters, 
+      displayListingsShowAllFilters, "0");
+ 
+  // Checkbox is tab accessible.
+  // Add onclick and onsubmit function to filter checkbox inputs.
+  mapElementsByName(displayListingsOnClickCheckbox, 'search-type-option');
+
+  // Radio is not tab accessible.
+  const displayListingsOnClickRadio = (radio) => {
+    keyboardAccessibleOnClick(radio, displayListings, displayListings);
+  }
+
+  // Add onclick and onsubmit function to radius radio inputs.
+  mapElementsByName(displayListingsOnClickRadio, 'search-radius-option');
+
+  // Add onclick and onsubmit function to sort radio inputs.
+  mapElementsByName(displayListingsOnClickRadio, 'search-sort-option');
+}
+
+/**
+ * Add onclick and when enter key is pressed event listeners to the checkbox 
+ *     element.
+ * This function is used to be passed as a parameter to the mapElementsByName 
+ *     func, and can only have one parameter.
+ *
+ * @param checkbox the checkbox element that will be given event listeners
+ */
+function displayListingsOnClickCheckbox(checkbox) {
+  // On enter key, uncheck/check the checkbox and fetch listings
+  const changeCheckedAndDisplayListings = () => {
+    checkbox.checked = !checkbox.checked;
+    displayListings();
+  }
+
+  keyboardAccessibleOnClick(checkbox, displayListings, 
+      changeCheckedAndDisplayListings);
+};
+
+/**
+ * Display listings based on the search parameters and make all filter 
+ *     checkboxes checked.
+ */
+function displayListingsShowAllFilters() {
+  checkAllCheckboxes('search-type-option');
+  displayListings();
 }
 
 /**

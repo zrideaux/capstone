@@ -32,6 +32,7 @@ import com.google.sps.utility.ValidateInput;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -45,12 +46,12 @@ import javax.servlet.http.HttpServletRequest;
 @WebServlet("/fetch-listings")
 public class FetchListings extends HttpServlet {
 
+  static final HashMap<String, String> FILTERS = new HashMap<String, String>();
+
   // Based on the length of the String when no filters are checked (MIN) or 
   //     when all filters are checked and separated by "@" (MAX)
   static final int FILTER_MIN = 0;
-  static final int FILTER_MAX = 31;
-  // Based on the shortest filter type String length ("other".length = 5)
-  static final int FILTER_MIN_LENGTH = 5;
+  static final int FILTER_MAX = 7;
   // Based on the length of the shortest/longest radius category 
   static final int RADIUS_MIN = 2;
   static final int RADIUS_MAX = 4;
@@ -141,6 +142,16 @@ public class FetchListings extends HttpServlet {
   }
 
   /**
+   * Populate the FILTERS HashMap constant
+   */
+  private void initializeFilters() {
+    FILTERS.put("1", "fundraiser");
+    FILTERS.put("2", "petition");
+    FILTERS.put("3", "event");
+    FILTERS.put("4", "other");
+  }
+
+  /**
    * Apply a filter to a query if some filters have been checked as opposed to 
    *     no filters checked or all filters checked.
    * 
@@ -150,11 +161,15 @@ public class FetchListings extends HttpServlet {
    */
   private void filterQuery(String filtersString, String property, Query query) {
     int filtersStringLength = filtersString.length();
-    boolean someTypeFiltersChecked = filtersStringLength > FILTER_MIN_LENGTH - 1
+
+    // If no filters are checked (String length = FILTER_MIN) or all of the 
+    //     filters have been checked (FILTER_MAX) then don't add any filters.
+    boolean someTypeFiltersChecked = filtersStringLength > FILTER_MIN
         && filtersStringLength < FILTER_MAX;
-    // If no filters are checked or all of the filters have been checked then 
-    //     don't add any filters.
     if (someTypeFiltersChecked) {
+      // Adds values to the FILTERS HasMap constant if there are filters
+      initializeFilters();
+
       String[] typeFilters = filtersString.split("@");
 
       // If there are more than one filters use a CompositeFilter
@@ -163,14 +178,14 @@ public class FetchListings extends HttpServlet {
         Collection<Filter> filterPredicates = new ArrayList<Filter>();
         for (String typeFilter : typeFilters) {
           filterPredicates.add(new FilterPredicate(property, 
-              FilterOperator.EQUAL, typeFilter));
+              FilterOperator.EQUAL, FILTERS.get(typeFilter)));
         }
 
         filter = new CompositeFilter(CompositeFilterOperator.OR,filterPredicates);
       // If there are only one filter use a FilterPredicate
       } else {
         filter = new FilterPredicate("type", 
-            FilterOperator.EQUAL, typeFilters[0]);
+            FilterOperator.EQUAL, FILTERS.get(typeFilters[0]));
       }
       query = query.setFilter(filter);
     } 

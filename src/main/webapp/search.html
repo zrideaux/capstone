@@ -20,11 +20,6 @@
   <body>
     <script type="module">
       import { toggleDropdown } from './scripts/miscellaneous.js'
-      import displayListings from "/scripts/search.js";
-
-      window.displayListings = function() {
-        displayListings();
-      }
       
       window.toggleDropdown = function(menuName) {
         toggleDropdown(menuName);
@@ -56,41 +51,43 @@
       
       <div id="search-keyword-container">
         <i id="search-icon" class="material-icons">search</i>
-        <input id="search-keyword" onchange="displayListings()" 
+        <input id="search-keyword"  
             placeholder="Search by name" type="text" >
       </div>
 
       <div id="search-options-container">
         <span id="search-location">
           <label for="search-location-input">Location</label>
-          <input id="search-location-input" onchange="displayListings()"
+          <input id="search-location-input" 
               type="text" placeholder="Location" >
         </span>
 
         <span class="dropdown-box">
           <button onclick="toggleDropdown('search-filters')">Filters</button>
           <div id="search-filters" class="dropdown-menu shadow-box">
-            <label>Filters</label>
-            <br>
+            <div class="search-filter-title">
+              <label>Filters</label>
+              <span id="see-all" class="see-all-filter">see all</span>
+            </div>
             <input id="fundraiser-radio" class="search-filter" checked 
-                name="search-type-option" onchange="displayListings()" 
-                type="checkbox" value="fundraiser" >
-            <label for="fundraiser-radio">Fundraiser</label>
+                name="search-type-option" 
+                type="checkbox" value="1" >
+            <label class="search-label" for="fundraiser-radio">Fundraiser</label>
             <br>
             <input id="petition-radio" class="search-filter" checked
-                name="search-type-option" onchange="displayListings()" 
-                type="checkbox" value="petition">
-            <label for="petition-radio">Petition</label>
+                name="search-type-option" 
+                type="checkbox" value="2">
+            <label class="search-label" for="petition-radio">Petition</label>
             <br>
             <input id="event-radio" class="search-filter" checked
-                name="search-type-option" onchange="displayListings()" 
-                type="checkbox" value="event">
-            <label for="event-radio">Event</label>
+                name="search-type-option" 
+                type="checkbox" value="3">
+            <label class="search-label" for="event-radio">Event</label>
             <br>
             <input id="other-radio" class="search-filter" checked
-                name="search-type-option" onchange="displayListings()" 
-                type="checkbox" value="other">
-            <label for="other-radio">Other</label>
+                name="search-type-option" 
+                type="checkbox" value="4">
+            <label class="search-label" for="other-radio">Other</label>
           </div>
         </span>
         
@@ -100,24 +97,26 @@
             <label>Radius</label>
             <br>
             <input id="search-radius-10" name="search-radius-option"
-                onchange="displayListings()" type="radio" value="10">
-            <label for="search-radius-10">10 km</label>
+                type="radio" value="10">
+            <label class="search-label" for="search-radius-10">10 km</label>
             <br>
             <input id="search-radius-25" name="search-radius-option" checked
-                onchange="displayListings()" type="radio" value="25" >
-            <label for="search-radius-25">25 km</label>
+                type="radio" value="25" >
+            <label class="search-label" for="search-radius-25">25 km</label>
             <br>
             <input id="search-radius-50" name="search-radius-option"
-                onchange="displayListings()" type="radio" value="50">
-            <label for="search-radius-50">50 km</label>
+                type="radio" value="50">
+            <label class="search-label" for="search-radius-50">50 km</label>
             <br>
             <input id="search-radius-100" name="search-radius-option"
-                onchange="displayListings()" type="radio" value="100" >
-            <label for="search-radius-100">100 km</label>
+                type="radio" value="100" >
+            <label class="search-label" for="search-radius-100">100 km</label>
             <br>
             <input id="search-radius-100+" name="search-radius-option"
+
                 onchange="displayListings()" type="radio" value="101" >
             <label for="search-radius-100+">100+ km</label>
+            
           </div>
         </span>
 
@@ -127,17 +126,23 @@
             <label>Sort By</label>
             <br>
             <input id="search-sort-recommended" checked 
-                name="search-sort-option" onchange="displayListings()"
+                name="search-sort-option" 
                 type="radio" value="Recommended">
-            <label for="search-sort-recommended">Recommended</label>
+            <label class="search-label" for="search-sort-recommended">
+              Recommended
+            </label>
             <br>
             <input id="search-sort-reputation" name="search-sort-option"
-                onchange="displayListings()" type="radio" value="Reputation" >
-            <label for="search-sort-reputation">Reputation</label>
+                type="radio" value="Reputation" >
+            <label class="search-label" for="search-sort-reputation">
+              Reputation
+            </label>
             <br>
             <input id="search-sort-leastviewed" name="search-sort-option"
-                onchange="displayListings()" type="radio" value="Least Viewed"> 
-            <label for="search-sort-leastviewed">Least Viewed</label>
+                type="radio" value="Least Viewed"> 
+            <label class="search-label" for="search-sort-leastviewed">
+              Least Viewed
+            </label>
           </div>
         </span>
       </div>
