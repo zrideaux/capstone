@@ -151,17 +151,14 @@ public final class Listing {
    * @param property string of the name of the property to increment
    */
   public static void incrementListingProperty(DatastoreService datastore,
-      Key listingKey, String property) {
+      Key listingKey, String property) throws Exception {
     System.out.println("INCREMENT");
-    try {
-      Entity listingEntity = datastore.get(listingKey);
-      long propertyValue = (long) listingEntity.getProperty(property);
-      propertyValue++;
-      listingEntity.setProperty(property, propertyValue);
-      datastore.put(listingEntity);
-    } catch (Exception e) {
-      System.out.println(e);
-    }
+
+    Entity listingEntity = datastore.get(listingKey);
+    long propertyValue = (long) listingEntity.getProperty(property);
+    propertyValue++;
+    listingEntity.setProperty(property, propertyValue);
+    datastore.put(listingEntity);
   }
 
   /**
@@ -173,17 +170,14 @@ public final class Listing {
    * @param property string of the name of the property to decrement
    */
   public static void decrementListingProperty(DatastoreService datastore,
-      Key listingKey, String property) {
+      Key listingKey, String property) throws Exception {
     System.out.println("DECREMENT");
-    try {
-      Entity listingEntity = datastore.get(listingKey);
-      long propertyValue = (long) listingEntity.getProperty(property);
-      propertyValue--;
-      listingEntity.setProperty(property, propertyValue);
-      datastore.put(listingEntity);
-    } catch (Exception e) {
-      System.out.println(e);
-    }
+
+    Entity listingEntity = datastore.get(listingKey);
+    long propertyValue = (long) listingEntity.getProperty(property);
+    propertyValue--;
+    listingEntity.setProperty(property, propertyValue);
+    datastore.put(listingEntity);
   }  
 
   /**

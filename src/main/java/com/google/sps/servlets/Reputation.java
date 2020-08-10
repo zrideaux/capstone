@@ -48,21 +48,25 @@ public class Reputation extends HttpServlet {
     UserService userService = UserServiceFactory.getUserService();
 
     if (userService.isUserLoggedIn()) {
-      String listingKeyString = ValidateInput.getParameter(request, "key", "");
-      String vote = ValidateInput.getParameter(request, "vote", "");
+      try {
+        String listingKeyString = ValidateInput.getParameter(request, "key", "");
+        String vote = ValidateInput.getParameter(request, "vote", "");
 
-      // Make sure vote is a valid type.
-      if (voteIsInvalid(vote)) {
-        String errorMessage = "'" + vote + "' is an invalid vote type.";
-        ValidateInput.createErrorMessage(errorMessage, response);  
-        return;
+        // Make sure vote is a valid type.
+        if (voteIsInvalid(vote)) {
+          String errorMessage = "'" + vote + "' is an invalid vote type.";
+          ValidateInput.createErrorMessage(errorMessage, response);  
+          return;
+        }
+
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        Entity currentUser = AuthenticationUtility.getCurrentUserEntity(datastore,
+            userService);
+
+        processVote(datastore, currentUser, listingKeyString, vote);
+      } catch (Exception e) {
+        ValidateInput.createErrorMessage(e, response);
       }
-
-      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-      Entity currentUser = AuthenticationUtility.getCurrentUserEntity(datastore,
-          userService);
-
-      processVote(datastore, currentUser, listingKeyString, vote);
     } else {
       ValidateInput.createErrorMessage("User is not logged in.", response);
     }
@@ -78,7 +82,7 @@ public class Reputation extends HttpServlet {
    * @param vote a string representing the type of vote to received 
    */
   private void processVote(DatastoreService datastore, Entity userEntity, 
-      String listingKeyString, String vote) {
+      String listingKeyString, String vote) throws Exception{
 
     String userUpvotes = User.getListingKeysAsString(userEntity, "upvotedListingKeys");
     String userDownvotes = User.getListingKeysAsString(userEntity, "downvotedListingKeys");
@@ -117,7 +121,7 @@ public class Reputation extends HttpServlet {
    *    and the listing being interacted with 
    */
   private void addVote(DatastoreService datastore, Entity userEntity,
-      Key listingKey, String vote) {
+      Key listingKey, String vote) throws Exception {
     if (vote.equals("upvote")) {
       User.addListingKeyToUserEntity(datastore, userEntity, 
           listingKey, "upvotedListingKeys");
@@ -140,7 +144,7 @@ public class Reputation extends HttpServlet {
    *    the user and the listing being interacted with 
    */
   private void removeVote(DatastoreService datastore, Entity userEntity, 
-      Key listingKey, String vote) {
+      Key listingKey, String vote) throws Exception {
     if (vote.equals("upvote")) {
       User.removeListingKeyFromUserEntity(datastore, userEntity, 
           listingKey, "upvotedListingKeys");
