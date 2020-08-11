@@ -1,5 +1,5 @@
-/** 
- * Creates an <a> element containing text. 
+/**
+ * Creates an <a> element containing text.
  *
  * @param text the text that will be displayed
  * @param targetAttribute the target attribute for this a element
@@ -212,9 +212,26 @@ function createSpanElement(text, classAttribute, idAttribute) {
   return spanElement;
 }
 
+/**
+ * Creates a <button> element containing text, class and id attribute.
+ *
+ * @param text the text that will be displayed
+ * @param classAttribute the name of the class of this span element
+ * @param idAttribute the name of the id of this span element
+ * @return returns a button element with text, class, and id
+ */
+function createButtonElement(text, classAttribute, idAttribute) {
+  const buttonElement = document.createElement('button');
+  buttonElement.setAttribute("class", classAttribute);
+  buttonElement.setAttribute("id", idAttribute);
+  buttonElement.innerText = text;
+  return buttonElement;
+}
+
 export { 
   createAElement, 
   createBrElement,
+  createButtonElement,
   createDivElement, 
   createHElement, 
   createIElement, 
