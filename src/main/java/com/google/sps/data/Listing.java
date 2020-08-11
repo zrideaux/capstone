@@ -39,6 +39,7 @@ public final class Listing {
   private final String location;
   private final String name;
   private final String type;
+  public Integer reputationScore;
   private final int upvotes;
   private final int downvotes;
   private final int views;
@@ -259,11 +260,43 @@ public final class Listing {
     return location;
   }
 
+  /**
+   * Gets a listing's current number of upvotes
+   *
+   * @return int of a listing's number of upvotes
+   */
   public int getUpvotes() {
     return upvotes;
   }
 
+  /**
+   * Gets a listing's current number of downvotes
+   *
+   * @return int of a listing's number of downvotes
+   */
   public int getDownvotes() {
     return downvotes;
+  }
+
+  /**
+   * Generates a reputation score for a listing and stores it
+   * in reputationScore.
+   */
+  public void generateReputationScore() {
+    final double WEIGHT_1 = .20;
+    final double WEIGHT_2 = .80;
+
+    int upvotes = (int) getUpvotes();
+    int downvotes = (int) getDownvotes();
+
+    if (upvotes == 0) {
+      this.reputationScore = 0;
+    }
+
+    double upvotePercentage = (double) upvotes / (upvotes + downvotes);
+    int reputationScore = (int) ((upvotes * WEIGHT_1)
+        + ((upvotes * upvotePercentage) * WEIGHT_2));
+
+    this.reputationScore = new Integer(reputationScore);
   }
 }
