@@ -37,7 +37,8 @@ public final class ReputationSort {
     }
 
     // Sort listings by their reputation score
-    Collections.sort(listings, (a, b) -> a.reputationScore.compareTo(b.reputationScore));
+    Collections.sort(listings,
+        (a, b) -> a.reputationScore.compareTo(b.reputationScore));
 
     // Put the listings into descending order by their score
     Collections.reverse(listings);
