@@ -19,9 +19,35 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
   
 public final class EntityUtility {  
+  /**
+   * Used to transform an Entity's String of Entity keys into  
+   *     Entities that can be added to a Collection of Entities.
+   *
+   * @param delimiter the used to separate the String of Entity keys 
+   * @param datastore the DatastoreService that connects to the back end.
+   * @param entity An Entity that has a property that stores Entity keys.
+   * @param entityCollection A collection of Entities.
+   * @param property the name of the property that stores Entity keys.
+   */
+  public static void addEntities(String delimiter, DatastoreService datastore, 
+      Entity entity, Collection entityCollection, String property) 
+      throws Exception {
+    String[] entityKeyStringArray = getEntityKeyStrings(delimiter, entity, 
+        property);
+
+    if (entityKeyStringArray.length > 0) {
+      for (String entityKeyString : entityKeysStringArray) {
+        Key entityKey = KeyFactory.stringToKey(entityKeyString);
+        Entity entity = datastore.get(entityKey);
+        entityCollection.add(entity);
+      }
+    }
+  }
+
   /**
    * Turns a String[] of Entity key Strings into a List<Entity>.
    *
