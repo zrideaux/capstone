@@ -111,6 +111,7 @@ public final class RecommendedSort {
         }
       }
     }
+    
     return listings;
   }
 
