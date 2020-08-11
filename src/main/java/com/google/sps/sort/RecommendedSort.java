@@ -23,6 +23,7 @@ import com.google.sps.utility.EntityUtility;
 import com.google.sps.utility.AuthenticationUtility;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 // The alogrithm to sort Listings by Recommended
@@ -85,15 +86,53 @@ public final class RecommendedSort {
         ArrayList<HashSet<String>>();
     for (Entity similarUserEntity : similarUsers.iterator()) {
       // Turn the User Entity into their upvoted listing Key Strings
+      HashSet<Entity> upvotedListingKeyStrings = new HashSet<Entity>();
       addEntities(User.DELIMITER, datastore, similarUserEntity, 
-          similarUsersUpvotedListingKeyStrings, "upvotedUserKeys");
+          upvotedListingKeyStrings, "upvotedUserKeys");
+      
+      similarUsersUpvotedListingKeyStrings.add(upvotedListingKeyStrings)
     }
 
-    // iterate through the similar users in order to make it into a hashset of their upvoted listing key strings
-
-    // iterate through the new hash set and keep the hash set that is the most recommmended 
+    // Sort the list of similar Users upvoted listing key strings
     
+
+    // Iterate through the sorted List and keep the listings that appear in the 
+    //     listings parameter. Also, remove the listing that appears in the 
+    //     listings parameter.
+    // This will also remove duplicates
+    List<Listing> recommendedListings = new ArrayList<Listing>();
+    for (HashSet<String> listingKeyStrings : similarUsersUpvotedListingKeyStrings) {
+      Iterator<Listing> listingsIterator = listings.iterator();
+      while (listingsIterator.hasNext()) {
+        Listing listing = listingsIterator.next();
+        if (listingKeyStrings.contains(listing.getKeyString())) {
+          recommendedListings.add(listing);
+          listingsIterator.remove();
+        }
+      }
+    }
     return listings;
+  }
+
+  /**
+   * Returns the recommended score from a User's upvoted listings and another 
+   *     User's upvoted listings
+   * Recommended Score: 
+   *     - Determined based on the number of upvoted listings for User's share
+   *
+   * @param userUpvotedListings
+   */
+  public static int getRecommendedScore(List<Entity> userUpvotedListings, 
+      HashSet<String> otherUpvotedListings) {
+    int recommendedScore = 0; 
+    for (Entity upvotedListing : userUpvotedListings) {
+      String upvotedListingKeyString = KeyFactory.keyToString(upvotedListing.getKey());
+      if (otherUpvotedListings.contains(upvotedListingKeyString)) {
+        recommendedScore++;
+      }
+    }
+
+    return recommendedScore;
   }
 
   /**

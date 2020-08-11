@@ -66,6 +66,7 @@ public final class Listing {
     this.description = description;
     this.howToHelp = howToHelp;
     this.imageURL = imageURL;
+    this.key = "";
     this.location = location;
     this.name = name;
 
@@ -224,5 +225,14 @@ public final class Listing {
    */
   public String getLocation(){
     return location;
+  }
+
+  /**
+   * Returns the Key String of this listing
+   *
+   * @return the Key String of this Listing 
+   */
+  public String getKeyString() {
+    return this.key;
   }
 }
