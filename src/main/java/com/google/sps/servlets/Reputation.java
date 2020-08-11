@@ -63,7 +63,7 @@ public class Reputation extends HttpServlet {
         Entity currentUser = AuthenticationUtility.getCurrentUserEntity(datastore,
             userService);
 
-        processVote(datastore, currentUser, listingKeyString, vote);
+        processVote(datastore, userService, currentUser, listingKeyString, vote);
       } catch (Exception e) {
         ValidateInput.createErrorMessage(e, response);
       }
@@ -81,8 +81,8 @@ public class Reputation extends HttpServlet {
    * @param listingKey the key representing a specific Listing entity
    * @param vote a string representing the type of vote to received 
    */
-  private void processVote(DatastoreService datastore, Entity userEntity, 
-      String listingKeyString, String vote) throws Exception{
+  private void processVote(DatastoreService datastore, UserService userService,
+      Entity userEntity, String listingKeyString, String vote) throws Exception {
 
     String userUpvotes = User.getListingKeysAsString(userEntity, "upvotedListingKeys");
     String userDownvotes = User.getListingKeysAsString(userEntity, "downvotedListingKeys");
@@ -91,22 +91,22 @@ public class Reputation extends HttpServlet {
     if (userUpvotes.contains(listingKeyString)) {  
       // If a listing is already present in a user's upvotes when this function
       //    is called, they are changing their vote (to downvote or neutral)
-      removeVote(datastore, userEntity, listingKey, "upvote");
+      removeVote(datastore, userService, userEntity, listingKey, "upvote");
       
       // Check if their new vote was an upvote, and add it to the user and the
       //    listing if it was.
-      addVote(datastore, userEntity, listingKey, vote);
+      addVote(datastore, userService, userEntity, listingKey, vote);
     } else if (userDownvotes.contains(listingKeyString)) {
       // If a listing is already present in a user's downvotes when this function
       //    is called, they are changing their vote (to upvote or neutral)
-      removeVote(datastore, userEntity, listingKey, "downvote");
+      removeVote(datastore, userService, userEntity, listingKey, "downvote");
 
       // Check if their new vote was an upvote, and add it to the user and the
       //    listing if it was.
-      addVote(datastore, userEntity, listingKey, vote);
+      addVote(datastore, userService, userEntity, listingKey, vote);
     } else {
       // If the user's vote was previously neutral, just add their new vote
-      addVote(datastore, userEntity, listingKey, vote);
+      addVote(datastore, userService, userEntity, listingKey, vote);
     }
   }
 
@@ -120,12 +120,14 @@ public class Reputation extends HttpServlet {
    * @param vote a string representing the type of vote to add to the user
    *    and the listing being interacted with 
    */
-  private void addVote(DatastoreService datastore, Entity userEntity,
-      Key listingKey, String vote) throws Exception {
+  private void addVote(DatastoreService datastore, UserService userService,
+      Entity userEntity, Key listingKey, String vote) throws Exception {
     if (vote.equals("upvote")) {
       User.addListingKeyToUserEntity(datastore, userEntity, 
           listingKey, "upvotedListingKeys");
       Listing.incrementListingProperty(datastore, listingKey, "upvotes");
+      User.addCurrentUserKeyToListingEntity(datastore, userService,
+          listingKey, "upvotedUserKeys");
     } else if (vote.equals("downvote")) {
       User.addListingKeyToUserEntity(datastore, userEntity, 
           listingKey, "downvotedListingKeys");
@@ -143,12 +145,14 @@ public class Reputation extends HttpServlet {
    * @param vote a string representing the type of vote to remove from
    *    the user and the listing being interacted with 
    */
-  private void removeVote(DatastoreService datastore, Entity userEntity, 
-      Key listingKey, String vote) throws Exception {
+  private void removeVote(DatastoreService datastore, UserService userService,
+      Entity userEntity, Key listingKey, String vote) throws Exception {
     if (vote.equals("upvote")) {
       User.removeListingKeyFromUserEntity(datastore, userEntity, 
           listingKey, "upvotedListingKeys");
       Listing.decrementListingProperty(datastore, listingKey, "upvotes");
+      User.removeCurrentUserKeyFromListingEntity(datastore, userService,
+          listingKey, "upvotedUserKeys");
     } else if (vote.equals("downvote")) {
       User.removeListingKeyFromUserEntity(datastore, userEntity, 
           listingKey, "downvotedListingKeys");

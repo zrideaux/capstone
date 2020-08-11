@@ -1,9 +1,23 @@
 /**	
- * Gets the checkbox value(s) that have been checked or '' if none have been 	
- *     checked	
+ * Gets the checkbox and make all of them checked.
  * 	
  * @param name the name of the checkbox group	
- * @return the values of the checkbox that are checked or '' if none are checked	
+ */	
+function checkAllCheckboxes(name) {	
+  let checkCheckbox = (checkbox) => {
+    checkbox.checked = true;
+  }
+  
+  mapElementsByName(checkCheckbox, name);
+}	
+
+/**	
+ * Gets the checkbox value(s) that have been checked or '' if none have been 	
+ *     checked.
+ * 	
+ * @param name the name of the checkbox group	
+ * @return the values of the checkbox that are checked or '' if none are 
+ *     checked	.
  */	
 function getCheckboxesByName(name) {	
   const checkboxGroup = document.getElementsByName(name);	
@@ -20,10 +34,10 @@ function getCheckboxesByName(name) {
 }	
 
 /**	
- * Gets the radio value that has been checked or '' if none have been checked	
+ * Gets the radio value that has been checked or '' if none have been checked.
  * 	
  * @param name the name of the radio group	
- * @return the value of the radio that is checked or '' if none are checked	
+ * @return the value of the radio that is checked or '' if none are checked.
  */	
 function getRadioByName(name) {	
   const radioGroup = document.getElementsByName(name);	
@@ -69,7 +83,7 @@ function isErrorMessage(str) {
   const isString = typeof str === "string";
   const isLength = str.length > errorIntroLength;
   let isSubstring = false;
-  if (isLength) {
+  if (isString && isLength) {
     // the error message (str) comes with quotes
     isSubstring = str.startsWith(errorIntro);
   }
@@ -84,6 +98,50 @@ function isErrorMessage(str) {
 function displayErrorMessage(errorMessage) {
   console.log(errorMessage);
   window.alert(errorMessage);
+}
+
+/**
+ * Makes element keyboard accessible (tabs and enter key) and calls a function 
+ *     when "clicked" on.
+ *
+ * @param element the element to add a tabIndex and 
+ * @param onclickFunc the function to execute with this element is "clicked" on
+ * @param tabindex the tabindex of this element
+ */
+function keyboardAccessible(element, onclickFunc, onenterFunc, tabindex) {
+  element.setAttribute("tabindex", tabindex);
+  keyboardAccessibleOnClick(element, onclickFunc, onenterFunc);
+}
+
+/**
+ * Makes element keyboard accessible and calls a function when "clicked" on
+ *
+ * @param element the element to add a tabIndex and 
+ * @param onclickFunc the function to execute with this element is "clicked" on
+ */
+function keyboardAccessibleOnClick(element, onclickFunc, onenterFunc) {
+  // when enter is pressed on this div, change the display to none and hide 
+  //     this div
+  element.addEventListener('click', onclickFunc);
+
+  element.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+      onenterFunc();
+    }
+  });
+}
+
+/**
+ * Get elements by name and apply a function to these elements
+ *
+ * @func the function to apply to the elements
+ * @name the name of the elements group
+ */
+function mapElementsByName(func, name) {
+  const elementGroup = document.getElementsByName(name);	
+  for (let i = 0; i < elementGroup.length; i++) {	
+    func(elementGroup[i]);
+  }	
 }
 
 /** 
@@ -149,12 +207,16 @@ function toggleTabDisplay(elementDisplay, elementId, otherElementId,
 }
 
 export { 
+  checkAllCheckboxes,
   getCheckboxesByName,	
   getRadioByName,
   hideDropdownMenus, 
   ifErrorDisplayMessage,
   isErrorMessage, 
   displayErrorMessage,
+  keyboardAccessible,
+  keyboardAccessibleOnClick,
+  mapElementsByName,
   toggleDisplay, 
   toggleDropdown, 
   toggleTabDisplay 
