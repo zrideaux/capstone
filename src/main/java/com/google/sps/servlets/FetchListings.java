@@ -112,8 +112,13 @@ public class FetchListings extends HttpServlet {
     //     List<Listing>
     if (sortBy == 1) {
       UserService userService = UserServiceFactory.getUserService();
-      listings = RecommendedSort.sortByRecommended(datastore, listings, 
-          userService);
+      try {
+        listings = RecommendedSort.sortByRecommended(datastore, listings, 
+            userService);
+      } catch (Exception e) {
+        ValidateInput.createErrorMessage(e, response);
+        return;
+      }
     } else if (sortBy == 2) {
       // TODO call on Reputation sorting algorithm
     } else {

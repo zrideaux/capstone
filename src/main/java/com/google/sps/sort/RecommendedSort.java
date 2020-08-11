@@ -18,8 +18,11 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.users.UserService;
 import com.google.sps.data.Listing;
+import com.google.sps.data.User;
+import com.google.sps.utility.EntityUtility;
 import com.google.sps.utility.AuthenticationUtility;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 // The alogrithm to sort Listings by Recommended
@@ -35,7 +38,7 @@ public final class RecommendedSort {
    *     reputation and location.
    */
   public static List<Listing> sortByRecommended(DatastoreService datastore, 
-      List<Listing> listings, UserService userService) {
+      List<Listing> listings, UserService userService) throws Exception {
     List<Listing> sortedListings = new ArrayList<Listing>();
     // If the user is logged in then sort by upvoted listings first
     if (userService.isUserLoggedIn()) {
@@ -44,7 +47,8 @@ public final class RecommendedSort {
           userEmail);
     
       // Removes the Listings in the List it returns from listings 
-      sortedListings.addAll(sortByUpvotedListings(listings, userEntity));
+      sortedListings.addAll(sortByUpvotedListings(datastore, listings, 
+          userEntity));
     } 
     sortedListings.addAll(sortByRadiusAndReputation(listings));
 
@@ -59,12 +63,36 @@ public final class RecommendedSort {
    *       it and is in listings.
    *
    * @param listings The List<Listing> to sort.
-   * @param userEntity The Entity of the current user.
+   * @param entity An Entity that represents a user.
    * @return a List<Listing> that were deemed recommended;
    */
-  public static List<Listing> sortByUpvotedListings(List<Listing> listings, 
-      Entity userEntity) {
-    // TODO
+  public static List<Listing> sortByUpvotedListings(DatastoreService datastore,
+      List<Listing> listings, Entity entity) throws Exception {
+    List<Entity> upvotedListingEntities = EntityUtility.getEntities(
+        User.DELIMITER, datastore, entity, "upvotedListingKeys");
+    
+    // Since this HashSet will not be used by multiple threads, there is no 
+    //     need to make it synchronized.
+    // Similar users are users the current user shares an upvoted listing with
+    HashSet<Entity> similarUsers = new HashSet<Entity>();
+    for (Entity upvotedListingEntity : upvotedListingEntities) {
+      // Add user to the HashSet and prevent any duplicates
+      addEntities(User.DELIMITER, datastore, upvotedListingEntity, similarUsers,
+          "upvotedUserKeys");
+    }
+
+    List<HashSet<String>> similarUsersUpvotedListingKeyStrings = new 
+        ArrayList<HashSet<String>>();
+    for (Entity similarUserEntity : similarUsers.iterator()) {
+      // Turn the User Entity into their upvoted listing Key Strings
+      addEntities(User.DELIMITER, datastore, similarUserEntity, 
+          similarUsersUpvotedListingKeyStrings, "upvotedUserKeys");
+    }
+
+    // iterate through the similar users in order to make it into a hashset of their upvoted listing key strings
+
+    // iterate through the new hash set and keep the hash set that is the most recommmended 
+    
     return listings;
   }
 
