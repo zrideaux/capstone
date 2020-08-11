@@ -10,7 +10,7 @@ function voteClicked(buttonClicked, vote, key) {
   // Update reputation in the backend
   updateReputation(vote, key);
   
-  // Update the front end to let thefconso user know their input went through
+  // Update the front end to let the user know their input went through
   updateNumbers(buttonClicked, vote, key);
   
   let downvoteButton = document.getElementById('reputation-downvote-' + key);

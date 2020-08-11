@@ -152,8 +152,6 @@ public final class Listing {
    */
   public static void incrementListingProperty(DatastoreService datastore,
       Key listingKey, String property) throws Exception {
-    System.out.println("INCREMENT");
-
     Entity listingEntity = datastore.get(listingKey);
     long propertyValue = (long) listingEntity.getProperty(property);
     propertyValue++;
@@ -171,8 +169,6 @@ public final class Listing {
    */
   public static void decrementListingProperty(DatastoreService datastore,
       Key listingKey, String property) throws Exception {
-    System.out.println("DECREMENT");
-
     Entity listingEntity = datastore.get(listingKey);
     long propertyValue = (long) listingEntity.getProperty(property);
     propertyValue--;
