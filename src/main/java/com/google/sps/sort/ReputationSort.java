@@ -27,14 +27,11 @@ import java.util.List;
 // The alogrithm to sort Listings by Reputation
 public final class ReputationSort {
   /**
-   * Sorts the given List<Listing> based on a User's upvoted listings if they 
-   *     created an account with us and based on the listings reputation and 
-   *     location. 
-   * 
-   * @param datastore the DatastoreService that connects to the back end.
-   * @param listings The List<Listing> to sort. 
-   * @return a List<Listing> based on a User's upvoted listings or the listings 
-   *     reputation and location.
+   * Sorts the given List of Listings by using a reputation score based upon
+   * the listings' existing downvotes and upvotes.
+   *
+   * @param listings The List<Listing> to sort.
+   * @return a List of Listings sorted by their reputation score
    */
   public static List<Listing> sortByReputation(List<Listing> listings) {
 

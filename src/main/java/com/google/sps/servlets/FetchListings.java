@@ -138,7 +138,6 @@ public class FetchListings extends HttpServlet {
       listings = RecommendedSort.sortByRecommended(datastore, listings, 
           userService);
     } else if (sortBy == 2) {
-      // TODO call on Reputation sorting algorithm
       listings = ReputationSort.sortByReputation(listings);
     } else {
       // TODO call on LeastViewed sorting algorithm
