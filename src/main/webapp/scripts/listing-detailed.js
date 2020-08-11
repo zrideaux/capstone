@@ -1,5 +1,6 @@
 import { 
   createAElement,
+  createButtonElement,
   createDivElement, 
   createHElement,
   createIElement,  
@@ -121,21 +122,9 @@ function createListingCardInformation(type, dateCreated, downvotes, imageURL,
   divCardInformation.appendChild(
       createHElement(type, 2, 'detailed-attribute listing-tag pill', ''));      
 
+  divCardInformation.appendChild(createHElement('Reputation', '2', 'reputation-heading'));
   divCardInformation.appendChild(
-      createHElement('Reputation: ' + upvotes + ' upvotes', 2, 
-      'detailed-attribute pill reputation-pill', ''));
-  
-  
-  /////////////////
-  divCardInformation.appendChild(
-    createPElement(key, '', '')
-  );
-  divCardInformation.appendChild(
-    createReputationContainer(downvotes, key, upvotes, vote)
-  );
-
-  /////////////////
-
+      createReputationContainer(downvotes, key, upvotes, vote));
 
   divCardInformation.appendChild(createListingDetails(dateCreated, views)); 
 
@@ -163,9 +152,6 @@ function createListingDetails(dateCreated, views) {
 
   divListingDetails.appendChild(
     createPElement(views + ' Views', 'listing-detail', ''));
-
-  divListingDetails.appendChild(
-    createPElement('Verified or Community Reputation', 'listing-detail', ''));
 
   divListingDetails.appendChild(
     createPElement('Contact Info', 'listing-detail', ''));
@@ -207,35 +193,27 @@ function createListingCardDescription(comments, description, howToHelp) {
   return divListingDetails;
 }
 
-function createReputationContainer(downvotes, key, upvotes, vote) {
+function createReputationContainer(downvotes, key, upvotes, existingVote) {
   let reputationContainer = createDivElement('', '', 'reputation-button-container');
   
-  let upvoteButton = document.createElement('button');
-  upvoteButton.id = 'reputation-upvote-' + key;
-  upvoteButton.className = 'reputation-button';
-  upvoteButton.onclick = () => {
-    voteClicked(upvoteButton, 'upvote', key);
-    console.log('upvote clicked');
-  };
-
+  // Create upvote button
+  let upvoteButton = createButtonElement('', 'reputation-button',
+      'reputation-upvote-' + key);
   let upvoteIcon = createIElement('thumb_up', 'material-icons', '');
-  let upvoteCount = createSpanElement(upvotes, '', 'reputation-count-upvotes-' + key);
+  let upvoteCount = createSpanElement(upvotes, 'reputation-count', 'reputation-count-upvotes-' + key);
   upvoteButton.appendChild(upvoteIcon);
   upvoteButton.appendChild(upvoteCount);
   
-  let downvoteButton = document.createElement('button');
-  downvoteButton.id = 'reputation-downvote-' + key;
-  downvoteButton.className = 'reputation-button';
-  downvoteButton.onclick = () => {
-    voteClicked(downvoteButton, 'downvote', key);
-    console.log('downvote clicked');
-  };
+  // Create downvote button
+  let downvoteButton = createButtonElement('', 'reputation-button',
+      'reputation-downvote-' + key);
   let downvoteIcon = createIElement('thumb_down', 'material-icons', '');
-  let downvoteCount = createSpanElement(downvotes, '', 'reputation-count-downvotes-' + key);
+  let downvoteCount = createSpanElement(downvotes, 'reputation-count', 'reputation-count-downvotes-' + key);
   downvoteButton.appendChild(downvoteIcon);
   downvoteButton.appendChild(downvoteCount);
 
-  setInitialVoteState(downvoteButton, upvoteButton, vote);
+  // Set the initial state of the buttons when they're made
+  setInitialVoteState(downvoteButton, upvoteButton, existingVote, key);
 
   reputationContainer.appendChild(upvoteButton);
   reputationContainer.appendChild(downvoteButton);
