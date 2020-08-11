@@ -104,6 +104,7 @@ public class CreateListing extends HttpServlet {
       listingEntity.setProperty("name", name);
       listingEntity.setProperty("timestamp",timestamp);
       listingEntity.setProperty("type", type);
+      listingEntity.setProperty("upvotedUserKeys", " ");
       listingEntity.setProperty("upvotes", 0);
       listingEntity.setProperty("downvotes", 0);
       listingEntity.setProperty("views", 0);

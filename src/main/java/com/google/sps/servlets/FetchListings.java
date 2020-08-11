@@ -24,6 +24,7 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 import com.google.sps.data.Listing;
+import com.google.sps.utility.ExcludeByRadius;
 import com.google.sps.filter.FilterQuery;
 import com.google.sps.sort.RecommendedSort;
 import com.google.sps.utility.ListingConstants;
@@ -45,6 +46,20 @@ import javax.servlet.http.HttpServletRequest;
 public class FetchListings extends HttpServlet {
 
   static final HashMap<String, String> FILTERS = new HashMap<String, String>();
+
+
+  // Based on the length of the String when no filters are checked (MIN) or 
+  //     when all filters are checked and separated by "@" (MAX)
+  static final int FILTER_MIN = 0;
+  static final int FILTER_MAX = 7;
+  // Based on the length of the shortest/longest radius category 
+  static final int RADIUS_MIN = 10;
+  static final int RADIUS_MAX = 101;
+  // Based on the length of the shortest/longest sort category 
+  static final int SORT_MIN = 10;
+  static final int SORT_MAX = 12;
+
+  static final int LISTING_LIMIT = 50;
 
   /** 
    * Returns JSON which is a List of Listings associated with the user or an 
@@ -68,11 +83,10 @@ public class FetchListings extends HttpServlet {
       return;
     } 
 
-    String radiusFilter;
+    int radiusFilter;
     try {
-      radiusFilter = ValidateInput.getUserString(request, 
-        "radius-filter", ListingConstants.RADIUS_MIN, 
-        ListingConstants.RADIUS_MAX, "");
+      radiusFilter = ValidateInput.getUserNum(request, 
+        "radius-filter", RADIUS_MIN, RADIUS_MAX, 10);
     } catch (Exception e) {
       ValidateInput.createErrorMessage(e, response);
       return;
@@ -86,6 +100,14 @@ public class FetchListings extends HttpServlet {
       ValidateInput.createErrorMessage(e, response);
       return;
     } 
+
+    String userLocation;
+    try {
+      userLocation = ValidateInput.getParameter(request, "location", "");  
+    } catch (Exception e) {
+      ValidateInput.createErrorMessage(e, response);
+      return;
+    }
 
     // Prepare to fetch entities from the backend
     Query queryListing = new Query("Listing");
@@ -125,6 +147,10 @@ public class FetchListings extends HttpServlet {
       // TODO call on LeastViewed sorting algorithm
     }
 
+    if (!userLocation.equals("")) {
+      listings = ExcludeByRadius.removeListingsNotInRadius(listings, userLocation, radiusFilter);  
+    }
+      
     String jsonListings = new Gson().toJson(listings);
     response.setContentType("application/json;");
     response.getWriter().println(jsonListings);

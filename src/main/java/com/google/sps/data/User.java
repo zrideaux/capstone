@@ -18,7 +18,9 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.users.UserService;
 import com.google.sps.data.Listing;
+import com.google.sps.utility.AuthenticationUtility;
 import com.google.sps.utility.EntityUtility;
 import java.util.ArrayList;
 import java.util.List;
@@ -170,5 +172,57 @@ public final class User {
    */
   public static String getListingKeysAsString(Entity userEntity, String property) {
     return (String) userEntity.getProperty(property);
+  }
+
+  /**
+   * Adds a string of a key representing the current user entity into a
+   * specified property of a listing and updates the listing entity.
+   *
+   * @param datastore a datastore service instance
+   * @param userService a user service instance
+   * @param listingKey the key of a listing in the datastore
+   * @param property the property to add the current user's key to
+   */
+  public static void addCurrentUserKeyToListingEntity(DatastoreService datastore,
+      UserService userService, Key listingKey, String property) throws Exception {
+
+    Entity listingEntity = datastore.get(listingKey);
+    String upvotedUsersString = (String) listingEntity.getProperty(property);
+
+    Entity currentUserEntity =
+        AuthenticationUtility.getCurrentUserEntity(datastore, userService);
+    String currentUserKeyString = KeyFactory.keyToString(currentUserEntity.getKey());
+
+    if (!upvotedUsersString.contains(currentUserKeyString)) {
+      upvotedUsersString += currentUserKeyString + " ";
+      listingEntity.setProperty(property, upvotedUsersString);
+      datastore.put(listingEntity);
+    }
+  }
+
+  /**
+   * Removes a string of a key representing the current user entity from a
+   * specified property of a listing and updates the listing entity.
+   *
+   * @param datastore a datastore service instance
+   * @param userService a user service instance
+   * @param listingKey the key of a listing in the datastore
+   * @param property the property to remove the current user's key from
+   */
+  public static void removeCurrentUserKeyFromListingEntity(DatastoreService datastore,
+      UserService userService, Key listingKey, String property) throws Exception {
+
+    Entity listingEntity = datastore.get(listingKey);
+    String upvotedUsersString = (String) listingEntity.getProperty(property);
+
+    Entity currentUserEntity =
+        AuthenticationUtility.getCurrentUserEntity(datastore, userService);
+    String currentUserKeyString = KeyFactory.keyToString(currentUserEntity.getKey());
+
+    if (upvotedUsersString.contains(currentUserKeyString)) {
+      upvotedUsersString = upvotedUsersString.replaceFirst(currentUserKeyString + " ", "");
+      listingEntity.setProperty(property, upvotedUsersString);
+      datastore.put(listingEntity);
+    }
   }
 }
