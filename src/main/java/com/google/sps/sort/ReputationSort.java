@@ -14,11 +14,7 @@
 
 package com.google.sps.sort;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.users.UserService;
 import com.google.sps.data.Listing;
-import com.google.sps.utility.AuthenticationUtility;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
