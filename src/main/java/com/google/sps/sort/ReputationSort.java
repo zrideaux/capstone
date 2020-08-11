@@ -26,7 +26,7 @@ public final class ReputationSort {
    * Sorts the given List of Listings by using a reputation score based upon
    * the listings' existing downvotes and upvotes.
    *
-   * @param listings The List<Listing> to sort.
+   * @param listings The List of Listings to be sort.
    * @return a List of Listings sorted by their reputation score
    */
   public static List<Listing> sortByReputation(List<Listing> listings) {
@@ -38,7 +38,6 @@ public final class ReputationSort {
 
     // Sort listings by their reputation score
     Collections.sort(listings, (a, b) -> a.reputationScore.compareTo(b.reputationScore));
-
 
     // Put the listings into descending order by their score
     Collections.reverse(listings);
