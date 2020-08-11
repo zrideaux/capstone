@@ -18,11 +18,13 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.UserService;
+import com.google.sps.comparator.RecommendedComparator;
 import com.google.sps.data.Listing;
 import com.google.sps.data.User;
 import com.google.sps.utility.EntityUtility;
 import com.google.sps.utility.AuthenticationUtility;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -114,6 +116,10 @@ public final class RecommendedSort {
     }
 
     // Sort the list of non-mutual upvoted listing key strings
+    RecommendedComparator recommendedComparator = new RecommendedComparator(
+        userUpvotedListingKeyStrings);
+    Collections.sort(similarUsersUpvotedListingKeyStrings, 
+        recommendedComparator);
 
     // Iterate through the sorted List and keep the listings that appear in the 
     //     listings parameter. Also, remove the listing that appears in the 
