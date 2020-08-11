@@ -36,14 +36,39 @@ public final class EntityUtility {
   public static void addEntities(String delimiter, DatastoreService datastore, 
       Entity entity, Collection entityCollection, String property) 
       throws Exception {
-    String[] entityKeyStringArray = getEntityKeyStrings(delimiter, entity, 
+    String[] entityKeyStringsArray = getEntityKeyStrings(delimiter, entity, 
         property);
 
-    if (entityKeyStringArray.length > 0) {
-      for (String entityKeyString : entityKeysStringArray) {
-        Key entityKey = KeyFactory.stringToKey(entityKeyString);
-        Entity entity = datastore.get(entityKey);
-        entityCollection.add(entity);
+    if (entityKeyStringsArray.length > 0) {
+      for (String entityKeyString : entityKeyStringsArray) {
+        Key newEntityKey = KeyFactory.stringToKey(entityKeyString);
+        Entity newEntity = datastore.get(newEntityKey);
+
+        entityCollection.add(newEntity);
+      }
+    }
+  }
+
+  /**
+   * Used to transform an Entity's String of Entity keys into  
+   *     Entity Key Strings that can invdividually be added to a Collection of 
+   *     Entities.
+   *
+   * @param delimiter the used to separate the String of Entity keys 
+   * @param datastore the DatastoreService that connects to the back end.
+   * @param entity An Entity that has a property that stores Entity keys.
+   * @param entityCollection A collection of Entities.
+   * @param property the name of the property that stores Entity keys.
+   */
+  public static void addEntityKeyStrings(String delimiter, 
+      DatastoreService datastore, Entity entity, Collection entityCollection, 
+      String property) throws Exception {
+    String[] entityKeyStringsArray = getEntityKeyStrings(delimiter, entity, 
+        property);
+
+    if (entityKeyStringsArray.length > 0) {
+      for (String entityKeyString : entityKeyStringsArray) {
+        entityCollection.add(entityKeyString);
       }
     }
   }
@@ -52,14 +77,14 @@ public final class EntityUtility {
    * Turns a String[] of Entity key Strings into a List<Entity>.
    *
    * @param datastore the DatastoreService that connects to the back end.
-   * @param entityKeysStringArray the String[] of Entity key
+   * @param entityKeyStringsArray the String[] of Entity key
    *     Strings that will each be used to create an Entity.
    * @return List<Entity>
    */
   public static List<Entity> createEntities(DatastoreService datastore, 
-      String[] entityKeysStringArray) throws Exception {
+      String[] entityKeyStringsArray) throws Exception {
     List<Entity> entities = new ArrayList<Entity>();
-    for (String entityKeyString : entityKeysStringArray) {
+    for (String entityKeyString : entityKeyStringsArray) {
       Key entityKey = KeyFactory.stringToKey(entityKeyString);
       Entity entity = datastore.get(entityKey);
       entities.add(entity);

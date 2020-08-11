@@ -16,6 +16,7 @@ package com.google.sps.sort;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.UserService;
 import com.google.sps.data.Listing;
 import com.google.sps.data.User;
@@ -78,19 +79,22 @@ public final class RecommendedSort {
     HashSet<Entity> similarUsers = new HashSet<Entity>();
     for (Entity upvotedListingEntity : upvotedListingEntities) {
       // Add user to the HashSet and prevent any duplicates
-      addEntities(User.DELIMITER, datastore, upvotedListingEntity, similarUsers,
-          "upvotedUserKeys");
+      EntityUtility.addEntities(User.DELIMITER, datastore, upvotedListingEntity,
+          similarUsers, "upvotedUserKeys");
     }
 
+    // Turn the User Entity into their upvoted listing Key Strings
     List<HashSet<String>> similarUsersUpvotedListingKeyStrings = new 
         ArrayList<HashSet<String>>();
-    for (Entity similarUserEntity : similarUsers.iterator()) {
-      // Turn the User Entity into their upvoted listing Key Strings
-      HashSet<Entity> upvotedListingKeyStrings = new HashSet<Entity>();
-      addEntities(User.DELIMITER, datastore, similarUserEntity, 
-          upvotedListingKeyStrings, "upvotedUserKeys");
+    Iterator<Entity> similarUsersIterator = similarUsers.iterator();
+    while (similarUsersIterator.hasNext()) {
+      Entity similarUserEntity = similarUsersIterator.next();
+
+      HashSet<String> upvotedListingKeyStrings = new HashSet<String>();
+      EntityUtility.addEntityKeyStrings(User.DELIMITER, datastore, 
+          similarUserEntity, upvotedListingKeyStrings, "upvotedUserKeys");
       
-      similarUsersUpvotedListingKeyStrings.add(upvotedListingKeyStrings)
+      similarUsersUpvotedListingKeyStrings.add(upvotedListingKeyStrings);
     }
 
     // Sort the list of similar Users upvoted listing key strings
@@ -112,7 +116,7 @@ public final class RecommendedSort {
       }
     }
     
-    return listings;
+    return recommendedListings;
   }
 
   /**
