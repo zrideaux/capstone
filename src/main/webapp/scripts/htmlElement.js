@@ -26,6 +26,22 @@ function createBrElement() {
   document.createElement("BR");
 }
 
+/**
+ * Creates a <button> element containing text, class and id attribute.
+ *
+ * @param text the text that will be displayed
+ * @param classAttribute the name of the class of this span element
+ * @param idAttribute the name of the id of this span element
+ * @return returns a button element with text, class, and id
+ */
+function createButtonElement(text, classAttribute, idAttribute) {
+  const buttonElement = document.createElement('button');
+  buttonElement.setAttribute("class", classAttribute);
+  buttonElement.setAttribute("id", idAttribute);
+  buttonElement.innerText = text;
+  return buttonElement;
+}
+
 /** 
  * Creates a <div> element containing class and id attribute. 
  *
@@ -210,22 +226,6 @@ function createSpanElement(text, classAttribute, idAttribute) {
   spanElement.setAttribute("id", idAttribute);
   spanElement.innerText = text;
   return spanElement;
-}
-
-/**
- * Creates a <button> element containing text, class and id attribute.
- *
- * @param text the text that will be displayed
- * @param classAttribute the name of the class of this span element
- * @param idAttribute the name of the id of this span element
- * @return returns a button element with text, class, and id
- */
-function createButtonElement(text, classAttribute, idAttribute) {
-  const buttonElement = document.createElement('button');
-  buttonElement.setAttribute("class", classAttribute);
-  buttonElement.setAttribute("id", idAttribute);
-  buttonElement.innerText = text;
-  return buttonElement;
 }
 
 export { 

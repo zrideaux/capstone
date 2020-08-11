@@ -59,11 +59,10 @@ function setInitialVoteState(downvoteButton, upvoteButton, existingVote, key) {
  */
 function setOnclicks(downvoteButton, downvoteValue, upvoteButton, upvoteValue, key) {
   downvoteButton.onclick = () => {
-    console.log("Downvote Button Clicked\nSending " + downvoteValue + "\nKey: " + key);
     voteClicked(downvoteButton, downvoteValue, key);
   }
+
   upvoteButton.onclick = () => {
-    console.log("Upvote Button Clicked\nSending " + upvoteValue + "\nKey: " + key);
     voteClicked(upvoteButton, upvoteValue, key);
   }
 }

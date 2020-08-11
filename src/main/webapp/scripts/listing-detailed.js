@@ -193,6 +193,15 @@ function createListingCardDescription(comments, description, howToHelp) {
   return divListingDetails;
 }
 
+/**
+ * Creates a container that holds uniquely id'd downvote and upvote button
+ * for a listing.
+ *
+ * @param downvotes an int representing the number of downvotes a listing has
+ * @param key a string that is the key of a listing
+ * @param upvotes an int representing the number of upvotes a listing has
+ * @param existingVote the vote which the current user already has on a listing
+ */
 function createReputationContainer(downvotes, key, upvotes, existingVote) {
   let reputationContainer = createDivElement('', '', 'reputation-button-container');
   
