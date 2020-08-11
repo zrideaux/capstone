@@ -21,6 +21,7 @@ import com.google.sps.data.Listing;
 import com.google.sps.utility.AuthenticationUtility;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 // The alogrithm to sort Listings by Reputation
@@ -36,84 +37,19 @@ public final class ReputationSort {
    *     reputation and location.
    */
   public static List<Listing> sortByReputation(List<Listing> listings) {
-    List<Listing> sortedListings = new ArrayList<Listing>();
-    
-    for (Listing listingToAdd : listings) {
-      int sortedSize = sortedListings.size();
-      if (sortedSize == 0) {
-        sortedListings.add(listingToAdd);
-      } else {
-        for (int i = 0; i < sortedSize; i++) {
-          if (generateReputationScore(listingToAdd) < generateReputationScore(sortedListings.get(i))) {
-            sortedListings.add(i, listingToAdd);
-            break;
-          } else {
-            if (i == sortedListings.size() - 1) {
-              sortedListings.add(listingToAdd);
-            }
-          }
-        }
-      }
+
+    // Generate reputation scores for the listings to be sorted
+    for (int i = 0; i < listings.size(); i++) {
+      listings.get(i).generateReputationScore();
     }
 
-    Collections.reverse(sortedListings);
+    // Sort listings by their reputation score
+    Collections.sort(listings, (a, b) -> a.reputationScore.compareTo(b.reputationScore));
 
-    for (int i = 0; i < sortedListings.size(); i++) {
-      System.out.println("Listing " + i + " score: " + generateReputationScore(sortedListings.get(i)));
-    }
 
-    return sortedListings;
-  }
+    // Put the listings into descending order by their score
+    Collections.reverse(listings);
 
-  /**
-   * Generate and return a reputation score from a listing entity)
-   * 
-   * @param listingEntity the entity of the listing to generate a score for
-   * @return int representing a listing's reputationScore
-   */
-  public static int generateReputationScore(Entity listingEntity) {
-    final double WEIGHT_1 = .20;
-    final double WEIGHT_2 = .80;
-    
-    int upvotes = (int) new Long(
-        (long) listingEntity.getProperty("upvotes")).intValue();
-    int downvotes = (int) new Long(
-        (long) listingEntity.getProperty("downvotes")).intValue();
-    
-    if (upvotes == 0) {
-      return 0;
-    }
-
-    double upvotePercentage = upvotes / (upvotes + downvotes);
-
-    int reputationScore = (int) ((upvotes * WEIGHT_1) 
-        + ((upvotes * upvotePercentage) * WEIGHT_2));
-
-    return reputationScore;
-  }
-
-  /**
-   * Generate and return a reputation score from a listing entity)
-   * 
-   * @param listingEntity the entity of the listing to generate a score for
-   * @return int representing a listing's reputationScore
-   */
-  public static int generateReputationScore(Listing listing) {
-    final double WEIGHT_1 = .20;
-    final double WEIGHT_2 = .80;
-    
-    int upvotes = (int) listing.getUpvotes();
-    int downvotes = (int) listing.getDownvotes();
-
-    if (upvotes == 0) {
-      return 0;
-    }
-
-    double upvotePercentage = (double) upvotes / (upvotes + downvotes);
-    int reputationScore = (int) ((upvotes * WEIGHT_1) 
-        + ((upvotes * upvotePercentage) * WEIGHT_2));
-    
-    System.out.println("upvotes: " + upvotes + " downvotes: " + downvotes + " score: " + reputationScore + " perc: " + upvotePercentage);
-    return reputationScore;
+    return listings;
   }
 }
