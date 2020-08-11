@@ -113,6 +113,7 @@ public final class Listing {
     return date.toString();
   }
 
+
   /**
    * Creates a Listing object from an Entity object that represents a listing
    *
@@ -223,6 +224,15 @@ public final class Listing {
     return listings;
   }
 
+  /**
+   * Get a string representing the vote the current user has on a listing entity.
+   *
+   * @param datastore a datastore service instance
+   * @param userService a user service instance
+   * @param listingKeyString a string of a listing entity's key
+   * @return a string representing the vote the current user has on a listing entity,
+   *     can be upvote, downvote, or neutral
+   */
   private static String getVoteForListing(DatastoreService datastore, UserService userService, String listingKeyString) {
     if (userService.isUserLoggedIn()) {
       Entity currentUser = AuthenticationUtility.getCurrentUserEntity(datastore, userService);
@@ -238,5 +248,14 @@ public final class Listing {
       }
     }
     return "neutral";
+  }
+
+  /**
+   * Return location of listing
+   * 
+   * @return location of listing
+   */
+  public String getLocation(){
+    return location;
   }
 }
