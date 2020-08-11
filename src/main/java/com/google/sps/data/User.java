@@ -192,7 +192,6 @@ public final class User {
     Entity currentUserEntity =
         AuthenticationUtility.getCurrentUserEntity(datastore, userService);
     String currentUserKeyString = KeyFactory.keyToString(currentUserEntity.getKey());
-    System.out.println(currentUserKeyString);
 
     if (!upvotedUsersString.contains(currentUserKeyString)) {
       upvotedUsersString += currentUserKeyString + " ";
