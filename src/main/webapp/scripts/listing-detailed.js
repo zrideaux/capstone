@@ -1,16 +1,23 @@
 import { 
   createAElement,
+  createButtonElement,
   createDivElement, 
   createHElement,
   createIElement,  
   createImgElement, 
-  createPElement 
+  createPElement, 
+  createSpanElement
 } from './htmlElement.js';
 
 import { 
   keyboardAccessible,
   toggleDisplay 
 } from './miscellaneous.js';
+
+import { 
+  setInitialVoteState,
+  voteClicked
+} from './reputation.js';
 
 /**
  * Create an element that shows a listing detailed view
@@ -39,13 +46,16 @@ export default function createListingDetailedView(listing,
   // Creating listing card information
   const type = listing.type;
   const dateCreated = listing.dateCreated;
+  const downvotes = listing.downvotes.toLocaleString();
   const imageURL = listing.imageURL;
+  const key = listing.key;
   const name = listing.name;
   const upvotes = listing.upvotes.toLocaleString();
+  const vote = listing.vote
   const views = listing.views.toLocaleString();
   const website = listing.website;  
-  divCardInfoElement.appendChild(createListingCardInformation(type, 
-      dateCreated, imageURL, name, upvotes, views, website));
+  divCardInfoElement.appendChild(createListingCardInformation(type, dateCreated,
+      downvotes, imageURL, key, name, upvotes, views, vote, website));
 
   // Creating listing card description
   const comments = '';
@@ -96,8 +106,8 @@ function createExitElement(elementDisplay, elementId) {
  * @return a div with the picture, name, type, reputation, listing details 
  *     (see below) and website of a listing.
  */
-function createListingCardInformation(type, dateCreated, imageURL, name, 
-    upvotes, views, websiteLink) {
+function createListingCardInformation(type, dateCreated, downvotes, imageURL,
+    key, name, upvotes, views, vote, websiteLink) {
   const divCardInformation = createDivElement('', 'card-information', '');
   divCardInformation.appendChild(
       createImgElement(imageURL, 'picture of listing', 'card-picture', ''));
@@ -108,9 +118,9 @@ function createListingCardInformation(type, dateCreated, imageURL, name,
   divCardInformation.appendChild(
       createHElement(type, 2, 'detailed-attribute listing-tag pill', ''));      
 
+  divCardInformation.appendChild(createHElement('Reputation', '2', 'reputation-heading'));
   divCardInformation.appendChild(
-      createHElement('Reputation: ' + upvotes + ' upvotes', 2, 
-      'detailed-attribute pill reputation-pill', '')); 
+      createReputationContainer(downvotes, key, upvotes, vote));
 
   divCardInformation.appendChild(createListingDetails(dateCreated, views)); 
 
@@ -138,9 +148,6 @@ function createListingDetails(dateCreated, views) {
 
   divListingDetails.appendChild(
     createPElement(views + ' Views', 'listing-detail', ''));
-
-  divListingDetails.appendChild(
-    createPElement('Verified or Community Reputation', 'listing-detail', ''));
 
   divListingDetails.appendChild(
     createPElement('Contact Info', 'listing-detail', ''));
@@ -180,4 +187,41 @@ function createListingCardDescription(comments, description, howToHelp) {
     createPElement(comments, '', ''));
 
   return divListingDetails;
+}
+
+/**
+ * Creates a container that holds uniquely id'd downvote and upvote button
+ * for a listing.
+ *
+ * @param downvotes an int representing the number of downvotes a listing has
+ * @param key a string that is the key of a listing
+ * @param upvotes an int representing the number of upvotes a listing has
+ * @param existingVote the vote which the current user already has on a listing
+ */
+function createReputationContainer(downvotes, key, upvotes, existingVote) {
+  let reputationContainer = createDivElement('', '', 'reputation-button-container');
+  
+  // Create upvote button
+  let upvoteButton = createButtonElement('', 'reputation-button',
+      'reputation-upvote-' + key);
+  let upvoteIcon = createIElement('thumb_up', 'material-icons', '');
+  let upvoteCount = createSpanElement(upvotes, 'reputation-count', 'reputation-count-upvotes-' + key);
+  upvoteButton.appendChild(upvoteIcon);
+  upvoteButton.appendChild(upvoteCount);
+  
+  // Create downvote button
+  let downvoteButton = createButtonElement('', 'reputation-button',
+      'reputation-downvote-' + key);
+  let downvoteIcon = createIElement('thumb_down', 'material-icons', '');
+  let downvoteCount = createSpanElement(downvotes, 'reputation-count', 'reputation-count-downvotes-' + key);
+  downvoteButton.appendChild(downvoteIcon);
+  downvoteButton.appendChild(downvoteCount);
+
+  // Set the initial state of the buttons when they're made
+  setInitialVoteState(downvoteButton, upvoteButton, existingVote, key);
+
+  reputationContainer.appendChild(upvoteButton);
+  reputationContainer.appendChild(downvoteButton);
+
+  return reputationContainer;
 }
