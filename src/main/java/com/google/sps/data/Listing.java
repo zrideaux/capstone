@@ -225,4 +225,12 @@ public final class Listing {
   public String getLocation(){
     return location;
   }
+
+  public int getUpvotes() {
+    return upvotes;
+  }
+
+  public int getDownvotes() {
+    return downvotes;
+  }
 }
