@@ -53,8 +53,8 @@ public class FetchListings extends HttpServlet {
   static final int FILTER_MIN = 0;
   static final int FILTER_MAX = 7;
   // Based on the length of the shortest/longest radius category 
-  static final int RADIUS_MIN = 2;
-  static final int RADIUS_MAX = 4;
+  static final int RADIUS_MIN = 10;
+  static final int RADIUS_MAX = 101;
   // Based on the length of the shortest/longest sort category 
   static final int SORT_MIN = 10;
   static final int SORT_MAX = 12;
@@ -82,10 +82,10 @@ public class FetchListings extends HttpServlet {
       return;
     } 
 
-    String radiusFilter;
+    int radiusFilter;
     try {
-      radiusFilter = ValidateInput.getUserString(request, 
-        "radius-filter", RADIUS_MIN, RADIUS_MAX, "");
+      radiusFilter = ValidateInput.getUserNum(request, 
+        "radius-filter", RADIUS_MIN, RADIUS_MAX, 10);
     } catch (Exception e) {
       ValidateInput.createErrorMessage(e, response);
       return;
@@ -99,6 +99,14 @@ public class FetchListings extends HttpServlet {
       ValidateInput.createErrorMessage(e, response);
       return;
     } 
+
+    String userLocation;
+    try {
+      userLocation = ValidateInput.getParameter(request, "location", "");  
+    } catch (Exception e) {
+      ValidateInput.createErrorMessage(e, response);
+      return;
+    }
 
     // Prepare to fetch entities from the backend
     Query queryListing = new Query("Listing");
@@ -121,22 +129,12 @@ public class FetchListings extends HttpServlet {
     // Sort the Listings based on sort parameter
     // The sorting algorithm will be given a List<Listing> and will return a 
     //     List<Listing>
-    int radius;
-     try {
-      radius = ValidateInput.getParameter(request, "radius-filter", 10);
-    } catch (Exception e) {
-      ValidateInput.createErrorMessage(e, response);
-      return;
-    } 
-    String userLocation = ValidateInput.getParameter(request, "location", "");
-    String jsonListings;
-    
-    if(userLocation.equals("")) {
-      jsonListings = new Gson().toJson(listings);
-    }else{
-      ArrayList<Listing> modifiedlistings = ExcludeByRadius.removeListingsNotInRadius(listings, userLocation, radius);
-      jsonListings = new Gson().toJson(modifiedlistings);
+
+    if (!userLocation.equals("")) {
+      listings = ExcludeByRadius.removeListingsNotInRadius(listings, userLocation, radiusFilter);  
     }
+      
+    String jsonListings = new Gson().toJson(listings);
     response.setContentType("application/json;");
     response.getWriter().println(jsonListings);
   }

@@ -18,7 +18,8 @@ import {
  */
 
 window.onload = function() {
-  authenticate(addOnclickToInputs);
+  authenticate();
+  addOnclickToInputs();
 }
 
 /**

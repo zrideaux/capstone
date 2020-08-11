@@ -31,7 +31,7 @@ import java.util.Scanner;
  */ 
 public class ExcludeByRadius{
   //API key used to access the DistanceMatrix api
-  private static final String API_KEY = "API_KEY";
+  private static final String API_KEY = "AIzaSyDj01aOJl-zsHcEQHMwbIngIyOO7LjYG3k";
   
   /**
    * Takes in a list of Listings that have had their filter applied and omits the Listings that are not 
@@ -50,9 +50,9 @@ public class ExcludeByRadius{
     userLocation = userLocation.replace(" ", "+");
       
     //If the radius input is 100+ we change the value to 100,000 km (100 million m) if not multiply input by 1000.
-    if(radius == 101){
+    if (radius == 101) {
       radius = 100000000;
-    }else{
+    } else {
       radius *= 1000;
     }
 
@@ -61,7 +61,7 @@ public class ExcludeByRadius{
     
     //Recieve a list of listings that are compatible with the search filter get their locations.
     String[] listingLocations = new String[listings.size()];
-    for(int i = 0; i < listings.size(); i++){
+    for (int i = 0; i < listings.size(); i++) {
       listingLocations[i] = listings.get(i).getLocation().replace(" ", "+");
     }
 
@@ -88,7 +88,7 @@ public class ExcludeByRadius{
    */ 
   private static String distanceMatrixJsonUrl(String userLocation, String[] listingLocations, String baseURL) {
     String completeURL = baseURL+"origins="+userLocation+"&destinations=";
-    for(int i = 0; i < listingLocations.length; i++){
+    for (int i = 0; i < listingLocations.length; i++) {
       completeURL += listingLocations[i] + "|";
     }
     completeURL += "&departure_time=now&key=" + API_KEY; 
@@ -111,7 +111,7 @@ public class ExcludeByRadius{
     int responsecode = conn.getResponseCode();
     
     //Checks if connection is a success  
-    if(responsecode != 200) {
+    if (responsecode != 200) {
       throw new RuntimeException("HttpResponseCode: " +responsecode);
     } else {
       //Reads in information from api repsonse  
@@ -119,8 +119,7 @@ public class ExcludeByRadius{
       while(fileReader.hasNext()) {
         jsonString+=fileReader.nextLine();
       }
-      System.out.println("\nJSON data in string format");
-      System.out.println(jsonString);
+
       fileReader.close();
     
       //Converts json object to gson to be converted into java object
@@ -132,7 +131,7 @@ public class ExcludeByRadius{
       String[] locations = distance.getListingAddresses();
       String[] text = distance.getStringDistanceValues();
       String origin = distance.getOriginAddress();
-      for(int i = 0; i < distances.length; i++) {
+      for (int i = 0; i < distances.length; i++) {
         System.out.println("The distance between " + origin + " and " + locations[i] +
           " is "+ text[i] +". That is " + (int)distances[i] +" meters.");
       }
@@ -155,25 +154,23 @@ public class ExcludeByRadius{
     ArrayList<Listing> returnList = new ArrayList<>();
     HashMap<String, Double> locationAndDistance = new HashMap<>();
       
-    System.out.println("radius is "+ radius + " meters");
+    System.out.println("Radius is "+ radius + " meters");
 
-    for(int i = 0; i < distancesInMeters.length; i++) {
-      if(destinations[i].contains(", USA")) {
+    for (int i = 0; i < distancesInMeters.length; i++) {
+      if (destinations[i].contains(", USA")) {
          destinations[i] = destinations[i].replace(", USA", "");
          destinations[i] = destinations[i].replace(" ", "");
       }
       destinations[i] = destinations[i].toUpperCase();
 
-      if(distancesInMeters[i] <= radius) {
+      if (distancesInMeters[i] <= radius) {
         locationAndDistance.put(destinations[i], distancesInMeters[i]);
-        System.out.println(destinations[i] + " "+ distancesInMeters[i] +"\n");
       }
     }
         
-    for(int i = 0; i < listings.size(); i++) {
-      System.out.println(listings.get(i).getLocation().toUpperCase() +" This is the check before \n");  
-      if(locationAndDistance.containsKey(listings.get(i).getLocation().toUpperCase())) {
-        System.out.println(listings.get(i).getLocation() + " This the check after \n");  
+    for (int i = 0; i < listings.size(); i++) { 
+      if (locationAndDistance.containsKey(listings.get(i).getLocation().toUpperCase())) {
+        System.out.println(listings.get(i).getLocation() + " Should be displayed \n");  
         returnList.add(listings.get(i));
       }
     }
