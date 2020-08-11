@@ -70,18 +70,28 @@ public final class RecommendedSort {
    */
   public static List<Listing> sortByUpvotedListings(DatastoreService datastore,
       List<Listing> listings, Entity entity) throws Exception {
-    List<Entity> upvotedListingEntities = EntityUtility.getEntities(
-        User.DELIMITER, datastore, entity, "upvotedListingKeys");
+    HashSet<String> userUpvotedListingKeyStrings = new HashSet<String>();
+    EntityUtility.addEntityKeyStrings(datastore, User.DELIMITER,
+          entity, userUpvotedListingKeyStrings, "upvotedListingKeys");
     
     // Since this HashSet will not be used by multiple threads, there is no 
     //     need to make it synchronized.
     // Similar users are users the current user shares an upvoted listing with
     HashSet<Entity> similarUsers = new HashSet<Entity>();
-    for (Entity upvotedListingEntity : upvotedListingEntities) {
+    Iterator<String> upvotedListingKeyStringsIterator = 
+        userUpvotedListingKeyStrings.iterator();
+    while (upvotedListingKeyStringsIterator.hasNext()) {
+      String entityKeyString = upvotedListingKeyStringsIterator.next();
+      Entity upvotedListingEntity = EntityUtility.createEntity(datastore, 
+          entityKeyString);
+
       // Add user to the HashSet and prevent any duplicates
-      EntityUtility.addEntities(User.DELIMITER, datastore, upvotedListingEntity,
+      EntityUtility.addEntities(datastore, User.DELIMITER, upvotedListingEntity,
           similarUsers, "upvotedUserKeys");
     }
+
+    // Removes current user from this HashSet
+    similarUsers.remove(entity);
 
     // Turn the User Entity into their upvoted listing Key Strings
     List<HashSet<String>> similarUsersUpvotedListingKeyStrings = new 
@@ -91,14 +101,19 @@ public final class RecommendedSort {
       Entity similarUserEntity = similarUsersIterator.next();
 
       HashSet<String> upvotedListingKeyStrings = new HashSet<String>();
-      EntityUtility.addEntityKeyStrings(User.DELIMITER, datastore, 
-          similarUserEntity, upvotedListingKeyStrings, "upvotedUserKeys");
+      // Adds the key strings of non-mutual upvoted listings
+      EntityUtility.addEntityKeyStrings(datastore, User.DELIMITER,  
+          similarUserEntity, upvotedListingKeyStrings, "upvotedListingKeys");
       
-      similarUsersUpvotedListingKeyStrings.add(upvotedListingKeyStrings);
+      // Remove the Listings that is shared with the current user
+
+
+      if (upvotedListingKeyStrings.size() > 0) {
+        similarUsersUpvotedListingKeyStrings.add(upvotedListingKeyStrings);
+      }
     }
 
-    // Sort the list of similar Users upvoted listing key strings
-    
+    // Sort the list of non-mutual upvoted listing key strings
 
     // Iterate through the sorted List and keep the listings that appear in the 
     //     listings parameter. Also, remove the listing that appears in the 
@@ -109,7 +124,12 @@ public final class RecommendedSort {
       Iterator<Listing> listingsIterator = listings.iterator();
       while (listingsIterator.hasNext()) {
         Listing listing = listingsIterator.next();
-        if (listingKeyStrings.contains(listing.getKeyString())) {
+        
+        // Only add non-mutual listings that are in the listings variable
+        boolean isInListings = listingKeyStrings.contains(listing.getKeyString());
+        boolean isInUserUpvotedListings = userUpvotedListingKeyStrings.contains(
+          listing.getKeyString());
+        if (isInListings && !isInUserUpvotedListings) {
           recommendedListings.add(listing);
           listingsIterator.remove();
         }
@@ -117,27 +137,6 @@ public final class RecommendedSort {
     }
     
     return recommendedListings;
-  }
-
-  /**
-   * Returns the recommended score from a User's upvoted listings and another 
-   *     User's upvoted listings
-   * Recommended Score: 
-   *     - Determined based on the number of upvoted listings for User's share
-   *
-   * @param userUpvotedListings
-   */
-  public static int getRecommendedScore(List<Entity> userUpvotedListings, 
-      HashSet<String> otherUpvotedListings) {
-    int recommendedScore = 0; 
-    for (Entity upvotedListing : userUpvotedListings) {
-      String upvotedListingKeyString = KeyFactory.keyToString(upvotedListing.getKey());
-      if (otherUpvotedListings.contains(upvotedListingKeyString)) {
-        recommendedScore++;
-      }
-    }
-
-    return recommendedScore;
   }
 
   /**
