@@ -20,7 +20,8 @@ import java.util.Iterator;
 
 /** 
    * Used for sorting a Collection of listing key strings in descending order 
-   *     based upon the number of mutual listings.
+   *     based upon the number of mutual listings with the 
+   *     userUpvotedListingsSize variable.
   */
 public class RecommendedComparator implements Comparator<HashSet<String>> {
 
