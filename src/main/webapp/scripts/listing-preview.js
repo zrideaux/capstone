@@ -41,9 +41,10 @@ export default function createListingPreview(listing, listingDisplay, listingId)
 
   // Creating listing details
   const description = listing.description;  
+  const location = listing.location;
   const name = listing.name;
   const type = listing.type;
-  sectionListing.appendChild(createListingDetails(description, name, 
+  sectionListing.appendChild(createListingDetails(description, location, name, 
       type));
 
   return sectionListing;
@@ -73,18 +74,22 @@ function createListingInformation(imageURL, upvotes) {
  * Create an element with listing details
  *
  * @param description the description associated with this listing
+ * @param lcoation the location of this listing.
  * @param name the name of this listing
  * @param type the type of the listing 
  * @return a div with the description, name, and tags of a listing
  */
-function createListingDetails(description, name, type) {
+function createListingDetails(description, location, name, type) {
   const divListingDetails = createDivElement('', 'listing-info-container', '');
 
   // Creating listing heading
   divListingDetails.appendChild(createListingHeading(name, type));
 
   divListingDetails.appendChild(
-    createPElement(description, '', ''));
+    createPElement(location, 'listing-preview-details', ''));
+
+  divListingDetails.appendChild(
+    createPElement(description, 'listing-preview-details', ''));
 
   return divListingDetails;
 }
