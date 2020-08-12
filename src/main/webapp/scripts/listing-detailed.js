@@ -49,20 +49,20 @@ export default function createListingDetailedView(listing,
   const downvotes = listing.downvotes.toLocaleString();
   const imageURL = listing.imageURL;
   const key = listing.key;
+  const location = listing.location;
   const name = listing.name;
   const upvotes = listing.upvotes.toLocaleString();
   const vote = listing.vote
   const views = listing.views.toLocaleString();
   const website = listing.website;  
   divCardInfoElement.appendChild(createListingCardInformation(type, dateCreated,
-      downvotes, imageURL, key, name, upvotes, views, vote, website));
+      downvotes, imageURL, key, location, name, upvotes, views, vote, website));
 
   // Creating listing card description
-  const comments = '';
   const description = listing.description;
   const howToHelp = listing.howToHelp;
-  divCardInfoElement.appendChild(createListingCardDescription(comments, 
-      description, howToHelp));
+  divCardInfoElement.appendChild(createListingCardDescription(description, 
+      howToHelp));
 
   return divCardContainerElement;
 }
@@ -94,11 +94,12 @@ function createExitElement(elementDisplay, elementId) {
 }
 
 /**
- * Create an element with listing details
+ * Create an element with listing details.
  *
  * @param type the type of this listing
  * @param dateCreated the date this listing was created
  * @param imageURL the source of the listing image
+ * @param location the location of the listing
  * @param name the name of this listing
  * @param upvotes the number of upvotes this listing has
  * @param views the number of views this listing has received
@@ -107,7 +108,7 @@ function createExitElement(elementDisplay, elementId) {
  *     (see below) and website of a listing.
  */
 function createListingCardInformation(type, dateCreated, downvotes, imageURL,
-    key, name, upvotes, views, vote, websiteLink) {
+    key, location, name, upvotes, views, vote, websiteLink) {
   const divCardInformation = createDivElement('', 'card-information', '');
   divCardInformation.appendChild(
       createImgElement(imageURL, 'picture of listing', 'card-picture', ''));
@@ -116,9 +117,13 @@ function createListingCardInformation(type, dateCreated, downvotes, imageURL,
       createHElement(name, 1, 'card-name', ''));
 
   divCardInformation.appendChild(
-      createHElement(type, 2, 'detailed-attribute listing-tag pill', ''));      
+        createHElement(location, 2, 'card-location', ''));
+
+  divCardInformation.appendChild(
+      createHElement(type, 2, 'detailed-attribute listing-tag pill', '')); 
 
   divCardInformation.appendChild(createHElement('Reputation', '2', 'reputation-heading'));
+  
   divCardInformation.appendChild(
       createReputationContainer(downvotes, key, upvotes, vote));
 
@@ -158,33 +163,25 @@ function createListingDetails(dateCreated, views) {
 /**
  * Creates a div with listing descriptions
  *
- * @param comments the comments this listing has received
  * @param description the description of this listing
  * @param howToHelp the text that descripes how to help this cause/listing
- * @return a div with the description and comments of a listing
+ * @return a div with the description of a listing
  */
-function createListingCardDescription(comments, description, howToHelp) {
+function createListingCardDescription(description, howToHelp) {
   const divListingDetails = createDivElement('', 'card-description', '');
 
   divListingDetails.appendChild(
       createHElement('Description', '3', '', '')); 
 
   divListingDetails.appendChild(
-    createPElement(description, '', ''));
+    createPElement(description, 'listing-detailed-description', ''));
 
   divListingDetails.appendChild(
       createHElement('How to help', '3', '', '')); 
 
   divListingDetails.appendChild(
 
-    createPElement(howToHelp,'', '')); 
-  
-  divListingDetails.appendChild(
-      createHElement('Comments', '3', '', '')); 
-
-  divListingDetails.appendChild(
-
-    createPElement(comments, '', ''));
+    createPElement(howToHelp,'listing-detailed-description', '')); 
 
   return divListingDetails;
 }

@@ -15,6 +15,7 @@
 .listing-info-container {
   display: flex;
   flex-direction: column;
+  text-align: left;
   width: -webkit-fill-available;
 }
 
@@ -24,6 +25,10 @@
   height: 150px;
   margin-right: 10px;
   width: 150px;
+}
+
+.listing-preview-details {
+  margin: 1rem 0 0 0;
 }
 
 .listing-preview-name {

@@ -1,12 +1,19 @@
 .listing-detailed-card {
   height: 85%;
   margin: 30px;
+  max-width: 1500px;
+  overflow-y: auto;
   width: 100%;
+}
+
+.listing-detailed-description {
+  margin: 0;
 }
 
 .pill {
   border-radius: 2rem;
   display: inline-block;
+  font-weight: 500;
 }
 
 .title {
@@ -60,17 +67,24 @@
   color: #212121 !important;
 }
 
+.reputation-heading {
+  margin: 1rem 0 .3rem 0;
+}
+
 /* small - medium screens */
 @media only screen and (max-width: 1550px) , only screen and 
     (max-height: 1230px) {
   .detailed-attribute {
-    margin-top: 1rem;
-    margin-bottom: 0rem;
+    margin: 1rem 0 0 0;
   }
 
   .listing-detail {
     margin: 0rem;
   }
+
+  .listing-detailed-card {
+    width: 1100px;
+  }  
 
   .listing-details {
     text-align: center;
@@ -85,6 +99,10 @@
 /* large screens */
 @media only screen and (min-width: 1550px) , only screen and 
     (min-height: 1230px) {
+  .detailed-attribute {
+    margin: 1.5rem 0 0 0;
+  }
+
   .listing-details {
     text-align: left;
   }
@@ -92,4 +110,8 @@
   .pill {
     font-size: 2rem;
   }
+
+  .reputation-heading {
+    margin: 1.5rem;
+  }  
 }

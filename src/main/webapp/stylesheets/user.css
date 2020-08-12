@@ -28,7 +28,7 @@
 }
 
 .user-listing-container {
-  font-size: 1.5rem;
+  font-size: 1.1rem;
 }
 
 .user-name {
@@ -43,5 +43,12 @@
     position: -webkit-sticky; /* for Safari */
     position: sticky;
     top: 0;
+  }
+}
+
+/* large screens */
+@media only screen and (min-width: 1550px) and (orientation: landscape) {
+  .user-listing-container {
+    font-size: 1.3rem;
   }
 }
