@@ -49,13 +49,14 @@ export default function createListingDetailedView(listing,
   const downvotes = listing.downvotes.toLocaleString();
   const imageURL = listing.imageURL;
   const key = listing.key;
+  const location = listing.location;
   const name = listing.name;
   const upvotes = listing.upvotes.toLocaleString();
   const vote = listing.vote
   const views = listing.views.toLocaleString();
   const website = listing.website;  
   divCardInfoElement.appendChild(createListingCardInformation(type, dateCreated,
-      downvotes, imageURL, key, name, upvotes, views, vote, website));
+      downvotes, imageURL, key, location, name, upvotes, views, vote, website));
 
   // Creating listing card description
   const comments = '';
@@ -94,11 +95,12 @@ function createExitElement(elementDisplay, elementId) {
 }
 
 /**
- * Create an element with listing details
+ * Create an element with listing details.
  *
  * @param type the type of this listing
  * @param dateCreated the date this listing was created
  * @param imageURL the source of the listing image
+ * @param location the location of the listing
  * @param name the name of this listing
  * @param upvotes the number of upvotes this listing has
  * @param views the number of views this listing has received
@@ -107,7 +109,7 @@ function createExitElement(elementDisplay, elementId) {
  *     (see below) and website of a listing.
  */
 function createListingCardInformation(type, dateCreated, downvotes, imageURL,
-    key, name, upvotes, views, vote, websiteLink) {
+    key, location, name, upvotes, views, vote, websiteLink) {
   const divCardInformation = createDivElement('', 'card-information', '');
   divCardInformation.appendChild(
       createImgElement(imageURL, 'picture of listing', 'card-picture', ''));
@@ -116,9 +118,13 @@ function createListingCardInformation(type, dateCreated, downvotes, imageURL,
       createHElement(name, 1, 'card-name', ''));
 
   divCardInformation.appendChild(
-      createHElement(type, 2, 'detailed-attribute listing-tag pill', ''));      
+        createHElement(location, 2, 'card-location', ''));
+
+  divCardInformation.appendChild(
+      createHElement(type, 2, 'detailed-attribute listing-tag pill', '')); 
 
   divCardInformation.appendChild(createHElement('Reputation', '2', 'reputation-heading'));
+  
   divCardInformation.appendChild(
       createReputationContainer(downvotes, key, upvotes, vote));
 
