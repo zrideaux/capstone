@@ -26,7 +26,7 @@ import com.google.gson.Gson;
 import com.google.sps.data.Listing;
 import com.google.sps.utility.ExcludeByRadius;
 import com.google.sps.filter.FilterQuery;
-import com.google.sps.sort.RecommendedSort;
+import com.google.sps.sort.recommended.RecommendedSort;
 import com.google.sps.sort.ReputationSort;
 import com.google.sps.utility.ListingConstants;
 import com.google.sps.utility.ValidateInput;
@@ -135,8 +135,13 @@ public class FetchListings extends HttpServlet {
     //     List<Listing>
     if (sortBy == 1) {
       UserService userService = UserServiceFactory.getUserService();
-      listings = RecommendedSort.sortByRecommended(datastore, listings, 
-          userService);
+      try {
+        listings = RecommendedSort.sortByRecommended(datastore, listings, 
+            userService);
+      } catch (Exception e) {
+        ValidateInput.createErrorMessage(e, response);
+        return;
+      }
     } else if (sortBy == 2) {
       listings = ReputationSort.sortByReputation(listings);
     } else {

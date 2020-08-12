@@ -11,12 +11,10 @@ import {
   mapElementsByName
 } from './miscellaneous.js';	
 
-
 /**
  * When the search page loads, add on click functions to input tags and see all 
  *     span tag.
  */
-
 window.onload = function() {
   authenticate();
   addOnclickToInputs();

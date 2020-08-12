@@ -21,13 +21,14 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.UserService;
 import com.google.sps.data.Listing;
 import com.google.sps.utility.AuthenticationUtility;
+import com.google.sps.utility.EntityUtility;
 import java.util.ArrayList;
 import java.util.List;
 
 /** A user */ 
 public final class User {
 
-  private static final String DELIMITER = " "; 
+  public static final String DELIMITER = " "; 
 
   private final String bio;
   private final String email;
@@ -51,16 +52,15 @@ public final class User {
    * @param datastore the DatastoreService that connects to the back end.
    * @param entity An Entity that has a ListingKeys property
    * @param property the name of the ListingKeys property
-   * @return a String[] of listing keys
+   * @return a List<Listing>
    */
   private static List<Listing> getListings(DatastoreService datastore,   
       Entity entity, String property) throws Exception {
-    String listingKeysString = (String) entity.getProperty(property);
+    String[] listingKeyStringArray = EntityUtility.getEntityKeyStrings(
+        DELIMITER, entity, property);
+
     List<Listing> listings = new ArrayList<Listing>();
-    // If the user doesn't have any keys it is stored as " " a String of length 1. 
-    // If the length of the String is greater than one, we have key(s)
-    if (listingKeysString.length() > 1) {
-      String[] listingKeyStringArray = listingKeysString.trim().split(DELIMITER);
+    if (listingKeyStringArray.length > 0) {
       listings = Listing.createListings(datastore, listingKeyStringArray);
     }
 

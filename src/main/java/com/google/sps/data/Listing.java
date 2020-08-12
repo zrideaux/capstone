@@ -74,6 +74,7 @@ public final class Listing {
     this.description = description;
     this.howToHelp = howToHelp;
     this.imageURL = imageURL;
+    this.key = "";
     this.location = location;
     this.name = name;
 
@@ -211,7 +212,7 @@ public final class Listing {
    * Turns a String[] of listing entity key Strings into a List<Listing>.
    *
    * @param datastore the DatastoreService that connects to the back end.
-   * @param listingEntityKeysStringArray the String[] of listing entity key.
+   * @param listingEntityKeysStringArray the String[] of listing entity key
    *     Strings that will each be used to create a Listing.
    * @return List<Listing> from the String[] of listing entity key strings.
    */
@@ -260,6 +261,15 @@ public final class Listing {
     return location;
   }
 
+  /**
+   * Returns the Key String of this listing
+   *
+   * @return the Key String of this Listing 
+   */
+  public String getKeyString() {
+    return this.key;
+  }
+  
   /**
    * Gets a listing's current number of upvotes
    *

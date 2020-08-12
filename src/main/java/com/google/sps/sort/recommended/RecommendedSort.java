@@ -12,12 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.sps.sort;
+package com.google.sps.sort.recommended;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.users.UserService;
 import com.google.sps.data.Listing;
+import com.google.sps.data.User;
+import com.google.sps.sort.recommended.SortByUpvotedListings;
 import com.google.sps.utility.AuthenticationUtility;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +37,7 @@ public final class RecommendedSort {
    *     reputation and location.
    */
   public static List<Listing> sortByRecommended(DatastoreService datastore, 
-      List<Listing> listings, UserService userService) {
+      List<Listing> listings, UserService userService) throws Exception {
     List<Listing> sortedListings = new ArrayList<Listing>();
     // If the user is logged in then sort by upvoted listings first
     if (userService.isUserLoggedIn()) {
@@ -44,28 +46,12 @@ public final class RecommendedSort {
           userEmail);
     
       // Removes the Listings in the List it returns from listings 
-      sortedListings.addAll(sortByUpvotedListings(listings, userEntity));
+      sortedListings.addAll(SortByUpvotedListings.sortByUpvotedListings(
+          datastore, listings, userEntity));
     } 
     sortedListings.addAll(sortByRadiusAndReputation(listings));
 
     return sortedListings;
-  }
-
-  /**
-   * Returns a List<Listing> that were deemed recommended, and removes the 
-   *     Listings in this list from listings.
-   * Recommended:
-   *     - A listing is deemed recommended if the most compatible User upvoted 
-   *       it and is in listings.
-   *
-   * @param listings The List<Listing> to sort.
-   * @param userEntity The Entity of the current user.
-   * @return a List<Listing> that were deemed recommended;
-   */
-  public static List<Listing> sortByUpvotedListings(List<Listing> listings, 
-      Entity userEntity) {
-    // TODO
-    return listings;
   }
 
   /**
