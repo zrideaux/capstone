@@ -27,7 +27,6 @@ public class RecommendedComparator implements Comparator<HashSet<String>> {
   private final HashSet<String> userUpvotedListingKeyStrings;
   private final int userUpvotedListingsSize;
 
-
   public RecommendedComparator(HashSet<String> userUpvotedListingKeyStrings) {
     this.userUpvotedListingKeyStrings = userUpvotedListingKeyStrings;
     this.userUpvotedListingsSize = userUpvotedListingKeyStrings.size();
