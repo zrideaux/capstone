@@ -94,4 +94,22 @@ public class DistanceMatrixOBJ {
     
     return listingDistanceValues;
   }
+
+
+  /**
+   * Returns a Integer array of values that show the users distance from the listing
+   *    in meters.
+   *
+   * @return Integer array of values that represent the distance in meters 
+   *   between user and listings i.e(980000.0)
+   */
+  public int[] getIntegerDistanceValues() {
+    int[] listingDistanceValues = new int[row[0].elements.length];
+    
+    for(int i =0; i < row[0].elements.length; i++) {
+      listingDistanceValues[i] = (int)row[0].elements[i].distance.value;
+    }
+
+    return listingDistanceValues; 
+  }
 }

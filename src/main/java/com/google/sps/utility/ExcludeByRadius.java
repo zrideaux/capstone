@@ -14,7 +14,6 @@
  
 package com.google.sps.utility;
 
-
 import com.google.sps.data.*;
 import com.google.gson.Gson;
 import java.io.IOException;
@@ -29,9 +28,9 @@ import java.util.Scanner;
  * the user and the listings that match their filter. If the distance between the user and the listing
  * is greater than the radius then the listing will be excluded from the list sent to be sorted.
  */ 
-public class ExcludeByRadius{
+public class ExcludeByRadius {
   //API key used to access the DistanceMatrix api
-  private static final String API_KEY = "AIzaSyDj01aOJl-zsHcEQHMwbIngIyOO7LjYG3k";
+  private static final String API_KEY = secret.API_KEY;
   
   /**
    * Takes in a list of Listings that have had their filter applied and omits the Listings that are not 
@@ -43,11 +42,11 @@ public class ExcludeByRadius{
    * @return ArrayList of desired listings that are within the radius set by the user.
    */ 
   public static ArrayList<Listing> removeListingsNotInRadius(List<Listing> listings, String userLocation, int radius)
-      throws IOException{
+      throws IOException {
     ArrayList<Listing> modifiedList = new ArrayList<>(); 
     
     //Replaces spaces with + to make url valid
-    userLocation = userLocation.replace(" ", "+");
+    
       
     //If the radius input is 100+ we change the value to 100,000 km (100 million m) if not multiply input by 1000.
     if (radius == 101) {
@@ -56,8 +55,6 @@ public class ExcludeByRadius{
       radius *= 1000;
     }
 
-    //Base url 
-    String apiCall="https://maps.googleapis.com/maps/api/distancematrix/json?"; 
     
     //Recieve a list of listings that are compatible with the search filter get their locations.
     String[] listingLocations = new String[listings.size()];
@@ -66,7 +63,7 @@ public class ExcludeByRadius{
     }
 
     //Create URL from origin and Locations of other listings   
-    String URL = distanceMatrixJsonUrl(userLocation, listingLocations, apiCall);
+    String URL = distanceMatrixJsonURL(userLocation, listingLocations);
     System.out.println(URL);
 
     //Convert Json Distance Matrix OBject into Java object.  
@@ -84,9 +81,11 @@ public class ExcludeByRadius{
    *
    * @param userLocation user input location
    * @param listingLocation listings location
-   * @param baseURL base url of api 
+   * @return Complete URL for call to API
    */ 
-  private static String distanceMatrixJsonUrl(String userLocation, String[] listingLocations, String baseURL) {
+  public static String distanceMatrixJsonURL(String userLocation, String[] listingLocations) {
+    String baseURL = "https://maps.googleapis.com/maps/api/distancematrix/json?";
+    userLocation = userLocation.replace(" ", "+");
     String completeURL = baseURL+"origins="+userLocation+"&destinations=";
     for (int i = 0; i < listingLocations.length; i++) {
       completeURL += listingLocations[i] + "|";
@@ -101,7 +100,7 @@ public class ExcludeByRadius{
    * @param JsonObjURL Url for api call
    * @return parsable Java Object
    */ 
-  private static DistanceMatrixOBJ convertJsonToDMObject(String JsonObjURL)
+  public static DistanceMatrixOBJ convertJsonToDMObject(String JsonObjURL)
     throws IOException {
     String jsonString = "";
     URL url = new URL(JsonObjURL);
@@ -148,7 +147,7 @@ public class ExcludeByRadius{
    * @param radius integer value of radius in meters
    * @return list of listings that are within radius in no particular order
    */
-  private static ArrayList<Listing> cutList(List<Listing> listings, DistanceMatrixOBJ distance, int radius) {
+  public static ArrayList<Listing> cutList(List<Listing> listings, DistanceMatrixOBJ distance, int radius) {
     double[] distancesInMeters = distance.getDoubleDistanceValues();
     String[] destinations = distance.getListingAddresses();
     ArrayList<Listing> returnList = new ArrayList<>();
@@ -169,7 +168,7 @@ public class ExcludeByRadius{
     }
         
     for (int i = 0; i < listings.size(); i++) { 
-      if (locationAndDistance.containsKey(listings.get(i).getLocation().toUpperCase())) {
+      if (locationAndDistance.containsKey(listings.get(i).getLocation().replace(" ", "").toUpperCase())) {
         System.out.println(listings.get(i).getLocation() + " Should be displayed \n");  
         returnList.add(listings.get(i));
       }
