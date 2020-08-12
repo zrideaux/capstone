@@ -59,11 +59,10 @@ export default function createListingDetailedView(listing,
       downvotes, imageURL, key, location, name, upvotes, views, vote, website));
 
   // Creating listing card description
-  const comments = '';
   const description = listing.description;
   const howToHelp = listing.howToHelp;
-  divCardInfoElement.appendChild(createListingCardDescription(comments, 
-      description, howToHelp));
+  divCardInfoElement.appendChild(createListingCardDescription(description, 
+      howToHelp));
 
   return divCardContainerElement;
 }
@@ -164,33 +163,25 @@ function createListingDetails(dateCreated, views) {
 /**
  * Creates a div with listing descriptions
  *
- * @param comments the comments this listing has received
  * @param description the description of this listing
  * @param howToHelp the text that descripes how to help this cause/listing
- * @return a div with the description and comments of a listing
+ * @return a div with the description of a listing
  */
-function createListingCardDescription(comments, description, howToHelp) {
+function createListingCardDescription(description, howToHelp) {
   const divListingDetails = createDivElement('', 'card-description', '');
 
   divListingDetails.appendChild(
       createHElement('Description', '3', '', '')); 
 
   divListingDetails.appendChild(
-    createPElement(description, '', ''));
+    createPElement(description, 'listing-detailed-description', ''));
 
   divListingDetails.appendChild(
       createHElement('How to help', '3', '', '')); 
 
   divListingDetails.appendChild(
 
-    createPElement(howToHelp,'', '')); 
-  
-  divListingDetails.appendChild(
-      createHElement('Comments', '3', '', '')); 
-
-  divListingDetails.appendChild(
-
-    createPElement(comments, '', ''));
+    createPElement(howToHelp,'listing-detailed-description', '')); 
 
   return divListingDetails;
 }
