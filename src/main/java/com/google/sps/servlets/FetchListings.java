@@ -26,7 +26,7 @@ import com.google.gson.Gson;
 import com.google.sps.data.Listing;
 import com.google.sps.utility.ExcludeByRadius;
 import com.google.sps.filter.FilterQuery;
-import com.google.sps.sort.RecommendedSort;
+import com.google.sps.sort.recommended.RecommendedSort;
 import com.google.sps.utility.ListingConstants;
 import com.google.sps.utility.ValidateInput;
 import java.io.IOException;

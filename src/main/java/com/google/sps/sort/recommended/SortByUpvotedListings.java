@@ -12,53 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.sps.sort;
+package com.google.sps.sort.recommended;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.users.UserService;
 import com.google.sps.comparator.RecommendedComparator;
 import com.google.sps.data.Listing;
 import com.google.sps.data.User;
 import com.google.sps.utility.EntityUtility;
-import com.google.sps.utility.AuthenticationUtility;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
-// The alogrithm to sort Listings by Recommended
-public final class RecommendedSort {
-  /**
-   * Sorts the given List<Listing> based on a User's upvoted listings if they 
-   *     created an account with us and based on the listings reputation and 
-   *     location. 
-   * 
-   * @param datastore the DatastoreService that connects to the back end.
-   * @param listings The List<Listing> to sort. 
-   * @return a List<Listing> based on a User's upvoted listings or the listings 
-   *     reputation and location.
-   */
-  public static List<Listing> sortByRecommended(DatastoreService datastore, 
-      List<Listing> listings, UserService userService) throws Exception {
-    List<Listing> sortedListings = new ArrayList<Listing>();
-    // If the user is logged in then sort by upvoted listings first
-    if (userService.isUserLoggedIn()) {
-      String userEmail = userService.getCurrentUser().getEmail();
-      Entity userEntity = AuthenticationUtility.getUserByEmail(datastore, 
-          userEmail);
-    
-      // Removes the Listings in the List it returns from listings 
-      sortedListings.addAll(sortByUpvotedListings(datastore, listings, 
-          userEntity));
-    } 
-    sortedListings.addAll(sortByRadiusAndReputation(listings));
-
-    return sortedListings;
-  }
-
+public final class SortByUpvotedListings {
   /**
    * Returns a List<Listing> that were deemed recommended, and removes the 
    *     Listings in this list from listings.
@@ -80,6 +48,41 @@ public final class RecommendedSort {
     //     need to make it synchronized.
     // Similar users are users the current user shares an upvoted listing with
     HashSet<Entity> similarUsers = new HashSet<Entity>();
+    accumulateSimilarUsers(datastore, entity, similarUsers, 
+        userUpvotedListingKeyStrings);
+
+    // Turn the User Entity into their upvoted listing Key Strings
+    List<HashSet<String>> similarUsersUpvotedListingKeyStrings = new 
+        ArrayList<HashSet<String>>();
+    getSimilarUsersUpvotedListings(datastore, similarUsers, 
+        similarUsersUpvotedListingKeyStrings);
+
+    // Sort the list of non-mutual upvoted listing key strings
+    RecommendedComparator recommendedComparator = new RecommendedComparator(
+        userUpvotedListingKeyStrings);
+    Collections.sort(similarUsersUpvotedListingKeyStrings, 
+        recommendedComparator);
+
+    return createRecommendedListings(listings,
+        similarUsersUpvotedListingKeyStrings, userUpvotedListingKeyStrings);
+  }
+
+  /**
+   * Accumulate all of the similar users or users that share an upvoted listing 
+   *     with the current user.
+   * Modifies the similarUsers param which will contain similar users (this 
+   *     does not include the current user) and no avoids repetition.
+   * 
+   * @param datastore The datastore that stores user/listing data.
+   * @param entity The current user's Entity.
+   * @param similarUsers The HashSet that will accumulate similar users.
+   * @param userUpvotedListingKeyStrings A HashSet containing the current 
+   *     user's upvoted listing Key Strings.
+   */
+  private static void accumulateSimilarUsers(DatastoreService datastore, 
+      Entity entity, HashSet<Entity> similarUsers, 
+      HashSet<String> userUpvotedListingKeyStrings) throws Exception {
+    // Similar users are users the current user shares an upvoted listing with
     Iterator<String> upvotedListingKeyStringsIterator = 
         userUpvotedListingKeyStrings.iterator();
     while (upvotedListingKeyStringsIterator.hasNext()) {
@@ -94,10 +97,22 @@ public final class RecommendedSort {
 
     // Removes current user from this HashSet
     similarUsers.remove(entity);
+  }
 
-    // Turn the User Entity into their upvoted listing Key Strings
-    List<HashSet<String>> similarUsersUpvotedListingKeyStrings = new 
-        ArrayList<HashSet<String>>();
+  /**
+   * Turn the similarUsers HashSet into a List of the user's upvoted listings 
+   *     aka the similarUsersUpvotedListingKeyStrings param
+   *
+   * @param datastore The datastore that stores user/listing data.
+   * @param similarUsers The HashSet that contains users that share an upvoted 
+   *     listing with the current user.
+   * @param similarUsersUpvotedListingKeyStrings The List containing similar 
+   *     users' upvoted listing Key Strings.
+   */
+  private static void getSimilarUsersUpvotedListings(DatastoreService datastore,
+      HashSet<Entity> similarUsers, 
+      List<HashSet<String>> similarUsersUpvotedListingKeyStrings) 
+      throws Exception {
     Iterator<Entity> similarUsersIterator = similarUsers.iterator();
     while (similarUsersIterator.hasNext()) {
       Entity similarUserEntity = similarUsersIterator.next();
@@ -106,32 +121,39 @@ public final class RecommendedSort {
       // Adds the key strings of non-mutual upvoted listings
       EntityUtility.addEntityKeyStrings(datastore, User.DELIMITER,  
           similarUserEntity, upvotedListingKeyStrings, "upvotedListingKeys");
-      
-      // Remove the Listings that is shared with the current user
-
-
+          
       if (upvotedListingKeyStrings.size() > 0) {
         similarUsersUpvotedListingKeyStrings.add(upvotedListingKeyStrings);
       }
     }
+  }
 
-    // Sort the list of non-mutual upvoted listing key strings
-    RecommendedComparator recommendedComparator = new RecommendedComparator(
-        userUpvotedListingKeyStrings);
-    Collections.sort(similarUsersUpvotedListingKeyStrings, 
-        recommendedComparator);
-
-    // Iterate through the sorted List and keep the listings that appear in the 
-    //     listings parameter. Also, remove the listing that appears in the 
-    //     listings parameter.
-    // This will also remove duplicates
+  /**
+   * Create the recommended Listings from similarUsersUpvotedListingKeyStrings 
+   *     param and remove these Listings from the listings param. 
+   * The recommended listings are non-mutual listings that appear in the 
+   *     listings param.
+   *
+   * @param listings A prefiltered List of listings that contains all of the 
+   *     listings that will be shown to the user.
+   * @param similarUsersUpvotedListingKeyStrings A sorted List containing 
+   *     similar users' upvoted listing Key Strings that will be turned into a 
+   *     List<Listings> (recommended listings).
+   * @param userUpvotedListingKeyStrings A HashSet containing the current 
+   *     user's upvoted listing Key Strings.
+   */
+  private static List<Listing> createRecommendedListings(List<Listing> listings,
+      List<HashSet<String>> similarUsersUpvotedListingKeyStrings, 
+      HashSet<String> userUpvotedListingKeyStrings) {
     List<Listing> recommendedListings = new ArrayList<Listing>();
-    for (HashSet<String> listingKeyStrings : similarUsersUpvotedListingKeyStrings) {
+
+    for (HashSet<String> listingKeyStrings : 
+        similarUsersUpvotedListingKeyStrings) {
       Iterator<Listing> listingsIterator = listings.iterator();
       while (listingsIterator.hasNext()) {
         Listing listing = listingsIterator.next();
         
-        // Only add non-mutual listings that are in the listings variable
+        // Only add non-mutual listings that are in the listings param 
         boolean isInListings = listingKeyStrings.contains(listing.getKeyString());
         boolean isInUserUpvotedListings = userUpvotedListingKeyStrings.contains(
           listing.getKeyString());
@@ -143,13 +165,5 @@ public final class RecommendedSort {
     }
     
     return recommendedListings;
-  }
-
-  /**
-   * TODO
-   */
-  public static List<Listing> sortByRadiusAndReputation(List<Listing> listings) {
-    // TODO
-    return listings;
   }
 }
