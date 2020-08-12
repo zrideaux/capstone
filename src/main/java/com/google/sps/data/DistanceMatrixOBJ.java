@@ -107,7 +107,7 @@ public class DistanceMatrixOBJ {
     int[] listingDistanceValues = new int[row[0].elements.length];
     
     for(int i =0; i < row[0].elements.length; i++) {
-      listingDistanceValues[i] = (int)row[0].elements[i].distance.value;
+      listingDistanceValues[i] = (int) row[0].elements[i].distance.value;
     }
 
     return listingDistanceValues; 
