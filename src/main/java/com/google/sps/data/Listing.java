@@ -15,9 +15,13 @@
 package com.google.sps.data;
 
 import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
+import com.google.sps.utility.AuthenticationUtility;
 import java.lang.Math;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -38,11 +42,13 @@ public final class Listing {
   private final int upvotes;
   private final int downvotes;
   private final int views;
+  private String vote;
   private final String website;
 
   public Listing(String description, String howToHelp, String imageURL,
       String keyString, String location, String name, long timestamp,
-      String type, int upvotes, int downvotes, int views, String website) {
+      String type, int upvotes, int downvotes, int views, String vote, 
+      String website) {
     this.description = description;
     this.howToHelp = howToHelp;
     this.key = keyString;
@@ -57,6 +63,7 @@ public final class Listing {
     this.upvotes = upvotes;
     this.downvotes = downvotes;
     this.views = views;
+    this.vote = vote;
     this.website = website;
   }
 
@@ -115,6 +122,9 @@ public final class Listing {
    * @return a Listing with all of the properties from the Entity
    */
   public static Listing createListing(Entity entity) {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    UserService userService = UserServiceFactory.getUserService();
+
     String description = (String) entity.getProperty("description");
     String howToHelp = (String) entity.getProperty("howToHelp");
     String imageURL = (String) entity.getProperty("imageURL");
@@ -127,10 +137,11 @@ public final class Listing {
     int upvotes = Math.toIntExact((long) entity.getProperty("upvotes"));
     int downvotes = Math.toIntExact((long) entity.getProperty("downvotes"));
     int views = Math.toIntExact((long) entity.getProperty("views"));
+    String vote = getVoteForListing(datastore, userService, key);
     String website = (String) entity.getProperty("website");
 
     return new Listing(description, howToHelp, imageURL, key, location, name,
-        timestamp, type, upvotes, downvotes, views, website);
+        timestamp, type, upvotes, downvotes, views, vote, website);
   }
 
   /**
@@ -143,8 +154,6 @@ public final class Listing {
    */
   public static void incrementListingProperty(DatastoreService datastore,
       Key listingKey, String property) throws Exception {
-    System.out.println("INCREMENT");
-
     Entity listingEntity = datastore.get(listingKey);
     long propertyValue = (long) listingEntity.getProperty(property);
     propertyValue++;
@@ -162,8 +171,6 @@ public final class Listing {
    */
   public static void decrementListingProperty(DatastoreService datastore,
       Key listingKey, String property) throws Exception {
-    System.out.println("DECREMENT");
-
     Entity listingEntity = datastore.get(listingKey);
     long propertyValue = (long) listingEntity.getProperty(property);
     propertyValue--;
@@ -216,6 +223,32 @@ public final class Listing {
     }
 
     return listings;
+  }
+
+  /**
+   * Get a string representing the vote the current user has on a listing entity.
+   *
+   * @param datastore a datastore service instance
+   * @param userService a user service instance
+   * @param listingKeyString a string of a listing entity's key
+   * @return a string representing the vote the current user has on a listing entity,
+   *     can be upvote, downvote, or neutral
+   */
+  private static String getVoteForListing(DatastoreService datastore, UserService userService, String listingKeyString) {
+    if (userService.isUserLoggedIn()) {
+      Entity currentUser = AuthenticationUtility.getCurrentUserEntity(datastore, userService);
+      
+      String upvotedListings = User.getListingKeysAsString(currentUser, "upvotedListingKeys");
+      if (upvotedListings.contains(listingKeyString)) {
+        return "upvote";
+      }
+
+      String downvotedListings = User.getListingKeysAsString(currentUser, "downvotedListingKeys");
+      if (downvotedListings.contains(listingKeyString)) {
+        return "downvote";
+      }
+    }
+    return "neutral";
   }
 
   /**
