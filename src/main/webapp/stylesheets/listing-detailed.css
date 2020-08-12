@@ -1,8 +1,9 @@
 .listing-detailed-card {
   height: 85%;
   margin: 30px;
-  width: 100%;
   max-width: 1500px;
+  overflow-y: auto;
+  width: 100%;
 }
 
 .listing-detailed-description {
@@ -80,6 +81,10 @@
   .listing-detail {
     margin: 0rem;
   }
+
+  .listing-detailed-card {
+    width: 1100px;
+  }  
 
   .listing-details {
     text-align: center;

@@ -31,6 +31,7 @@
   display: flex;
   justify-content: center;
   max-width: 1600px;
+  width: 90%;
 }
 
 .card-location {
@@ -109,6 +110,10 @@
     font-size: 1.3rem;
   }
 
+  .card-description {
+    width: 500px;
+  }
+
   .card-picture {
     height: 150px;
     width: 150px;
@@ -165,11 +170,11 @@
 @media only screen and (max-width: 1550px) and (orientation: landscape) {
   .card-information {
     margin: 2rem;
-    width: 500px;
+    width: 600px;
   }
 }
 
-/* bigger screens */
+/* large screens */
 @media only screen and (min-width: 1550px) and (min-height: 1230px) and (orientation: landscape) {
   .card-information {
     margin: 3rem;
