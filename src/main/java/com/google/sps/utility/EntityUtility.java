@@ -85,7 +85,7 @@ public final class EntityUtility {
       String[] entityKeyStringsArray) throws Exception {
     List<Entity> entities = new ArrayList<Entity>();
     for (String entityKeyString : entityKeyStringsArray) {
-      entities.add(createEntity(datastore, entityKeyString));
+      entities.add(getEntityFromKey(datastore, entityKeyString));
     }
 
     return entities;
@@ -98,7 +98,7 @@ public final class EntityUtility {
    * @param entityKeyString the Entity key String used to create an Entity.
    * @return Entity
    */
-  public static Entity createEntity(DatastoreService datastore, 
+  public static Entity getEntityFromKey(DatastoreService datastore, 
       String entityKeyString) throws Exception {
     Key entityKey = KeyFactory.stringToKey(entityKeyString);
     Entity entity = datastore.get(entityKey);
@@ -116,7 +116,7 @@ public final class EntityUtility {
    * @param property the name of the property that stores Entity keys.
    * @return a String[] of Entity keys.
    */
-  public static List<Entity> getEntities(DatastoreService datastore, 
+  public static List<Entity> getEntitiesFromProperty(DatastoreService datastore,
       String delimiter, Entity entity, String property) 
       throws Exception {
     String[] entityKeyStringArray = getEntityKeyStrings(delimiter, entity, 

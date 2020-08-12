@@ -19,8 +19,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 /** 
-   * Used for sorting in descending order of the number of mutual and 
-   *     for a tie breaker in descending order of duration.
+   * Used for sorting a Collection of listing key strings in descending order 
+   *     based upon the number of mutual listings.
   */
 public class RecommendedComparator implements Comparator<HashSet<String>> {
 

@@ -29,7 +29,7 @@ import java.util.List;
 public final class SortByUpvotedListings {
   /**
    * Returns a List<Listing> that were deemed recommended, and removes the 
-   *     Listings in this list from listings.
+   *     Listings in this list from the listings parameter.
    * Recommended:
    *     - A listing is deemed recommended if the most compatible User upvoted 
    *       it and is in listings.
@@ -71,7 +71,7 @@ public final class SortByUpvotedListings {
    * Accumulate all of the similar users or users that share an upvoted listing 
    *     with the current user.
    * Modifies the similarUsers param which will contain similar users (this 
-   *     does not include the current user) and no avoids repetition.
+   *     does not include the current user) and avoids repetition.
    * 
    * @param datastore The datastore that stores user/listing data.
    * @param entity The current user's Entity.
@@ -87,7 +87,7 @@ public final class SortByUpvotedListings {
         userUpvotedListingKeyStrings.iterator();
     while (upvotedListingKeyStringsIterator.hasNext()) {
       String entityKeyString = upvotedListingKeyStringsIterator.next();
-      Entity upvotedListingEntity = EntityUtility.createEntity(datastore, 
+      Entity upvotedListingEntity = EntityUtility.getEntityFromKey(datastore, 
           entityKeyString);
 
       // Add user to the HashSet and prevent any duplicates
