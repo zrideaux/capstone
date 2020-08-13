@@ -67,9 +67,22 @@
   color: #212121 !important;
 }
 
+.reputation-heading-container {
+  position: relative;
+}
+
 .reputation-heading {
   border-bottom: 1.5px dotted black;
   margin-bottom: 0.5rem;
+}
+
+.reputation-tooltip {
+  background-color: #FFFFFFE6;
+  display: none;
+  left: -5em;
+  position: absolute;
+  top: 1.5em;
+  width: 17em;
 }
 
 /* small - medium screens */

@@ -122,8 +122,11 @@ function createListingCardInformation(type, dateCreated, downvotes, imageURL,
   divCardInformation.appendChild(
       createHElement(type, 2, 'detailed-attribute listing-tag pill', '')); 
 
-  divCardInformation.appendChild(createPElement('Is this reputable?', 'reputation-heading', ''));
   
+  let reputationHeadingContainer = createReputationHeading();
+
+  divCardInformation.appendChild(reputationHeadingContainer);
+
   divCardInformation.appendChild(
       createReputationContainer(downvotes, key, upvotes, vote));
 
@@ -221,4 +224,35 @@ function createReputationContainer(downvotes, key, upvotes, existingVote) {
   reputationContainer.appendChild(downvoteButton);
 
   return reputationContainer;
+}
+
+function createReputationHeading() {
+  let reputationHeadingContainer = createDivElement('Is this reputable?', 'reputation-heading-container', '');
+  let reputationHeading = createPElement('Is this reputable?', 'reputation-heading', '');
+  let reputationTooltip = createPElement(
+      'In order to help users gauge whether or not a post is reputable, \
+          we allow users to vote on the accuracy of its information.',
+      'reputation-tooltip shadow-box', '');
+  reputationHeadingContainer.appendChild(reputationHeading);
+  reputationHeadingContainer.appendChild(reputationTooltip);
+
+  reputationHeading.onmouseover = () => {
+    reputationTooltip.style.display = 'block';
+  }
+
+  reputationHeading.onmouseout = () => {
+    reputationTooltip.style.display = 'none';
+  }
+
+  keyboardAccessible(reputationHeading, {}, () => {
+    console.log("enter");
+    if (getComputedStyle(reputationTooltip).display === 'none') {
+      console.log('turn to block');
+      reputationTooltip.style.display = 'block';
+    } else {
+      reputationTooltip.style.display = 'none';
+    }
+  }, '0');
+
+  return reputationHeadingContainer;
 }

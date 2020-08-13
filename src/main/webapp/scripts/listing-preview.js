@@ -72,13 +72,9 @@ function createListingInformation(imageURL, upvotes, downvotes, key, vote) {
 
   divListingInfo.appendChild(
     createImgElement(imageURL, 'Listing preview image', 'listing-image', ''));
-
-  // divListingInfo.appendChild(
-  //   createSpanElement('Reputation: ' + upvotes + ' upvotes', 
-  //       'listing-reputation', ''));
   
   divListingInfo.appendChild(
-      createReputationContainer(downvotes, key, upvotes, vote));
+      createPreviewReputationContainer(downvotes, key, upvotes, vote));
 
   return divListingInfo;
 }
@@ -149,7 +145,7 @@ function createListingTags(type) {
  * @param upvotes an int representing the number of upvotes a listing has
  * @param existingVote the vote which the current user already has on a listing
  */
-function createReputationContainer(downvotes, key, upvotes, existingVote) {
+function createPreviewReputationContainer(downvotes, key, upvotes, existingVote) {
   let reputationContainer = createDivElement('', '', 'reputation-preview-container');
   
   // Create upvote button
