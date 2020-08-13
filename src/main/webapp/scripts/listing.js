@@ -63,7 +63,8 @@ function getListingsResponseJson(containerElement, listingsArray, listingsClass,
  * @return a div with all of a user's listings.
  */
 function createListings(listings, listingsClass, listingsId) {
-  const divListings = createDivElement('', listingsClass, listingsId);
+  const divListings = createDivElement('', listingsClass + ' preview-listings', 
+      listingsId);
   const numListings = listings.length;
   if (numListings > 0) {
     for (let i = 0; i < numListings; i ++) {
