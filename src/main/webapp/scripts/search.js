@@ -5,7 +5,7 @@ import {
   getListingsResponseJson 
 } from './listing.js';
 
-import addLoader from './loader.js';
+import addLoadingSpinner from './loading-spinner.js';
 
 import { 	
   checkAllCheckboxes,
@@ -29,8 +29,6 @@ const loaderId = 'search-loader';
  *     span tag.
  */
 window.onload = function() {
-  const containerElement = document.getElementById("listings");
-  addLoader(containerElement, loaderId);
   authenticate();
   initiateLastCall();
   addOnclickToInputs();
@@ -46,7 +44,7 @@ function displayListings() {
 
   containerElement.innerHTML = '';
   // Add loader
-  addLoader(containerElement, loaderId);
+  addLoadingSpinner(containerElement, loaderId);
   const queryString = '/fetch-listings?' + getSearchParameters();
   getListings(containerElement, '', 'search-listings', 
       queryString, displayListingsResponseJson);

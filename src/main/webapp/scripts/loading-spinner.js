@@ -8,8 +8,8 @@ import {
  * @param containerElement The element to append this loader to.
  * @param idAttribute The name of the id of this loader element 
  */
-export default function addLoader(containerElement, idAttribute) {
+export default function addLoadingSpinner(containerElement, idAttribute) {
   containerElement.appendChild(
-    createDivElement('', 'loader', idAttribute));
+    createDivElement('', 'loading-spinner', idAttribute));
     console.log("Added loader");
 }

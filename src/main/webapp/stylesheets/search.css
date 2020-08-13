@@ -31,14 +31,15 @@ a {
   border: 1px solid #000000;	
 }	
 
-.dropdown-menu {	
-  background-color: #FFFFFF;	
-  display: none;	
-  flex-flow: column nowrap;	
-  left: 0px;	
-  position: absolute;	
-  width: 10em;	
-}	
+.dropdown-menu {
+  background-color: #FFFFFF;
+  display: none;
+  flex-flow: column nowrap;
+  left: 0px;
+  position: absolute;
+  width: 10em;
+  z-index: 1;
+}
 
 input[type=checkbox] {
   cursor: pointer;
@@ -98,10 +99,8 @@ main {
 }
 
 .search-listings-container {
-  align-items: center;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   min-height: 70%;
 }
 
