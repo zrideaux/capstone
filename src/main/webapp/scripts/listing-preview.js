@@ -1,6 +1,8 @@
 import { 
+  createButtonElement, 
   createDivElement, 
   createHElement, 
+  createIElement,
   createImgElement, 
   createPElement,
   createSectionElement,
@@ -11,6 +13,11 @@ import {
   keyboardAccessible,
   toggleDisplay 
 } from './miscellaneous.js';
+
+import { 
+  setInitialVoteState,
+  voteClicked
+} from './reputation.js';
 
 /**
  * Create an element that shows a listing detailed view and when clicked on will
@@ -37,7 +44,10 @@ export default function createListingPreview(listing, listingDisplay, listingId)
   // Creating listing information
   const imageURL = listing.imageURL;
   const upvotes = listing.upvotes.toLocaleString();
-  sectionListing.appendChild(createListingInformation(imageURL, upvotes));
+  const downvotes = listing.downvotes.toLocaleString();
+  const key = listing.key;
+  const vote = listing.vote;
+  sectionListing.appendChild(createListingInformation(imageURL, upvotes, downvotes, key, vote));
 
   // Creating listing details
   const description = listing.description;  
@@ -57,15 +67,18 @@ export default function createListingPreview(listing, listingDisplay, listingId)
  * @param upvotes the number of upvotes this listing has received
  * @return a div with the picture and the number of upvotes this listing has
  */
-function createListingInformation(imageURL, upvotes) {
+function createListingInformation(imageURL, upvotes, downvotes, key, vote) {
   const divListingInfo = createDivElement('', 'preview-info', '');
 
   divListingInfo.appendChild(
     createImgElement(imageURL, 'Listing preview image', 'listing-image', ''));
 
+  // divListingInfo.appendChild(
+  //   createSpanElement('Reputation: ' + upvotes + ' upvotes', 
+  //       'listing-reputation', ''));
+  
   divListingInfo.appendChild(
-    createSpanElement('Reputation: ' + upvotes + ' upvotes', 
-        'listing-reputation', ''));
+      createReputationContainer(downvotes, key, upvotes, vote));
 
   return divListingInfo;
 }
@@ -125,4 +138,41 @@ function createListingTags(type) {
   divListingTags.appendChild(createSpanElement(type, 'listing-tag', ''));
 
   return divListingTags;
+}
+
+/**
+ * Creates a container that holds uniquely id'd downvote and upvote button
+ * for a listing.
+ *
+ * @param downvotes an int representing the number of downvotes a listing has
+ * @param key a string that is the key of a listing
+ * @param upvotes an int representing the number of upvotes a listing has
+ * @param existingVote the vote which the current user already has on a listing
+ */
+function createReputationContainer(downvotes, key, upvotes, existingVote) {
+  let reputationContainer = createDivElement('', '', 'reputation-preview-container');
+  
+  // Create upvote button
+  let upvoteDiv = createDivElement('', 'reputation-preview',
+      'reputation-upvote-preview-' + key);
+  let upvoteIcon = createIElement('thumb_up', 'material-icons', '');
+  let upvoteCount = createSpanElement(upvotes, 'reputation-count', 'reputation-preview-count-upvotes-' + key);
+  upvoteDiv.appendChild(upvoteIcon);
+  upvoteDiv.appendChild(upvoteCount);
+  
+  // Create downvote button
+  let downvoteDiv = createDivElement('', 'reputation-preview',
+      'reputation-downvote-preview-' + key);
+  let downvoteIcon = createIElement('thumb_down', 'material-icons', '');
+  let downvoteCount = createSpanElement(downvotes, 'reputation-count', 'reputation-preview-count-downvotes-' + key);
+  downvoteDiv.appendChild(downvoteIcon);
+  downvoteDiv.appendChild(downvoteCount);
+
+  // Set the initial state of the buttons when they're made
+  setInitialVoteState(downvoteDiv, upvoteDiv, existingVote, key);
+
+  reputationContainer.appendChild(upvoteDiv);
+  reputationContainer.appendChild(downvoteDiv);
+
+  return reputationContainer;
 }
