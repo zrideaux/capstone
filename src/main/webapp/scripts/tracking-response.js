@@ -8,7 +8,7 @@ function initiateLastCall() {
 /**
  * Checks if this call is the latest call.
  *
- * @param call The call number of an rpc
+ * @param call The call number of an rpc.
  * @return a boolean stating this the response from an rpc is from the latest 
  *     rpc.
  */

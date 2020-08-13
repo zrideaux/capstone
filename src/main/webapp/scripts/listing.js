@@ -14,13 +14,15 @@ import {
 } from './miscellaneous.js';
 
 /**
- * Creates a div that contains listings
+ * Creates a div that contains listings.
  *
- * @param containerElement the element that append the listings to
- * @param listingsClass the class attribute for the listings div
- * @param listingsId the id attribute for the listings div
+ * @param containerElement the element that append the listings to.
+ * @param listingsClass the class attribute for the listings div.
+ * @param listingsId the id attribute for the listings div.
  * @param queryString the String that represents the query to a servlet that 
- *     returns a List of Listings
+ *     returns a List of Listings.
+ * @param responseJsonFunc a function that is called when the response from the 
+ *     servlet is not an error message.
  */
 function getListings(containerElement, listingsClass, listingsId,
     queryString, responseJsonFunc = getListingsResponseJson) {
@@ -39,12 +41,12 @@ function getListings(containerElement, listingsClass, listingsId,
 
 /**
  * Appends listings to a containerElement.
- * Made to be used in the getListings function
+ * Made to be used in the getListings function.
  *
- * @param containerElement the element that contains listings
- * @param listingsArray a JSON array of JSON that represents listings
- * @param listingsClass the class attribute for the listings div
- * @param listingsId the id attribute for the listings div
+ * @param containerElement the element that contains listings.
+ * @param listingsArray a JSON array of JSON that represents listings.
+ * @param listingsClass the class attribute for the listings div.
+ * @param listingsId the id attribute for the listings div.
  */
 function getListingsResponseJson(containerElement, listingsArray, listingsClass,
     listingsId) {

@@ -46,13 +46,13 @@ export default function displayListings() {
 /**
  * Checks if the trackingResponse is from the latest rpc. 
  * If it is, then create listings from the rpc.
- * Made to be used in the getListings function
+ * Made to be used in the getListings function.
  *
- * @param containerElement the element that contains listings
+ * @param containerElement the element that contains listings.
  * @param trackingResponse a JSON that represents a TrackingResponse which 
  *     contains a call number and a JSON that represents a listing.
- * @param listingsClass the class attribute for the listings div
- * @param listingsId the id attribute for the listings div
+ * @param listingsClass the class attribute for the listings div.
+ * @param listingsId the id attribute for the listings div.
  */
 function displayListingsResponseJson(containerElement, trackingResponse, 
     listingsClass, listingsId) {
