@@ -71,3 +71,18 @@ ul {
   color: #000000;
   padding: 3px 15px;
 }
+
+.error-box {
+  align-items: flex-start;
+  background-color: #d9216a;
+  bottom: 15px;
+  color: #FFFFFF;
+  display: flex;
+  justify-content: space-between;
+  margin: 15px;
+  position: sticky;
+}
+
+.error-box button {
+  width: 10%;
+}

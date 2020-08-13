@@ -96,8 +96,18 @@ function isErrorMessage(str) {
  * @param errorMessage the error message to display to the user
  */
 function displayErrorMessage(errorMessage) {
-  console.log(errorMessage);
-  window.alert(errorMessage);
+  let errorBox = document.createElement('div');
+  errorBox.className = 'error-box shadow-box';
+
+  let errorText = document.createElement('span');
+  errorText.innerText = errorMessage;
+
+  let errorClose = document.createElement('button');
+  errorClose.innerText = 'X';
+
+  errorBox.appendChild(errorText);
+  errorBox.appendChild(errorClose);
+  document.body.appendChild(errorBox);
 }
 
 /**
