@@ -113,7 +113,7 @@ public class FetchListings extends HttpServlet {
 
     int timeToBack;
     try {
-      timeToBack = ValidateInput.getParameter(request,"call", 0);
+      timeToBack = ValidateInput.getParameter(request, "call", 0);
     } catch (Exception e) {
       ValidateInput.createErrorMessage(e, response);
       return;
