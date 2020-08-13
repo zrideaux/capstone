@@ -27,11 +27,11 @@ function getListings(containerElement, listingsClass, listingsId,
   // Fetching user listings data
   fetch(queryString)
       .then(response => response.json())
-      .then((listingsArray) => {
-        if (isErrorMessage(listingsArray)) {
-          displayErrorMessage(listingsArray);
+      .then((responseJSON) => {
+        if (isErrorMessage(responseJSON)) {
+          displayErrorMessage(responseJSON);
         } else {
-          responseJsonFunc(containerElement, listingsArray, 
+          responseJsonFunc(containerElement, responseJSON, 
               listingsClass, listingsId);
         }
       });

@@ -1,5 +1,5 @@
 /**
- * Initiate last call.
+ * Initiate last call, which is used to track an rpc.
  */
 function initiateLastCall() {
   window.lastCall = 0;

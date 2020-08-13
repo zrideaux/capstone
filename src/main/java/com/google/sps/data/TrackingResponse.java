@@ -14,6 +14,7 @@
 
 package com.google.sps.data;
 
+// Used to track the response of a servlet
 public final class TrackingResponse {
 
   private final int call;
