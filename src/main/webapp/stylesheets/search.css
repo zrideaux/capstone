@@ -97,6 +97,14 @@ main {
   cursor: pointer;
 }
 
+.search-listings-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 70%;
+}
+
 .see-all-filter {
   font-size: .95rem;
   cursor: pointer;

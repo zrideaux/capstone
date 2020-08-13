@@ -5,6 +5,8 @@ import {
   getListingsResponseJson 
 } from './listing.js';
 
+import addLoader from './loader.js';
+
 import { 	
   checkAllCheckboxes,
   getCheckboxesByName,	
@@ -20,11 +22,15 @@ import {
   isLatestCall
 } from './tracking-response.js';
 
+const loaderId = 'search-loader';
+
 /**
  * When the search page loads, add on click functions to input tags and see all 
  *     span tag.
  */
 window.onload = function() {
+  const containerElement = document.getElementById("listings");
+  addLoader(containerElement, loaderId);
   authenticate();
   initiateLastCall();
   addOnclickToInputs();
@@ -35,12 +41,15 @@ window.onload = function() {
  * Displays listings based on the search parameters (includes type filters, 
  *     radius filter, and sortBy).
  */
-export default function displayListings() {
+function displayListings() {
   const containerElement = document.getElementById("listings");
+
   containerElement.innerHTML = '';
+  // Add loader
+  addLoader(containerElement, loaderId);
   const queryString = '/fetch-listings?' + getSearchParameters();
-  getListings(containerElement, '', 'search-listings', queryString, 
-      displayListingsResponseJson);
+  getListings(containerElement, '', 'search-listings', 
+      queryString, displayListingsResponseJson);
 }
 
 /**
@@ -57,8 +66,14 @@ export default function displayListings() {
 function displayListingsResponseJson(containerElement, trackingResponse, 
     listingsClass, listingsId) {
   if(isLatestCall(trackingResponse.call)) {
+    // Hide loader
+    const loaderElement = document.getElementById(loaderId);
+    loaderElement.style.display = 'none';
+
+    // Show listings
     getListingsResponseJson(containerElement, trackingResponse.response,  
         listingsClass, listingsId);
+    
   }
 }
 
