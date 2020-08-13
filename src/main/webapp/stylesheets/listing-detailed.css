@@ -68,7 +68,8 @@
 }
 
 .reputation-heading {
-  margin: 1rem 0 .3rem 0;
+  border-bottom: 1.5px dotted black;
+  margin-bottom: 0.5rem;
 }
 
 /* small - medium screens */

@@ -122,7 +122,7 @@ function createListingCardInformation(type, dateCreated, downvotes, imageURL,
   divCardInformation.appendChild(
       createHElement(type, 2, 'detailed-attribute listing-tag pill', '')); 
 
-  divCardInformation.appendChild(createHElement('Reputation', '2', 'reputation-heading'));
+  divCardInformation.appendChild(createPElement('Is this reputable?', 'reputation-heading', ''));
   
   divCardInformation.appendChild(
       createReputationContainer(downvotes, key, upvotes, vote));
