@@ -21,10 +21,9 @@ import {
  * @param listingsId the id attribute for the listings div
  * @param queryString the String that represents the query to a servlet that 
  *     returns a List of Listings
- * @return a div that represents a group of listings
  */
 function getListings(containerElement, listingsClass, listingsId,
-    queryString) {
+    queryString, responseJsonFunc = getListingsResponseJson) {
   // Fetching user listings data
   fetch(queryString)
       .then(response => response.json())
@@ -32,10 +31,25 @@ function getListings(containerElement, listingsClass, listingsId,
         if (isErrorMessage(listingsArray)) {
           displayErrorMessage(listingsArray);
         } else {
-          containerElement.appendChild(
-              createListings(listingsArray, listingsClass, listingsId));
+          responseJsonFunc(containerElement, listingsArray, 
+              listingsClass, listingsId);
         }
       });
+}
+
+/**
+ * Appends listings to a containerElement.
+ * Made to be used in the getListings function
+ *
+ * @param containerElement the element that contains listings
+ * @param listingsArray a JSON array of JSON that represents listings
+ * @param listingsClass the class attribute for the listings div
+ * @param listingsId the id attribute for the listings div
+ */
+function getListingsResponseJson(containerElement, listingsArray, listingsClass,
+    listingsId) {
+  containerElement.appendChild(
+      createListings(listingsArray, listingsClass, listingsId));
 }
 
 /**
@@ -88,5 +102,6 @@ function createListing(cardElementId, listing) {
 export {
   createListing,
   createListings,
-  getListings
+  getListings,
+  getListingsResponseJson
 };

@@ -1,6 +1,9 @@
 import { authenticate } from './authentication.js';
 
-import { getListings } from './listing.js';
+import { 
+  getListings,
+  getListingsResponseJson 
+} from './listing.js';
 
 import { 	
   checkAllCheckboxes,
@@ -11,13 +14,21 @@ import {
   mapElementsByName
 } from './miscellaneous.js';	
 
+import {
+  getCall,
+  initiateLastCall,
+  isLatestCall
+} from './tracking-response.js';
+
 /**
  * When the search page loads, add on click functions to input tags and see all 
  *     span tag.
  */
 window.onload = function() {
   authenticate();
+  initiateLastCall();
   addOnclickToInputs();
+  displayListings();
 }
 
 /**
@@ -28,7 +39,27 @@ export default function displayListings() {
   const containerElement = document.getElementById("listings");
   containerElement.innerHTML = '';
   const queryString = '/fetch-listings?' + getSearchParameters();
-  getListings(containerElement, '', 'search-listings', queryString);
+  getListings(containerElement, '', 'search-listings', queryString, 
+      displayListingsResponseJson);
+}
+
+/**
+ * Checks if the trackingResponse is from the latest rpc. 
+ * If it is, then create listings from the rpc.
+ * Made to be used in the getListings function
+ *
+ * @param containerElement the element that contains listings
+ * @param trackingResponse a JSON that represents a TrackingResponse which 
+ *     contains a call number and a JSON that represents a listing.
+ * @param listingsClass the class attribute for the listings div
+ * @param listingsId the id attribute for the listings div
+ */
+function displayListingsResponseJson(containerElement, trackingResponse, 
+    listingsClass, listingsId) {
+  if(isLatestCall(trackingResponse.call)) {
+    getListingsResponseJson(containerElement, trackingResponse.response,  
+        listingsClass, listingsId);
+  }
 }
 
 /**
@@ -100,5 +131,6 @@ function getSearchParameters() {
   param += '&radius-filter=' + filterRadius;
   param += '&sortBy=' + sort;
   param += '&location=' + location;
+  param += '&call=' + getCall();
   return param;
 }
