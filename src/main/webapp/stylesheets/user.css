@@ -40,6 +40,7 @@
 /* bigger screens */
 @media only screen and (min-width: 950px) and (orientation: landscape) {
   .profile {
+    min-height: 70vh;
     position: -webkit-sticky; /* for Safari */
     position: sticky;
     top: 0;
