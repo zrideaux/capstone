@@ -4,7 +4,6 @@
   margin-left: auto;
   margin-right: auto;
   max-width: 1200px;
-
 }
 
 .listing:hover {
@@ -46,12 +45,12 @@
 
 /* Add animation to "preview listings" */
 .preview-listings {
+  -webkit-animation-duration: 1s;
   animation-duration: 1s;
+  -webkit-animation-name: animatebottom;
   animation-name: animatebottom;
   position: relative;
   text-align: center;
-  -webkit-animation-duration: 1s;
-  -webkit-animation-name: animatebottom;
 }
 
 @keyframes animatebottom { 

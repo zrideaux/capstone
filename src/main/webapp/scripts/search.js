@@ -64,9 +64,8 @@ function displayListings() {
 function displayListingsResponseJson(containerElement, trackingResponse, 
     listingsClass, listingsId) {
   if(isLatestCall(trackingResponse.call)) {
-    // Hide loader
-    const loaderElement = document.getElementById(loaderId);
-    loaderElement.style.display = 'none';
+    // Remove loader
+    containerElement.innerHTML = '';
 
     // Show listings
     getListingsResponseJson(containerElement, trackingResponse.response,  
