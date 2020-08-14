@@ -23,6 +23,7 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.sps.utility.AuthenticationUtility;
 import java.lang.Math;
+import java.lang.Long;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,13 +34,16 @@ public final class Listing {
 
   private final String dateCreated;
   private final String description;
+  public int distance;
   private final String howToHelp;
   private final String imageURL;
   private String key;
   private final String location;
   private final String name;
+  public final Long timestamp;
   private final String type;
   public Integer reputationScore;
+  public Integer reputationAndDistanceScore;
   private final int upvotes;
   private final int downvotes;
   private final int views;
@@ -56,8 +60,9 @@ public final class Listing {
     this.imageURL = imageURL;
     this.location = location;
     this.name = name;
-
-    // turn int of timestamp into Date object
+    this.timestamp = new Long(timestamp);
+    
+    // turn long of timestamp into Date object
     String dateCreated = timestampToDate(timestamp);
     this.dateCreated = dateCreated;
     this.type = type;
@@ -66,6 +71,7 @@ public final class Listing {
     this.views = views;
     this.vote = vote;
     this.website = website;
+    this.distance = 0;
   }
 
   public Listing(String description, String howToHelp, String imageURL,
@@ -77,7 +83,8 @@ public final class Listing {
     this.key = "";
     this.location = location;
     this.name = name;
-
+    this.timestamp = new Long(timestamp);
+    
     // turn int of timestamp into Date object
     String dateCreated = timestampToDate(timestamp);
     this.dateCreated = dateCreated;
@@ -86,6 +93,7 @@ public final class Listing {
     this.downvotes = downvotes;
     this.views = views;
     this.website = website;
+    this.distance = 0;
   }
 
   /**
@@ -309,4 +317,34 @@ public final class Listing {
 
     this.reputationScore = new Integer(reputationScore);
   }
+
+ /**
+  * Generates distance score for listing and stores it in distance.
+  *
+  * @param distance distance in meters from current user.
+  */  
+  public void generateDistanceScore(int distance) {
+    if(distance > 500) {
+      distance = 75 - (distance / 500);
+      if (distance < 0) {
+        distance = 0;
+      }
+      this.distance = distance;
+    } else {
+      this.distance = 75;
+    }
+  }
+
+  /**
+   * Generates reputation and distance score using a formula where reputation 
+   * heavily favored.
+   */
+  public void generateReputationAndDistanceScore() {
+    final double DISTANCE_WEIGHT =  0.15;
+    final double REPUTATION_WEIGHT = 0.85;
+     
+    this.reputationAndDistanceScore = (int)(this.distance * DISTANCE_WEIGHT) +
+        (int)((this.reputationScore.intValue()) * REPUTATION_WEIGHT);
+  }
+  
 }
