@@ -21,6 +21,7 @@
 
 .user-go-to-top-button {
   background-color: #bce3e1 !important;
+  border: none;
   color: black !important;
   font-size: 1rem;
   margin-top: 1rem;

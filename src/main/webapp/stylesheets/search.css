@@ -71,7 +71,7 @@ main {
 
 #search-box {
   border-radius: 0px 0px 15px 15px;
-  padding: 1em;
+  padding: 0 1em 1em 1em;
 }
 
 .search-filter-title {

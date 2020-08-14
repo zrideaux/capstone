@@ -36,7 +36,7 @@ const loaderId = 'search-loader';
 window.onload = function() {
   authenticate();
   
-  const header = document.getElementById('search-box');
+  const header = document.getElementById('nav-box');
   header.style.cursor ='pointer';
   keyboardAccessibleOnClick(header, scrollToTop, scrollToTop);
 
