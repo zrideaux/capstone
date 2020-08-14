@@ -5,6 +5,8 @@ import {
   getListingsResponseJson 
 } from './listing.js';
 
+import addLoadingSpinner from './loading-spinner.js';
+
 import { 	
   checkAllCheckboxes,
   getCheckboxesByName,	
@@ -19,6 +21,8 @@ import {
   initiateLastCall,
   isLatestCall
 } from './tracking-response.js';
+
+const loaderId = 'search-loader';
 
 /**
  * When the search page loads, add on click functions to input tags and see all 
@@ -35,12 +39,15 @@ window.onload = function() {
  * Displays listings based on the search parameters (includes type filters, 
  *     radius filter, and sortBy).
  */
-export default function displayListings() {
+function displayListings() {
   const containerElement = document.getElementById("listings");
+
   containerElement.innerHTML = '';
+  // Add loader
+  addLoadingSpinner(containerElement, loaderId);
   const queryString = '/fetch-listings?' + getSearchParameters();
-  getListings(containerElement, '', 'search-listings', queryString, 
-      displayListingsResponseJson);
+  getListings(containerElement, '', 'search-listings', 
+      queryString, displayListingsResponseJson);
 }
 
 /**
@@ -57,8 +64,13 @@ export default function displayListings() {
 function displayListingsResponseJson(containerElement, trackingResponse, 
     listingsClass, listingsId) {
   if(isLatestCall(trackingResponse.call)) {
+    // Remove loader
+    containerElement.innerHTML = '';
+
+    // Show listings
     getListingsResponseJson(containerElement, trackingResponse.response,  
         listingsClass, listingsId);
+    
   }
 }
 

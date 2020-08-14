@@ -1,6 +1,9 @@
 .listing {
   display: flex;
   flex-flow: row nowrap;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1200px;
 }
 
 .listing:hover {
@@ -38,4 +41,25 @@
 .preview-info {
   display: flex;
   flex-direction: column;
+}
+
+/* Add animation to "preview listings" */
+.preview-listings {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-name: animatebottom;
+  animation-name: animatebottom;
+  position: relative;
+  text-align: center;
+}
+
+@keyframes animatebottom { 
+  from{ bottom:-100px; opacity:0 } 
+  to{ bottom:0; opacity:1 }
+}
+
+/* Safari */
+@-webkit-keyframes animatebottom {
+  from { bottom:-100px; opacity:0 } 
+  to { bottom:0px; opacity:1 }
 }
