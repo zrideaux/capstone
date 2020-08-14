@@ -74,7 +74,7 @@ ul {
 
 .error-box {
   align-items: flex-start;
-  background-color: #d9216a;
+  background-color: #D9216A;
   bottom: 15px;
   color: #FFFFFF;
   display: flex;
@@ -84,5 +84,9 @@ ul {
 }
 
 .error-box button {
+  background-color: #8A0B3D;
+  border: none;
+  border-radius: 15px;
+  color: #FFFFFF;
   width: 10%;
 }

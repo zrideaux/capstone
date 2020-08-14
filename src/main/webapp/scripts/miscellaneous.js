@@ -96,6 +96,12 @@ function isErrorMessage(str) {
  * @param errorMessage the error message to display to the user
  */
 function displayErrorMessage(errorMessage) {
+  // Clear existing error messages
+  let errorMessages = document.getElementsByClassName('error-box');
+  for (let i = 0; i < errorMessages.length; i++) {
+    errorMessages[i].remove();
+  }
+
   let errorBox = document.createElement('div');
   errorBox.className = 'error-box shadow-box';
 
@@ -103,7 +109,11 @@ function displayErrorMessage(errorMessage) {
   errorText.innerText = errorMessage;
 
   let errorClose = document.createElement('button');
+  errorClose.className = 'error-close'
   errorClose.innerText = 'X';
+  errorClose.onclick = () => {
+    errorBox.remove();
+  }
 
   errorBox.appendChild(errorText);
   errorBox.appendChild(errorClose);
