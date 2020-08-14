@@ -50,7 +50,7 @@ export default function createListingPreview(listing, listingDisplay, listingId)
   sectionListing.appendChild(createListingInformation(imageURL, upvotes, downvotes, key, vote));
 
   // Creating listing details
-  const description = listing.description;  
+  const description = listing.description;
   const location = listing.location;
   const name = listing.name;
   const type = listing.type;
@@ -72,7 +72,7 @@ function createListingInformation(imageURL, upvotes, downvotes, key, vote) {
 
   divListingInfo.appendChild(
     createImgElement(imageURL, 'Listing preview image', 'listing-image', ''));
-  
+
   divListingInfo.appendChild(
       createPreviewReputationContainer(downvotes, key, upvotes, vote));
 
@@ -138,7 +138,7 @@ function createListingTags(type) {
 
 /**
  * Creates a container that holds uniquely id'd downvote and upvote button
- * for a listing.
+ * for a listing preview.
  *
  * @param downvotes an int representing the number of downvotes a listing has
  * @param key a string that is the key of a listing
@@ -147,8 +147,8 @@ function createListingTags(type) {
  */
 function createPreviewReputationContainer(downvotes, key, upvotes, existingVote) {
   let reputationContainer = createDivElement('', '', 'reputation-preview-container');
-  
-  // Create upvote button
+
+  // Create div with the number of upvotes and upvote icon
   let upvoteDiv = createDivElement('', 'reputation-preview',
       'reputation-upvote-preview-' + key);
   let upvoteIcon = createIElement('thumb_up', 'material-icons', '');
@@ -156,7 +156,7 @@ function createPreviewReputationContainer(downvotes, key, upvotes, existingVote)
   upvoteDiv.appendChild(upvoteIcon);
   upvoteDiv.appendChild(upvoteCount);
   
-  // Create downvote button
+  // Create div with the number of downvotes and downvote icon
   let downvoteDiv = createDivElement('', 'reputation-preview',
       'reputation-downvote-preview-' + key);
   let downvoteIcon = createIElement('thumb_down', 'material-icons', '');
