@@ -19,6 +19,14 @@
   margin-left: 1.5rem;
 }
 
+.user-go-to-top-button {
+  background-color: #bce3e1 !important;
+  color: black !important;
+  font-size: 1rem;
+  margin-top: 1rem;
+  outline: none;
+}
+
 .user-bio {
   margin: 1.5rem;
 }
@@ -28,6 +36,7 @@
 }
 
 .user-listing-container {
+  box-sizing: border-box;
   font-size: 1.1rem;
 }
 

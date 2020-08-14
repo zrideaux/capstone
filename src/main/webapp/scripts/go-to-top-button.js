@@ -2,18 +2,19 @@ import { createButtonElement } from './htmlElement.js';
 
 import { keyboardAccessibleOnClick } from './miscellaneous.js';
 
-const goToTopButtonId = 'go-to-top';
+const goToTopButtonId = 'back-to-top';
 
-export default function createScrollToTopButton(classAttribute = '', scrollTo) {
-  const goToTopButton = createButtonElement('Go to top', classAttribute, 
-      goToTopButtonId);
-  keyboardAccessibleOnClick(goToTopButton, goToTop, goToTop);
+function createScrollToTopButton(classAttribute = '', scrollTo) {
+  const goToTopButton = createButtonElement('Back to top', classAttribute + 
+      ' card-button', goToTopButtonId);
+  goToTopButton.style.display = 'none';
+  keyboardAccessibleOnClick(goToTopButton, scrollToTop, scrollToTop);
   window.onscroll = function() {scrollFunction(scrollTo)};
   return goToTopButton;
 }
 
 // When the user clicks on the button, scroll to the top of the document
-function goToTop() {
+function scrollToTop() {
   document.body.scrollTop = 0; // For Safari
   document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }
@@ -28,4 +29,10 @@ function scrollFunction(scrollTo) {
   } else {
     goToTopButton.style.display = "none";
   }
+}
+
+export {
+  createScrollToTopButton,
+  scrollFunction,
+  scrollToTop
 }

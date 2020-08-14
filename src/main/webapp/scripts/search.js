@@ -1,5 +1,10 @@
 import { authenticate } from './authentication.js';
 
+import {
+  createScrollToTopButton,
+  scrollToTop
+} from './go-to-top-button.js';
+
 import { 
   getListings,
   getListingsResponseJson 
@@ -30,6 +35,11 @@ const loaderId = 'search-loader';
  */
 window.onload = function() {
   authenticate();
+  
+  const header = document.getElementById('search-box');
+  header.style.cursor ='pointer';
+  keyboardAccessibleOnClick(header, scrollToTop, scrollToTop);
+
   initiateLastCall();
   addOnclickToInputs();
   displayListings();

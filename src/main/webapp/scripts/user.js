@@ -1,6 +1,9 @@
 import { authenticate } from './authentication.js';
 
-import createGoToTopButton from './go-to-top-button.js';
+import {
+  createScrollToTopButton,
+  scrollToTop
+} from './go-to-top-button.js';
 
 import { 
   createAElement,
@@ -15,6 +18,7 @@ import { createListings } from './listing.js';
 import { 
   displayErrorMessage,
   isErrorMessage, 
+  keyboardAccessibleOnClick,
   toggleTabDisplay
 } from './miscellaneous.js';
 
@@ -24,6 +28,9 @@ import {
  */
 window.onload = function() {
   authenticate(getUserProfile);
+  const header = document.getElementById('nav-box');
+  header.style.cursor ='pointer';
+  keyboardAccessibleOnClick(header, scrollToTop, scrollToTop);
 }
 
 /**
@@ -39,6 +46,7 @@ export default function getUserProfile() {
           displayErrorMessage(user);
         } else {
           divCardContainerElement.appendChild(createUserProfile(user));
+          addBackToTopButton();
         }
       })
 }
@@ -54,11 +62,13 @@ function createUserProfile(user) {
       '', 'card-information-container shadow-box', '');
   
   // Creating User card information.
-  divCardInfoElement.appendChild(createUserInformation(user.bio, user.email, user.username));
+  const userInformationDiv = createUserInformation(user.bio, user.email, 
+      user.username);
+  divCardInfoElement.appendChild(userInformationDiv);
 
   // Creating User card description.
   divCardInfoElement.appendChild(createUserListings(user.createdListings, 
-      user.upvotedListings));
+      user.upvotedListings, userInformationDiv)); 
 
   return divCardInfoElement;
 }  
@@ -73,7 +83,7 @@ function createUserProfile(user) {
  */
 function createUserInformation(bio, email, name) {
   const divCardInformation = createDivElement('', 'card-information profile',
-      '');
+      'user-info');
 
   divCardInformation.appendChild(
       createImgElement('', 'profile picture', 'card-picture', ''));
@@ -90,10 +100,7 @@ function createUserInformation(bio, email, name) {
 
   divCardInformation.appendChild(
       createAElement('Create listing', 'newlisting.html', '', 'card-button', '')
-      );  
-
-  divCardInformation.appendChild(
-      createGoToTopButton('user-go-to-top-button', divCardInformation.offsetTop));        
+      );        
 
   return divCardInformation;
 }
@@ -107,7 +114,7 @@ function createUserInformation(bio, email, name) {
  *     upvoted Listings.
  * @return a div with the description and comments of a listing.
  */
-function createUserListings(createdListings, upvotedListings) {
+function createUserListings(createdListings, upvotedListings, userInformationContainer) {
   const divUserListings = createDivElement('', 'card-description ' + 
       'tab-listings-description', '');
 
@@ -119,7 +126,7 @@ function createUserListings(createdListings, upvotedListings) {
       createdListingsId, upvotedListingsId));
 
   const divUserListingContainer = createDivElement('', 'user-listing-container',
-      '');
+      'user-listing-container');
   divUserListings.appendChild(divUserListingContainer);
   
   // Create user's created listings.
@@ -130,7 +137,7 @@ function createUserListings(createdListings, upvotedListings) {
   const upvotedListingsClass = 'upvoted-listings';
   divUserListingContainer.appendChild(
       createListings(upvotedListings, upvotedListingsClass, 
-          upvotedListingsId));
+          upvotedListingsId));       
 
   return divUserListings;
 }
@@ -196,4 +203,17 @@ function createTab(elementDisplay, elementId, elementOtherId, hNum, otherTabId,
   });
   
   return hTab;
+}
+
+/**
+ * Add a Back to top button that appears in the user info when the user scrolls 
+ *     past the listing container.
+ */
+function addBackToTopButton() {
+  // 
+  const userInformationContainer = document.getElementById('user-info');
+  const positionFromTop = document.getElementById('user-listing-container')
+      .getBoundingClientRect().top;
+  userInformationContainer.appendChild(
+      createScrollToTopButton('user-go-to-top-button', positionFromTop));
 }
