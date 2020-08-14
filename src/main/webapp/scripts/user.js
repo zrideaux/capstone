@@ -1,5 +1,7 @@
 import { authenticate } from './authentication.js';
 
+import createGoToTopButton from './go-to-top-button.js';
+
 import { 
   createAElement,
   createDivElement, 
@@ -88,7 +90,10 @@ function createUserInformation(bio, email, name) {
 
   divCardInformation.appendChild(
       createAElement('Create listing', 'newlisting.html', '', 'card-button', '')
-      ); 
+      );  
+
+  divCardInformation.appendChild(
+      createGoToTopButton('user-go-to-top-button', divCardInformation.offsetTop));        
 
   return divCardInformation;
 }
