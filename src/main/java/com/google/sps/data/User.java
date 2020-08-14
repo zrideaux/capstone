@@ -123,7 +123,8 @@ public final class User {
     String listingKeysString = getListingKeysAsString(userEntity, property);
     
     // Append a new listing key to the end of listingKeysString and update userEntity
-    listingKeysString += KeyFactory.keyToString(listingKey) + " ";
+    listingKeysString = KeyFactory.keyToString(listingKey) + " " + 
+        listingKeysString;
     userEntity.setProperty(property, listingKeysString);
     datastore.put(userEntity);
   }
