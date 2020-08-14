@@ -1,0 +1,23 @@
+/* Add animation to loading spinner */
+.loading-spinner {
+  align-self: center;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+  border: 16px solid white;
+  border-radius: 50%;
+  border-top: 16px solid #bce3e1;
+  height: 70px;
+  margin: auto;
+  width: 70px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}

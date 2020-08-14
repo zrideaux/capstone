@@ -44,6 +44,8 @@ function displayPreviewListing() {
   containerElement.innerHTML = '';
 
   fetchBlobstoreUrlAndSendData(queryString, sendPreviewListingFormData);
+
+  window.location.href = '#preview-listings';
 }
 
 /**
@@ -53,7 +55,7 @@ function displayPreviewListing() {
  * @param imageUploadURL the url to send listing data to.
  */
 function sendPreviewListingFormData(imageUploadURL) {
-  const newListingForm = document.getElementById("new-listing-form");
+  const newListingForm = document.getElementById('new-listing-form');
   sendFormData(appendParameterToFormData, newListingForm, imageUploadURL, 
       createPreviewListing);
 }

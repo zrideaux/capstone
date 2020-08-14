@@ -14,28 +14,44 @@ import {
 } from './miscellaneous.js';
 
 /**
- * Creates a div that contains listings
+ * Creates a div that contains listings.
  *
- * @param containerElement the element that append the listings to
- * @param listingsClass the class attribute for the listings div
- * @param listingsId the id attribute for the listings div
+ * @param containerElement the element that append the listings to.
+ * @param listingsClass the class attribute for the listings div.
+ * @param listingsId the id attribute for the listings div.
  * @param queryString the String that represents the query to a servlet that 
- *     returns a List of Listings
- * @return a div that represents a group of listings
+ *     returns a List of Listings.
+ * @param responseJsonFunc a function that is called when the response from the 
+ *     servlet is not an error message.
  */
 function getListings(containerElement, listingsClass, listingsId,
-    queryString) {
+    queryString, responseJsonFunc = getListingsResponseJson) {
   // Fetching user listings data
   fetch(queryString)
       .then(response => response.json())
-      .then((listingsArray) => {
-        if (isErrorMessage(listingsArray)) {
-          displayErrorMessage(listingsArray);
+      .then((responseJSON) => {
+        if (isErrorMessage(responseJSON)) {
+          displayErrorMessage(responseJSON);
         } else {
-          containerElement.appendChild(
-              createListings(listingsArray, listingsClass, listingsId));
+          responseJsonFunc(containerElement, responseJSON, 
+              listingsClass, listingsId);
         }
       });
+}
+
+/**
+ * Appends listings to a containerElement.
+ * Made to be used in the getListings function.
+ *
+ * @param containerElement the element that contains listings.
+ * @param listingsArray a JSON array of JSON that represents listings.
+ * @param listingsClass the class attribute for the listings div.
+ * @param listingsId the id attribute for the listings div.
+ */
+function getListingsResponseJson(containerElement, listingsArray, listingsClass,
+    listingsId) {
+  containerElement.appendChild(
+      createListings(listingsArray, listingsClass, listingsId));
 }
 
 /**
@@ -47,7 +63,8 @@ function getListings(containerElement, listingsClass, listingsId,
  * @return a div with all of a user's listings.
  */
 function createListings(listings, listingsClass, listingsId) {
-  const divListings = createDivElement('', listingsClass, listingsId);
+  const divListings = createDivElement('', listingsClass + ' preview-listings', 
+      listingsId);
   const numListings = listings.length;
   if (numListings > 0) {
     for (let i = 0; i < numListings; i ++) {
@@ -88,5 +105,6 @@ function createListing(cardElementId, listing) {
 export {
   createListing,
   createListings,
-  getListings
+  getListings,
+  getListingsResponseJson
 };
