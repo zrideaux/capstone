@@ -98,7 +98,60 @@ function redirectToUserPage() {
   location.replace('user.html');
 }
 
+function validateInput(fieldId, instructionsId) {
+  let field = document.getElementById(fieldId);
+  let instructions = document.getElementById(instructionsId);
+
+  if (field.checkValidity()) {
+    // If field is valid
+    if (field.classList.contains('invalid-input')) {
+      field.classList.toggle('invalid-input');
+      instructions.classList.toggle('invalid-input-instructions');
+    }
+    checkFields();
+  } else {
+    // If field is invalid
+    if (!field.classList.contains('invalid-input')) {
+      field.classList.toggle('invalid-input');
+      instructions.classList.toggle('invalid-input-instructions');
+    }
+    disableSubmissions();
+  }
+}
+
+function checkFields() {
+  let fields = document.querySelectorAll('input, textarea');
+  let submissionsAllowed = true;
+
+  for (let i = 0; i < fields.length; i++) {
+    console.log(fields[i].id, 'valid', fields[i].checkValidity());
+    if (fields[i].checkValidity() === false) {
+      submissionsAllowed = false;
+      break;
+    }
+  }
+
+  if (submissionsAllowed) {
+    enableSubmissions();
+  }
+}
+
+function disableSubmissions() {
+  let submissionButtons = document.getElementsByClassName('submission-buttons');
+  for (let i = 0; i < submissionButtons.length; i++) {
+    submissionButtons[i].setAttribute('disabled', '');
+  }
+}
+
+function enableSubmissions() {
+  let submissionButtons = document.getElementsByClassName('submission-buttons');
+  for (let i = 0; i < submissionButtons.length; i++) {
+    submissionButtons[i].removeAttribute('disabled');
+  }
+}
+
 export {
+  validateInput,
   createNewListing,
   displayPreviewListing
 };

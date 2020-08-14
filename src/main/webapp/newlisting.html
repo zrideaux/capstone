@@ -21,6 +21,7 @@
   <body>
     <script type="module">
       import { 
+        validateInput,
         createNewListing,
         displayPreviewListing
       } from './scripts/new-listing.js'
@@ -31,6 +32,10 @@
       
       window.displayPreviewListing = function() {
         displayPreviewListing();
+      }
+
+      window.validateInput = function(fieldId, instructionsId) {
+        validateInput(fieldId, instructionsId);
       }
     </script>
     <header id="nav-box" class="shadow-box">
@@ -67,20 +72,22 @@
             </label>
             <p class="sublabel">
               Give a short, descriptive name to the cause. This will be the 
-              first thing people see.
+              first thing people see. 
+              <span id='cause-name-instructions'>(Enter up to 50 characters)</span>
             </p>
-            <input id="cause-name" type="text" maxlength="50">
+            <input id="cause-name" type="text" minlength="1" maxlength="50" required
+                onfocusout="validateInput('cause-name', 'cause-name-instructions');">
           </li>
           <li>
           <ul>
             <label class="form-label">Type of Cause</label>
             <p class="sublabel">
-              Check the boxes which best describe your cause. This will help 
+              Choose the option which best describe your cause. This will help 
               people find it.
             </p>
             <li>
               <input id="fundraiser-radio" class="search-filter" type="radio" 
-                  value="fundraiser" name="cause-type">
+                  value="fundraiser" name="cause-type" required>
               <label for="fundraiser-radio">Fundraiser</label>
             </li>
             <li>
@@ -101,18 +108,25 @@
           </ul>
           <li>
             <label for="cause-location" class="form-label">Location</label>
-            <p class="sublabel">
+            <p id="cause-location-instructions" class="sublabel">
               Select the location for the cause. Try to be as specific as 
               possible, but as broad as needed.
             </p>
-            <input id="cause-location" type="text">
+            <input id="cause-location" type="text" required
+                onfocusout="validateInput('cause-location',
+                'cause-location-instructions');">
           </li>
           <li>
             <label for="cause-description" class="form-label">
               Description
             </label>
-            <p class="sublabel">Describe your cause and why it's important.</p>
-            <textarea id="cause-description" minlength="1" maxlength="256"></textarea>
+            <p class="sublabel">
+              Describe your cause and why it's important. 
+              <span id="cause-description-instructions">(Enter up to 256 characters)</span>
+            </p>
+            <textarea id="cause-description" minlength="1" maxlength="256" required
+                onfocusout="validateInput('cause-description',
+                'cause-description-instructions');"></textarea>
           </li>
           <li>
             <label for="cause-how-to-help" class="form-label">
@@ -121,8 +135,11 @@
             <p class="sublabel">
               Describe how people can contribute to the cause. Be sure to 
               include any specific addresses or links that may be important.
+              <span id="cause-how-to-help-instructions">(Enter up to 256 characters)</span>
             </p>
-            <textarea id="cause-how-to-help" maxlength="256"></textarea>
+            <textarea id="cause-how-to-help" minlength="1" maxlength="256" required
+                onfocusout="validateInput('cause-how-to-help',
+                'cause-how-to-help-instructions');"></textarea>
           </li>
           <li>
             <label for="cause-website" class="form-label">Website</label>
@@ -141,8 +158,8 @@
             </form>
           </li>
         </ul>
-        <button type="button" onclick="createNewListing()">Submit</button>
-        <button type="button" onclick="displayPreviewListing()">
+        <button class="submission-buttons" type="button" onclick="createNewListing()" disabled>Submit</button>
+        <button class="submission-buttons" type="button" onclick="displayPreviewListing()" disabled>
           Make Preview
         </button>
       </section>

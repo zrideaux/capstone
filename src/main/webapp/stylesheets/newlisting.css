@@ -54,3 +54,11 @@ textarea:focus {
   -moz-box-shadow: 0px 0px 5px 0px #00000080;
   box-shadow: 0px 0px 5px 0px #00000080;
 }
+
+.invalid-input {
+  background-color: #FFE0EB !important;
+}
+
+.invalid-input-instructions {
+  color: #D9216A;
+}
