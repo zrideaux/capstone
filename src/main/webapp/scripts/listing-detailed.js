@@ -226,10 +226,12 @@ function createReputationContainer(downvotes, key, upvotes, existingVote) {
 /**
  * Creates an interactable heading for reputation buttons that provides an
  * explanation of the feature on hover/enter press.
+ *
+ * @return the created div that contains the reputation heading
  */
 function createReputationHeading() {
   // Create the heading elements
-  let reputationHeadingContainer = createDivElement('Is this reputable?',
+  let reputationHeadingContainer = createDivElement('',
       'reputation-heading-container', '');
   let reputationHeading = createPElement('Is this reputable?',
       'reputation-heading', '');

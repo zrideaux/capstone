@@ -47,7 +47,7 @@ export default function createListingPreview(listing, listingDisplay, listingId)
   const downvotes = listing.downvotes.toLocaleString();
   const key = listing.key;
   const vote = listing.vote;
-  sectionListing.appendChild(createListingInformation(imageURL, upvotes, downvotes, key, vote));
+  sectionListing.appendChild(createListingInformation(downvotes, imageURL, key, upvotes, vote));
 
   // Creating listing details
   const description = listing.description;
@@ -67,14 +67,14 @@ export default function createListingPreview(listing, listingDisplay, listingId)
  * @param upvotes the number of upvotes this listing has received
  * @return a div with the picture and the number of upvotes this listing has
  */
-function createListingInformation(imageURL, upvotes, downvotes, key, vote) {
+function createListingInformation(downvotes, imageURL, key, upvotes, vote) {
   const divListingInfo = createDivElement('', 'preview-info', '');
 
   divListingInfo.appendChild(
     createImgElement(imageURL, 'Listing preview image', 'listing-image', ''));
 
   divListingInfo.appendChild(
-      createPreviewReputationContainer(downvotes, key, upvotes, vote));
+      createPreviewReputationContainer(downvotes, vote, key, upvotes));
 
   return divListingInfo;
 }
@@ -141,11 +141,12 @@ function createListingTags(type) {
  * for a listing preview.
  *
  * @param downvotes an int representing the number of downvotes a listing has
+ * @param existingVote the vote which the current user already has on a listing
  * @param key a string that is the key of a listing
  * @param upvotes an int representing the number of upvotes a listing has
- * @param existingVote the vote which the current user already has on a listing
+ * @return a div element display a listing preview's reputation
  */
-function createPreviewReputationContainer(downvotes, key, upvotes, existingVote) {
+function createPreviewReputationContainer(downvotes, existingVote, key, upvotes) {
   let reputationContainer = createDivElement('', '', 'reputation-preview-container');
 
   // Create div with the number of upvotes and upvote icon

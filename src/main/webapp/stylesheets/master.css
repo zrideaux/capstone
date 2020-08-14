@@ -60,8 +60,8 @@ ul {
 .shadow-box {
   background-color: #FFFFFF;
   border-radius: 15px;
-  -webkit-box-shadow: 0 3px 7px #00000040;
   -moz-box-shadow: 0 3px 7px #00000040;
+  -webkit-box-shadow: 0 3px 7px #00000040;
   box-shadow: 0 3px 7px #00000040;
   margin-bottom: 15px;
   padding: 10px;

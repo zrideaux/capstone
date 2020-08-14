@@ -18,7 +18,8 @@ function voteClicked(buttonClicked, vote, key) {
   let downvotePreviewButton = document.getElementById('reputation-downvote-preview-' + key);
   let upvotePreviewButton = document.getElementById('reputation-upvote-preview-' + key);
 
-  toggleClicked(buttonClicked, downvoteButton, upvoteButton, downvotePreviewButton, upvotePreviewButton);
+  toggleClicked(buttonClicked, downvoteButton, downvotePreviewButton,
+      upvoteButton, upvotePreviewButton);
   
   // Update the onclick listeners depending on what vote was received
   if (vote === 'upvote') {
@@ -145,10 +146,12 @@ function updateNumbers(buttonClicked, vote, key) {
  *
  * @param buttonClicked the button that was clicked to call this function
  * @param downvoteButton the listing's downvote button element
+ * @param downvotePreviewButton the listing's preview downvote button element
  * @param upvoteButton the listing's upvote button element
+ * @param upvotePreviewButton the listing's preview upvote button element
  */
-function toggleClicked(buttonClicked, downvoteButton, upvoteButton,
-    downvotePreviewButton, upvotePreviewButton) {
+function toggleClicked(buttonClicked, downvoteButton, downvotePreviewButton,
+    upvoteButton, upvotePreviewButton) {
   // Add/remove the clicked class to whatever button is clicked
   buttonClicked.classList.toggle('reputation-button-clicked');
 
