@@ -82,7 +82,8 @@ public final class RecommendedSort {
       locations[i] = listings.get(i).getLocation(); 
     }
     
-    DistanceMatrixOBJ distances =  ExcludeByRadius.convertJsonToDMObject(ExcludeByRadius.distanceMatrixJsonURL(userLocation, locations));
+    DistanceMatrixOBJ distances =  ExcludeByRadius.convertJsonToDMObject(
+        ExcludeByRadius.distanceMatrixJsonURL(userLocation, locations));
     
     int[] distanceValues = distances.getIntegerDistanceValues();
     

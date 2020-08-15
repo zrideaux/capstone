@@ -34,7 +34,7 @@ public final class Listing {
 
   private final String dateCreated;
   private final String description;
-  public int distance;
+  public int distanceScore;
   private final String howToHelp;
   private final String imageURL;
   private String key;
@@ -71,7 +71,6 @@ public final class Listing {
     this.views = views;
     this.vote = vote;
     this.website = website;
-    this.distance = 0;
   }
 
   public Listing(String description, String howToHelp, String imageURL,
@@ -93,7 +92,6 @@ public final class Listing {
     this.downvotes = downvotes;
     this.views = views;
     this.website = website;
-    this.distance = 0;
   }
 
   /**
@@ -329,9 +327,9 @@ public final class Listing {
       if (distance < 0) {
         distance = 0;
       }
-      this.distance = distance;
+      this.distanceScore = distance;
     } else {
-      this.distance = 75;
+      this.distanceScore = 75;
     }
   }
 
@@ -343,7 +341,7 @@ public final class Listing {
     final double DISTANCE_WEIGHT =  0.15;
     final double REPUTATION_WEIGHT = 0.85;
      
-    this.reputationAndDistanceScore = (int)(this.distance * DISTANCE_WEIGHT) +
+    this.reputationAndDistanceScore = (int)(this.distanceScore * DISTANCE_WEIGHT) +
         (int)((this.reputationScore.intValue()) * REPUTATION_WEIGHT);
   }
   
