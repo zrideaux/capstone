@@ -78,7 +78,7 @@ public final class RecommendedSort {
 
     //Grab all locations for distance calculation  
     String[] locations = new String[listings.size()];
-    for(int i = 0; i < listings.size(); i++){
+    for (int i = 0; i < listings.size(); i++) {
       locations[i] = listings.get(i).getLocation(); 
     }
     
