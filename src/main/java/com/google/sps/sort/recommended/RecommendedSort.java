@@ -87,7 +87,6 @@ public final class RecommendedSort {
     
     int[] distanceValues = distances.getIntegerDistanceValues();
     
-
     for (int i = 0; i < listings.size(); i++) {
       listings.get(i).generateReputationScore();
       listings.get(i).generateDistanceScore(distanceValues[i]);
