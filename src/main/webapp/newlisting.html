@@ -68,10 +68,10 @@
         <ul>
           <li>
             <label for="cause-name" class="form-label">
-              A Name for the Cause
+              A Name for the Cause<span class="required-asterisk">*</span>
             </label>
             <p id='cause-name-instructions' class="sublabel">
-              [Required] Give a short, descriptive name to the cause. This will be the
+              Give a short, descriptive name to the cause. This will be the
               first thing people see. (Enter up to 50 characters)
             </p>
             <input id="cause-name" type="text" minlength="1" maxlength="50" required
@@ -80,9 +80,9 @@
           </li>
           <li>
           <ul>
-            <label class="form-label">Type of Cause</label>
+            <label class="form-label">Type of Cause<span class="required-asterisk">*</span></label>
             <p id="cause-type-instructions" class="sublabel">
-              [Required] Choose the option which best describe your cause. This will help
+              Choose the option which best describe your cause. This will help
               people find it. (Choose one)
             </p>
             <li>
@@ -107,9 +107,9 @@
             </li>
           </ul>
           <li>
-            <label for="cause-location" class="form-label">Location</label>
+            <label for="cause-location" class="form-label">Location<span class="required-asterisk">*</span></label>
             <p id="cause-location-instructions" class="sublabel">
-              [Required] Select the location for the cause. Try to be as
+              Select the location for the cause. Try to be as
               specific as possible, but as broad as needed.
             </p>
             <input id="cause-location" type="text" required
@@ -119,10 +119,10 @@
           </li>
           <li>
             <label for="cause-description" class="form-label">
-              Description
+              Description<span class="required-asterisk">*</span>
             </label>
             <p id="cause-description-instructions" class="sublabel">
-              [Required] Describe your cause and why it's important. (Enter
+              Describe your cause and why it's important. (Enter
               up to 256 characters)
             </p>
             <textarea id="cause-description" minlength="1" maxlength="256" required
@@ -131,10 +131,10 @@
           </li>
           <li>
             <label for="cause-how-to-help" class="form-label">
-              How To Help
+              How To Help<span class="required-asterisk">*</span>
             </label>
             <p id="cause-how-to-help-instructions" class="sublabel">
-              [Required] Describe how people can contribute to the cause. Be
+              Describe how people can contribute to the cause. Be
               sure to include any specific addresses or links that may be
               important. (Enter up to 256 characters)
             </p>
@@ -145,13 +145,13 @@
           <li>
             <label for="cause-website" class="form-label">Website</label>
             <p class="sublabel">
-              [Optional] If you have a website surrounding the cause, be sure to link it here.
+              If you have a website surrounding the cause, be sure to link it here.
             </p>
             <input id="cause-website" type="text">
           </li>
           <li>
             <label for="cause-image" class="form-label">Add An Image</label>
-            <p class="sublabel">[Optional] Add a preview image for the cause. </p>
+            <p class="sublabel">Add a preview image for the cause. </p>
             <br>
             <form enctype="multipart/form-data" id="new-listing-form" 
                 name="new-listing-form">

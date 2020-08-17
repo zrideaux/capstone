@@ -79,6 +79,7 @@ textarea:focus {
   background-color: #FFE0EB !important;
 }
 
-.invalid-input-instructions {
+.invalid-input-instructions,
+.required-asterisk {
   color: #D9216A;
 }
