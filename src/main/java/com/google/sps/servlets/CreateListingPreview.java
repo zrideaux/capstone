@@ -91,7 +91,7 @@ public class CreateListingPreview extends HttpServlet {
     } 
 
     // Uploading an image is optional
-    String imageURL = ValidateInput.getUploadedFileUrl(request, "image", ""); 
+    String imageURL = ValidateInput.getUploadedFileUrl(request, "image", "https://i.imgur.com/wE5wDVZ.png"); 
 
     // There are no char limit for website and website is optional
     String website = ValidateInput.getParameter(request, "website", "");

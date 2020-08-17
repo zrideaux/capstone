@@ -15,8 +15,11 @@ function voteClicked(buttonClicked, vote, key) {
   
   let downvoteButton = document.getElementById('reputation-downvote-' + key);
   let upvoteButton = document.getElementById('reputation-upvote-' + key);
+  let downvotePreviewButton = document.getElementById('reputation-downvote-preview-' + key);
+  let upvotePreviewButton = document.getElementById('reputation-upvote-preview-' + key);
 
-  toggleClicked(buttonClicked, downvoteButton, upvoteButton);
+  toggleClicked(buttonClicked, downvoteButton, downvotePreviewButton,
+      upvoteButton, upvotePreviewButton);
   
   // Update the onclick listeners depending on what vote was received
   if (vote === 'upvote') {
@@ -37,14 +40,23 @@ function voteClicked(buttonClicked, vote, key) {
  * @param key the listing's key
  */
 function setInitialVoteState(downvoteButton, upvoteButton, existingVote, key) {
+  let isActualButton = !(downvoteButton.classList.contains('reputation-preview')
+      || upvoteButton.classList.contains('reputation-preview'));
+  
   if (existingVote === 'upvote') {
     upvoteButton.classList.toggle('reputation-button-clicked');
-    setOnclicks(downvoteButton, 'downvote', upvoteButton, 'neutral', key);
+    if (isActualButton) {
+      setOnclicks(downvoteButton, 'downvote', upvoteButton, 'neutral', key);
+    }
   } else if (existingVote === 'downvote') {
     downvoteButton.classList.toggle('reputation-button-clicked');
-    setOnclicks(downvoteButton, 'neutral', upvoteButton, 'upvote', key);
+    if (isActualButton) {
+      setOnclicks(downvoteButton, 'neutral', upvoteButton, 'upvote', key); 
+    }
   } else if (existingVote === 'neutral') {
-    setOnclicks(downvoteButton, 'downvote', upvoteButton, 'upvote', key);
+    if (isActualButton) {
+      setOnclicks(downvoteButton, 'downvote', upvoteButton, 'upvote', key);
+    }
   }
 }
 
@@ -79,30 +91,53 @@ function updateNumbers(buttonClicked, vote, key) {
   if (vote === 'upvote') {
     // Increment the upvote counter
     let upvoteCount = document.getElementById('reputation-count-upvotes-' + key);
+    let upvotePreviewCount = document.getElementById(
+        'reputation-preview-count-upvotes-' + key);
     upvoteCount.innerText = parseInt(upvoteCount.innerText) + 1;
+    upvotePreviewCount.innerText = parseInt(upvotePreviewCount.innerText) + 1;
 
     // Decrement the downvote counter if it was previously clicked
     let downvoteCount = document.getElementById(
         'reputation-count-downvotes-' + key);
+    let downvotePreviewCount = document.getElementById(
+        'reputation-preview-count-downvotes-' + key);
     if (downvoteCount.parentElement.className.includes('reputation-button-clicked')) {
       downvoteCount.innerText = parseInt(downvoteCount.innerText) - 1;
+      downvotePreviewCount.innerText = parseInt(downvotePreviewCount.innerText) - 1;
     }
   } else if (vote === 'downvote') {
     // Increment the downvote counter
     let downvoteCount = document.getElementById('reputation-count-downvotes-' + key);
+    let downvotePreviewCount = document.getElementById(
+        'reputation-preview-count-downvotes-' + key);
     downvoteCount.innerText = parseInt(downvoteCount.innerText) + 1;
+    downvotePreviewCount.innerText = parseInt(downvotePreviewCount.innerText) + 1;
     
     // Decrement the upvote counter if it was previously clicked
     let upvoteCount = document.getElementById(
         'reputation-count-upvotes-' + key);
+    let upvotePreviewCount = document.getElementById(
+        'reputation-preview-count-upvotes-' + key);
     if (upvoteCount.parentElement.className.includes('reputation-button-clicked')) {
       upvoteCount.innerText = parseInt(upvoteCount.innerText) - 1;
+      upvotePreviewCount.innerText = parseInt(upvotePreviewCount.innerText) - 1;
     }
   } else if (vote === 'neutral') {
     let clickedCount = buttonClicked.querySelector(".reputation-count");
+    let clickedPreviewCount;
+    if (clickedCount.id.includes('downvote')) {
+      clickedPreviewCount = document.getElementById(
+          'reputation-preview-count-downvotes-' + key);
+    } else if (clickedCount.id.includes('upvote')) {
+      clickedPreviewCount = document.getElementById(
+          'reputation-preview-count-upvotes-' + key);
+    }
+
     // If the vote is neutral, decrement the clicked button
     clickedCount.innerText =
         parseInt(clickedCount.innerText) - 1;
+    clickedPreviewCount.innerText =
+        parseInt(clickedPreviewCount.innerText) - 1;
   }
 }
 
@@ -111,20 +146,27 @@ function updateNumbers(buttonClicked, vote, key) {
  *
  * @param buttonClicked the button that was clicked to call this function
  * @param downvoteButton the listing's downvote button element
+ * @param downvotePreviewButton the listing's preview downvote button element
  * @param upvoteButton the listing's upvote button element
+ * @param upvotePreviewButton the listing's preview upvote button element
  */
-function toggleClicked(buttonClicked, downvoteButton, upvoteButton) {
+function toggleClicked(buttonClicked, downvoteButton, downvotePreviewButton,
+    upvoteButton, upvotePreviewButton) {
   // Add/remove the clicked class to whatever button is clicked
   buttonClicked.classList.toggle('reputation-button-clicked');
 
   // If a button besides the one clicked has the clicked class, remove it
   if (buttonClicked === downvoteButton) {
+    downvotePreviewButton.classList.toggle('reputation-button-clicked');
     if (buttonIsClicked(upvoteButton)) {
       upvoteButton.classList.toggle('reputation-button-clicked');
+      upvotePreviewButton.classList.toggle('reputation-button-clicked');
     }
   } else if (buttonClicked === upvoteButton) {
+    upvotePreviewButton.classList.toggle('reputation-button-clicked');
     if (buttonIsClicked(downvoteButton)) {
       downvoteButton.classList.toggle('reputation-button-clicked');
+      downvotePreviewButton.classList.toggle('reputation-button-clicked');
     }
   }
 }

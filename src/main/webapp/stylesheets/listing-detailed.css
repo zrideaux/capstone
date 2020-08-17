@@ -68,7 +68,21 @@
 }
 
 .reputation-heading {
-  margin: 1rem 0 .3rem 0;
+  border-bottom: 1.5px dotted black;
+  margin-bottom: 0.5rem;
+}
+
+.reputation-heading-container {
+  position: relative;
+}
+
+.reputation-tooltip {
+  background-color: #FFFFFFE6;
+  display: none;
+  left: -5em;
+  position: absolute;
+  top: 1.5em;
+  width: 17em;
 }
 
 /* small - medium screens */
