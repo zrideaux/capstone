@@ -124,10 +124,8 @@ function checkFields() {
   let submissionsAllowed = true;
 
   for (let i = 0; i < fields.length; i++) {
-    console.log(fields[i].id, 'valid', fields[i].checkValidity());
     if (fields[i].checkValidity() === false) {
       submissionsAllowed = false;
-      break;
     }
   }
 
