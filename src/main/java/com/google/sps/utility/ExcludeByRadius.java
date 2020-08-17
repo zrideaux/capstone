@@ -88,9 +88,11 @@ public class ExcludeByRadius {
     userLocation = userLocation.replace(" ", "+");
     String completeURL = baseURL+"origins="+userLocation+"&destinations=";
     for (int i = 0; i < listingLocations.length; i++) {
+      listingLocations[i] = listingLocations[i].replace(" ", "");
       completeURL += listingLocations[i] + "|";
     }
-    completeURL += "&departure_time=now&key=" + API_KEY; 
+    completeURL += "&departure_time=now&key=" + API_KEY;
+
     return completeURL;
   }
 
@@ -130,10 +132,6 @@ public class ExcludeByRadius {
       String[] locations = distance.getListingAddresses();
       String[] text = distance.getStringDistanceValues();
       String origin = distance.getOriginAddress();
-      for (int i = 0; i < distances.length; i++) {
-        System.out.println("The distance between " + origin + " and " + locations[i] +
-          " is "+ text[i] +". That is " + (int)distances[i] +" meters.");
-      }
        
       return distance;
     }
