@@ -141,6 +141,8 @@ function disableSubmissions() {
   for (let i = 0; i < submissionButtons.length; i++) {
     submissionButtons[i].setAttribute('disabled', '');
   }
+  let stillNeededSpan = document.getElementById('still-needed');
+  stillNeededSpan.style.visibility = "visible";
 }
 
 function enableSubmissions() {
@@ -148,6 +150,8 @@ function enableSubmissions() {
   for (let i = 0; i < submissionButtons.length; i++) {
     submissionButtons[i].removeAttribute('disabled');
   }
+  let stillNeededSpan = document.getElementById('still-needed');
+  stillNeededSpan.style.visibility = "hidden";
 }
 
 export {
