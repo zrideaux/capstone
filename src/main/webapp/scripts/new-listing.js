@@ -70,6 +70,15 @@ function createPreviewListing(listing) {
   const containerElement = document.getElementById("preview");
   containerElement.appendChild(
       createListing('preview-listings', listing));
+
+  $(document).ready(function(){
+    const $preview = $('#preview');
+    const bottom = $preview.position().top + $preview.offset().top + 
+        $preview.outerHeight(true);
+    $('html, body').animate({
+        scrollTop: bottom
+    }, 600);
+  });
 }
 
 // The following functions are used to create a new listing
