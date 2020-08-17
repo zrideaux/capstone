@@ -3,6 +3,10 @@ a {
   text-decoration: none;	
 }
 
+.back-to-top-user {
+  margin-top: 1rem;
+}
+
 .created-listings-tab {
   background: #8EEEDE;
   margin-right: 1.5rem;
@@ -22,15 +26,6 @@ a {
 
 .upvoted-listings-tab {
   margin-left: 1.5rem;
-}
-
-.user-go-to-top-button {
-  background-color: #bce3e1 !important;
-  border: none;
-  color: black !important;
-  font-size: 1rem;
-  margin-top: 1rem;
-  outline: none;
 }
 
 .user-bio {
