@@ -91,7 +91,8 @@ function isErrorMessage(str) {
 }
 
 /** 
- * Creates an alert with the errorMessage
+ * Creates an alert with the errorMessage and adds it to the bottom of
+ * a page.
  *
  * @param errorMessage the error message to display to the user
  */
@@ -102,6 +103,7 @@ function displayErrorMessage(errorMessage) {
     errorMessages[i].remove();
   }
 
+  // Create a new dismissable error box
   let errorBox = document.createElement('div');
   errorBox.className = 'error-box shadow-box';
 

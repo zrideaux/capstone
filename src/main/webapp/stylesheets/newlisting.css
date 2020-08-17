@@ -27,10 +27,6 @@ a {
   padding: 1em;
 }
 
-.invalid-input-instructions {
-  color: #D9216A;
-}
-
 .form-label {
   display: block;
   margin: 1em 0 0.5em;
@@ -67,6 +63,10 @@ textarea:focus {
 
 .invalid-input {
   background-color: #FFE0EB !important;
+}
+
+.invalid-input-instructions {
+  color: #D9216A;
 }
 
 #create-listing-button {
