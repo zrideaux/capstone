@@ -71,19 +71,21 @@
               A Name for the Cause
             </label>
             <p class="sublabel">
-              Give a short, descriptive name to the cause. This will be the 
+              [Required] Give a short, descriptive name to the cause. This will be the
               first thing people see. 
               <span id='cause-name-instructions'>(Enter up to 50 characters)</span>
             </p>
             <input id="cause-name" type="text" minlength="1" maxlength="50" required
+                placeholder="ex. Help Shelter Animals Get Exercise"
                 onfocusout="validateInput('cause-name', 'cause-name-instructions');">
           </li>
           <li>
           <ul>
             <label class="form-label">Type of Cause</label>
             <p class="sublabel">
-              Choose the option which best describe your cause. This will help 
+              [Required] Choose the option which best describe your cause. This will help
               people find it.
+              <span id="cause-type-instructions">(Choose one)</span>
             </p>
             <li>
               <input id="fundraiser-radio" class="search-filter" type="radio" 
@@ -108,11 +110,15 @@
           </ul>
           <li>
             <label for="cause-location" class="form-label">Location</label>
-            <p id="cause-location-instructions" class="sublabel">
-              Select the location for the cause. Try to be as specific as 
-              possible, but as broad as needed.
+            <p class="sublabel">
+              [Required]
+              <span id="cause-location-instructions">
+                Select the location for the cause. Try to be as specific as
+                possible, but as broad as needed.
+              </span>
             </p>
             <input id="cause-location" type="text" required
+                placeholder="ex. Los Angeles, CA"
                 onfocusout="validateInput('cause-location',
                 'cause-location-instructions');">
           </li>
@@ -121,7 +127,7 @@
               Description
             </label>
             <p class="sublabel">
-              Describe your cause and why it's important. 
+              [Required] Describe your cause and why it's important.
               <span id="cause-description-instructions">(Enter up to 256 characters)</span>
             </p>
             <textarea id="cause-description" minlength="1" maxlength="256" required
@@ -133,7 +139,7 @@
               How To Help
             </label>
             <p class="sublabel">
-              Describe how people can contribute to the cause. Be sure to 
+              [Required] Describe how people can contribute to the cause. Be sure to
               include any specific addresses or links that may be important.
               <span id="cause-how-to-help-instructions">(Enter up to 256 characters)</span>
             </p>
@@ -144,13 +150,13 @@
           <li>
             <label for="cause-website" class="form-label">Website</label>
             <p class="sublabel">
-              If you have a website surrounding the cause, be sure to link it here.
+              [Optional] If you have a website surrounding the cause, be sure to link it here.
             </p>
             <input id="cause-website" type="text">
           </li>
           <li>
             <label for="cause-image" class="form-label">Add An Image</label>
-            <p class="sublabel">Add a preview image for the cause. </p>
+            <p class="sublabel">[Optional] Add a preview image for the cause. </p>
             <br>
             <form enctype="multipart/form-data" id="new-listing-form" 
                 name="new-listing-form">
@@ -158,10 +164,13 @@
             </form>
           </li>
         </ul>
-        <button class="submission-buttons" type="button" onclick="createNewListing()" disabled>Submit</button>
-        <button class="submission-buttons" type="button" onclick="displayPreviewListing()" disabled>
+        <button id="create-listing-button" class="submission-buttons" type="button"
+            onclick="createNewListing()" disabled>Submit</button>
+        <button id="create-preview-button" class="submission-buttons" type="button"
+            onclick="displayPreviewListing()" disabled>
           Make Preview
         </button>
+        <span id="still-needed"></span>
       </section>
 
       <section id="preview"></section>
