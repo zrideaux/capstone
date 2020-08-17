@@ -65,13 +65,12 @@ function createUserProfile(user) {
       '', 'card-information-container shadow-box', '');
   
   // Creating User card information.
-  const userInformationDiv = createUserInformation(user.bio, user.email, 
-      user.username);
-  divCardInfoElement.appendChild(userInformationDiv);
+  divCardInfoElement.appendChild(createUserInformation(user.bio, user.email, 
+      user.username));
 
   // Creating User card description.
   divCardInfoElement.appendChild(createUserListings(user.createdListings, 
-      user.upvotedListings, userInformationDiv)); 
+      user.upvotedListings)); 
 
   return divCardInfoElement;
 }  
@@ -117,7 +116,7 @@ function createUserInformation(bio, email, name) {
  *     upvoted Listings.
  * @return a div with the description and comments of a listing.
  */
-function createUserListings(createdListings, upvotedListings, userInformationContainer) {
+function createUserListings(createdListings, upvotedListings) {
   const divUserListings = createDivElement('', 'card-description ' + 
       'tab-listings-description', '');
 
