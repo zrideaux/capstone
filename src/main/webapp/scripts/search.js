@@ -1,7 +1,7 @@
 import { authenticate } from './authentication.js';
 
 import {
-  addBackToTopButton,
+  addBackToTopButtonBefore,
   makeNavBarScrollToTop
 } from './scroll-to-top.js';
 
@@ -36,7 +36,8 @@ const loaderId = 'search-loader';
 window.onload = function() {
   authenticate();
   
-  addBackToTopButton(undefined, 'search-box', 'listings');
+  addBackToTopButtonBefore('back-to-top back-to-top-search', 'listings', 
+      'main-search');
   makeNavBarScrollToTop();
 
   initiateLastCall();

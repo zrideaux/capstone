@@ -43,10 +43,8 @@ function scrollFunction(element, scrollPast) {
 }
 
 /**
- * Add a Back to top button that appears in the user info when the user scrolls 
- *     past the listing container.
- * Add a Back to top button that appears in the user info when the user scrolls 
- *     past the listing container.
+ * Add a Back to top button to an elementContainer that appears when the user 
+ *     scrolls past the a scrollPastElement.
  *
  * @param buttonClassAttribute The name of the class of this button element.
  * @param elementContainerId The id of the element to add this button to.
@@ -61,6 +59,28 @@ function addBackToTopButton(buttonClassAttribute, elementContainerId,
 
   elementContainer.appendChild(
       createScrollToTopButton(buttonClassAttribute, positionFromTop));
+}
+
+
+/**
+ * Add a Back to top button before a beforeElement that appears when the user 
+ *     scrolls past the a scrollPastElement.
+ *
+ * @param buttonClassAttribute The name of the class of this button element.
+ * @param beforeElementId The id of the element to add this button before.
+ * @param scrollPastElementId The id of the element that the user will scroll 
+ *     past in order to make the button appear.
+ */
+function addBackToTopButtonBefore(buttonClassAttribute, beforeElementId, 
+    scrollPastElementId) {
+  const beforeElement = document.getElementById(beforeElementId);
+  const parentDiv = beforeElement.parentNode;
+  const positionFromTop = document.getElementById(scrollPastElementId)
+      .getBoundingClientRect().top;
+
+  parentDiv.insertBefore(
+      createScrollToTopButton(buttonClassAttribute, positionFromTop),
+      beforeElement);
 }
 
 /**
@@ -85,6 +105,7 @@ function makeNavBarScrollToTop() {
 
 export {
   addBackToTopButton,
+  addBackToTopButtonBefore,
   createScrollToTopButton,
   makeElementScrollToTop,
   makeNavBarScrollToTop,
