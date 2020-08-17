@@ -322,7 +322,7 @@ public final class Listing {
   * @param distance distance in meters from current user.
   */  
   public void generateDistanceScore(int distance) {
-    if(distance > 500) {
+    if (distance > 500) {
       distance = 75 - (distance / 500);
       if (distance < 0) {
         distance = 0;
