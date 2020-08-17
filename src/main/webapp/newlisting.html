@@ -70,10 +70,9 @@
             <label for="cause-name" class="form-label">
               A Name for the Cause
             </label>
-            <p class="sublabel">
+            <p id='cause-name-instructions' class="sublabel">
               [Required] Give a short, descriptive name to the cause. This will be the
-              first thing people see. 
-              <span id='cause-name-instructions'>(Enter up to 50 characters)</span>
+              first thing people see. (Enter up to 50 characters)
             </p>
             <input id="cause-name" type="text" minlength="1" maxlength="50" required
                 placeholder="ex. Help Shelter Animals Get Exercise"
@@ -82,10 +81,9 @@
           <li>
           <ul>
             <label class="form-label">Type of Cause</label>
-            <p class="sublabel">
+            <p id="cause-type-instructions" class="sublabel">
               [Required] Choose the option which best describe your cause. This will help
-              people find it.
-              <span id="cause-type-instructions">(Choose one)</span>
+              people find it. (Choose one)
             </p>
             <li>
               <input id="fundraiser-radio" class="search-filter" type="radio" 
@@ -110,12 +108,9 @@
           </ul>
           <li>
             <label for="cause-location" class="form-label">Location</label>
-            <p class="sublabel">
-              [Required]
-              <span id="cause-location-instructions">
-                Select the location for the cause. Try to be as specific as
-                possible, but as broad as needed.
-              </span>
+            <p id="cause-location-instructions" class="sublabel">
+              [Required] Select the location for the cause. Try to be as
+              specific as possible, but as broad as needed.
             </p>
             <input id="cause-location" type="text" required
                 placeholder="ex. Los Angeles, CA"
@@ -126,9 +121,9 @@
             <label for="cause-description" class="form-label">
               Description
             </label>
-            <p class="sublabel">
-              [Required] Describe your cause and why it's important.
-              <span id="cause-description-instructions">(Enter up to 256 characters)</span>
+            <p id="cause-description-instructions" class="sublabel">
+              [Required] Describe your cause and why it's important. (Enter
+              up to 256 characters)
             </p>
             <textarea id="cause-description" minlength="1" maxlength="256" required
                 onfocusout="validateInput('cause-description',
@@ -138,10 +133,10 @@
             <label for="cause-how-to-help" class="form-label">
               How To Help
             </label>
-            <p class="sublabel">
-              [Required] Describe how people can contribute to the cause. Be sure to
-              include any specific addresses or links that may be important.
-              <span id="cause-how-to-help-instructions">(Enter up to 256 characters)</span>
+            <p id="cause-how-to-help-instructions" class="sublabel">
+              [Required] Describe how people can contribute to the cause. Be
+              sure to include any specific addresses or links that may be
+              important. (Enter up to 256 characters)
             </p>
             <textarea id="cause-how-to-help" minlength="1" maxlength="256" required
                 onfocusout="validateInput('cause-how-to-help',
