@@ -122,8 +122,8 @@ function createListingCardInformation(type, dateCreated, downvotes, imageURL,
   divCardInformation.appendChild(
       createHElement(type, 2, 'detailed-attribute listing-tag pill', '')); 
 
-  divCardInformation.appendChild(createHElement('Reputation', '2', 'reputation-heading'));
-  
+  divCardInformation.appendChild(createReputationHeading());
+
   divCardInformation.appendChild(
       createReputationContainer(downvotes, key, upvotes, vote));
 
@@ -221,4 +221,47 @@ function createReputationContainer(downvotes, key, upvotes, existingVote) {
   reputationContainer.appendChild(downvoteButton);
 
   return reputationContainer;
+}
+
+/**
+ * Creates an interactable heading for reputation buttons that provides an
+ * explanation of the feature on hover/enter press.
+ *
+ * @return the created div that contains the reputation heading
+ */
+function createReputationHeading() {
+  // Create the heading elements
+  let reputationHeadingContainer = createDivElement('',
+      'reputation-heading-container', '');
+  let reputationHeading = createPElement('Is this reputable?',
+      'reputation-heading', '');
+  let reputationTooltip = createPElement(
+      'In order to help users gauge whether or not a post is reputable, \
+          we allow users to vote on the accuracy of its information.',
+      'reputation-tooltip shadow-box', '');
+  reputationHeadingContainer.appendChild(reputationHeading);
+  reputationHeadingContainer.appendChild(reputationTooltip);
+
+  // Set the event listeners to show the tool tip
+  reputationHeading.onmouseover = () => {
+    reputationTooltip.style.display = 'block';
+  }
+
+  reputationHeading.onmouseout = () => {
+    reputationTooltip.style.display = 'none';
+  }
+
+  keyboardAccessible(
+      reputationHeading,
+      {}, 
+      () => {
+        if (getComputedStyle(reputationTooltip).display === 'none') {
+          reputationTooltip.style.display = 'block';
+        } else {
+          reputationTooltip.style.display = 'none';
+        }
+      },
+      '0');
+
+  return reputationHeadingContainer;
 }

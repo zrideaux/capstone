@@ -1,3 +1,8 @@
+a {	
+  color: inherit;	
+  text-decoration: none;	
+}
+
 .created-listings-tab {
   background: #8EEEDE;
   margin-right: 1.5rem;
@@ -53,7 +58,7 @@
     min-height: 70vh;
     position: -webkit-sticky; /* for Safari */
     position: sticky;
-    top: 0;
+    top: 4em;
   }
 }
 

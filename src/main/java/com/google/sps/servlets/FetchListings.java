@@ -146,7 +146,7 @@ public class FetchListings extends HttpServlet {
       UserService userService = UserServiceFactory.getUserService();
       try {
         listings = RecommendedSort.sortByRecommended(datastore, listings, 
-            userService);
+            userService, userLocation);
       } catch (Exception e) {
         ValidateInput.createErrorMessage(e, response);
         return;

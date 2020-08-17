@@ -6,6 +6,12 @@ body {
   margin: 0;
 }
 
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
 #logo {
   height: 2em;
 }
@@ -54,9 +60,9 @@ ul {
 .shadow-box {
   background-color: #FFFFFF;
   border-radius: 15px;
-  -webkit-box-shadow: 0px 0px 10px 0px #00000080;
-  -moz-box-shadow: 0px 0px 10px 0px #00000080;
-  box-shadow: 0px 0px 10px 0px #00000080;
+  -moz-box-shadow: 0 3px 7px #00000040;
+  -webkit-box-shadow: 0 3px 7px #00000040;
+  box-shadow: 0 3px 7px #00000040;
   margin-bottom: 15px;
   padding: 10px;
 }

@@ -39,8 +39,30 @@
 }
 
 .preview-info {
+  align-items: center;
   display: flex;
   flex-direction: column;
+}
+
+#reputation-preview-container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.reputation-preview {
+  background: none;
+  border: none;
+  color: #9E9E9E;
+  display: flex;
+  justify-content: center;
+  margin: 5px 5px 0px;
+}
+
+.reputation-preview i {
+  color: inherit;
+  font-size: 1em;
+  margin-right: 0.25em;
 }
 
 /* Add animation to "preview listings" */
