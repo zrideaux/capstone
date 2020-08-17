@@ -24,6 +24,7 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 import com.google.sps.data.Listing;
+import com.google.sps.data.TrackingResponse;
 import com.google.sps.utility.ExcludeByRadius;
 import com.google.sps.filter.FilterQuery;
 import com.google.sps.sort.recommended.RecommendedSort;
@@ -110,6 +111,14 @@ public class FetchListings extends HttpServlet {
       return;
     }
 
+    int timeToBack;
+    try {
+      timeToBack = ValidateInput.getParameter(request, "call", 0);
+    } catch (Exception e) {
+      ValidateInput.createErrorMessage(e, response);
+      return;
+    }
+
     // Prepare to fetch entities from the backend
     Query queryListing = new Query("Listing");
 
@@ -137,7 +146,7 @@ public class FetchListings extends HttpServlet {
       UserService userService = UserServiceFactory.getUserService();
       try {
         listings = RecommendedSort.sortByRecommended(datastore, listings, 
-            userService);
+            userService, userLocation);
       } catch (Exception e) {
         ValidateInput.createErrorMessage(e, response);
         return;
@@ -151,10 +160,13 @@ public class FetchListings extends HttpServlet {
     if (!userLocation.equals("")) {
       listings = ExcludeByRadius.removeListingsNotInRadius(listings, userLocation, radiusFilter);  
     }
+
+    TrackingResponse trackingListings = new TrackingResponse(timeToBack, 
+        listings);
       
-    String jsonListings = new Gson().toJson(listings);
+    String jsonTrackingListings = new Gson().toJson(trackingListings);
     response.setContentType("application/json;");
-    response.getWriter().println(jsonListings);
+    response.getWriter().println(jsonTrackingListings);
   }
 
   /**
