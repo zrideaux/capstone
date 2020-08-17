@@ -27,6 +27,20 @@ a {
   padding: 1em;
 }
 
+
+#create-listing-button {
+ background-color: #8EEEDE;
+ border: none;
+ border-radius: 10px;
+ padding: 0.7em;
+}
+
+#create-preview-button {
+  border: none;
+  border-radius: 10px;
+  padding: 0.7em;
+}
+
 .form-label {
   display: block;
   margin: 1em 0 0.5em;
@@ -67,17 +81,4 @@ textarea:focus {
 
 .invalid-input-instructions {
   color: #D9216A;
-}
-
-#create-listing-button {
- background-color: #8EEEDE;
- border: none;
- border-radius: 10px;
- padding: 0.7em;
-}
-
-#create-preview-button {
-  border: none;
-  border-radius: 10px;
-  padding: 0.7em;
 }
