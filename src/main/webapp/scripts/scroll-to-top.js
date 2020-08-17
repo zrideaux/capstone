@@ -4,6 +4,12 @@ import { keyboardAccessible, keyboardAccessibleOnClick } from './miscellaneous.j
 
 const goToTopButtonId = 'back-to-top';
 
+// Add JQuery to file
+var script = document.createElement('script');
+script.src = 'https://code.jquery.com/jquery-3.4.1.min.js';
+script.type = 'text/javascript';
+document.getElementsByTagName('head')[0].appendChild(script);
+
 /**
  * Create a scroll to top button which appears when a user scrolls past the 
  *     scrollPast parameter.
@@ -21,10 +27,13 @@ function createScrollToTopButton(classAttribute = '', scrollPast) {
   return goToTopButton;
 }
 
-// Scrolls to the top of the page when called.
+// Scrolls to the top of the page when called with smooth scroll.
 function scrollToTop() {
-  document.body.scrollTop = 0;
-  document.documentElement.scrollTop = 0;
+  $(document).ready(function(){
+    $('html, body').animate({
+          scrollTop: 0
+        });
+  });
 }
 
 /**
