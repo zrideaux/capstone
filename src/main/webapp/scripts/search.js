@@ -36,7 +36,7 @@ const loaderId = 'search-loader';
 window.onload = function() {
   authenticate();
   
-  addBackToTopButtonBefore('back-to-top back-to-top-search', 'listings', 
+  addBackToTopButtonBefore('back-to-top-search', 'listings', 
       'main-search');
   makeNavBarScrollToTop();
 

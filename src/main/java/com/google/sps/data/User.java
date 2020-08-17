@@ -108,7 +108,7 @@ public final class User {
   }
 
   /**
-   * Add a specified listing key to a property in a userEntity.  
+   * Add a specified listing key to the beginning of a userEntity property.
    *
    * @param datastore a datastore service instance
    * @param userEntity an entity representing a User
@@ -122,7 +122,7 @@ public final class User {
     //    or downvotedListingKeys
     String listingKeysString = getListingKeysAsString(userEntity, property);
     
-    // Append a new listing key to the end of listingKeysString and update userEntity
+    // Append a new listing key to the beginning of listingKeysString and update userEntity.
     listingKeysString = KeyFactory.keyToString(listingKey) + " " + 
         listingKeysString;
     userEntity.setProperty(property, listingKeysString);

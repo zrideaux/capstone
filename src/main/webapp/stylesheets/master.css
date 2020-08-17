@@ -6,10 +6,10 @@ body {
   margin: 0;
 }
 
-.back-to-top {
-  background-color: #bce3e1 !important;
+#back-to-top {
+  background-color: #bce3e1;
   border: none;
-  color: black !important;
+  color: black;
   font-size: 1rem;
   z-index: 1;
 }
