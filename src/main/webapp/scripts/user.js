@@ -1,9 +1,9 @@
 import { authenticate } from './authentication.js';
 
 import {
-  createScrollToTopButton,
-  scrollToTop
-} from './go-to-top-button.js';
+  addBackToTopButton,
+  makeNavBarScrollToTop
+} from './scroll-to-top.js';
 
 import { 
   createAElement,
@@ -18,7 +18,6 @@ import { createListings } from './listing.js';
 import { 
   displayErrorMessage,
   isErrorMessage, 
-  keyboardAccessibleOnClick,
   toggleTabDisplay
 } from './miscellaneous.js';
 
@@ -28,9 +27,7 @@ import {
  */
 window.onload = function() {
   authenticate(getUserProfile);
-  const header = document.getElementById('nav-box');
-  header.style.cursor ='pointer';
-  keyboardAccessibleOnClick(header, scrollToTop, scrollToTop);
+  makeNavBarScrollToTop();
 }
 
 /**
@@ -46,7 +43,13 @@ export default function getUserProfile() {
           displayErrorMessage(user);
         } else {
           divCardContainerElement.appendChild(createUserProfile(user));
-          addBackToTopButton();
+
+          /**
+            * Add a Back to top button that appears in the user info when the 
+            *     user scrolls past the listing container.
+            */
+          addBackToTopButton('user-go-to-top-button', 'user-info', 
+              'user-listing-container');
         }
       })
 }
@@ -203,17 +206,4 @@ function createTab(elementDisplay, elementId, elementOtherId, hNum, otherTabId,
   });
   
   return hTab;
-}
-
-/**
- * Add a Back to top button that appears in the user info when the user scrolls 
- *     past the listing container.
- */
-function addBackToTopButton() {
-  // 
-  const userInformationContainer = document.getElementById('user-info');
-  const positionFromTop = document.getElementById('user-listing-container')
-      .getBoundingClientRect().top;
-  userInformationContainer.appendChild(
-      createScrollToTopButton('user-go-to-top-button', positionFromTop));
 }

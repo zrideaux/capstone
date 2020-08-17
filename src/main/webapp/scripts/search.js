@@ -1,9 +1,9 @@
 import { authenticate } from './authentication.js';
 
 import {
-  createScrollToTopButton,
-  scrollToTop
-} from './go-to-top-button.js';
+  addBackToTopButton,
+  makeNavBarScrollToTop
+} from './scroll-to-top.js';
 
 import { 
   getListings,
@@ -36,9 +36,8 @@ const loaderId = 'search-loader';
 window.onload = function() {
   authenticate();
   
-  const header = document.getElementById('nav-box');
-  header.style.cursor ='pointer';
-  keyboardAccessibleOnClick(header, scrollToTop, scrollToTop);
+  addBackToTopButton(undefined, 'search-box', 'listings');
+  makeNavBarScrollToTop();
 
   initiateLastCall();
   addOnclickToInputs();
