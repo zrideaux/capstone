@@ -48,7 +48,7 @@ export default function getUserProfile() {
             * Add a Back to top button that appears in the user info when the 
             *     user scrolls past the listing container.
             */
-          addBackToTopButton('user-go-to-top-button', 'user-info', 
+          addBackToTopButton('back-to-top back-to-top-user', 'user-info', 
               'user-listing-container');
         }
       })
