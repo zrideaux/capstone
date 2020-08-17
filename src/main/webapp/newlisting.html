@@ -87,22 +87,26 @@
             </p>
             <li>
               <input id="fundraiser-radio" class="search-filter" type="radio" 
-                  value="fundraiser" name="cause-type" required>
+                  value="fundraiser" name="cause-type" required
+                  onchange="validateInput('fundraiser-radio', 'cause-type-instructions');">
               <label for="fundraiser-radio">Fundraiser</label>
             </li>
             <li>
               <input id="petition-radio" class="search-filter" type="radio" 
-                  value="petition" name="cause-type">
+                  value="petition" name="cause-type"
+                  onchange="validateInput('petition-radio', 'cause-type-instructions');">
               <label for="petition-radio">Petition</label>
             </li>
             <li>
               <input id="event-radio" class="search-filter" type="radio" 
-                  value="event" name="cause-type">
+                  value="event" name="cause-type"
+                  onchange="validateInput('event-radio', 'cause-type-instructions');">
               <label for="event-radio">Event</label>
             </li>
             <li>
               <input id="other-radio" class="search-filter" type="radio" 
-                  value="other" name="cause-type">
+                  value="other" name="cause-type"
+                  onchange="validateInput('other-radio', 'cause-type-instructions');">
               <label for="other-radio">Other</label>
             </li>
           </ul>
