@@ -99,7 +99,7 @@ function addBackToTopButtonBefore(buttonClassAttribute, beforeElementId,
  *     clicked/entered.
  * @param tabindex The tabindex of this element.
  */
-function makeElementScrollToTop(element, tabindex) {
+function makeElementScrollToTop(element, tabindex = 0) {
   element.style.cursor = 'pointer';
   keyboardAccessible(element, scrollToTop, scrollToTop, tabindex);
 }
@@ -107,9 +107,10 @@ function makeElementScrollToTop(element, tabindex) {
 /**
  * Make the nav bar scroll to the top when clicked/entered.
  * A nav bar in this project has an id of 'nav-box'.
+ * This is a feature mostly created for mobile devices.
  */
 function makeNavBarScrollToTop() {
-  makeElementScrollToTop(document.getElementById('nav-box'), '1');
+  makeElementScrollToTop(document.getElementById('nav-box'), '-1');
 }
 
 export {
