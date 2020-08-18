@@ -77,7 +77,7 @@ function createPreviewListing(listing) {
         $preview.outerHeight(true);
     $('html, body').animate({
         scrollTop: bottom
-    }, 600);
+    }, 900);
   });
 }
 
