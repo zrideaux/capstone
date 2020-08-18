@@ -22,15 +22,20 @@
     <script type="module">
       import { 
         createNewListing,
-        displayPreviewListing
+        displayPreviewListing,
+        validateInput
       } from './scripts/new-listing.js'
 
       window.createNewListing = function() {
         createNewListing();
       }
-      
+
       window.displayPreviewListing = function() {
         displayPreviewListing();
+      }
+
+      window.validateInput = function(fieldId, instructionsId) {
+        validateInput(fieldId, instructionsId);
       }
     </script>
     <header id="nav-box" class="shadow-box">
@@ -56,73 +61,93 @@
         </div>
       </nav>
     </header>
-    
+
     <main>
       <section class="shadow-box">
         <h1>Create New Listing</h1>
+          <p class="sublabel">
+            <span class="required-asterisk">*</span> = required
+          </p>
         <ul>
           <li>
             <label for="cause-name" class="form-label">
-              A Name for the Cause
+              A Name for the Cause<span class="required-asterisk">*</span>
             </label>
-            <p class="sublabel">
-              Give a short, descriptive name to the cause. This will be the 
-              first thing people see.
+            <p id='cause-name-instructions' class="sublabel">
+              Give a short, descriptive name to the cause. This will be the
+              first thing people see. (Enter up to 50 characters)
             </p>
-            <input id="cause-name" type="text" maxlength="50">
+            <input id="cause-name" type="text" minlength="1" maxlength="50" required
+                placeholder="ex. Help Shelter Animals Get Exercise"
+                onfocusout="validateInput('cause-name', 'cause-name-instructions');">
           </li>
           <li>
           <ul>
-            <label class="form-label">Type of Cause</label>
-            <p class="sublabel">
-              Check the boxes which best describe your cause. This will help 
-              people find it.
+            <label class="form-label">Type of Cause<span class="required-asterisk">*</span></label>
+            <p id="cause-type-instructions" class="sublabel">
+              Choose the option which best describe your cause. This will help
+              people find it. (Choose one)
             </p>
             <li>
               <input id="fundraiser-radio" class="search-filter" type="radio" 
-                  value="fundraiser" name="cause-type">
+                  value="fundraiser" name="cause-type" required
+                  onchange="validateInput('fundraiser-radio', 'cause-type-instructions');">
               <label for="fundraiser-radio">Fundraiser</label>
             </li>
             <li>
               <input id="petition-radio" class="search-filter" type="radio" 
-                  value="petition" name="cause-type">
+                  value="petition" name="cause-type"
+                  onchange="validateInput('petition-radio', 'cause-type-instructions');">
               <label for="petition-radio">Petition</label>
             </li>
             <li>
               <input id="event-radio" class="search-filter" type="radio" 
-                  value="event" name="cause-type">
+                  value="event" name="cause-type"
+                  onchange="validateInput('event-radio', 'cause-type-instructions');">
               <label for="event-radio">Event</label>
             </li>
             <li>
               <input id="other-radio" class="search-filter" type="radio" 
-                  value="other" name="cause-type">
+                  value="other" name="cause-type"
+                  onchange="validateInput('other-radio', 'cause-type-instructions');">
               <label for="other-radio">Other</label>
             </li>
           </ul>
           <li>
-            <label for="cause-location" class="form-label">Location</label>
-            <p class="sublabel">
-              Select the location for the cause. Try to be as specific as 
-              possible, but as broad as needed.
+            <label for="cause-location" class="form-label">Location<span class="required-asterisk">*</span></label>
+            <p id="cause-location-instructions" class="sublabel">
+              Select the location for the cause. Try to be as
+              specific as possible, but as broad as needed.
             </p>
-            <input id="cause-location" type="text">
+            <input id="cause-location" type="text" required
+                placeholder="ex. Los Angeles, CA"
+                onfocusout="validateInput('cause-location',
+                'cause-location-instructions');">
           </li>
           <li>
             <label for="cause-description" class="form-label">
-              Description
+              Description<span class="required-asterisk">*</span>
             </label>
-            <p class="sublabel">Describe your cause and why it's important.</p>
-            <textarea id="cause-description" maxlength="256"></textarea>
+            <p id="cause-description-instructions" class="sublabel">
+              Describe your cause and why it's important. (Enter
+              up to 256 characters)
+            </p>
+            <textarea id="cause-description" minlength="1" maxlength="256" required
+                onfocusout="validateInput('cause-description',
+                'cause-description-instructions');"></textarea>
           </li>
           <li>
             <label for="cause-how-to-help" class="form-label">
-              How To Help
+              How To Help<span class="required-asterisk">*</span>
             </label>
-            <p class="sublabel">
-              Describe how people can contribute to the cause. Be sure to 
-              include any specific addresses or links that may be important.
+            <p id="cause-how-to-help-instructions" class="sublabel">
+              Describe how people can contribute to the cause. Be
+              sure to include any specific addresses or links that may be
+              important. (Enter up to 256 characters)
             </p>
-            <textarea id="cause-how-to-help" maxlength="256"></textarea>
+            <textarea id="cause-how-to-help" minlength="1" maxlength="256" required
+                onfocusout="validateInput('cause-how-to-help',
+                'cause-how-to-help-instructions');"></textarea>
           </li>
           <li>
             <label for="cause-website" class="form-label">Website</label>
@@ -141,10 +166,13 @@
             </form>
           </li>
         </ul>
-        <button type="button" onclick="createNewListing()">Submit</button>
-        <button type="button" onclick="displayPreviewListing()">
+        <button id="create-listing-button" class="submission-buttons" type="button"
+            onclick="createNewListing()" disabled>Submit</button>
+        <button id="create-preview-button" class="submission-buttons" type="button"
+            onclick="displayPreviewListing()" disabled>
           Make Preview
         </button>
+        <span id="still-needed" class="invalid-input-instructions">Some information is still required!</span>
       </section>
 
       <section id="preview"></section>
