@@ -18,6 +18,10 @@
   flex-direction: column;
 }
 
+.card-description p {
+  text-align: left;
+}
+
 .card-information {
   align-items: center;
   display: flex;
