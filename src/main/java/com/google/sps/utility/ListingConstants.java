@@ -18,7 +18,8 @@ package com.google.sps.utility;
 public final class ListingConstants {
   public static final int MAX_CONTENT_LEN = 256;
   public static final int MAX_LOCATION_LEN = 256;
-  public static final int MAX_NAME_LEN = 50; 
+  public static final int MAX_NAME_LEN = 50;
+  public static final int MAX_TAGS_LEN = 256;
   // Based on the length of the longest category name (fundraiser)
   public static final int MAX_TYPE_LEN = 10; 
 

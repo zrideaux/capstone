@@ -79,6 +79,15 @@ public class CreateListing extends HttpServlet {
         return;
       }
 
+      String tags;
+      try {
+        tags = ValidateInput.getUserString(request, "tags", 1,
+            ListingConstants.MAX_TAGS_LEN);
+      } catch (Exception e) {
+        ValidateInput.createErrorMessage(e, response);
+        return;
+      }
+
       String type;
       try {
         type = ValidateInput.getUserString(request, "type", 1,
@@ -102,6 +111,7 @@ public class CreateListing extends HttpServlet {
       listingEntity.setProperty("imageURL", imageURL);
       listingEntity.setProperty("location", location);
       listingEntity.setProperty("name", name);
+      listingEntity.setProperty("tags", tags);
       listingEntity.setProperty("timestamp",timestamp);
       listingEntity.setProperty("type", type);
       listingEntity.setProperty("upvotedUserKeys", " ");

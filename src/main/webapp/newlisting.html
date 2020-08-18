@@ -153,6 +153,22 @@
                 'cause-how-to-help-instructions');"></textarea>
           </li>
           <li>
+            <label for="cause-tags" class="form-label">
+              Tags<span class="required-asterisk">*</span>
+            </label>
+            <p id="cause-tags-instructions" class="sublabel">
+              Add some tags to help people find your cause. (Enter up to 256
+              characters, separate tags with commas)
+            </p>
+            <div id="tags-suggestion-container" class="sublabel">
+              <p>Suggested:<p>
+            </div>
+            <textarea id="cause-tags" minlength="1" maxlength="256" required
+                placeholder="ex. dogs, animal, shelter, LA"
+                onfocusout="validateInput('cause-tags',
+                'cause-tags-instructions');"></textarea>
+          </li>
+          <li>
             <label for="cause-website" class="form-label">Website</label>
             <p class="sublabel">
               If you have a website surrounding the cause, be sure to link it here.
