@@ -22,7 +22,7 @@ function createScrollToTopButton(classAttribute = '', scrollPast) {
   const goToTopButton = createButtonElement('Back to top', classAttribute + 
       ' card-button', goToTopButtonId);
   goToTopButton.style.display = 'none';
-  makeElementScrollToTop(goToTopButton, '0');
+  makeElementScrollToTop(goToTopButton);
   window.onscroll = function() {scrollFunction(goToTopButton, scrollPast)};
   return goToTopButton;
 }
@@ -99,7 +99,7 @@ function addBackToTopButtonBefore(buttonClassAttribute, beforeElementId,
  *     clicked/entered.
  * @param tabindex The tabindex of this element.
  */
-function makeElementScrollToTop(element, tabindex = 0) {
+function makeElementScrollToTop(element, tabindex = '0') {
   element.style.cursor = 'pointer';
   keyboardAccessible(element, scrollToTop, scrollToTop, tabindex);
 }

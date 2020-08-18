@@ -164,7 +164,7 @@ function createListingTabs(listingsDisplay, createdListingsId,
   divTabs.appendChild(createTab(
     listingsDisplay, createdListingsId, upvotedListingsId, '3', 
     upvotedListingsTabId, createdListingsTabClass, createdListingsTabId, 
-    'Created Listings', '#8EEEDE'));
+    'Created Listings', true));
     
   // Create Upvoted Listings tab.
   divTabs.appendChild(createTab(
