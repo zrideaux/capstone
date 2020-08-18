@@ -3,6 +3,10 @@ a {
   text-decoration: none;	
 }
 
+.back-to-top-user {
+  margin-top: 1rem;
+}
+
 .created-listings-tab {
   background: #8EEEDE;
   margin-right: 1.5rem;

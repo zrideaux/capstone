@@ -1,5 +1,10 @@
 import { authenticate } from './authentication.js';
 
+import {
+  addBackToTopButton,
+  makeNavBarScrollToTop
+} from './scroll-to-top.js';
+
 import { 
   createAElement,
   createDivElement, 
@@ -22,6 +27,7 @@ import {
  */
 window.onload = function() {
   authenticate(getUserProfile);
+  makeNavBarScrollToTop();
 }
 
 /**
@@ -37,6 +43,13 @@ export default function getUserProfile() {
           displayErrorMessage(user);
         } else {
           divCardContainerElement.appendChild(createUserProfile(user));
+
+          /**
+            * Add a Back to top button that appears in the user info when the 
+            *     user scrolls past the listing container.
+            */
+          addBackToTopButton('back-to-top-user', 'user-info', 
+              'user-listing-container');
         }
       })
 }
@@ -49,14 +62,15 @@ export default function getUserProfile() {
  */
 function createUserProfile(user) {
   const divCardInfoElement = createDivElement(
-      '', 'card-information-container shadow-box', '');
+      '', 'card-information-container shadow-box user-card', '');
   
   // Creating User card information.
-  divCardInfoElement.appendChild(createUserInformation(user.bio, user.email, user.username));
+  divCardInfoElement.appendChild(createUserInformation(user.bio, user.email, 
+      user.username));
 
   // Creating User card description.
   divCardInfoElement.appendChild(createUserListings(user.createdListings, 
-      user.upvotedListings));
+      user.upvotedListings)); 
 
   return divCardInfoElement;
 }  
@@ -71,7 +85,7 @@ function createUserProfile(user) {
  */
 function createUserInformation(bio, email, name) {
   const divCardInformation = createDivElement('', 'card-information profile',
-      '');
+      'user-info');
 
   divCardInformation.appendChild(
       createImgElement('', 'profile picture', 'card-picture', ''));
@@ -88,7 +102,7 @@ function createUserInformation(bio, email, name) {
 
   divCardInformation.appendChild(
       createAElement('Create listing', 'newlisting.html', '', 'card-button', '')
-      ); 
+      );
 
   return divCardInformation;
 }
@@ -114,7 +128,7 @@ function createUserListings(createdListings, upvotedListings) {
       createdListingsId, upvotedListingsId));
 
   const divUserListingContainer = createDivElement('', 'user-listing-container',
-      '');
+      'user-listing-container');
   divUserListings.appendChild(divUserListingContainer);
   
   // Create user's created listings.
