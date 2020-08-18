@@ -8,12 +8,15 @@ a {
 }
 
 .created-listings-tab {
-  background: #8EEEDE;
   margin-right: 1.5rem;
 }
 
 .profile {
   align-self: flex-start;
+}
+
+.tab-default {
+  background: #8EEEDE;
 }
 
 .tab-listings-description {

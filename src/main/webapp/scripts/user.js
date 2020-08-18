@@ -164,7 +164,7 @@ function createListingTabs(listingsDisplay, createdListingsId,
   divTabs.appendChild(createTab(
     listingsDisplay, createdListingsId, upvotedListingsId, '3', 
     upvotedListingsTabId, createdListingsTabClass, createdListingsTabId, 
-    'Created Listings'));
+    'Created Listings', '#8EEEDE'));
     
   // Create Upvoted Listings tab.
   divTabs.appendChild(createTab(
@@ -185,14 +185,24 @@ function createListingTabs(listingsDisplay, createdListingsId,
  * @return a div that represents a tab.
  */
 function createTab(elementDisplay, elementId, elementOtherId, hNum, otherTabId,
-    tabClass, tabId, tabName) {
+    tabClass, tabId, tabName, isDefaultTab = false) {
   // Create <h> element that represents a tab button.
-  const hTab = createHElement(tabName, hNum, 'tab pill ' + tabClass, tabId);
-
+  const hTab = createDivElement('', 'tab ' + tabClass, '');
   hTab.setAttribute("tabindex", "0");
 
+  let tabContentClass = '';
+  if (isDefaultTab) {
+    tabContentClass = 'tab-default';  
+  } 
+
+  const hTabContent = createHElement(tabName, hNum, 'tab-content pill ' + tabContentClass,
+      tabId);
+  hTab.appendChild(hTabContent);
+
+  hTabContent.setAttribute("tabindex", "-1");
+
   // When enter is pressed on this div, change the display to elementDisplay.
-  hTab.addEventListener("click", function(){ 
+  hTabContent.addEventListener("click", function(){ 
     toggleTabDisplay(elementDisplay, elementId, elementOtherId, otherTabId,   
         tabId) 
   });
