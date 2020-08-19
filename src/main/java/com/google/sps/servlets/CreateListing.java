@@ -82,7 +82,7 @@ public class CreateListing extends HttpServlet {
       String tags;
       try {
         tags = ValidateInput.getUserString(request, "tags", 1,
-            ListingConstants.MAX_TAGS_LEN);
+            ListingConstants.MAX_TAGS_LEN).toLowerCase();
       } catch (Exception e) {
         ValidateInput.createErrorMessage(e, response);
         return;
