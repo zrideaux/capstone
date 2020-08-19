@@ -23,6 +23,9 @@ public final class ListingConstants {
   // Based on the length of the longest category name (fundraiser)
   public static final int MAX_TYPE_LEN = 10; 
 
+  // 
+  public static final int KEYWORD_MIN = 0;
+  public static final int KEYWORD_MAX = 64;
   // Based on the length of the String when no filters are checked (MIN) or 
   //     when all filters are checked and separated by "@" (MAX)
   public static final int FILTER_MIN = 0;
