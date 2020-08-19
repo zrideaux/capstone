@@ -10,6 +10,5 @@ import {
  */
 export default function addLoadingSpinner(containerElement, idAttribute) {
   containerElement.appendChild(
-    createDivElement('', 'loading-spinner', idAttribute));
-    console.log("Added loader");
+      createDivElement('', 'loading-spinner', idAttribute));
 }
