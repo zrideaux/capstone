@@ -10,6 +10,9 @@ import {
 } from './htmlElement.js';
 
 import { 
+  displayErrorMessage,
+  isErrorMessage,
+  isSuccessMessage,
   keyboardAccessible,
   toggleDisplay 
 } from './miscellaneous.js';
@@ -54,7 +57,7 @@ export default function createListingPreview(listing, listingDisplay, listingId)
   const location = listing.location;
   const name = listing.name;
   const type = listing.type;
-  sectionListing.appendChild(createListingDetails(description, location, name, 
+  sectionListing.appendChild(createListingDetails(description, listing, location, name, 
       type));
 
   return sectionListing;
@@ -88,11 +91,11 @@ function createListingInformation(downvotes, imageURL, key, upvotes, vote) {
  * @param type the type of the listing 
  * @return a div with the description, name, and tags of a listing
  */
-function createListingDetails(description, location, name, type) {
+function createListingDetails(description, listing, location, name, type) {
   const divListingDetails = createDivElement('', 'listing-info-container', '');
 
   // Creating listing heading
-  divListingDetails.appendChild(createListingHeading(name, type));
+  divListingDetails.appendChild(createListingHeading(listing, name, type));
 
   divListingDetails.appendChild(
     createPElement(location, 'listing-preview-details', ''));
@@ -110,16 +113,48 @@ function createListingDetails(description, location, name, type) {
  * @param type the type of the listing 
  * @return a div with the name and tags of a listing.
  */
-function createListingHeading(name, type) {
+function createListingHeading(listing, name, type) {
   const divListingHeading = createDivElement('', 'listing-heading-container', 
       '');
   
-  divListingHeading.appendChild(
+  const divListingTitle = createDivElement('', '', '');
+  divListingHeading.appendChild(divListingTitle);
+  
+  divListingTitle.appendChild(
     createHElement(name, 2, 'listing-preview-name', ''));
+  
+  
+  divListingTitle.appendChild(createEdit(listing));
 
   // Creating listing tags
   divListingHeading.appendChild(createListingTags(type));
   return divListingHeading;
+}
+
+function createEdit(listing) {
+  const editPElement = createPElement('Edit', '', '');
+  const moveToEditListingPage = () => { editListingPageUrl(listing); };
+  keyboardAccessible(editPElement, moveToEditListingPage, moveToEditListingPage);
+
+  return editPElement;
+}
+
+function editListingPageUrl(listing) {
+  // let query = 'https://8080-f5da844c-d71d-4305-a2c7-40e01cbd14f9.us-east1.cloudshell.dev/newlisting.html?';
+  const query = '/verify-listing-ownership?listing-key=' + listing.key;
+
+  console.log("Fetching EDIT listing page");
+  fetch(query)
+      .then(response => response.json())
+      .then((message) => {
+        if(isErrorMessage(message)) {
+          displayErrorMessage(message);
+        } else if(isSuccessMessage(message)) {
+          // let url = window.location.hostname + '/newlisting.html?key='  + 
+          //     listing.key;
+          location.replace('/newlisting.html?key=' + listing.key);
+        }
+      })
 }
 
 /**
