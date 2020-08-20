@@ -57,7 +57,7 @@ export default function createListingPreview(listing, listingDisplay, listingId)
   const location = listing.location;
   const name = listing.name;
   const type = listing.type;
-  sectionListing.appendChild(createListingDetails(description, listing, location, name, 
+  sectionListing.appendChild(createListingDetails(description, key, location, name, 
       type));
 
   return sectionListing;
@@ -83,19 +83,20 @@ function createListingInformation(downvotes, imageURL, key, upvotes, vote) {
 }
 
 /**
- * Create an element with listing details
+ * Create an element with listing details.
  *
- * @param description the description associated with this listing
- * @param lcoation the location of this listing.
- * @param name the name of this listing
- * @param type the type of the listing 
- * @return a div with the description, name, and tags of a listing
+ * @param description the description associated with this listing.
+ * @param key the key of this listing.
+ * @param location the location of this listing.
+ * @param name the name of this listing.
+ * @param type the type of the listing .
+ * @return a div with the description, name, and tags of a listing.
  */
-function createListingDetails(description, listing, location, name, type) {
+function createListingDetails(description, key, location, name, type) {
   const divListingDetails = createDivElement('', 'listing-info-container', '');
 
   // Creating listing heading
-  divListingDetails.appendChild(createListingHeading(listing, name, type));
+  divListingDetails.appendChild(createListingHeading(key, name, type));
 
   divListingDetails.appendChild(
     createPElement(location, 'listing-preview-details', ''));
@@ -107,13 +108,14 @@ function createListingDetails(description, listing, location, name, type) {
 }
 
 /**
- * Create an element with listing heading
+ * Create an element with listing heading.
  *
- * @param name the name of this listing
- * @param type the type of the listing 
+ * @param key the key of this listing.
+ * @param name the name of this listing.
+ * @param type the type of the listing .
  * @return a div with the name and tags of a listing.
  */
-function createListingHeading(listing, name, type) {
+function createListingHeading(key, name, type) {
   const divListingHeading = createDivElement('', 'listing-heading-container', 
       '');
   
@@ -124,23 +126,35 @@ function createListingHeading(listing, name, type) {
     createHElement(name, 2, 'listing-preview-name', ''));
   
   
-  divListingTitle.appendChild(createEdit(listing));
+  divListingTitle.appendChild(createEdit(key));
 
   // Creating listing tags
   divListingHeading.appendChild(createListingTags(type));
   return divListingHeading;
 }
 
-function createEdit(listing) {
+/**
+ * Create an edit element. 
+ *
+ * @param key the key of this listing.
+ * @return A p element that represents an edit element.
+ */
+function createEdit(key) {
   const editPElement = createPElement('Edit', '', '');
-  const moveToEditListingPage = () => { editListingPageUrl(listing.key); };
+  const moveToEditListingPage = () => { editListingPageUrl(key); };
   keyboardAccessible(editPElement, moveToEditListingPage, moveToEditListingPage);
 
   return editPElement;
 }
 
-function editListingPageUrl(listingKey) {
-  const query = '/fetch-listing?listing-key=' + listingKey;
+/**
+ * Verifies that the user has access to this listing and route them to the new 
+ *     listing page if they do.
+ *
+ * @param key the key of this listing.
+ */
+function editListingPageUrl(key) {
+  const query = '/fetch-listing?listing-key=' + key;
 
   fetch(query)
       .then(response => response.json())
