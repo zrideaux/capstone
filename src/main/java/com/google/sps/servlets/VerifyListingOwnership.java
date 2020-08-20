@@ -43,16 +43,13 @@ public class VerifyListingOwnership extends HttpServlet {
       throws IOException {
     String listingKeyString = ValidateInput.getParameter(request, "listing-key",
         "");
-
-    System.err.println("VERIFY 1");
     
     if (listingKeyString.length() > 0) {
       UserService userService = UserServiceFactory.getUserService();
-      System.err.println("VERIFY 2");
+
       if (userService.isUserLoggedIn()) {
         String userEmail = userService.getCurrentUser().getEmail();
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        System.err.println("VERIFY 3");
 
         Entity listingEntity;
         try {

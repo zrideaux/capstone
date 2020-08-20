@@ -140,18 +140,14 @@ function createEdit(listing) {
 }
 
 function editListingPageUrl(listing) {
-  // let query = 'https://8080-f5da844c-d71d-4305-a2c7-40e01cbd14f9.us-east1.cloudshell.dev/newlisting.html?';
   const query = '/verify-listing-ownership?listing-key=' + listing.key;
 
-  console.log("Fetching EDIT listing page");
   fetch(query)
       .then(response => response.json())
       .then((message) => {
         if(isErrorMessage(message)) {
           displayErrorMessage(message);
         } else if(isSuccessMessage(message)) {
-          // let url = window.location.hostname + '/newlisting.html?key='  + 
-          //     listing.key;
           location.replace('/newlisting.html?key=' + listing.key);
         }
       })
