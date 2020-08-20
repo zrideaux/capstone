@@ -91,13 +91,35 @@ function isErrorMessage(str) {
 }
 
 /** 
- * Creates an alert with the errorMessage
+ * Creates an alert with the errorMessage and adds it to the bottom of
+ * a page.
  *
  * @param errorMessage the error message to display to the user
  */
 function displayErrorMessage(errorMessage) {
-  console.log(errorMessage);
-  window.alert(errorMessage);
+  // Clear existing error messages
+  let errorMessages = document.getElementsByClassName('error-box');
+  for (let i = 0; i < errorMessages.length; i++) {
+    errorMessages[i].remove();
+  }
+
+  // Create a new dismissable error box
+  let errorBox = document.createElement('div');
+  errorBox.className = 'error-box shadow-box';
+
+  let errorText = document.createElement('span');
+  errorText.innerText = errorMessage;
+
+  let errorClose = document.createElement('button');
+  errorClose.className = 'error-close'
+  errorClose.innerText = 'X';
+  errorClose.onclick = () => {
+    errorBox.remove();
+  }
+
+  errorBox.appendChild(errorText);
+  errorBox.appendChild(errorClose);
+  document.body.appendChild(errorBox);
 }
 
 /**

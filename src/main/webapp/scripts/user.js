@@ -48,7 +48,7 @@ export default function getUserProfile() {
             * Add a Back to top button that appears in the user info when the 
             *     user scrolls past the listing container.
             */
-          addBackToTopButton('back-to-top back-to-top-user', 'user-info', 
+          addBackToTopButton('back-to-top-user', 'user-info', 
               'user-listing-container');
         }
       })
@@ -62,7 +62,7 @@ export default function getUserProfile() {
  */
 function createUserProfile(user) {
   const divCardInfoElement = createDivElement(
-      '', 'card-information-container shadow-box', '');
+      '', 'card-information-container shadow-box user-card', '');
   
   // Creating User card information.
   divCardInfoElement.appendChild(createUserInformation(user.bio, user.email, 
@@ -102,7 +102,7 @@ function createUserInformation(bio, email, name) {
 
   divCardInformation.appendChild(
       createAElement('Create listing', 'newlisting.html', '', 'card-button', '')
-      );        
+      );
 
   return divCardInformation;
 }
@@ -139,7 +139,7 @@ function createUserListings(createdListings, upvotedListings) {
   const upvotedListingsClass = 'upvoted-listings';
   divUserListingContainer.appendChild(
       createListings(upvotedListings, upvotedListingsClass, 
-          upvotedListingsId));       
+          upvotedListingsId));
 
   return divUserListings;
 }
