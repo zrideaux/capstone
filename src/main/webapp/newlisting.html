@@ -22,20 +22,6 @@
     </script>
   </head>
   <body>
-    <script type="module">
-      import { 
-        createNewListing,
-        displayPreviewListing
-      } from './scripts/new-listing.js'
-
-      window.createNewListing = function() {
-        createNewListing();
-      }
-      
-      window.displayPreviewListing = function() {
-        displayPreviewListing();
-      }
-    </script>
     <header id="nav-box" class="shadow-box">
       <nav>
         <a href="index.html"><img id="logo" src="images/placeholder_logo.png" alt="logo"></a>
@@ -144,8 +130,8 @@
             </form>
           </li>
         </ul>
-        <button type="button" onclick="createNewListing()">Submit</button>
-        <button type="button" onclick="displayPreviewListing()">
+        <button id="create-listing" type="button">Submit</button>
+        <button id="create-preview" type="button">
           Make Preview
         </button>
       </section>

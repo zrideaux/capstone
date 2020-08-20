@@ -7,10 +7,16 @@ import {
 
 import { createListing } from './listing.js';
 
-import { getRadioByName	} from './miscellaneous.js';
+import {
+  displayErrorMessage,
+  getRadioByName,
+  getUrlParams,
+  isErrorMessage,
+  keyboardAccessibleOnClick
+} from './miscellaneous.js';
 
 window.onload = function() {
-  authenticate();
+  authenticate(getListingKey);
 }
 
 /**
@@ -109,7 +115,58 @@ function redirectToUserPage() {
   location.replace('user.html');
 }
 
-export {
-  createNewListing,
-  displayPreviewListing
-};
+// Get the value from the url
+
+/**
+ * Determines whether the user is creating or updating a listing
+ */
+function getListingKey() {
+  const params = getUrlParams();
+  const createListingButton = document.getElementById('create-listing');
+  const createPreviewButton = document.getElementById('create-preview');
+
+  // The user is updating a listing 
+  if (Object.keys(params).length > 0) {
+    const query = '/fetch-listing?listing-key=' + params["key"];
+    console.log("CALL servlet: " + params["key"]);
+
+    fetch(query)
+        .then(response => response.json())
+        .then((listing) => {
+          console.log("RECEIVE info from servlet.");
+          if(isErrorMessage(listing)) {
+            displayErrorMessage(listing);
+          } else {
+            populateInputWithListingInfo(listing);
+            keyboardAccessibleOnClick(createListingButton, updateListing);
+            keyboardAccessibleOnClick(createPreviewButton, updatePreview);
+          }
+        })
+  // The user is creating a new listing
+  } else { 
+    console.log("New listing");
+    
+    keyboardAccessibleOnClick(createListingButton, createNewListing);
+    keyboardAccessibleOnClick(createPreviewButton, displayPreviewListing);
+  }
+}
+
+function populateInputWithListingInfo(listing) {
+  console.log("POPULATE input elements.");
+  document.getElementById('cause-name').value = listing.name;
+  document.getElementById(listing.type + '-radio').checked = true;
+  document.getElementById('cause-location').value = listing.location;
+  document.getElementById('cause-description').value = listing.description;
+  document.getElementById('cause-how-to-help').value = listing.howToHelp;
+  if (listing.website.length > 0) {
+    document.getElementById('cause-website').value = listing.website;
+  }
+}
+
+function updateListing() {
+
+}
+
+function updatePreview() {
+
+}

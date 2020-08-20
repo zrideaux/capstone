@@ -48,7 +48,32 @@ function getRadioByName(name) {
     }	
   }	
   return '';	
-}	
+}
+
+/**
+ * Gets the parameters (key and value) from the url.
+ *
+ * @return an object
+ */
+function getUrlParams() {
+  var url = document.location.href,
+      data = {}, 
+      datum,
+      queryString = url.split('?');
+  console.log("URL: " + url);
+  if (queryString.length > 1) {
+    const params = queryString[1].split('&');
+    console.log("QUERY string: " + queryString[1]);
+    for (var i = 0, l = params.length; i < l; i++) {
+      console.log("PARAMS: " + params[i]);
+      datum = params[i].split('=');
+      console.log("key: " + datum[0] + ", value: " + datum[1]);
+      data[datum[0]] = datum[1];
+    }  
+  }
+
+  return data;
+}
 
 /**
  * Hide all dropdown menus when called.
@@ -129,7 +154,7 @@ function keyboardAccessible(element, onclickFunc, onenterFunc, tabindex = '0') {
  * @param element the element to add a tabIndex and 
  * @param onclickFunc the function to execute with this element is "clicked" on
  */
-function keyboardAccessibleOnClick(element, onclickFunc, onenterFunc) {
+function keyboardAccessibleOnClick(element, onclickFunc, onenterFunc = onclickFunc) {
   // when enter is pressed on this div, change the display to none and hide 
   //     this div
   element.addEventListener('click', onclickFunc);
@@ -221,6 +246,7 @@ export {
   displayErrorMessage,
   getCheckboxesByName,	
   getRadioByName,
+  getUrlParams,
   hideDropdownMenus, 
   ifErrorDisplayMessage,
   isErrorMessage, 
