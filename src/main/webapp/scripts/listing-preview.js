@@ -1,5 +1,4 @@
 import { 
-  createButtonElement, 
   createDivElement, 
   createHElement, 
   createIElement,
@@ -12,7 +11,6 @@ import {
 import { 
   displayErrorMessage,
   isErrorMessage,
-  isSuccessMessage,
   keyboardAccessible,
   toggleDisplay 
 } from './miscellaneous.js';
