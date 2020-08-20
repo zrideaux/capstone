@@ -12,7 +12,34 @@ import createListingInit from './create-listing.js';
 import updateListingInit from './update-listing.js';
 
 window.onload = function() {
-  authenticate(getListingKey);
+  authenticate(newListingInit);
+}
+
+/**
+ * Determines whether the user is creating or updating a listing.
+ */
+function newListingInit() {
+  const params = getUrlParams();
+  const previewButton = document.getElementById('create-preview');
+  const submitButton = document.getElementById('create-listing');
+
+  // The user is updating a listing 
+  if (Object.keys(params).length > 0) {
+    const query = '/fetch-listing?listing-key=' + params["key"];
+
+    fetch(query)
+        .then(response => response.json())
+        .then((listing) => {
+          if(isErrorMessage(listing)) {
+            displayErrorMessage(listing);
+          } else {
+            updateListingInit(listing, previewButton, submitButton);
+          }
+        })
+  // The user is creating a new listing
+  } else {
+    createListingInit(previewButton, submitButton);
+  }
 }
 
 /**
@@ -33,41 +60,6 @@ function appendParameterToFormData(formData) {
   formData.append('description', description);
   formData.append('howToHelp', howToHelp);
   formData.append('website', website);
-}
-
-/**
- * The following functions are used to decipher whether the page will edit or
- *     create a listing.
- */
-
-/**
- * Determines whether the user is creating or updating a listing
- */
-function getListingKey() {
-  const params = getUrlParams();
-  const previewButton = document.getElementById('create-preview');
-  const submitButton = document.getElementById('create-listing');
-
-  // The user is updating a listing 
-  if (Object.keys(params).length > 0) {
-    const query = '/fetch-listing?listing-key=' + params["key"];
-    console.log("CALL servlet: " + params["key"]);
-
-    fetch(query)
-        .then(response => response.json())
-        .then((listing) => {
-          console.log("RECEIVE info from servlet.");
-          if(isErrorMessage(listing)) {
-            displayErrorMessage(listing);
-          } else {
-            updateListingInit(listing, previewButton, submitButton);
-          }
-        })
-  // The user is creating a new listing
-  } else { 
-    console.log("New listing");
-    createListingInit(previewButton, submitButton);
-  }
 }
 
 export { appendParameterToFormData };

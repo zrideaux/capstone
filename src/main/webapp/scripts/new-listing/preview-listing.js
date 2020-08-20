@@ -5,6 +5,8 @@ import {
 
 import { createListing } from './../listing.js';
 
+import { appendParameterToFormData } from './new-listing.js';
+
 /**
  * Creates a listing preview for the user to see.
  */
