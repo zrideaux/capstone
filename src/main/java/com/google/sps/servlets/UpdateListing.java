@@ -24,11 +24,11 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet ("/update-listing")
 public class UpdateListing extends HttpServlet {
   /** 
-   * Updates a Listing
+   * Updates a Listing.
    *
-   * @param request which contains data to retrieve user Entity
-   * @param response User in the form of json or an error 
-   *     message in the form of JSON
+   * @param request contains data to update a listing.
+   * @param response a success message if the listing was updated or an error 
+   *     message if the listing was not.
    */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) 

@@ -24,11 +24,10 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet ("/update-listing-preview")
 public class UpdateListingPreview extends HttpServlet {
   /** 
-   * Creates an updated Listing preview
+   * Creates an updated Listing preview.
    *
-   * @param request which contains data to retrieve user Entity
-   * @param response User in the form of json or an error 
-   *     message in the form of JSON
+   * @param request contains data to update a listing.
+   * @param response JSON that represents a listing.
    */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) 
