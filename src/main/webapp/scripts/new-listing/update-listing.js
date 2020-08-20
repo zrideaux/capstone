@@ -5,6 +5,9 @@ import { keyboardAccessibleOnClick } from './../miscellaneous.js';
 import { sendNewListingFormData } from './submit-listing.js';
 
 /**
+ * Initialize the update listing page.
+ * Populate input elements with listings properties, and add functions to the 
+ *     preview and submit button.
  */
 export default function updateListingInit(listing, previewButton, submitButton) {
   populateInputWithListingInfo(listing);
@@ -19,7 +22,6 @@ export default function updateListingInit(listing, previewButton, submitButton) 
  * @param listing JSON that represents a Listing
  */
 function populateInputWithListingInfo(listing) {
-  console.log("POPULATE input elements.");
   document.getElementById('cause-name').value = listing.name;
   document.getElementById(listing.type + '-radio').checked = true;
   document.getElementById('cause-location').value = listing.location;
@@ -38,6 +40,10 @@ function updateListing() {
   fetchBlobstoreUrlAndSendData(queryString, sendNewListingFormData);
 }
 
+/**
+ * Creates an update preview listing.
+ */
 function updatePreview() {
-
+  let queryString = '/update-listing-preview';
+  // create an update listing preview
 }

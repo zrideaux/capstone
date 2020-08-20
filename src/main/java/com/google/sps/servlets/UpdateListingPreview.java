@@ -21,8 +21,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-@WebServlet ("/update-listing")
-public class UpdateListing extends HttpServlet {
+@WebServlet ("/update-listing-preview")
+public class UpdateListingPreview extends HttpServlet {
   /** 
    * Updates a Listing
    *
@@ -33,6 +33,6 @@ public class UpdateListing extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) 
       throws IOException {
-    // Update listing
+    // Update Listing Preview
   }
 }
