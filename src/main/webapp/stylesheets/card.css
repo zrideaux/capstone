@@ -89,14 +89,21 @@
   z-index: 1;
 }
 
-.tab {
+.tab-content {
   color: black;
   cursor: pointer;
-  margin-left: 2rem;
-  outline: none;
   padding: .2rem;
   text-align: center;
   text-decoration: underline;
+}
+
+.tab:focus,
+.tab-content:focus {
+  outline: none;
+}
+
+.tab:focus > .tab-content {
+  outline: auto;
 }
 
 .tabs {

@@ -216,16 +216,34 @@ function toggleDropdown(menuName) {
  * @param otherTabId used to change the background of the other tab to inherit
  * @param tabId used to change the background of this tab to #8EEEDE
  */
+// function toggleTabDisplay(elementDisplay, elementId, otherElementId,    
+//     otherTabId, tabId) {
+//   toggleDisplay(elementDisplay, elementId);
+//   let tab = document.getElementById(tabId);
+//   // tab.style.background = '#8EEEDE';
+//   tab.classList.toggle('tab-selected');
+
+//   let otherListing = document.getElementById(otherElementId);
+//   otherListing.style.display = 'none';
+//   let otherTab = document.getElementById(otherTabId);
+//   otherTab.style.background = 'inherit';
+// }
+
 function toggleTabDisplay(elementDisplay, elementId, otherElementId,    
     otherTabId, tabId) {
   toggleDisplay(elementDisplay, elementId);
+  
   let tab = document.getElementById(tabId);
-  tab.style.background = '#8EEEDE';
 
-  let otherListing = document.getElementById(otherElementId);
-  otherListing.style.display = 'none';
-  let otherTab = document.getElementById(otherTabId);
-  otherTab.style.background = 'inherit';
+  if (! tab.classList.contains('tab-selected')) {
+    tab.classList.toggle('tab-selected');
+
+    let otherListing = document.getElementById(otherElementId);
+    otherListing.style.display = 'none';
+    let otherTab = document.getElementById(otherTabId);
+    otherTab.classList.toggle('tab-selected');
+  }
+  
 }
 
 export { 
