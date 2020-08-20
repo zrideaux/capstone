@@ -49,7 +49,6 @@ public class FetchListing extends HttpServlet {
       UserService userService = UserServiceFactory.getUserService();
 
       if (userService.isUserLoggedIn()) {
-        String userEmail = userService.getCurrentUser().getEmail();
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
         Entity listingEntity;
@@ -61,9 +60,9 @@ public class FetchListing extends HttpServlet {
           return;
         }
 
+        String userEmail = userService.getCurrentUser().getEmail();
         String listingEntityOwnersEmail = (String) listingEntity.getProperty(
             "ownersEmail");
-
         if (userEmail.equals(listingEntityOwnersEmail)) {
           Listing listing = Listing.createListing(listingEntity);
 
