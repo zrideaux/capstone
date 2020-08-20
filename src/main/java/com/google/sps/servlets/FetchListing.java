@@ -33,7 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet ("/fetch-listing")
 public class FetchListing extends HttpServlet {
   /** 
-   * 
+   * Creates and returns a Listing from a listing Key.
    *
    * @param request which contains data to retrieve user Entity
    * @param response User in the form of json or an error 
