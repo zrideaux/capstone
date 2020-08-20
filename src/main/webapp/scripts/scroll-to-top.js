@@ -18,7 +18,7 @@ function createScrollToTopButton(scrollPast, classAttribute = '') {
   goToTopButton.style.display = 'none';
 
   makeElementScrollToTop(goToTopButton);
-  window.onscroll = function() {toggleOnScroll(goToTopButton, scrollPast)};
+  window.onscroll = () => {toggleOnScroll(goToTopButton, scrollPast)};
   return goToTopButton;
 }
 
