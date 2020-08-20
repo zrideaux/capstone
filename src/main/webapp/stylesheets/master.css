@@ -20,6 +20,25 @@ header {
   z-index: 1;
 }
 
+.listing-edit {
+  margin-right: 1rem;
+}
+
+.listing-edit:hover {
+  text-decoration: underline;
+}
+
+.listing-tags-container {
+  margin: auto 0px;
+}
+
+.listing-tag {
+  background-color: #8EEEDE;
+  border-radius: 15px;
+  color: #000000;
+  padding: 3px 15px;
+}
+
 #logo {
   height: 2em;
 }
@@ -61,11 +80,6 @@ nav {
   background-color: #EEEEEE;
 }
 
-ul {
-  list-style: none;
-  padding: 0;
-}
-
 .shadow-box {
   background-color: #FFFFFF;
   border-radius: 15px;
@@ -76,13 +90,7 @@ ul {
   padding: 10px;
 }
 
-.listing-tags-container {
-  margin: auto 0px;
-}
-
-.listing-tag {
-  background-color: #8EEEDE;
-  border-radius: 15px;
-  color: #000000;
-  padding: 3px 15px;
+ul {
+  list-style: none;
+  padding: 0;
 }

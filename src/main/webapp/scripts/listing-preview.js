@@ -110,24 +110,23 @@ function createListingDetails(description, key, location, name, type) {
  *
  * @param key the key of this listing.
  * @param name the name of this listing.
- * @param type the type of the listing .
+ * @param type the type of the listing.
  * @return a div with the name and tags of a listing.
  */
 function createListingHeading(key, name, type) {
   const divListingHeading = createDivElement('', 'listing-heading-container', 
       '');
   
-  const divListingTitle = createDivElement('', '', '');
-  divListingHeading.appendChild(divListingTitle);
-  
-  divListingTitle.appendChild(
+  divListingHeading.appendChild(
     createHElement(name, 2, 'listing-preview-name', ''));
   
-  
-  divListingTitle.appendChild(createEdit(key));
+  const divListingSubHeading = createDivElement('', 'listing-sub-heading', '');
+  divListingHeading.appendChild(divListingSubHeading);
 
-  // Creating listing tags
-  divListingHeading.appendChild(createListingTags(type));
+  divListingSubHeading.appendChild(createEdit(key));
+
+  divListingSubHeading.appendChild(createListingType(type));
+
   return divListingHeading;
 }
 
@@ -138,7 +137,7 @@ function createListingHeading(key, name, type) {
  * @return A p element that represents an edit element.
  */
 function createEdit(key) {
-  const editPElement = createPElement('Edit', '', '');
+  const editPElement = createPElement('Edit', 'listing-edit', '');
   const moveToEditListingPage = () => { editListingPageUrl(key); };
   keyboardAccessible(editPElement, moveToEditListingPage, moveToEditListingPage);
 
@@ -166,17 +165,17 @@ function editListingPageUrl(key) {
 }
 
 /**
- * Create an element with listing tags
+ * Create an element with listing type
  *
  * @param type the type of the listing 
  * @return a div with the type of a listing
  */
-function createListingTags(type) {
-  const divListingTags = createDivElement('', 'listing-tags-container', '');
+function createListingType(type) {
+  const divListingType = createDivElement('', 'listing-tags-container', '');
 
-  divListingTags.appendChild(createSpanElement(type, 'listing-tag', ''));
+  divListingType.appendChild(createSpanElement(type, 'listing-tag', ''));
 
-  return divListingTags;
+  return divListingType;
 }
 
 /**
