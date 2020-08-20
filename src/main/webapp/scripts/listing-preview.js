@@ -133,21 +133,21 @@ function createListingHeading(listing, name, type) {
 
 function createEdit(listing) {
   const editPElement = createPElement('Edit', '', '');
-  const moveToEditListingPage = () => { editListingPageUrl(listing); };
+  const moveToEditListingPage = () => { editListingPageUrl(listing.key); };
   keyboardAccessible(editPElement, moveToEditListingPage, moveToEditListingPage);
 
   return editPElement;
 }
 
-function editListingPageUrl(listing) {
-  const query = '/verify-listing-ownership?listing-key=' + listing.key;
+function editListingPageUrl(listingKey) {
+  const query = '/fetch-listing?listing-key=' + listingKey;
 
   fetch(query)
       .then(response => response.json())
-      .then((message) => {
-        if(isErrorMessage(message)) {
-          displayErrorMessage(message);
-        } else if(isSuccessMessage(message)) {
+      .then((listing) => {
+        if(isErrorMessage(listing)) {
+          displayErrorMessage(listing);
+        } else {
           location.replace('/newlisting.html?key=' + listing.key);
         }
       })
