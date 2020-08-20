@@ -58,6 +58,14 @@ textarea {
   width: 100%;
 }
 
+.tag-suggestion {
+  background-color: #EEEEEE;
+  border: 1px solid #424242;
+  border-radius: 15px;
+  margin: 0 0.5em 0.5em 0;
+  padding: 3px 0.5em;
+}
+
 textarea {
   font-family: sans-serif;
   height: 10em;
