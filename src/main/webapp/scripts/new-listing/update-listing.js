@@ -2,7 +2,9 @@ import { fetchBlobstoreUrlAndSendData } from './../blobstore.js';
 
 import { keyboardAccessibleOnClick } from './../miscellaneous.js';
 
-import { sendNewListingFormData } from './submit-listing.js';
+import { appendParameterToFormData } from './new-listing.js';
+
+import { createSendFormDataFunc } from './submit-listing.js';
 
 /**
  * Initialize the update listing page.
@@ -10,6 +12,7 @@ import { sendNewListingFormData } from './submit-listing.js';
  *     preview and submit button.
  */
 export default function updateListingInit(listing, previewButton, submitButton) {
+  const updateListing = createUpdateListingFunc(listing.key);
   populateInputWithListingInfo(listing);
   keyboardAccessibleOnClick(previewButton, updatePreview);
   keyboardAccessibleOnClick(submitButton, updateListing);
@@ -33,11 +36,35 @@ function populateInputWithListingInfo(listing) {
 }
 
 /**
- * Updates the Listing.
+ * Creates a function that will update the Listing.
+ *
+ * @param listingKey the key of the listing entity that will be updated.
+ * @return a function that will update the current listing when called.
  */
-function updateListing() {
+function createUpdateListingFunc(listingKey) {
   let queryString = '/update-listing';
-  fetchBlobstoreUrlAndSendData(queryString, sendNewListingFormData);
+
+  const appendDataFunc = createAppendDataFunc(listingKey);
+  const sendFormDataFunc = createSendFormDataFunc(appendDataFunc);
+
+  return () => {
+    fetchBlobstoreUrlAndSendData(queryString, sendFormDataFunc);
+  }
+}
+
+/**
+ * Creates a function that will take in a formData, append the listing key to 
+ *     the formData, and append data from the new listing page to the formData.
+ *
+ * @param listingKey the key of the listing entity that will be updated.
+ * @return a function that will append parameters to a formData.
+ */
+function createAppendDataFunc(listingKey) {
+  return (formData) => {
+    appendParameterToFormData(formData);
+    
+    formData.append('listing-key', listingKey);
+  }
 }
 
 /**

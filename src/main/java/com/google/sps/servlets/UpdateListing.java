@@ -35,13 +35,14 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet ("/update-listing")
 public class UpdateListing extends HttpServlet {
   /** 
-   * Updates a Listing
+   * Updates a Listing.
    *
-   * @param request contains data to retrieve params.
-   * @param response 
+   * @param request contains data to update a listing.
+   * @param response a success message if the listing was updated or an error 
+   *     message if the listing was not.
    */
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) 
+  public void doPost(HttpServletRequest request, HttpServletResponse response) 
       throws IOException {
     String listingKeyString = ValidateInput.getParameter(request, "listing-key",
         "");
