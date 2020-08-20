@@ -151,4 +151,22 @@ public final class EntityUtility {
 
     return entityKeyStringArray;
   }
+
+  /**
+   * Updates an Entities property value if the stringPropertyValue's length is 
+   *     greater than 0 and it is not the same as the current property value.
+   *
+   * @param entity the entity to update.
+   * @param propertyName the name of the property to update.
+   * @param stringPropertyValue the new property value to update to.
+   */
+  public static void updateStringProperty(Entity entity, String propertyName, 
+      String stringPropertyValue) {
+    if (stringPropertyValue.length() > 0) {
+      String currentStringValue = (String) entity.getProperty(propertyName);
+      if (!stringPropertyValue.equals(currentStringValue)) {
+        entity.setProperty(propertyName, stringPropertyValue);
+      }
+    }
+  }  
 }
