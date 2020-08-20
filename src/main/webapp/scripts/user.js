@@ -182,7 +182,7 @@ function createListingTabs(listingsDisplay, createdListingsId,
  * @param elementId the id of the element associated with this tab
  * @param hNum the number for the heading (ex: h1 ,h2, h3)
  * @param tabName the name of this name that is displayed to the user
- * @param isDefaultTab if this is the defailt tab, highlight it
+ * @param isDefaultTab if this is the default tab, highlight it
  * @return a div that represents a tab.
  */
 function createTab(elementDisplay, elementId, elementOtherId, hNum, otherTabId,
@@ -193,7 +193,7 @@ function createTab(elementDisplay, elementId, elementOtherId, hNum, otherTabId,
 
   let tabContentClass = '';
   if (isDefaultTab) {
-    tabContentClass = 'tab-default';  
+    tabContentClass = 'tab-selected';  
   } 
 
   const hTabContent = createHElement(tabName, hNum, 'tab-content pill ' + tabContentClass,
@@ -203,9 +203,9 @@ function createTab(elementDisplay, elementId, elementOtherId, hNum, otherTabId,
   hTabContent.setAttribute("tabindex", "-1");
 
   // When h elemnt is clicked on, change the display to elementDisplay.
-  hTabContent.addEventListener("click", function(){ 
+  hTabContent.addEventListener("click", function() { 
     toggleTabDisplay(elementDisplay, elementId, elementOtherId, otherTabId,   
-        tabId) 
+        tabId);
   });
 
   // When enter is pressed on this div, change the display to elementDisplay.
