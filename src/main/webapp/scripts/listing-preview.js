@@ -120,6 +120,7 @@ function createListingHeading(key, name, type) {
   divListingHeading.appendChild(
     createHElement(name, 2, 'listing-preview-name', ''));
   
+  // Group the edit and type together
   const divListingSubHeading = createDivElement('', 'listing-sub-heading', '');
   divListingHeading.appendChild(divListingSubHeading);
 
