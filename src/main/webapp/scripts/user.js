@@ -164,7 +164,7 @@ function createListingTabs(listingsDisplay, createdListingsId,
   divTabs.appendChild(createTab(
     listingsDisplay, createdListingsId, upvotedListingsId, '3', 
     upvotedListingsTabId, createdListingsTabClass, createdListingsTabId, 
-    'Created Listings'));
+    'Created Listings', true));
     
   // Create Upvoted Listings tab.
   divTabs.appendChild(createTab(
@@ -182,21 +182,33 @@ function createListingTabs(listingsDisplay, createdListingsId,
  * @param elementId the id of the element associated with this tab
  * @param hNum the number for the heading (ex: h1 ,h2, h3)
  * @param tabName the name of this name that is displayed to the user
+ * @param isDefaultTab if this is the default tab, highlight it
  * @return a div that represents a tab.
  */
 function createTab(elementDisplay, elementId, elementOtherId, hNum, otherTabId,
-    tabClass, tabId, tabName) {
+    tabClass, tabId, tabName, isDefaultTab = false) {
   // Create <h> element that represents a tab button.
-  const hTab = createHElement(tabName, hNum, 'tab pill ' + tabClass, tabId);
-
+  const hTab = createDivElement('', 'tab ' + tabClass, '');
   hTab.setAttribute("tabindex", "0");
 
-  // When enter is pressed on this div, change the display to elementDisplay.
-  hTab.addEventListener("click", function(){ 
+  let tabContentClass = '';
+  if (isDefaultTab) {
+    tabContentClass = 'tab-selected';  
+  } 
+
+  const hTabContent = createHElement(tabName, hNum, 'tab-content pill ' + tabContentClass,
+      tabId);
+  hTab.appendChild(hTabContent);
+
+  hTabContent.setAttribute("tabindex", "-1");
+
+  // When h elemnt is clicked on, change the display to elementDisplay.
+  hTabContent.addEventListener("click", function() { 
     toggleTabDisplay(elementDisplay, elementId, elementOtherId, otherTabId,   
-        tabId) 
+        tabId);
   });
 
+  // When enter is pressed on this div, change the display to elementDisplay.
   hTab.addEventListener('keypress', function (e) {
     if (e.key === 'Enter') {
       toggleTabDisplay(elementDisplay, elementId, elementOtherId, otherTabId, 

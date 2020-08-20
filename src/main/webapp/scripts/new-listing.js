@@ -44,8 +44,6 @@ function displayPreviewListing() {
   containerElement.innerHTML = '';
 
   fetchBlobstoreUrlAndSendData(queryString, sendPreviewListingFormData);
-
-  window.location.href = '#preview-listings';
 }
 
 /**
@@ -70,6 +68,18 @@ function createPreviewListing(listing) {
   const containerElement = document.getElementById("preview");
   containerElement.appendChild(
       createListing('preview-listings', listing));
+
+  $(document).ready(function(){
+    const previewHash = '#preview';
+    const $preview = $(previewHash);
+    const bottom = $preview.position().top + $preview.offset().top + 
+        $preview.outerHeight(true);
+    $('html, body').animate({
+        scrollTop: bottom
+    }, 900, function() {
+      window.location.hash = previewHash;
+    });
+  });
 }
 
 // The following functions are used to create a new listing
