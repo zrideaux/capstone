@@ -15,7 +15,7 @@ a {
   align-self: flex-start;
 }
 
-.tab-default {
+.tab-selected {
   background: #8EEEDE;
 }
 

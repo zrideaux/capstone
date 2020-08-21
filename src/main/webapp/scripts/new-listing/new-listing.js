@@ -20,8 +20,8 @@ window.onload = function() {
 function newListingInit() {
   const searchParams = new URLSearchParams(document.location.search);
 
-  const previewButton = document.getElementById('create-preview');
-  const submitButton = document.getElementById('create-listing');
+  const previewButton = document.getElementById('create-preview-button');
+  const submitButton = document.getElementById('create-listing-button');
 
   // The user is updating a listing 
   if (searchParams.has('key')) {

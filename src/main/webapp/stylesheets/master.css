@@ -6,10 +6,10 @@ body {
   margin: 0;
 }
 
-.back-to-top {
-  background-color: #bce3e1 !important;
+#back-to-top {
+  background-color: #bce3e1;
   border: none;
-  color: black !important;
+  color: black;
   font-size: 1rem;
   z-index: 1;
 }
@@ -93,4 +93,23 @@ nav {
 ul {
   list-style: none;
   padding: 0;
+}
+
+.error-box {
+  align-items: flex-start;
+  background-color: #D9216A;
+  bottom: 15px;
+  color: #FFFFFF;
+  display: flex;
+  justify-content: space-between;
+  margin: 15px;
+  position: sticky;
+}
+
+.error-box button {
+  background-color: #8A0B3D;
+  border: none;
+  border-radius: 15px;
+  color: #FFFFFF;
+  width: 10%;
 }

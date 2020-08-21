@@ -23,7 +23,9 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
+import com.google.sps.data.DistanceMatrixOBJ;
 import com.google.sps.data.Listing;
+import com.google.sps.data.FetchListingsData;
 import com.google.sps.data.TrackingResponse;
 import com.google.sps.utility.ExcludeByRadius;
 import com.google.sps.filter.FilterQuery;
@@ -156,13 +158,21 @@ public class FetchListings extends HttpServlet {
     } else {
       // TODO call on LeastViewed sorting algorithm
     }
-
-    if (!userLocation.equals("")) {
-      listings = ExcludeByRadius.removeListingsNotInRadius(listings, userLocation, radiusFilter);  
+    
+    String formattedUserLocation = "";
+     
+    if (!userLocation.equals("")) {   
+      DistanceMatrixOBJ distance =  ExcludeByRadius.convertJsonToDMObject(
+        ExcludeByRadius.distanceMatrixJsonURL(userLocation, listings));
+     
+      listings = ExcludeByRadius.cutList(listings, distance, radiusFilter);
+      formattedUserLocation = distance.getOriginAddress();
     }
+   
+    FetchListingsData fetchListingsData = new FetchListingsData(listings, formattedUserLocation);
 
     TrackingResponse trackingListings = new TrackingResponse(timeToBack, 
-        listings);
+        fetchListingsData);
       
     String jsonTrackingListings = new Gson().toJson(trackingListings);
     response.setContentType("application/json;");
