@@ -168,8 +168,7 @@ public class FetchListings extends HttpServlet {
       listings = ExcludeByRadius.cutList(listings, distance, radiusFilter);
       formattedUserLocation = distance.getOriginAddress();
     }
-    
-
+   
     FetchListingsData fetchListingsData = new FetchListingsData(listings, formattedUserLocation);
 
     TrackingResponse trackingListings = new TrackingResponse(timeToBack, 
