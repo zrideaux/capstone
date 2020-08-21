@@ -23,9 +23,9 @@ public class FetchListingsData {
   public FetchListingsData(List<Listing> listings, String userLocation) {
     this.listings = listings;
     
-    int commaIndex = userLocation.indexOf(",");
     userLocation = userLocation.replace(", USA", "").replaceAll("[0-9]", "");
-
+    int commaIndex = userLocation.indexOf(",");
+    
     if (moreCommas(userLocation)) {
       this.userLocation = userLocation.substring(commaIndex + 1, userLocation.length());    
     } else {
