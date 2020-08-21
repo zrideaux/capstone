@@ -33,48 +33,29 @@ public class ExcludeByRadius {
   private static final String API_KEY = secret.API_KEY;
   
   /**
-   * Takes in a list of Listings that have had their filter applied and omits the Listings that are not 
-   *   located inside the users requested radius. 
-   *  
-   * @param listings ArrayList of listings that are compatible with user.
-   * @param userLocation input of current users location.
-   * @param radius Integer value of radius slected in meters.
-   * @return ArrayList of desired listings that are within the radius set by the user.
+   * Builds complete url from user input origin location and an array of Strings holding 
+   *     the locations of all the listings passed into the method.
+   *
+   * @param userLocation user input location
+   * @param listingLocation listings location
+   * @return Complete URL for call to API
    */ 
-  public static ArrayList<Listing> removeListingsNotInRadius(List<Listing> listings, String userLocation, int radius)
-      throws IOException {
-    ArrayList<Listing> modifiedList = new ArrayList<>(); 
-    
-    //Replaces spaces with + to make url valid
-    
-      
-    //If the radius input is 100+ we change the value to 100,000 km (100 million m) if not multiply input by 1000.
-    if (radius == 101) {
-      radius = 100000000;
-    } else {
-      radius *= 1000;
-    }
-
-    
-    //Recieve a list of listings that are compatible with the search filter get their locations.
+  public static String distanceMatrixJsonURL(String userLocation, List<Listing> listings) {
     String[] listingLocations = new String[listings.size()];
     for (int i = 0; i < listings.size(); i++) {
       listingLocations[i] = listings.get(i).getLocation().replace(" ", "+");
     }
-
-    //Create URL from origin and Locations of other listings   
-    String URL = distanceMatrixJsonURL(userLocation, listingLocations);
-    System.out.println(URL);
-
-    //Convert Json Distance Matrix OBject into Java object.  
-    DistanceMatrixOBJ completeObject = convertJsonToDMObject(URL);
-
-    //Cut list based on radius given.
-    modifiedList = cutList(listings, completeObject, radius);
-
-    return modifiedList;
+    String baseURL = "https://maps.googleapis.com/maps/api/distancematrix/json?";
+    userLocation = userLocation.replace(" ", "+");
+    String completeURL = baseURL + "origins=" + userLocation + "&destinations=";
+    for (int i = 0; i < listingLocations.length; i++) {
+      listingLocations[i] = listingLocations[i].replace(" ", "");
+      completeURL += listingLocations[i] + "|";
+    }
+    completeURL += "&departure_time=now&key=" + API_KEY;
+    return completeURL;
   }
-  
+
   /**
    * Builds complete url from user input origin location and an array of Strings holding 
    *     the locations of all the listings passed into the method.
@@ -92,7 +73,6 @@ public class ExcludeByRadius {
       completeURL += listingLocations[i] + "|";
     }
     completeURL += "&departure_time=now&key=" + API_KEY;
-
     return completeURL;
   }
 
@@ -126,12 +106,6 @@ public class ExcludeByRadius {
       //Converts json object to gson to be converted into java object
       Gson gson = new Gson();
       DistanceMatrixOBJ distance = gson.fromJson(jsonString, DistanceMatrixOBJ.class);
-      
-      //For debugging purposes
-      double[] distances = distance.getDoubleDistanceValues();
-      String[] locations = distance.getListingAddresses();
-      String[] text = distance.getStringDistanceValues();
-      String origin = distance.getOriginAddress();
        
       return distance;
     }
@@ -146,12 +120,18 @@ public class ExcludeByRadius {
    * @return list of listings that are within radius in no particular order
    */
   public static ArrayList<Listing> cutList(List<Listing> listings, DistanceMatrixOBJ distance, int radius) {
+    //If the radius input is 100+ we change the value to 100,000 km (100 million m) if not multiply input by 1000.
+
+    if (radius == 101) {
+      radius = 100000000;
+    } else {
+      radius *= 1000;
+    }
+    
     double[] distancesInMeters = distance.getDoubleDistanceValues();
     String[] destinations = distance.getListingAddresses();
     ArrayList<Listing> returnList = new ArrayList<>();
     HashMap<String, Double> locationAndDistance = new HashMap<>();
-      
-    System.out.println("Radius is "+ radius + " meters");
 
     for (int i = 0; i < distancesInMeters.length; i++) {
       if (destinations[i].contains(", USA")) {
@@ -164,9 +144,10 @@ public class ExcludeByRadius {
         locationAndDistance.put(destinations[i], distancesInMeters[i]);
       }
     }
-        
-    for (int i = 0; i < listings.size(); i++) { 
-      if (locationAndDistance.containsKey(listings.get(i).getLocation().replace(" ", "").toUpperCase())) {
+            
+
+    for (int i = 0; i < listings.size(); i++) {  
+      if (locationAndDistance.containsKey(listings.get(i).getLocation().replace(" ", "").toUpperCase().replaceAll("[0-9]", ""))) {
         System.out.println(listings.get(i).getLocation() + " Should be displayed \n");  
         returnList.add(listings.get(i));
       }
