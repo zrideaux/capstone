@@ -74,7 +74,6 @@ public class ExcludeByRadius {
       completeURL += listingLocations[i] + "|";
     }
     completeURL += "&departure_time=now&key=" + API_KEY;
-   
     return completeURL;
   }
 
