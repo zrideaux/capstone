@@ -5,9 +5,9 @@ import {
 
 /**
  * Fetches a blobstore url from the blobstore servlet and then calls a 
- *     sendFormDataFunc to send FormData to a servlet
+ *     sendFormDataFunc to send FormData to a servlet.
  * 
- * @param servletUrl the servlet that the blobstore url will POST data to
+ * @param servletUrl the servlet that the blobstore url will POST data to.
  * @param sendFormDataFunc the function that calls sendFormData with the 
  *     appropriate parameters. The function has an imageUploadUrl parameter.
  */

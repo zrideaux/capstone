@@ -5,6 +5,10 @@ import {
 
 /**
  * Creates a listing preview for the user to see.
+ *
+ * @param queryString a string that represents a query.
+ * @param sendFormData the function that calls sendFormData with the 
+ *     appropriate parameters. The function has an imageUploadUrl parameter.
  */
 function displayPreviewListing(queryString, sendFormData) {
   const containerElement = document.getElementById("preview");
@@ -14,10 +18,14 @@ function displayPreviewListing(queryString, sendFormData) {
 }
 
 /**
- * Send new-listing form and input related data to the imageUploadURL and 
- *     create a preview with the response from the imageUploadURL servlet.
+ * Creates a function that sends the new-listing form and input related data to 
+ *     the imageUploadURL and creates a preview with the response from the 
+ *     imageUploadURL servlet.
  * 
- * @param imageUploadURL the url to send listing data to.
+ * @param appendDataFunc a function that appends data to a Form Data and has a 
+ *     FormData parameter.
+ * @param createPreviewListingFunc a function that creates a listing preview.
+ * @return a create preview send form data function.
  */
 function createPreviewSendFormDataFunc(appendDataFunc, createPreviewListingFunc) {
   return (imageUploadURL) => {
@@ -28,10 +36,11 @@ function createPreviewSendFormDataFunc(appendDataFunc, createPreviewListingFunc)
 }
 
 /**
- * Creates a listing given a Listing JSON and appends the listing the the 
- *     preview container element in the newlisting page.
+ * Creates a function that creates a listing preview and appends it to the  
+ *     listing preview container element in the newlisting page.
  *
- * @param listing JSON that represents a Listing object.
+ * @param previewListingFunc a function that creates the preview listing.
+ * @return a create preview listing func.
  */
 function createCreatePreviewListingFunc(previewListingFunc) {
   return (response) => {
@@ -54,4 +63,4 @@ export {
   createCreatePreviewListingFunc,
   createPreviewSendFormDataFunc,
   displayPreviewListing
-}
+};

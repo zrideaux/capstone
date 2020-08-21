@@ -25,4 +25,4 @@ function createSubmitSendFormDataFunc(appendDataFunc) {
   }
 }
 
-export { createSubmitSendFormDataFunc }
+export { createSubmitSendFormDataFunc };

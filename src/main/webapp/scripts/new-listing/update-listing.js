@@ -18,6 +18,11 @@ import { createSubmitSendFormDataFunc } from './submit-listing.js';
  * Initialize the update listing page.
  * Populate input elements with listings properties, and add functions to the 
  *     preview and submit button.
+ *
+ * @param listing JSON the represents a listing.
+ * @param newListingTitle an element that represents the new lising title.
+ * @param previewButton an element that represents the preview button.
+ * @param submitButton an element that represents a submit button.
  */
 export default function updateListingInit(listing, newListingTitle, 
     previewButton, submitButton) {
@@ -94,6 +99,12 @@ function createPreviewListingFunc(listingKey) {
   }
 }
 
+/**
+ * Creates a preview listing from the response.
+ *
+ * @param containerElement an element to add the Listings too.
+ * @param response a JSON that represents a list of Listings.
+ */
 function updatedPreviewListingFunc(containerElement, response) {
   containerElement.appendChild(
       createListing('preview-listings', response[0]));

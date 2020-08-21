@@ -125,7 +125,9 @@ public class UpdateListing extends HttpServlet {
     EntityUtility.updateStringProperty(entity, "location", location);
     EntityUtility.updateStringProperty(entity, "name", name);
     EntityUtility.updateStringProperty(entity, "type", type);
-    EntityUtility.updateStringProperty(entity, "website", website);
+    
+    entity.setProperty("website", website);
+
     datastore.put(entity);
   }
 }
