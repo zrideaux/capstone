@@ -18,28 +18,28 @@ function createScrollToTopButton(scrollPast, classAttribute = '') {
   goToTopButton.style.display = 'none';
 
   makeElementScrollToTop(goToTopButton);
-  window.onscroll = function() {toggleOnScroll(goToTopButton, scrollPast)};
+  window.onscroll = () => {toggleOnScroll(goToTopButton, scrollPast)};
   return goToTopButton;
 }
 
-// Scrolls to the top of the page when called with smooth scroll.
-function scrollToTop() {
-  $(document).ready(function(){
-    $('html, body').animate({
-        scrollTop: 0
-    });
-  });
-}
+	// Scrolls to the top of the page when called with smooth scroll.
+	function scrollToTop() {
+	  $(document).ready(function(){
+	    $('html, body').animate({
+		scrollTop: 0
+	    });
+	  });
+	}
 
-/**
- * When the user scrolls past the scrollPast parameter (number in px) from the 
- *     top of the documents, it will show the element.
- *
- * @param element An element whose display will toggle on and off.
- * @param scrollPast A number in px from the top of the document.
- */
-function toggleOnScroll(element, scrollPast) {
-  if (document.body.scrollTop > scrollPast || document.documentElement.scrollTop > scrollPast) {
+	/**
+	 * When the user scrolls past the scrollPast parameter (number in px) from the 
+	 *     top of the documents, it will show the element.
+	 *
+	 * @param element An element whose display will toggle on and off.
+	 * @param scrollPast A number in px from the top of the document.
+	 */
+	function toggleOnScroll(element, scrollPast) {
+	  if (document.body.scrollTop > scrollPast || document.documentElement.scrollTop > scrollPast) {
     element.style.display = "block";
   } else {
     element.style.display = "none";
