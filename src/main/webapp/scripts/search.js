@@ -12,14 +12,14 @@ import {
 
 import addLoadingSpinner from './loading-spinner.js';
 
-import {    
+import {
   checkAllCheckboxes,
   getCheckboxesByName,  
   getRadioByName,
   keyboardAccessible,
   keyboardAccessibleOnClick,
   mapElementsByName
-} from './miscellaneous.js';    
+} from './miscellaneous.js';
 
 import {
   getCall,
