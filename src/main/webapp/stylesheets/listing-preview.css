@@ -38,6 +38,10 @@
   margin: 0;
 }
 
+.listing-sub-heading {
+  display: flex;
+}
+
 .preview-info {
   align-items: center;
   display: flex;
