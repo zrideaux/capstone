@@ -72,7 +72,7 @@ function displayListings() {
  */
 function displayListingsResponseJson(containerElement, trackingResponse, 
     listingsClass, listingsId) {
-  if(isLatestCall(trackingResponse.call)) {
+  if (isLatestCall(trackingResponse.call)) {
     // Remove loader
     containerElement.innerHTML = '';
     
@@ -80,7 +80,7 @@ function displayListingsResponseJson(containerElement, trackingResponse,
     const fetchListingsData = trackingResponse.response;
     
     //Displays users location
-    if(fetchListingsData.userLocation !== ''){
+    if (fetchListingsData.userLocation !== '') {
       document.getElementById('search-location-input').value = fetchListingsData.userLocation;
     }
     // Show listings
