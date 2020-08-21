@@ -47,7 +47,7 @@ public class ExcludeByRadius {
     }
     String baseURL = "https://maps.googleapis.com/maps/api/distancematrix/json?";
     userLocation = userLocation.replace(" ", "+");
-    String completeURL = baseURL+"origins="+userLocation+"&destinations=";
+    String completeURL = baseURL + "origins=" + userLocation + "&destinations=";
     for (int i = 0; i < listingLocations.length; i++) {
       listingLocations[i] = listingLocations[i].replace(" ", "");
       completeURL += listingLocations[i] + "|";
