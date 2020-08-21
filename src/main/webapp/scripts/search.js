@@ -150,13 +150,11 @@ function getCurrentPosition() {
 
 /** Upon access location is equal to the user's latitude and longitude */
 function showResult(results) {
-  console.log('User granted geolocation');
   location = results.coords.latitude +" "+ results.coords.longitude;
 }
 
 /**Upon denial location is equal to the users input */
 function geolocationError(){
-  console.log('User denied geoLocation');
   location = document.getElementById('search-location-input').value;
 }
 
