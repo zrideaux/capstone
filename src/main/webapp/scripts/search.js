@@ -83,10 +83,10 @@ function displayListingsResponseJson(containerElement, trackingResponse,
     if (fetchListingsData.userLocation !== '') {
       document.getElementById('search-location-input').value = fetchListingsData.userLocation;
     }
+    
     // Show listings
     getListingsResponseJson(containerElement, fetchListingsData.listings,  
         listingsClass, listingsId);
-    
   }
 }
 
