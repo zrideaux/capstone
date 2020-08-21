@@ -24,8 +24,37 @@ public class FetchListingsData {
     this.listings = listings;
     
     int commaIndex = userLocation.indexOf(",");
+    userLocation = userLocation.replace(", USA", "").replaceAll("[0-9]", "");
 
-    this.userLocation = userLocation.substring(commaIndex + 1, userLocation.length()).replace(", USA", "").replaceAll("[0-9]", "");
+    if (moreCommas(userLocation)) {
+      this.userLocation = userLocation.substring(commaIndex + 1, userLocation.length());    
+    } else {
+      this.userLocation = userLocation;
+    }
+
+    
+  }
+
+  /**
+   *  Checks to see if there are 2 or more commas in the string
+   *
+   * @param input String getting checked
+   * @return true if 2 or more commas are present
+   */
+  private boolean moreCommas(String input) {
+    int count = 0;
+    
+    for (int i  = 0; i < input.length(); i++) {
+      if (input.charAt(i) == ',') {
+        count++;
+      }
+
+      if(count == 2) {
+        return true;  
+      }
+    }
+
+    return false;
   }
 
 }
