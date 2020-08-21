@@ -20,6 +20,7 @@ window.onload = function() {
  */
 function newListingInit() {
   const params = getUrlParams();
+  const newListingTitle = document.getElementById('new-listing-title');
   const previewButton = document.getElementById('create-preview');
   const submitButton = document.getElementById('create-listing');
 
@@ -33,12 +34,12 @@ function newListingInit() {
           if(isErrorMessage(listing)) {
             displayErrorMessage(listing);
           } else {
-            updateListingInit(listing, previewButton, submitButton);
+            updateListingInit(listing, newListingTitle, previewButton, submitButton);
           }
         })
   // The user is creating a new listing
   } else {
-    createListingInit(previewButton, submitButton);
+    createListingInit(newListingTitle, previewButton, submitButton);
   }
 }
 
