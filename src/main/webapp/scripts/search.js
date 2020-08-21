@@ -75,7 +75,7 @@ function displayListingsResponseJson(containerElement, trackingResponse,
     // Remove loader
     containerElement.innerHTML = '';
     
-    //Holds fetchListingsDatan Object
+    //Holds fetchListingsData Object
     const fetchListingsData = trackingResponse.response;
     
     //Displays users location
