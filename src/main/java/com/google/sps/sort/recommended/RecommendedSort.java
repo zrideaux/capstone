@@ -91,8 +91,6 @@ public final class RecommendedSort {
       listings.get(i).generateReputationScore();
       listings.get(i).generateDistanceScore(distanceValues[i]);
       listings.get(i).generateReputationAndDistanceScore();
-
-      System.out.println(listings.get(i).name + " rep and dis score:" + listings.get(i).reputationAndDistanceScore + "  rep score:"+listings.get(i).reputationScore );
     }
     
     // Sorts listings in descending order based of their reputation and distance score
