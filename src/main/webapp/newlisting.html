@@ -22,6 +22,13 @@
     </script>
   </head>
   <body>
+    <script type="module">
+      import validateInput from './scripts/new-listing/validate-input.js'
+
+      window.validateInput = function(fieldId, instructionsId) {
+        validateInput(fieldId, instructionsId);
+      }
+    </script>
     <header id="nav-box" class="shadow-box">
       <nav>
         <a href="index.html"><img id="logo" src="images/placeholder_logo.png" alt="logo"></a>
