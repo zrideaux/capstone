@@ -68,7 +68,7 @@ public class UpdateListing extends HttpServlet {
 
         if (userEmail.equals(listingEntityOwnersEmail)) {
           try {
-            updateListing(datastore, listingEntity, request);
+            updateListingEntity(datastore, listingEntity, request);
           } catch (Exception e) {
             ValidateInput.createErrorMessage(e, response);
             return;
@@ -94,7 +94,7 @@ public class UpdateListing extends HttpServlet {
    * @param entity a listing Entity to update.
    * @param request contains data to retrieve params.
    */
-  public void updateListing(DatastoreService datastore, Entity entity, 
+  public void updateListingEntity(DatastoreService datastore, Entity entity, 
       HttpServletRequest request) throws Exception {
     String description = ValidateInput.getUserString(request, "description",
         0, ListingConstants.MAX_CONTENT_LEN);
@@ -115,17 +115,17 @@ public class UpdateListing extends HttpServlet {
 
     String website = ValidateInput.getParameter(request, "website", "");
 
-      /**
-       * If length of the property value is 0 and the property value is the
-       *     same as the original value, then keep the original property value.
-       */ 
-      EntityUtility.updateStringProperty(entity, "description", description);
-      EntityUtility.updateStringProperty(entity, "howToHelp", howToHelp);
-      EntityUtility.updateStringProperty(entity, "imageURL", imageURL);
-      EntityUtility.updateStringProperty(entity, "location", location);
-      EntityUtility.updateStringProperty(entity, "name", name);
-      EntityUtility.updateStringProperty(entity, "type", type);
-      EntityUtility.updateStringProperty(entity, "website", website);
-      datastore.put(entity);
+    /**
+     * If length of the property value is 0 and the property value is the
+     *     same as the original value, then keep the original property value.
+     */ 
+    EntityUtility.updateStringProperty(entity, "description", description);
+    EntityUtility.updateStringProperty(entity, "howToHelp", howToHelp);
+    EntityUtility.updateStringProperty(entity, "imageURL", imageURL);
+    EntityUtility.updateStringProperty(entity, "location", location);
+    EntityUtility.updateStringProperty(entity, "name", name);
+    EntityUtility.updateStringProperty(entity, "type", type);
+    EntityUtility.updateStringProperty(entity, "website", website);
+    datastore.put(entity);
   }
 }
