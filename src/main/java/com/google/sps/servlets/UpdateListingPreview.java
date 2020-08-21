@@ -35,10 +35,11 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet ("/update-listing-preview")
 public class UpdateListingPreview extends HttpServlet {
   /** 
-   * Creates an updated Listing preview
+   * Creates an updated Listing preview.
    *
-   * @param request contains data to retrieve params.
-   * @param response 
+   * @param request contains data to update a listing.
+   * @param response JSON that represents an array of listings (the current and 
+   *     updated listings).
    */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) 

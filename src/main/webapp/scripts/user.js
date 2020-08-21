@@ -48,7 +48,7 @@ export default function getUserProfile() {
             * Add a Back to top button that appears in the user info when the 
             *     user scrolls past the listing container.
             */
-          addBackToTopButton('back-to-top back-to-top-user', 'user-info', 
+          addBackToTopButton('back-to-top-user', 'user-info', 
               'user-listing-container');
         }
       })
@@ -62,7 +62,7 @@ export default function getUserProfile() {
  */
 function createUserProfile(user) {
   const divCardInfoElement = createDivElement(
-      '', 'card-information-container shadow-box', '');
+      '', 'card-information-container shadow-box user-card', '');
   
   // Creating User card information.
   divCardInfoElement.appendChild(createUserInformation(user.bio, user.email, 
@@ -102,7 +102,7 @@ function createUserInformation(bio, email, name) {
 
   divCardInformation.appendChild(
       createAElement('Create listing', 'newlisting.html', '', 'card-button', '')
-      );        
+      );
 
   return divCardInformation;
 }
@@ -139,7 +139,7 @@ function createUserListings(createdListings, upvotedListings) {
   const upvotedListingsClass = 'upvoted-listings';
   divUserListingContainer.appendChild(
       createListings(upvotedListings, upvotedListingsClass, 
-          upvotedListingsId));       
+          upvotedListingsId));
 
   return divUserListings;
 }
@@ -182,6 +182,7 @@ function createListingTabs(listingsDisplay, createdListingsId,
  * @param elementId the id of the element associated with this tab
  * @param hNum the number for the heading (ex: h1 ,h2, h3)
  * @param tabName the name of this name that is displayed to the user
+ * @param isDefaultTab if this is the default tab, highlight it
  * @return a div that represents a tab.
  */
 function createTab(elementDisplay, elementId, elementOtherId, hNum, otherTabId,
@@ -192,7 +193,7 @@ function createTab(elementDisplay, elementId, elementOtherId, hNum, otherTabId,
 
   let tabContentClass = '';
   if (isDefaultTab) {
-    tabContentClass = 'tab-default';  
+    tabContentClass = 'tab-selected';  
   } 
 
   const hTabContent = createHElement(tabName, hNum, 'tab-content pill ' + tabContentClass,
@@ -201,12 +202,13 @@ function createTab(elementDisplay, elementId, elementOtherId, hNum, otherTabId,
 
   hTabContent.setAttribute("tabindex", "-1");
 
-  // When enter is pressed on this div, change the display to elementDisplay.
-  hTabContent.addEventListener("click", function(){ 
+  // When h elemnt is clicked on, change the display to elementDisplay.
+  hTabContent.addEventListener("click", function() { 
     toggleTabDisplay(elementDisplay, elementId, elementOtherId, otherTabId,   
-        tabId) 
+        tabId);
   });
 
+  // When enter is pressed on this div, change the display to elementDisplay.
   hTab.addEventListener('keypress', function (e) {
     if (e.key === 'Enter') {
       toggleTabDisplay(elementDisplay, elementId, elementOtherId, otherTabId, 

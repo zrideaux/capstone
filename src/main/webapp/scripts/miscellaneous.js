@@ -51,31 +51,6 @@ function getRadioByName(name) {
 }
 
 /**
- * Gets the parameters (key and value) from the url.
- *
- * @return an object
- */
-function getUrlParams() {
-  let url = document.location.href,
-      data = {}, 
-      datum,
-      queryString = url.split('?');
-  console.log("URL: " + url);
-  if (queryString.length > 1) {
-    const params = queryString[1].split('&');
-    console.log("QUERY string: " + queryString[1]);
-    for (let i = 0, l = params.length; i < l; i++) {
-      console.log("PARAMS: " + params[i]);
-      datum = params[i].split('=');
-      console.log("key: " + datum[0] + ", value: " + datum[1]);
-      data[datum[0]] = datum[1];
-    }  
-  }
-
-  return data;
-}
-
-/**
  * Hide all dropdown menus when called.
  */
 function hideDropdownMenus() {
@@ -125,14 +100,36 @@ function isSuccessMessage(str) {
   return str === "Servlet Success";
 }
 
-/** 
- * Creates an alert with the errorMessage
+/**
+ * Creates an alert with the errorMessage and adds it to the bottom of
+ * a page.
  *
  * @param errorMessage the error message to display to the user
  */
 function displayErrorMessage(errorMessage) {
-  console.log(errorMessage);
-  window.alert(errorMessage);
+  // Clear existing error messages
+  let errorMessages = document.getElementsByClassName('error-box');
+  for (let i = 0; i < errorMessages.length; i++) {
+    errorMessages[i].remove();
+  }
+
+  // Create a new dismissable error box
+  let errorBox = document.createElement('div');
+  errorBox.className = 'error-box shadow-box';
+
+  let errorText = document.createElement('span');
+  errorText.innerText = errorMessage;
+
+  let errorClose = document.createElement('button');
+  errorClose.className = 'error-close'
+  errorClose.innerText = 'X';
+  errorClose.onclick = () => {
+    errorBox.remove();
+  }
+
+  errorBox.appendChild(errorText);
+  errorBox.appendChild(errorClose);
+  document.body.appendChild(errorBox);
 }
 
 /**
@@ -232,13 +229,18 @@ function toggleDropdown(menuName) {
 function toggleTabDisplay(elementDisplay, elementId, otherElementId,    
     otherTabId, tabId) {
   toggleDisplay(elementDisplay, elementId);
+  
   let tab = document.getElementById(tabId);
-  tab.style.background = '#8EEEDE';
 
-  let otherListing = document.getElementById(otherElementId);
-  otherListing.style.display = 'none';
-  let otherTab = document.getElementById(otherTabId);
-  otherTab.style.background = 'inherit';
+  if (! tab.classList.contains('tab-selected')) {
+    tab.classList.toggle('tab-selected');
+
+    let otherListing = document.getElementById(otherElementId);
+    otherListing.style.display = 'none';
+    let otherTab = document.getElementById(otherTabId);
+    otherTab.classList.toggle('tab-selected');
+  }
+  
 }
 
 export { 
@@ -246,7 +248,6 @@ export {
   displayErrorMessage,
   getCheckboxesByName,	
   getRadioByName,
-  getUrlParams,
   hideDropdownMenus, 
   ifErrorDisplayMessage,
   isErrorMessage, 

@@ -12,14 +12,14 @@ import {
 
 import addLoadingSpinner from './loading-spinner.js';
 
-import { 	
+import {
   checkAllCheckboxes,
-  getCheckboxesByName,	
+  getCheckboxesByName,  
   getRadioByName,
   keyboardAccessible,
   keyboardAccessibleOnClick,
   mapElementsByName
-} from './miscellaneous.js';	
+} from './miscellaneous.js';
 
 import {
   getCall,
@@ -35,11 +35,9 @@ const loaderId = 'search-loader';
  */
 window.onload = function() {
   authenticate();
-  
-  addBackToTopButtonBefore('back-to-top back-to-top-search', 'listings', 
+  addBackToTopButtonBefore('back-to-top-search', 'listings', 
       'main-search');
   makeNavBarScrollToTop();
-
   initiateLastCall();
   addOnclickToInputs();
   displayListings();
@@ -76,9 +74,15 @@ function displayListingsResponseJson(containerElement, trackingResponse,
   if(isLatestCall(trackingResponse.call)) {
     // Remove loader
     containerElement.innerHTML = '';
+    
+    //Holds fetchListingsData Object
+    const fetchListingsData = trackingResponse.response;
+    
+    //Displays users location
+    document.getElementById('search-location-input').value = fetchListingsData.userLocation;
 
     // Show listings
-    getListingsResponseJson(containerElement, trackingResponse.response,  
+    getListingsResponseJson(containerElement, fetchListingsData.listings,  
         listingsClass, listingsId);
     
   }
@@ -138,6 +142,22 @@ function displayListingsShowAllFilters() {
   displayListings();
 }
 
+let location = "";
+/**Get's current positsion of user based on html5 browser location */
+function getCurrentPosition() {
+  navigator.geolocation.getCurrentPosition(showResult, geolocationError); 
+}
+
+/** Upon access location is equal to the user's latitude and longitude */
+function showResult(results) {
+  location = results.coords.latitude +" "+ results.coords.longitude;
+}
+
+/**Upon denial location is equal to the users input */
+function geolocationError(){
+  location = document.getElementById('search-location-input').value;
+}
+
 /**
  * Get the search parameters (type filters, radius filter, and sortBy) from the 
  *     search page.
@@ -148,7 +168,7 @@ function getSearchParameters() {
   const filterTypes = getCheckboxesByName('search-type-option');
   const filterRadius = getRadioByName('search-radius-option');
   const sort = getRadioByName('search-sort-option');
-  const location = document.getElementById('search-location-input').value;
+  getCurrentPosition();
   let param = 'type-filters=' + filterTypes;
   param += '&radius-filter=' + filterRadius;
   param += '&sortBy=' + sort;

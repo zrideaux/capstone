@@ -3,7 +3,6 @@ import { authenticate } from './../authentication.js';
 import {
   displayErrorMessage,
   getRadioByName,
-  getUrlParams,
   isErrorMessage
 } from './../miscellaneous.js';
 
@@ -19,14 +18,16 @@ window.onload = function() {
  * Determines whether the user is creating or updating a listing.
  */
 function newListingInit() {
-  const params = getUrlParams();
+  const searchParams = new URLSearchParams(document.location.search);
+
   const newListingTitle = document.getElementById('new-listing-title');
-  const previewButton = document.getElementById('create-preview');
-  const submitButton = document.getElementById('create-listing');
+
+  const previewButton = document.getElementById('create-preview-button');
+  const submitButton = document.getElementById('create-listing-button');
 
   // The user is updating a listing 
-  if (Object.keys(params).length > 0) {
-    const query = '/fetch-listing?listing-key=' + params["key"];
+  if (searchParams.has('key')) {
+    const query = '/fetch-listing?listing-key=' + searchParams.get('key');
 
     fetch(query)
         .then(response => response.json())
