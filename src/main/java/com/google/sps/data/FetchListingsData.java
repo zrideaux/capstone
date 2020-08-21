@@ -22,7 +22,10 @@ public class FetchListingsData {
 
   public FetchListingsData(List<Listing> listings, String userLocation) {
     this.listings = listings;
-    this.userLocation = userLocation.replace(", USA", "").replaceAll("[0-9]", "");
+    
+    int commaIndex = userLocation.indexOf(",");
+
+    this.userLocation = userLocation.substring(commaIndex + 1, userLocation.length()).replace(", USA", "").replaceAll("[0-9]", "");
   }
 
 }
