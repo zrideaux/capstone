@@ -1,5 +1,10 @@
 import { authenticate } from './authentication.js';
 
+import {
+  addBackToTopButton,
+  makeNavBarScrollToTop
+} from './scroll-to-top.js';
+
 import { 
   createAElement,
   createDivElement, 
@@ -22,6 +27,7 @@ import {
  */
 window.onload = function() {
   authenticate(getUserProfile);
+  makeNavBarScrollToTop();
 }
 
 /**
@@ -37,6 +43,13 @@ export default function getUserProfile() {
           displayErrorMessage(user);
         } else {
           divCardContainerElement.appendChild(createUserProfile(user));
+
+          /**
+            * Add a Back to top button that appears in the user info when the 
+            *     user scrolls past the listing container.
+            */
+          addBackToTopButton('back-to-top-user', 'user-info', 
+              'user-listing-container');
         }
       })
 }
@@ -49,14 +62,15 @@ export default function getUserProfile() {
  */
 function createUserProfile(user) {
   const divCardInfoElement = createDivElement(
-      '', 'card-information-container shadow-box', '');
+      '', 'card-information-container shadow-box user-card', '');
   
   // Creating User card information.
-  divCardInfoElement.appendChild(createUserInformation(user.bio, user.email, user.username));
+  divCardInfoElement.appendChild(createUserInformation(user.bio, user.email, 
+      user.username));
 
   // Creating User card description.
   divCardInfoElement.appendChild(createUserListings(user.createdListings, 
-      user.upvotedListings));
+      user.upvotedListings)); 
 
   return divCardInfoElement;
 }  
@@ -71,7 +85,7 @@ function createUserProfile(user) {
  */
 function createUserInformation(bio, email, name) {
   const divCardInformation = createDivElement('', 'card-information profile',
-      '');
+      'user-info');
 
   divCardInformation.appendChild(
       createImgElement('', 'profile picture', 'card-picture', ''));
@@ -88,7 +102,7 @@ function createUserInformation(bio, email, name) {
 
   divCardInformation.appendChild(
       createAElement('Create listing', 'newlisting.html', '', 'card-button', '')
-      ); 
+      );
 
   return divCardInformation;
 }
@@ -114,7 +128,7 @@ function createUserListings(createdListings, upvotedListings) {
       createdListingsId, upvotedListingsId));
 
   const divUserListingContainer = createDivElement('', 'user-listing-container',
-      '');
+      'user-listing-container');
   divUserListings.appendChild(divUserListingContainer);
   
   // Create user's created listings.
@@ -150,7 +164,7 @@ function createListingTabs(listingsDisplay, createdListingsId,
   divTabs.appendChild(createTab(
     listingsDisplay, createdListingsId, upvotedListingsId, '3', 
     upvotedListingsTabId, createdListingsTabClass, createdListingsTabId, 
-    'Created Listings'));
+    'Created Listings', true));
     
   // Create Upvoted Listings tab.
   divTabs.appendChild(createTab(
@@ -168,21 +182,33 @@ function createListingTabs(listingsDisplay, createdListingsId,
  * @param elementId the id of the element associated with this tab
  * @param hNum the number for the heading (ex: h1 ,h2, h3)
  * @param tabName the name of this name that is displayed to the user
+ * @param isDefaultTab if this is the default tab, highlight it
  * @return a div that represents a tab.
  */
 function createTab(elementDisplay, elementId, elementOtherId, hNum, otherTabId,
-    tabClass, tabId, tabName) {
+    tabClass, tabId, tabName, isDefaultTab = false) {
   // Create <h> element that represents a tab button.
-  const hTab = createHElement(tabName, hNum, 'tab pill ' + tabClass, tabId);
-
+  const hTab = createDivElement('', 'tab ' + tabClass, '');
   hTab.setAttribute("tabindex", "0");
 
-  // When enter is pressed on this div, change the display to elementDisplay.
-  hTab.addEventListener("click", function(){ 
+  let tabContentClass = '';
+  if (isDefaultTab) {
+    tabContentClass = 'tab-selected';  
+  } 
+
+  const hTabContent = createHElement(tabName, hNum, 'tab-content pill ' + tabContentClass,
+      tabId);
+  hTab.appendChild(hTabContent);
+
+  hTabContent.setAttribute("tabindex", "-1");
+
+  // When h elemnt is clicked on, change the display to elementDisplay.
+  hTabContent.addEventListener("click", function() { 
     toggleTabDisplay(elementDisplay, elementId, elementOtherId, otherTabId,   
-        tabId) 
+        tabId);
   });
 
+  // When enter is pressed on this div, change the display to elementDisplay.
   hTab.addEventListener('keypress', function (e) {
     if (e.key === 'Enter') {
       toggleTabDisplay(elementDisplay, elementId, elementOtherId, otherTabId, 

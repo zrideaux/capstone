@@ -1,5 +1,10 @@
 import { authenticate } from './authentication.js';
 
+import {
+  addBackToTopButtonBefore,
+  makeNavBarScrollToTop
+} from './scroll-to-top.js';
+
 import { 
   getListings,
   getListingsResponseJson 
@@ -29,7 +34,10 @@ const loaderId = 'search-loader';
  *     span tag.
  */
 window.onload = function() {
-  authenticate(getCurrentPosition);
+  authenticate();
+  addBackToTopButtonBefore('back-to-top-search', 'listings', 
+      'main-search');
+  makeNavBarScrollToTop();
   initiateLastCall();
   addOnclickToInputs();
   displayListings();
