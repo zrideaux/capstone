@@ -1,4 +1,3 @@
-run
 import { authenticate } from './authentication.js';
 
 import {
