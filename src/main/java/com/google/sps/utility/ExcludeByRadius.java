@@ -53,7 +53,6 @@ public class ExcludeByRadius {
       completeURL += listingLocations[i] + "|";
     }
     completeURL += "&departure_time=now&key=" + API_KEY;
-    System.out.println(completeURL);
     return completeURL;
   }
 
@@ -133,8 +132,6 @@ public class ExcludeByRadius {
     String[] destinations = distance.getListingAddresses();
     ArrayList<Listing> returnList = new ArrayList<>();
     HashMap<String, Double> locationAndDistance = new HashMap<>();
-      
-    System.out.println("Radius is "+ radius + " meters");
 
     for (int i = 0; i < distancesInMeters.length; i++) {
       if (destinations[i].contains(", USA")) {
