@@ -56,7 +56,7 @@ function getRadioByName(name) {
  * @return an object
  */
 function getUrlParams() {
-  var url = document.location.href,
+  let url = document.location.href,
       data = {}, 
       datum,
       queryString = url.split('?');
@@ -64,7 +64,7 @@ function getUrlParams() {
   if (queryString.length > 1) {
     const params = queryString[1].split('&');
     console.log("QUERY string: " + queryString[1]);
-    for (var i = 0, l = params.length; i < l; i++) {
+    for (let i = 0, l = params.length; i < l; i++) {
       console.log("PARAMS: " + params[i]);
       datum = params[i].split('=');
       console.log("key: " + datum[0] + ", value: " + datum[1]);
