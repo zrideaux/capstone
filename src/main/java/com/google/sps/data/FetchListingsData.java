@@ -31,7 +31,6 @@ public class FetchListingsData {
     } else {
       this.userLocation = userLocation;
     }
-
     
   }
 
