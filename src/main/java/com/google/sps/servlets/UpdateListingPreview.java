@@ -41,9 +41,10 @@ public class UpdateListingPreview extends HttpServlet {
    * @param response 
    */
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) 
+  public void doPost(HttpServletRequest request, HttpServletResponse response) 
       throws IOException {
-        String listingKeyString = ValidateInput.getParameter(request, "listing-key",
+    System.err.println("WE MADE IT");
+    String listingKeyString = ValidateInput.getParameter(request, "listing-key",
         "");
     
     if (listingKeyString.length() > 0) {
