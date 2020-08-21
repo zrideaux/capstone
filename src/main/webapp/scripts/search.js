@@ -151,7 +151,7 @@ function getCurrentPosition() {
 
 /** Upon access location is equal to the user's latitude and longitude */
 function showResult(results) {
-  location = results.coords.latitude +" "+ results.coords.longitude;
+  location = results.coords.latitude + ' ' + results.coords.longitude;
   displayListings();
 }
 
