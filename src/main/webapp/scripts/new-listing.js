@@ -1,3 +1,4 @@
+run
 import { authenticate } from './authentication.js';
 
 import {
@@ -149,9 +150,10 @@ function suggestTags() {
   const suggestionContainer = document.getElementById('tags-suggestion-container');
   let currentSuggestions = suggestionContainer.childNodes;
   let currentTags = document.getElementById('cause-tags').value.split(',');
-  currentTags = currentTags.filter((tag) => {
-    return tag.trim();
-  });
+  for (let i = 0; i < currentTags.length; i++) {
+    currentTags[i] = currentTags[i].trim();
+  }
+  console.log('current tags', currentTags);
   
   // Get location words
   const locationInfo = document.getElementById('cause-location').value.trim().toLowerCase().split(',');
@@ -165,9 +167,9 @@ function suggestTags() {
       document.getElementById('cause-description').value.trim().toLowerCase().split(/[^A-Za-z0-9]/));
   words = words.concat(
       document.getElementById('cause-how-to-help').value.trim().toLowerCase().split(/[^A-Za-z0-9]/));
-  
+
   // Remove common from words
-  wordsToRemove = ['and', 'a', 'an', 'the', 'at'];
+  const wordsToRemove = ['and', 'a', 'an', 'the', 'at', 'to', 'this', 'is', 'in', 'for'];
   words = words.filter((word) => {
     if (!wordsToRemove.includes(word)) {
       return word;
@@ -278,5 +280,6 @@ function enableSubmissions() {
 export {
   createNewListing,
   displayPreviewListing,
+  suggestTags,
   validateInput
 };

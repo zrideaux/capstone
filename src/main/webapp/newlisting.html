@@ -26,6 +26,7 @@
       import { 
         createNewListing,
         displayPreviewListing,
+        suggestTags,
         validateInput
       } from './scripts/new-listing.js'
 
@@ -39,6 +40,10 @@
 
       window.validateInput = function(fieldId, instructionsId) {
         validateInput(fieldId, instructionsId);
+      }
+
+      window.suggestTags = function() {
+        suggestTags();
       }
     </script>
     <header id="nav-box" class="shadow-box">
@@ -166,6 +171,7 @@
             </p>
             <textarea id="cause-tags" minlength="1" maxlength="256" required
                 placeholder="ex. dogs, animal, shelter, LA"
+                onfocus="suggestTags();"
                 onfocusout="validateInput('cause-tags',
                 'cause-tags-instructions');"></textarea>
           </li>
