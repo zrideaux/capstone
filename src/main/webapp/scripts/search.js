@@ -28,6 +28,7 @@ import {
 } from './tracking-response.js';
 
 const loaderId = 'search-loader';
+let location = '';
 
 /**
  * When the search page loads, add on click functions to input tags and see all 
@@ -40,7 +41,7 @@ window.onload = function() {
   makeNavBarScrollToTop();
   initiateLastCall();
   addOnclickToInputs();
-  displayListings();
+  getCurrentPosition();
 }
 
 /**
@@ -71,7 +72,7 @@ function displayListings() {
  */
 function displayListingsResponseJson(containerElement, trackingResponse, 
     listingsClass, listingsId) {
-  if(isLatestCall(trackingResponse.call)) {
+  if (isLatestCall(trackingResponse.call)) {
     // Remove loader
     containerElement.innerHTML = '';
     
@@ -79,12 +80,13 @@ function displayListingsResponseJson(containerElement, trackingResponse,
     const fetchListingsData = trackingResponse.response;
     
     //Displays users location
-    document.getElementById('search-location-input').value = fetchListingsData.userLocation;
-
+    if (fetchListingsData.userLocation !== '') {
+      document.getElementById('search-location-input').value = fetchListingsData.userLocation;
+    }
+    
     // Show listings
     getListingsResponseJson(containerElement, fetchListingsData.listings,  
         listingsClass, listingsId);
-    
   }
 }
 
@@ -104,7 +106,7 @@ function addOnclickToInputs() {
 
   // Radio is not tab accessible.
   const displayListingsOnClickRadio = (radio) => {
-    keyboardAccessibleOnClick(radio, displayListings, displayListings);
+    keyboardAccessibleOnClick(radio, getCurrentPosition, getCurrentPosition);
   }
 
   // Add onclick and onsubmit function to radius radio inputs.
@@ -126,7 +128,7 @@ function displayListingsOnClickCheckbox(checkbox) {
   // On enter key, uncheck/check the checkbox and fetch listings
   const changeCheckedAndDisplayListings = () => {
     checkbox.checked = !checkbox.checked;
-    displayListings();
+    getCurrentPosition();
   }
 
   keyboardAccessibleOnClick(checkbox, displayListings, 
@@ -139,10 +141,9 @@ function displayListingsOnClickCheckbox(checkbox) {
  */
 function displayListingsShowAllFilters() {
   checkAllCheckboxes('search-type-option');
-  displayListings();
+  getCurrentPosition();
 }
 
-let location = "";
 /**Get's current positsion of user based on html5 browser location */
 function getCurrentPosition() {
   navigator.geolocation.getCurrentPosition(showResult, geolocationError); 
@@ -150,12 +151,14 @@ function getCurrentPosition() {
 
 /** Upon access location is equal to the user's latitude and longitude */
 function showResult(results) {
-  location = results.coords.latitude +" "+ results.coords.longitude;
+  location = results.coords.latitude + ' ' + results.coords.longitude;
+  displayListings();
 }
 
 /**Upon denial location is equal to the users input */
 function geolocationError(){
   location = document.getElementById('search-location-input').value;
+  displayListings();
 }
 
 /**
@@ -168,7 +171,6 @@ function getSearchParameters() {
   const filterTypes = getCheckboxesByName('search-type-option');
   const filterRadius = getRadioByName('search-radius-option');
   const sort = getRadioByName('search-sort-option');
-  getCurrentPosition();
   let param = 'type-filters=' + filterTypes;
   param += '&radius-filter=' + filterRadius;
   param += '&sortBy=' + sort;
