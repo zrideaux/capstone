@@ -39,7 +39,7 @@ public final class Listing {
   private final String imageURL;
   private String key;
   private final String location;
-  public final String name;
+  private final String name;
   public final Long timestamp;
   private final String type;
   public Integer reputationScore;
