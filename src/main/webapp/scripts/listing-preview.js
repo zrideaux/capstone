@@ -162,7 +162,7 @@ function editListingPageUrl(key) {
         } else {
           location.replace('/newlisting.html?key=' + listing.key);
         }
-      })
+      });
 }
 
 /**

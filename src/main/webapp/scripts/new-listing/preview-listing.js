@@ -11,7 +11,7 @@ import { appendParameterToFormData } from './new-listing.js';
  * Creates a listing preview for the user to see.
  */
 export default function displayPreviewListing() {
-  const containerElement = document.getElementById("preview");
+  const containerElement = document.getElementById('preview');
   let queryString = '/create-listing-preview';
   containerElement.innerHTML = '';
 
@@ -39,7 +39,7 @@ function sendPreviewListingFormData(imageUploadURL) {
  * @param listing JSON that represents a Listing object.
  */
 function createPreviewListing(listing) {
-  const containerElement = document.getElementById("preview");
+  const containerElement = document.getElementById('preview');
   containerElement.appendChild(
       createListing('preview-listings', listing));
 

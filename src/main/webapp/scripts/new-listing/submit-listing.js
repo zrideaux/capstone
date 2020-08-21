@@ -16,7 +16,7 @@ function redirectToUserPage() {
  * @param imageUploadURL the url to send listing data to.
  */
 function sendNewListingFormData(imageUploadURL) {
-  const newListingForm = document.getElementById("new-listing-form");
+  const newListingForm = document.getElementById('new-listing-form');
   sendFormData(appendParameterToFormData, newListingForm, imageUploadURL, 
       redirectToUserPage);
 }
