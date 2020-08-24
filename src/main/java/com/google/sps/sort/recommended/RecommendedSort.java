@@ -74,16 +74,9 @@ public final class RecommendedSort {
    *  @return list of listings that is sorted by their reputation and distance score 
    */
   public static List<Listing> sortByDistanceAndReputation(List<Listing> listings, String userLocation) 
-      throws IOException {
-
-    //Grab all locations for distance calculation  
-    String[] locations = new String[listings.size()];
-    for (int i = 0; i < listings.size(); i++) {
-      locations[i] = listings.get(i).getLocation(); 
-    }
-    
+      throws IOException {   
     DistanceMatrixOBJ distances =  ExcludeByRadius.convertJsonToDMObject(
-        ExcludeByRadius.distanceMatrixJsonURL(userLocation, locations));
+        ExcludeByRadius.distanceMatrixJsonURL(userLocation, listings));
     
     int[] distanceValues = distances.getIntegerDistanceValues();
     

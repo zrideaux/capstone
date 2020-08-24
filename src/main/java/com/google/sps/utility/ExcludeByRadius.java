@@ -49,30 +49,11 @@ public class ExcludeByRadius {
     userLocation = userLocation.replace(" ", "+");
     String completeURL = baseURL + "origins=" + userLocation + "&destinations=";
     for (int i = 0; i < listingLocations.length; i++) {
-      listingLocations[i] = listingLocations[i].replace(" ", "");
+      listingLocations[i] = listingLocations[i].replace(" ", "").trim();
       completeURL += listingLocations[i] + "|";
     }
     completeURL += "&departure_time=now&key=" + API_KEY;
-    return completeURL;
-  }
-
-  /**
-   * Builds complete url from user input origin location and an array of Strings holding 
-   *     the locations of all the listings passed into the method.
-   *
-   * @param userLocation user input location
-   * @param listingLocation listings location
-   * @return Complete URL for call to API
-   */ 
-  public static String distanceMatrixJsonURL(String userLocation, String[] listingLocations) {
-    String baseURL = "https://maps.googleapis.com/maps/api/distancematrix/json?";
-    userLocation = userLocation.replace(" ", "+");
-    String completeURL = baseURL+"origins="+userLocation+"&destinations=";
-    for (int i = 0; i < listingLocations.length; i++) {
-      listingLocations[i] = listingLocations[i].replace(" ", "");
-      completeURL += listingLocations[i] + "|";
-    }
-    completeURL += "&departure_time=now&key=" + API_KEY;
+    System.out.println(completeURL);
     return completeURL;
   }
 
@@ -119,18 +100,18 @@ public class ExcludeByRadius {
    * @param radius integer value of radius in meters
    * @return list of listings that are within radius in no particular order
    */
-  public static ArrayList<Listing> cutList(List<Listing> listings, DistanceMatrixOBJ distance, int radius) {
+  public static List<Listing> cutList(List<Listing> listings, DistanceMatrixOBJ distance, int radius) {
     //If the radius input is 100+ we change the value to 100,000 km (100 million m) if not multiply input by 1000.
-
+    
     if (radius == 101) {
-      radius = 100000000;
+      return listings;
     } else {
       radius *= 1000;
     }
     
     double[] distancesInMeters = distance.getDoubleDistanceValues();
     String[] destinations = distance.getListingAddresses();
-    ArrayList<Listing> returnList = new ArrayList<>();
+    List<Listing> returnList = new ArrayList<>();
     HashMap<String, Double> locationAndDistance = new HashMap<>();
 
     for (int i = 0; i < distancesInMeters.length; i++) {

@@ -54,5 +54,5 @@ public class FetchListingsData {
 
     return false;
   }
-
+  
 }
