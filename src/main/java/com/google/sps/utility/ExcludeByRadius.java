@@ -57,26 +57,6 @@ public class ExcludeByRadius {
   }
 
   /**
-   * Builds complete url from user input origin location and an array of Strings holding 
-   *     the locations of all the listings passed into the method.
-   *
-   * @param userLocation user input location
-   * @param listingLocation listings location
-   * @return Complete URL for call to API
-   */ 
-  public static String distanceMatrixJsonURL(String userLocation, String[] listingLocations) {
-    String baseURL = "https://maps.googleapis.com/maps/api/distancematrix/json?";
-    userLocation = userLocation.replace(" ", "+");
-    String completeURL = baseURL+"origins="+userLocation+"&destinations=";
-    for (int i = 0; i < listingLocations.length; i++) {
-      listingLocations[i] = listingLocations[i].replace(" ", "");
-      completeURL += listingLocations[i] + "|";
-    }
-    completeURL += "&departure_time=now&key=" + API_KEY;
-    return completeURL;
-  }
-
-  /**
    * Converts Distance Matrix JSON Object to Java object 
    *  
    * @param JsonObjURL Url for api call
