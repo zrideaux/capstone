@@ -30,7 +30,7 @@ import java.util.Scanner;
  */ 
 public class ExcludeByRadius {
   //API key used to access the DistanceMatrix api
-  private static final String API_KEY = secret.API_KEY;
+  private static final String API_KEY = "AIzaSyDEuTw1UUWNecaIsio-9L4H4A8HiuQ2hpc";
   
   /**
    * Builds complete url from user input origin location and an array of Strings holding 
@@ -49,7 +49,7 @@ public class ExcludeByRadius {
     userLocation = userLocation.replace(" ", "+");
     String completeURL = baseURL + "origins=" + userLocation + "&destinations=";
     for (int i = 0; i < listingLocations.length; i++) {
-      listingLocations[i] = listingLocations[i].replace(" ", "");
+      listingLocations[i] = listingLocations[i].replace(" ", "").trim();
       completeURL += listingLocations[i] + "|";
     }
     completeURL += "&departure_time=now&key=" + API_KEY;
