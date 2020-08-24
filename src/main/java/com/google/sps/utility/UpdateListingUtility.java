@@ -88,6 +88,7 @@ public class UpdateListingUtility {
     String website = ValidateInput.getParameter(request, "website", "");
 
     /**
+     * Mandatory fields:
      * If length of the property value is 0 and the property value is the
      *     same as the original value, then keep the original property value.
      */ 
@@ -98,6 +99,7 @@ public class UpdateListingUtility {
     EntityUtility.updateStringProperty(entity, "name", name);
     EntityUtility.updateStringProperty(entity, "type", type);
     
+    // Optional fields:
     entity.setProperty("website", website);
   }
 }
