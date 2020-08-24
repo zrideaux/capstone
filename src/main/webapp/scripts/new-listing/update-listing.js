@@ -1,5 +1,10 @@
 import { fetchBlobstoreUrlAndSendData } from './../blobstore.js';
 
+import {
+  createDivElement,
+  createHElement
+} from './../htmlElement.js';
+
 import { createListing } from './../listing.js';
 
 import { keyboardAccessibleOnClick } from './../miscellaneous.js';
@@ -101,15 +106,35 @@ function createPreviewListingFunc(listingKey) {
 }
 
 /**
- * Creates a preview listing from the response.
+ * Creates two updated preview listings from the response.
+ * One that is the original listng and another which is the udpated listing.
  *
  * @param containerElement an element to add the Listings too.
  * @param response a JSON that represents a list of Listings.
  */
 function updatedPreviewListingFunc(containerElement, response) {
   containerElement.appendChild(
-      createListing('preview-listings', response[0]));
+      createUpdatedPreviewListing(response[0], 'Original Listing'));
   
   containerElement.appendChild(
-      createListing('preview-listings', response[1]));
+      createUpdatedPreviewListing(response[1], 'Updated Listing'));
+}
+
+/**
+ * Creates an updated preview listing, which is a preview listing with a title.
+ *
+ * @param listing a JSON that represents a listing.
+ * @param title a String to use as the title of this preview listing.
+ * @return an updated preview listing.
+ */
+function createUpdatedPreviewListing(listing, title) {
+  const previewContainerDiv = createDivElement('', 'updated-preview-container', 
+      '');
+
+  previewContainerDiv.appendChild(createHElement(title, '2', '', ''));
+
+  previewContainerDiv.appendChild(
+      createListing('preview-listings', listing));
+
+  return previewContainerDiv;
 }
