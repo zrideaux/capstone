@@ -53,34 +53,7 @@ public final class RecommendedSort {
       // Removes the Listings in the List it returns from listings 
       sortedListings.addAll(SortByUpvotedListings.sortByUpvotedListings(
           datastore, listings, userEntity));
-    }
-    
-    // If the unauthenticated user has not entered a location we show them the most recent listings.
-    if (userLocation.equals("")) {
-      sortedListings.addAll(sortByTime(listings));
-    } else {
-      sortedListings.addAll(sortByDistanceAndReputation(listings, userLocation));
-    }
-
-    return sortedListings;
-  }
-
-  /**
-   *  Sorts listings based on a weighted sum of their distance score and their 
-   *     reputation score.
-   *
-   *  @param listings List of listings to be sorted
-   *  @param userLocation current location of user 
-   *  @return list of listings that is sorted by their reputation and distance score 
-   */
-  public static List<Listing> sortByDistanceAndReputation(List<Listing> listings, String userLocation) 
-      throws IOException {
-
-    //Grab all locations for distance calculation  
-    String[] locations = new String[listings.size()];
-    for (int i = 0; i < listings.size(); i++) {
-      locations[i] = listings.get(i).getLocation(); 
-    }
+    }  
 
     DistanceMatrixOBJ distances =  ExcludeByRadius.convertJsonToDMObject(
         ExcludeByRadius.distanceMatrixJsonURL(userLocation, listings));
