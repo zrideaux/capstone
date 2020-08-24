@@ -209,5 +209,3 @@ public class FetchListings extends HttpServlet {
     FILTERS.put("4", "other");
   }
 }
-
-

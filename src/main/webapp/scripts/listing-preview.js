@@ -131,8 +131,6 @@ function createListingHeading(isOwnerUser, key, name, type) {
   const divListingSubHeading = createDivElement('', 'listing-sub-heading', '');
   divListingHeading.appendChild(divListingSubHeading);
 
-  console.log("Is OWNER user: " + isOwnerUser + (typeof isOwnerUser));
-  console.log("KEY: " + key);
   if (isOwnerUser) {
     divListingSubHeading.appendChild(createEdit(key));
   }
@@ -150,9 +148,9 @@ function createListingHeading(isOwnerUser, key, name, type) {
  */
 function createEdit(key) {
   const editPElement = createPElement('Edit', 'listing-edit', '');
-  const moveToEditListingPage = (ev) => { 
+  const moveToEditListingPage = (event) => { 
     editListingPageUrl(key);
-    ev.stopPropagation();
+    event.stopPropagation();
   };
   keyboardAccessible(editPElement, moveToEditListingPage, moveToEditListingPage);
 

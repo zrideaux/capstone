@@ -148,7 +148,7 @@ public final class Listing {
     String vote = getVoteForListing(datastore, userService, key);
     String website = (String) entity.getProperty("website");
 
-    return new Listing(description, howToHelp, imageURL, key, location, name, 
+    return new Listing(description, howToHelp, imageURL, key, location, name,
         timestamp, type, upvotes, downvotes, views, vote, website);
   }
 
@@ -175,7 +175,7 @@ public final class Listing {
    *     listing.
    *
    * @param entity the entity that represents a listing
-   * @param euserEmail the email of the user,
+   * @param userEmail the email of the user,
    * @return a Listing with all of the properties from the Entity and a 
    *     variable that says whether or not the user owns this listing.
    */
