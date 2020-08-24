@@ -20,6 +20,8 @@ window.onload = function() {
 function newListingInit() {
   const searchParams = new URLSearchParams(document.location.search);
 
+  const newListingTitle = document.getElementById('new-listing-title');
+
   const previewButton = document.getElementById('create-preview-button');
   const submitButton = document.getElementById('create-listing-button');
 
@@ -33,12 +35,12 @@ function newListingInit() {
           if(isErrorMessage(listing)) {
             displayErrorMessage(listing);
           } else {
-            updateListingInit(listing, previewButton, submitButton);
+            updateListingInit(listing, newListingTitle, previewButton, submitButton);
           }
         })
   // The user is creating a new listing
   } else {
-    createListingInit(previewButton, submitButton);
+    createListingInit(newListingTitle, previewButton, submitButton);
   }
 }
 

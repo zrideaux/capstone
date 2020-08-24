@@ -1,7 +1,5 @@
 import { sendFormData } from './../blobstore.js';
 
-import { appendParameterToFormData } from './new-listing.js';
-
 /**
  * Redirect the user to the user page.
  */
@@ -10,18 +8,21 @@ function redirectToUserPage() {
 }
 
 /**
- * Send new-listing form and input related data to the imageUploadURL to create 
- *     a new listing and then redirect the user to the user page.
+ * Create a sendFormDataFunc to pass into fetchBlobstoreUrlAndSendData func in 
+ *     blobstore.js.
  * 
- * @param imageUploadURL the url to send listing data to.
+ * @param sendFormDataFunc the function that will append parameters to a form 
+ *     data.
+ * @return a func that will send the new-listing form and input related data to 
+ *     the imageUploadURL to create/update a new listing and then redirect the 
+ *     user to the user page.
  */
-function sendNewListingFormData(imageUploadURL) {
-  const newListingForm = document.getElementById('new-listing-form');
-  sendFormData(appendParameterToFormData, newListingForm, imageUploadURL, 
-      redirectToUserPage);
+function createSubmitSendFormDataFunc(appendDataFunc) {
+  return (imageUploadURL) => {
+    const newListingForm = document.getElementById("new-listing-form");
+    sendFormData(appendDataFunc, newListingForm, imageUploadURL, 
+        redirectToUserPage);
+  }
 }
 
-export {
-  redirectToUserPage,
-  sendNewListingFormData,
-}
+export { createSubmitSendFormDataFunc };

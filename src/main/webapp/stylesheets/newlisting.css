@@ -83,3 +83,7 @@ textarea:focus {
 .required-asterisk {
   color: #D9216A;
 }
+
+.updated-preview-container {
+  text-align: center;
+}

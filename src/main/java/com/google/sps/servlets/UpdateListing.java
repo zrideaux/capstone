@@ -14,12 +14,22 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
+import com.google.gson.Gson;
+import com.google.sps.data.Listing;
+import com.google.sps.utility.EntityUtility;
+import com.google.sps.utility.ListingConstants;
+import com.google.sps.utility.UpdateListingUtility;
+import com.google.sps.utility.ValidateInput;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 
 @WebServlet ("/update-listing")
 public class UpdateListing extends HttpServlet {
@@ -31,8 +41,33 @@ public class UpdateListing extends HttpServlet {
    *     message if the listing was not.
    */
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) 
+  public void doPost(HttpServletRequest request, HttpServletResponse response) 
       throws IOException {
-    // Update listing
+    String listingKeyString = ValidateInput.getParameter(request, "listing-key",
+        "");
+    
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    
+    UserService userService = UserServiceFactory.getUserService();
+
+    Entity listingEntity;
+    try {
+      listingEntity = UpdateListingUtility.getListingEntityIfUserOwnsIt(
+          datastore, listingKeyString, userService);
+    } catch (Exception e) {
+      ValidateInput.createErrorMessage(e, response);
+      return;
+    }
+
+    try {
+      UpdateListingUtility.updateListingEntity(datastore, listingEntity,
+          request);
+      datastore.put(listingEntity);
+    } catch (Exception e) {
+      ValidateInput.createErrorMessage(e, response);
+      return;
+    }
+
+    ValidateInput.createSuccessMessage(response);
   }
 }

@@ -3,52 +3,64 @@ import {
   sendFormData,
 } from './../blobstore.js';
 
-import { createListing } from './../listing.js';
-
-import { appendParameterToFormData } from './new-listing.js';
-
 /**
  * Creates a listing preview for the user to see.
+ *
+ * @param queryString a string that represents a query.
+ * @param sendFormData the function that calls sendFormData with the 
+ *     appropriate parameters. The function has an imageUploadUrl parameter.
  */
-export default function displayPreviewListing() {
-  const containerElement = document.getElementById('preview');
-  let queryString = '/create-listing-preview';
+function displayPreviewListing(queryString, sendFormData) {
+  const containerElement = document.getElementById("preview");
   containerElement.innerHTML = '';
 
-  fetchBlobstoreUrlAndSendData(queryString, sendPreviewListingFormData);
-
-  window.location.href = '#preview-listings';
+  fetchBlobstoreUrlAndSendData(queryString, sendFormData);
 }
 
 /**
- * Send new-listing form and input related data to the imageUploadURL and 
- *     create a preview with the response from the imageUploadURL servlet.
+ * Creates a function that sends the new-listing form and input related data to 
+ *     the imageUploadURL and creates a preview with the response from the 
+ *     imageUploadURL servlet.
  * 
- * @param imageUploadURL the url to send listing data to.
+ * @param appendDataFunc a function that appends data to a Form Data and has a 
+ *     FormData parameter.
+ * @param createPreviewListingFunc a function that creates a listing preview.
+ * @return a create preview send form data function.
  */
-function sendPreviewListingFormData(imageUploadURL) {
-  const newListingForm = document.getElementById('new-listing-form');
-  sendFormData(appendParameterToFormData, newListingForm, imageUploadURL, 
-      createPreviewListing);
+function createPreviewSendFormDataFunc(appendDataFunc, createPreviewListingFunc) {
+  return (imageUploadURL) => {
+    const newListingForm = document.getElementById('new-listing-form');
+    sendFormData(appendDataFunc, newListingForm, imageUploadURL, 
+      createPreviewListingFunc);
+  }
 }
 
 /**
- * Creates a listing given a Listing JSON and appends the listing the the 
- *     preview container element in the newlisting page.
+ * Creates a function that creates a listing preview and appends it to the  
+ *     listing preview container element in the newlisting page.
  *
- * @param listing JSON that represents a Listing object.
+ * @param previewListingFunc a function that creates the preview listing.
+ * @return a create preview listing func.
  */
-function createPreviewListing(listing) {
-  const containerElement = document.getElementById('preview');
-  containerElement.appendChild(
-      createListing('preview-listings', listing));
+function createCreatePreviewListingFunc(previewListingFunc) {
+  return (response) => {
+    const containerElement = document.getElementById("preview");
+    
+    previewListingFunc(containerElement, response);
 
-  $(document).ready(function(){
-    const $preview = $('#preview');
-    const bottom = $preview.position().top + $preview.offset().top + 
-        $preview.outerHeight(true);
-    $('html, body').animate({
-        scrollTop: bottom
-    }, 900);
-  });
+    $(document).ready(function(){
+      const $preview = $('#preview');
+      const bottom = $preview.position().top + $preview.offset().top + 
+          $preview.outerHeight(true);
+      $('html, body').animate({
+          scrollTop: bottom
+      }, 900);
+    });
+  }
 }
+
+export {
+  createCreatePreviewListingFunc,
+  createPreviewSendFormDataFunc,
+  displayPreviewListing
+};

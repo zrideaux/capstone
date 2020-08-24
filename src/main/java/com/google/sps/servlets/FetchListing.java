@@ -17,11 +17,11 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 import com.google.sps.data.Listing;
+import com.google.sps.utility.UpdateListingUtility;
 import com.google.sps.utility.ValidateInput;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -44,40 +44,24 @@ public class FetchListing extends HttpServlet {
       throws IOException {
     String listingKeyString = ValidateInput.getParameter(request, "listing-key",
         "");
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     
-    if (listingKeyString.length() > 0) {
-      UserService userService = UserServiceFactory.getUserService();
+    UserService userService = UserServiceFactory.getUserService();
 
-      if (userService.isUserLoggedIn()) {
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-
-        Entity listingEntity;
-        try {
-          listingEntity = datastore.get(KeyFactory.stringToKey(
-              listingKeyString));
-        } catch (Exception e) {
-          ValidateInput.createErrorMessage(e, response);
-          return;
-        }
-
-        String userEmail = userService.getCurrentUser().getEmail();
-        String listingEntityOwnersEmail = (String) listingEntity.getProperty(
-            "ownersEmail");
-        if (userEmail.equals(listingEntityOwnersEmail)) {
-          Listing listing = Listing.createListing(listingEntity);
-
-          String jsonListing = new Gson().toJson(listing);
-          response.setContentType("application/json;");
-          response.getWriter().println(jsonListing);  
-        } else {
-          ValidateInput.createErrorMessage("User does not own this listing", 
-              response);
-        }
-      } else {
-        ValidateInput.createErrorMessage("User needs to login", response);
-      }
-    } else {
-      ValidateInput.createErrorMessage("Missing listing key", response);
+    Entity listingEntity;
+    try {
+      listingEntity = UpdateListingUtility.getListingEntityIfUserOwnsIt(
+          datastore, listingKeyString, userService);
+    } catch (Exception e) {
+      ValidateInput.createErrorMessage(e, response);
+      return;
     }
+
+    Listing listing = Listing.createListing(listingEntity);
+
+    String jsonListing = new Gson().toJson(listing);
+    response.setContentType("application/json;");
+    response.getWriter().println(jsonListing);
   }
 }
