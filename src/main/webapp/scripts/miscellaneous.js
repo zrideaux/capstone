@@ -48,7 +48,7 @@ function getRadioByName(name) {
     }	
   }	
   return '';	
-}	
+}
 
 /**
  * Hide all dropdown menus when called.
@@ -91,6 +91,16 @@ function isErrorMessage(str) {
 }
 
 /** 
+ * Returns a boolean stating whether a String is a success message or not
+ *
+ * @param str a string that will be checked to see if it is a success message
+ * @return boolean stating whether or not it is a success message
+ */
+function isSuccessMessage(str) {
+  return str === "Servlet Success";
+}
+
+/**
  * Creates an alert with the errorMessage and adds it to the bottom of
  * a page.
  *
@@ -130,7 +140,7 @@ function displayErrorMessage(errorMessage) {
  * @param onclickFunc the function to execute with this element is "clicked" on
  * @param tabindex the tabindex of this element
  */
-function keyboardAccessible(element, onclickFunc, onenterFunc, tabindex) {
+function keyboardAccessible(element, onclickFunc, onenterFunc, tabindex = '0') {
   element.setAttribute("tabindex", tabindex);
   keyboardAccessibleOnClick(element, onclickFunc, onenterFunc);
 }
@@ -141,7 +151,7 @@ function keyboardAccessible(element, onclickFunc, onenterFunc, tabindex) {
  * @param element the element to add a tabIndex and 
  * @param onclickFunc the function to execute with this element is "clicked" on
  */
-function keyboardAccessibleOnClick(element, onclickFunc, onenterFunc) {
+function keyboardAccessibleOnClick(element, onclickFunc, onenterFunc = onclickFunc) {
   // when enter is pressed on this div, change the display to none and hide 
   //     this div
   element.addEventListener('click', onclickFunc);
@@ -235,12 +245,13 @@ function toggleTabDisplay(elementDisplay, elementId, otherElementId,
 
 export { 
   checkAllCheckboxes,
+  displayErrorMessage,
   getCheckboxesByName,	
   getRadioByName,
   hideDropdownMenus, 
   ifErrorDisplayMessage,
   isErrorMessage, 
-  displayErrorMessage,
+  isSuccessMessage,
   keyboardAccessible,
   keyboardAccessibleOnClick,
   mapElementsByName,

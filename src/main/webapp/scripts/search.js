@@ -12,14 +12,14 @@ import {
 
 import addLoadingSpinner from './loading-spinner.js';
 
-import { 	
+import {
   checkAllCheckboxes,
-  getCheckboxesByName,	
+  getCheckboxesByName,  
   getRadioByName,
   keyboardAccessible,
   keyboardAccessibleOnClick,
   mapElementsByName
-} from './miscellaneous.js';	
+} from './miscellaneous.js';
 
 import {
   getCall,
@@ -28,6 +28,7 @@ import {
 } from './tracking-response.js';
 
 const loaderId = 'search-loader';
+let location = '';
 
 /**
  * When the search page loads, add on click functions to input tags and see all 
@@ -35,15 +36,14 @@ const loaderId = 'search-loader';
  */
 window.onload = function() {
   authenticate();
-  
   addBackToTopButtonBefore('back-to-top-search', 'listings', 
       'main-search');
   makeNavBarScrollToTop();
-
   initiateLastCall();
   addOnclickToInputs();
   addOnchangeToInputs();
   displayListings();
+  getCurrentPosition();
 }
 
 /**
@@ -74,14 +74,21 @@ function displayListings() {
  */
 function displayListingsResponseJson(containerElement, trackingResponse, 
     listingsClass, listingsId) {
-  if(isLatestCall(trackingResponse.call)) {
+  if (isLatestCall(trackingResponse.call)) {
     // Remove loader
     containerElement.innerHTML = '';
-
-    // Show listings
-    getListingsResponseJson(containerElement, trackingResponse.response,  
-        listingsClass, listingsId);
     
+    //Holds fetchListingsData Object
+    const fetchListingsData = trackingResponse.response;
+    
+    //Displays users location
+    if (fetchListingsData.userLocation !== '') {
+      document.getElementById('search-location-input').value = fetchListingsData.userLocation;
+    }
+    
+    // Show listings
+    getListingsResponseJson(containerElement, fetchListingsData.listings,  
+        listingsClass, listingsId);
   }
 }
 
@@ -101,7 +108,7 @@ function addOnclickToInputs() {
 
   // Radio is not tab accessible.
   const displayListingsOnClickRadio = (radio) => {
-    keyboardAccessibleOnClick(radio, displayListings, displayListings);
+    keyboardAccessibleOnClick(radio, getCurrentPosition, getCurrentPosition);
   }
 
   // Add onclick and onsubmit function to radius radio inputs.
@@ -136,7 +143,7 @@ function displayListingsOnClickCheckbox(checkbox) {
   // On enter key, uncheck/check the checkbox and fetch listings
   const changeCheckedAndDisplayListings = () => {
     checkbox.checked = !checkbox.checked;
-    displayListings();
+    getCurrentPosition();
   }
 
   keyboardAccessibleOnClick(checkbox, displayListings, 
@@ -149,6 +156,23 @@ function displayListingsOnClickCheckbox(checkbox) {
  */
 function displayListingsShowAllFilters() {
   checkAllCheckboxes('search-type-option');
+  getCurrentPosition();
+}
+
+/**Get's current positsion of user based on html5 browser location */
+function getCurrentPosition() {
+  navigator.geolocation.getCurrentPosition(showResult, geolocationError); 
+}
+
+/** Upon access location is equal to the user's latitude and longitude */
+function showResult(results) {
+  location = results.coords.latitude + ' ' + results.coords.longitude;
+  displayListings();
+}
+
+/**Upon denial location is equal to the users input */
+function geolocationError(){
+  location = document.getElementById('search-location-input').value;
   displayListings();
 }
 
@@ -163,7 +187,6 @@ function getSearchParameters() {
   const filterRadius = getRadioByName('search-radius-option');
   const keywordFilters = document.getElementById('search-keyword-input').value;
   const sort = getRadioByName('search-sort-option');
-  const location = document.getElementById('search-location-input').value;
 
   let params = 'type-filters=' + filterTypes;
   params += '&keyword-filters=' + keywordFilters;

@@ -1,2 +1,2 @@
-This is the repository for our capstone project. 
-- KC was here
+# Background
+This project was made by [Kevin Cam](https://github.com/kev1n80), [J-coder13](https://github.com/J-coder13), and myself over the span of a few weeks during our time as STEP Interns at Google. The goal of the site is to allow users to easily create and find posts that supply resources for contributing to important causes. In order create the app, we used several languages in combination with Google App Engine.

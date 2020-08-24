@@ -42,6 +42,8 @@ public class CreateListing extends HttpServlet {
 
     // Only allow user to make listing if logged in
     if (userService.isUserLoggedIn()) {
+      String userEmail = userService.getCurrentUser().getEmail();
+
       // The following variables are required and have a max char limit
       String description;
       try {
@@ -111,6 +113,7 @@ public class CreateListing extends HttpServlet {
       listingEntity.setProperty("imageURL", imageURL);
       listingEntity.setProperty("location", location);
       listingEntity.setProperty("name", name);
+      listingEntity.setProperty("ownersEmail", userEmail);
       listingEntity.setProperty("tags", tags);
       listingEntity.setProperty("timestamp",timestamp);
       listingEntity.setProperty("type", type);
