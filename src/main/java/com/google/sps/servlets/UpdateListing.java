@@ -17,20 +17,19 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 import com.google.sps.data.Listing;
 import com.google.sps.utility.EntityUtility;
 import com.google.sps.utility.ListingConstants;
+import com.google.sps.utility.UpdateListingUtility;
 import com.google.sps.utility.ValidateInput;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 
 @WebServlet ("/update-listing")
 public class UpdateListing extends HttpServlet {
@@ -47,87 +46,28 @@ public class UpdateListing extends HttpServlet {
     String listingKeyString = ValidateInput.getParameter(request, "listing-key",
         "");
     
-    if (listingKeyString.length() > 0) {
-      UserService userService = UserServiceFactory.getUserService();
-
-      if (userService.isUserLoggedIn()) {
-        String userEmail = userService.getCurrentUser().getEmail();
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-
-        Entity listingEntity;
-        try {
-          listingEntity = datastore.get(KeyFactory.stringToKey(
-              listingKeyString));
-        } catch (Exception e) {
-          ValidateInput.createErrorMessage(e, response);
-          return;
-        }
-
-        String listingEntityOwnersEmail = (String) listingEntity.getProperty(
-            "ownersEmail");
-
-        if (userEmail.equals(listingEntityOwnersEmail)) {
-          try {
-            updateListingEntity(datastore, listingEntity, request);
-          } catch (Exception e) {
-            ValidateInput.createErrorMessage(e, response);
-            return;
-          }
-
-          ValidateInput.createSuccessMessage(response); 
-        } else {
-          ValidateInput.createErrorMessage("User does not own this listing", 
-              response);
-        }
-      } else {
-        ValidateInput.createErrorMessage("User needs to login", response);
-      }
-    } else {
-      ValidateInput.createErrorMessage("Missing listing key", response);
-    }
-  }
-
-  /**
-   * Updates a listing entity.
-   *
-   * @param datastore
-   * @param entity a listing Entity to update.
-   * @param request contains data to retrieve params.
-   */
-  public void updateListingEntity(DatastoreService datastore, Entity entity, 
-      HttpServletRequest request) throws Exception {
-    String description = ValidateInput.getUserString(request, "description",
-        0, ListingConstants.MAX_CONTENT_LEN);
-
-    String howToHelp = ValidateInput.getUserString(request, "howToHelp", 0,
-        ListingConstants.MAX_CONTENT_LEN);
-
-    String imageURL = ValidateInput.getUploadedFileUrl(request, "image", "");
-
-    String location = ValidateInput.getUserString(request, "location", 0,
-        ListingConstants.MAX_LOCATION_LEN);
-
-    String name = ValidateInput.getUserString(request, "name", 0,
-        ListingConstants.MAX_NAME_LEN);
-
-    String type = ValidateInput.getUserString(request, "type", 0,
-        ListingConstants.MAX_TYPE_LEN);
-
-    String website = ValidateInput.getParameter(request, "website", "");
-
-    /**
-     * If length of the property value is 0 and the property value is the
-     *     same as the original value, then keep the original property value.
-     */ 
-    EntityUtility.updateStringProperty(entity, "description", description);
-    EntityUtility.updateStringProperty(entity, "howToHelp", howToHelp);
-    EntityUtility.updateStringProperty(entity, "imageURL", imageURL);
-    EntityUtility.updateStringProperty(entity, "location", location);
-    EntityUtility.updateStringProperty(entity, "name", name);
-    EntityUtility.updateStringProperty(entity, "type", type);
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     
-    entity.setProperty("website", website);
+    UserService userService = UserServiceFactory.getUserService();
 
-    datastore.put(entity);
+    Entity listingEntity;
+    try {
+      listingEntity = UpdateListingUtility.getListingEntityIfUserOwnsIt(
+          datastore, listingKeyString, userService);
+    } catch (Exception e) {
+      ValidateInput.createErrorMessage(e, response);
+      return;
+    }
+
+    try {
+      UpdateListingUtility.updateListingEntity(datastore, listingEntity,
+          request);
+      datastore.put(listingEntity);
+    } catch (Exception e) {
+      ValidateInput.createErrorMessage(e, response);
+      return;
+    }
+
+    ValidateInput.createSuccessMessage(response);
   }
 }

@@ -34,7 +34,7 @@ function createNewListing() {
 }
 
 /**
- * Creates a new listing.
+ * Creates a preview of the new listing.
  */
 function previewNewListing() {
   let queryString = '/create-listing-preview';
