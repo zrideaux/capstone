@@ -32,6 +32,7 @@ import com.google.sps.filter.FilterQuery;
 import com.google.sps.sort.recommended.RecommendedSort;
 import com.google.sps.sort.ReputationSort;
 import com.google.sps.utility.ListingConstants;
+import com.google.sps.utility.UpdateListingUtility;
 import com.google.sps.utility.ValidateInput;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,20 +51,6 @@ import javax.servlet.http.HttpServletRequest;
 public class FetchListings extends HttpServlet {
 
   static final HashMap<String, String> FILTERS = new HashMap<String, String>();
-
-
-  // Based on the length of the String when no filters are checked (MIN) or 
-  //     when all filters are checked and separated by "@" (MAX)
-  static final int FILTER_MIN = 0;
-  static final int FILTER_MAX = 7;
-  // Based on the length of the shortest/longest radius category 
-  static final int RADIUS_MIN = 10;
-  static final int RADIUS_MAX = 101;
-  // Based on the length of the shortest/longest sort category 
-  static final int SORT_MIN = 10;
-  static final int SORT_MAX = 12;
-
-  static final int LISTING_LIMIT = 50;
 
   /** 
    * Returns JSON which is a List of Listings associated with the user or an 
@@ -90,7 +77,8 @@ public class FetchListings extends HttpServlet {
     int radiusFilter;
     try {
       radiusFilter = ValidateInput.getUserNum(request, 
-        "radius-filter", RADIUS_MIN, RADIUS_MAX, 10);
+        "radius-filter", ListingConstants.RADIUS_MIN, 
+        ListingConstants.RADIUS_MAX, 10);
     } catch (Exception e) {
       ValidateInput.createErrorMessage(e, response);
       return;
@@ -136,16 +124,19 @@ public class FetchListings extends HttpServlet {
     List<Entity> listingEntities = preparedQueryListings.asList(entitiesLimit);
 
     // Turn Entities into Listings
-    List<Listing> listings = new ArrayList<Listing>();
-    for (Entity listingEntity : listingEntities) {
-      listings.add(Listing.createListing(listingEntity));
+    UserService userService = UserServiceFactory.getUserService();
+    List<Listing> listings;
+    try {
+      listings = entitiesToListings(datastore, listingEntities, userService);
+    } catch (Exception e) {
+      ValidateInput.createErrorMessage(e, response);
+      return;
     }
 
     // Sort the Listings based on sort parameter
     // The sorting algorithm will be given a List<Listing> and will return a 
     //     List<Listing>
     if (sortBy == 1) {
-      UserService userService = UserServiceFactory.getUserService();
       try {
         listings = RecommendedSort.sortByRecommended(datastore, listings, 
             userService, userLocation);
@@ -158,7 +149,7 @@ public class FetchListings extends HttpServlet {
     } else {
       // TODO call on LeastViewed sorting algorithm
     }
-    
+
     String formattedUserLocation = "";
      
     if (!userLocation.equals("")) {   
@@ -168,15 +159,44 @@ public class FetchListings extends HttpServlet {
       listings = ExcludeByRadius.cutList(listings, distance, radiusFilter);
       formattedUserLocation = distance.getOriginAddress();
     }
-   
+
     FetchListingsData fetchListingsData = new FetchListingsData(listings, formattedUserLocation);
 
     TrackingResponse trackingListings = new TrackingResponse(timeToBack, 
         fetchListingsData);
-      
+
     String jsonTrackingListings = new Gson().toJson(trackingListings);
     response.setContentType("application/json;");
     response.getWriter().println(jsonTrackingListings);
+  }
+
+  /**
+   * Turns a List of listing Entities to a List of Listings.
+   *
+   * @param datastore the DatastoreService that connects to the back end.
+   * @param listingEntities a List of Entities to turn into Listings.
+   * @param userService used to get a user's email and to determine if the user 
+   *     is logged in.
+   * @return a List<Listing> created from a List<Entity>.
+   */
+  public static List<Listing> entitiesToListings(DatastoreService datastore,
+      List<Entity> listingEntities, UserService userService) {
+    List<Listing> listings = new ArrayList<Listing>();
+
+    if (userService.isUserLoggedIn()) {
+      String userEmail = userService.getCurrentUser().getEmail();
+
+      // Determine which listings are owned by the user.
+      for (Entity listingEntity : listingEntities) {
+        listings.add(Listing.createListing(listingEntity, userEmail));
+      }
+    } else {
+      for (Entity listingEntity : listingEntities) {
+        listings.add(Listing.createListing(listingEntity));
+      }
+    }
+
+    return listings;
   }
 
   /**
