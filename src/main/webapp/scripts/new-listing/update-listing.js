@@ -90,7 +90,8 @@ function createPreviewListingFunc(listingKey) {
   let queryString = '/update-listing-preview';
 
   const appendFormDataFunc = createAppendFromDataFunc(listingKey);
-  const createPreviewListingFunc = createCreatePreviewListingFunc(updatedPreviewListingFunc);
+  const createPreviewListingFunc = createCreatePreviewListingFunc(
+      updatedPreviewListingFunc);
 
   const sendFormDataFunc = createPreviewSendFormDataFunc(appendFormDataFunc, createPreviewListingFunc);
   // create an update listing preview
