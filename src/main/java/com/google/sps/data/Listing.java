@@ -95,29 +95,6 @@ public final class Listing {
     this.website = website;
   }
 
-  public Listing(String description, String howToHelp, String imageURL,
-      boolean isOwnerUser, String key, String location, String name,
-      long timestamp, String type, int upvotes, int downvotes, int views,
-      String vote, String website) {
-    this.description = description;
-    this.howToHelp = howToHelp;
-    this.imageURL = imageURL;
-    this.isOwnerUser = isOwnerUser;
-    this.key = key;
-    this.location = location;
-    this.name = name;
-    this.timestamp = new Long(timestamp);
-    
-    // turn int of timestamp into Date object
-    String dateCreated = timestampToDate(timestamp);
-    this.dateCreated = dateCreated;
-    this.type = type;
-    this.upvotes = upvotes;
-    this.downvotes = downvotes;
-    this.views = views;
-    this.website = website;
-  }
-
   /**
    * Create a date that is a String in the form of mon dd yyyy
    *
@@ -177,10 +154,11 @@ public final class Listing {
 
   /**
    * Creates a Listing object from an Entity object that represents a listing 
-   *     and has a variable that says whether or not the user owns this listing.
+   *     and update its variable that says whether or not the user owns this 
+   *     listing.
    *
    * @param entity the entity that represents a listing
-   * @param euserEmail the email of the user,
+   * @param isOwnerUser a boolean that states whether a user owns a listing or not.
    * @return a Listing with all of the properties from the Entity and a 
    *     variable that says whether or not the user owns this listing.
    */
@@ -193,7 +171,8 @@ public final class Listing {
 
   /**
    * Creates a Listing object from an Entity object that represents a listing 
-   *     and has a variable that says whether or not the user owns this listing.
+   *     and update its variable that says whether or not the user owns this 
+   *     listing.
    *
    * @param entity the entity that represents a listing
    * @param euserEmail the email of the user,
@@ -290,12 +269,12 @@ public final class Listing {
   }
 
   /**
-   * Turns a String[] of listing entity key Strings into a List<Listing>.
+   * Turns a List<Entity> into a List<Listing> with an updated isOwnerUser 
+   *     variable.
    *
-   * @param datastore the DatastoreService that connects to the back end.
-   * @param listingEntityKeysStringArray the String[] of listing entity key
-   *     Strings that will each be used to create a Listing.
-   * @return List<Listing> from the String[] of listing entity key strings.
+   * @param listingEntities the list of listing Entities to turn into Listings.
+   * @param userEmail the email of the user.
+   * @return List<Listing> from the List of listing Entities.
    */
   public static List<Listing> createListings(List<Entity> listingEntities, 
       String userEmail) throws Exception {

@@ -77,6 +77,7 @@ public final class User {
   /**
    * Creates a User object from an Entity object that represents a user
    *
+   * @param datastore the DatastoreService that connects to the back end.
    * @param entity the entity that represents a user
    * @return a User with all of the properties from the Entity
    */
@@ -86,14 +87,8 @@ public final class User {
     String email = (String) entity.getProperty("email");
     String username = (String) entity.getProperty("username");
 
-    // Get a user's 
-    Filter filter = new FilterPredicate("ownersEmail", FilterOperator.EQUAL, email);
-    Query queryListing = new Query("Listing").setFilter(filter);
-    PreparedQuery preparedQueryListings = datastore.prepare(queryListing);
-
-    FetchOptions entitiesLimit = FetchOptions.Builder.withLimit(
-        ListingConstants.LISTING_LIMIT);
-    List<Entity> listingEntities = preparedQueryListings.asList(entitiesLimit);
+    // Get a user's created listings.
+    List<Entity> listingEntities = getCreatedListings(datastore, email);
 
     List<Listing> createdListings = Listing.createListings(listingEntities, email);
     List<Listing> upvotedListings = getListings(datastore, entity, 
@@ -101,7 +96,26 @@ public final class User {
 
     return new User(bio, email, username, createdListings, 
         upvotedListings);
-  }  
+  }
+
+  /**
+   * Returns a User's created listing entities.
+   *
+   * @param datastore the DatastoreService that connects to the back end.
+   * @param userEmail the email of the current user.
+   * @return a User's created listing entities
+   */
+  public static List<Entity> getCreatedListings(DatastoreService datastore,
+      String userEmail) {
+    Filter filter = new FilterPredicate("ownersEmail", FilterOperator.EQUAL,
+        userEmail);
+    Query queryListing = new Query("Listing").setFilter(filter);
+    PreparedQuery preparedQueryListings = datastore.prepare(queryListing);
+
+    FetchOptions entitiesLimit = FetchOptions.Builder.withLimit(
+        ListingConstants.LISTING_LIMIT);
+    return preparedQueryListings.asList(entitiesLimit);
+  }
 
   /**
    * Create and return a new user entity.

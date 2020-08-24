@@ -49,7 +49,7 @@ public final class RecommendedSort {
       String userEmail = userService.getCurrentUser().getEmail();
       Entity userEntity = AuthenticationUtility.getUserByEmail(datastore, 
           userEmail);
-    
+
       // Removes the Listings in the List it returns from listings 
       sortedListings.addAll(SortByUpvotedListings.sortByUpvotedListings(
           datastore, listings, userEntity));
@@ -59,7 +59,7 @@ public final class RecommendedSort {
     if (userLocation.equals("")) {
       sortedListings.addAll(sortByTime(listings));
     } else {
-      sortedListings.addAll(sortByDistanceAndReputation(listings, userLocation));  
+      sortedListings.addAll(sortByDistanceAndReputation(listings, userLocation));
     }
 
     return sortedListings;
@@ -81,18 +81,18 @@ public final class RecommendedSort {
     for (int i = 0; i < listings.size(); i++) {
       locations[i] = listings.get(i).getLocation(); 
     }
-    
+
     DistanceMatrixOBJ distances =  ExcludeByRadius.convertJsonToDMObject(
-        ExcludeByRadius.distanceMatrixJsonURL(userLocation, locations));
-    
+        ExcludeByRadius.distanceMatrixJsonURL(userLocation, listings));
+
     int[] distanceValues = distances.getIntegerDistanceValues();
-    
+
     for (int i = 0; i < listings.size(); i++) {
       listings.get(i).generateReputationScore();
       listings.get(i).generateDistanceScore(distanceValues[i]);
       listings.get(i).generateReputationAndDistanceScore();
     }
-    
+
     // Sorts listings in descending order based of their reputation and distance score
     Collections.sort(listings,
       (a, b) -> (-1 * a.reputationAndDistanceScore.compareTo(b.reputationAndDistanceScore))); 

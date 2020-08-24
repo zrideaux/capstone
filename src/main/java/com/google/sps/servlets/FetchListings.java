@@ -141,7 +141,6 @@ public class FetchListings extends HttpServlet {
         listings = RecommendedSort.sortByRecommended(datastore, listings, 
             userService, userLocation);
       } catch (Exception e) {
-        System.err.println("Error: " + e.getMessage());
         ValidateInput.createErrorMessage(e, response);
         return;
       }
@@ -175,9 +174,10 @@ public class FetchListings extends HttpServlet {
    * Turns a List of listing Entities to a List of Listings.
    *
    * @param datastore the DatastoreService that connects to the back end.
-   * @param listingEntities
-   * @param listings
-   * @param userService
+   * @param listingEntities a List of Entities to turn into Listings.
+   * @param userService used to get a user's email and to determine if the user 
+   *     is logged in.
+   * @return a List<Listing> created from a List<Entity>.
    */
   public static List<Listing> entitiesToListings(DatastoreService datastore,
       List<Entity> listingEntities, UserService userService) {
@@ -186,6 +186,7 @@ public class FetchListings extends HttpServlet {
     if (userService.isUserLoggedIn()) {
       String userEmail = userService.getCurrentUser().getEmail();
 
+      // Determine which listings are owned by the user.
       for (Entity listingEntity : listingEntities) {
         listings.add(Listing.createListing(listingEntity, userEmail));
       }
