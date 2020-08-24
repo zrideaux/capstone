@@ -37,6 +37,7 @@ public final class Listing {
   public int distanceScore;
   private final String howToHelp;
   private final String imageURL;
+  private boolean isOwnerUser = false;
   private String key;
   private final String location;
   private final String name;
@@ -80,6 +81,29 @@ public final class Listing {
     this.howToHelp = howToHelp;
     this.imageURL = imageURL;
     this.key = "";
+    this.location = location;
+    this.name = name;
+    this.timestamp = new Long(timestamp);
+    
+    // turn int of timestamp into Date object
+    String dateCreated = timestampToDate(timestamp);
+    this.dateCreated = dateCreated;
+    this.type = type;
+    this.upvotes = upvotes;
+    this.downvotes = downvotes;
+    this.views = views;
+    this.website = website;
+  }
+
+  public Listing(String description, String howToHelp, String imageURL,
+      boolean isOwnerUser, String key, String location, String name,
+      long timestamp, String type, int upvotes, int downvotes, int views,
+      String vote, String website) {
+    this.description = description;
+    this.howToHelp = howToHelp;
+    this.imageURL = imageURL;
+    this.isOwnerUser = isOwnerUser;
+    this.key = key;
     this.location = location;
     this.name = name;
     this.timestamp = new Long(timestamp);
@@ -147,8 +171,41 @@ public final class Listing {
     String vote = getVoteForListing(datastore, userService, key);
     String website = (String) entity.getProperty("website");
 
-    return new Listing(description, howToHelp, imageURL, key, location, name,
+    return new Listing(description, howToHelp, imageURL, key, location, name, 
         timestamp, type, upvotes, downvotes, views, vote, website);
+  }
+
+  /**
+   * Creates a Listing object from an Entity object that represents a listing 
+   *     and has a variable that says whether or not the user owns this listing.
+   *
+   * @param entity the entity that represents a listing
+   * @param euserEmail the email of the user,
+   * @return a Listing with all of the properties from the Entity and a 
+   *     variable that says whether or not the user owns this listing.
+   */
+  public static Listing createListing(Entity entity, boolean isOwnerUser) {
+    Listing listing = createListing(entity);
+    listing.setIsOwnerUser(isOwnerUser);
+
+    return listing;
+  }
+
+  /**
+   * Creates a Listing object from an Entity object that represents a listing 
+   *     and has a variable that says whether or not the user owns this listing.
+   *
+   * @param entity the entity that represents a listing
+   * @param euserEmail the email of the user,
+   * @return a Listing with all of the properties from the Entity and a 
+   *     variable that says whether or not the user owns this listing.
+   */
+  public static Listing createListing(Entity entity, String userEmail) {
+    String ownersEmail = (String) entity.getProperty(
+        "ownersEmail");
+    boolean isOwnerUser = ownersEmail.equals(userEmail);
+
+    return createListing(entity, isOwnerUser);
   }
 
   /**
@@ -233,6 +290,24 @@ public final class Listing {
   }
 
   /**
+   * Turns a String[] of listing entity key Strings into a List<Listing>.
+   *
+   * @param datastore the DatastoreService that connects to the back end.
+   * @param listingEntityKeysStringArray the String[] of listing entity key
+   *     Strings that will each be used to create a Listing.
+   * @return List<Listing> from the String[] of listing entity key strings.
+   */
+  public static List<Listing> createListings(List<Entity> listingEntities, 
+      String userEmail) throws Exception {
+    List<Listing> listings = new ArrayList<Listing>();
+    for (Entity listingEntity : listingEntities) {
+      listings.add(createListing(listingEntity, userEmail));
+    }
+
+    return listings;
+  }
+
+  /**
    * Get a string representing the vote the current user has on a listing entity.
    *
    * @param datastore a datastore service instance
@@ -292,6 +367,16 @@ public final class Listing {
    */
   public int getDownvotes() {
     return downvotes;
+  }
+
+  /**
+   * Sets a Listing's variable isOwnerUser to a new boolean;
+   *
+   * @param isOwnerUser a boolean that states whether or not this Listing 
+   *     belongs to the current user.
+   */
+  public void setIsOwnerUser(boolean isOwnerUser) {
+    this.isOwnerUser = isOwnerUser;
   }
 
   /**

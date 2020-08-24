@@ -16,12 +16,19 @@ package com.google.sps.data;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.users.UserService;
 import com.google.sps.data.Listing;
 import com.google.sps.utility.AuthenticationUtility;
 import com.google.sps.utility.EntityUtility;
+import com.google.sps.utility.ListingConstants;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,8 +85,17 @@ public final class User {
     String bio = (String) entity.getProperty("bio");
     String email = (String) entity.getProperty("email");
     String username = (String) entity.getProperty("username");
-    List<Listing> createdListings = getListings(datastore, entity, 
-        "createdListingKeys");
+
+    // Get a user's 
+    Filter filter = new FilterPredicate("ownersEmail", FilterOperator.EQUAL, email);
+    Query queryListing = new Query("Listing").setFilter(filter);
+    PreparedQuery preparedQueryListings = datastore.prepare(queryListing);
+
+    FetchOptions entitiesLimit = FetchOptions.Builder.withLimit(
+        ListingConstants.LISTING_LIMIT);
+    List<Entity> listingEntities = preparedQueryListings.asList(entitiesLimit);
+
+    List<Listing> createdListings = Listing.createListings(listingEntities, email);
     List<Listing> upvotedListings = getListings(datastore, entity, 
         "upvotedListingKeys");
 
