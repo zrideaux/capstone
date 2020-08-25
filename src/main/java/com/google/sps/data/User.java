@@ -16,12 +16,19 @@ package com.google.sps.data;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.users.UserService;
 import com.google.sps.data.Listing;
 import com.google.sps.utility.AuthenticationUtility;
 import com.google.sps.utility.EntityUtility;
+import com.google.sps.utility.ListingConstants;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,6 +77,7 @@ public final class User {
   /**
    * Creates a User object from an Entity object that represents a user
    *
+   * @param datastore the DatastoreService that connects to the back end.
    * @param entity the entity that represents a user
    * @return a User with all of the properties from the Entity
    */
@@ -78,14 +86,36 @@ public final class User {
     String bio = (String) entity.getProperty("bio");
     String email = (String) entity.getProperty("email");
     String username = (String) entity.getProperty("username");
-    List<Listing> createdListings = getListings(datastore, entity, 
-        "createdListingKeys");
+
+    // Get a user's created listings.
+    List<Entity> listingEntities = getCreatedListings(datastore, email);
+
+    List<Listing> createdListings = Listing.createListings(listingEntities, email);
     List<Listing> upvotedListings = getListings(datastore, entity, 
         "upvotedListingKeys");
 
     return new User(bio, email, username, createdListings, 
         upvotedListings);
-  }  
+  }
+
+  /**
+   * Returns a User's created listing entities.
+   *
+   * @param datastore the DatastoreService that connects to the back end.
+   * @param userEmail the email of the current user.
+   * @return a User's created listing entities
+   */
+  public static List<Entity> getCreatedListings(DatastoreService datastore,
+      String userEmail) {
+    Filter filter = new FilterPredicate("ownersEmail", FilterOperator.EQUAL,
+        userEmail);
+    Query queryListing = new Query("Listing").setFilter(filter);
+    PreparedQuery preparedQueryListings = datastore.prepare(queryListing);
+
+    FetchOptions entitiesLimit = FetchOptions.Builder.withLimit(
+        ListingConstants.LISTING_LIMIT);
+    return preparedQueryListings.asList(entitiesLimit);
+  }
 
   /**
    * Create and return a new user entity.

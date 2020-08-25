@@ -31,8 +31,8 @@ public final class ListingConstants {
   public static final int FILTER_MIN = 0;
   public static final int FILTER_MAX = 7;
   // Based on the length of the shortest/longest radius category 
-  public static final int RADIUS_MIN = 2;
-  public static final int RADIUS_MAX = 4;
+  public static final int RADIUS_MIN = 10;
+  public static final int RADIUS_MAX = 101;
   // Based on the number of sort categories
   public static final int SORT_MIN = 1;
   public static final int SORT_MAX = 3;

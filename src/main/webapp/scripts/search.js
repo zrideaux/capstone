@@ -194,5 +194,6 @@ function getSearchParameters() {
   params += '&sortBy=' + sort;
   params += '&location=' + location;
   params += '&call=' + getCall();
+  location = '';
   return params;
 }

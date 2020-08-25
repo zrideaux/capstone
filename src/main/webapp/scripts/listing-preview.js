@@ -52,11 +52,12 @@ export default function createListingPreview(listing, listingDisplay, listingId)
 
   // Creating listing details
   const description = listing.description;
+  const isOwnerUser = listing.isOwnerUser;
   const location = listing.location;
   const name = listing.name;
   const type = listing.type;
-  sectionListing.appendChild(createListingDetails(description, key, location, name, 
-      type));
+  sectionListing.appendChild(createListingDetails(description, isOwnerUser, key,
+      location, name, type));
 
   return sectionListing;
 }
@@ -84,17 +85,21 @@ function createListingInformation(downvotes, imageURL, key, upvotes, vote) {
  * Create an element with listing details.
  *
  * @param description the description associated with this listing.
+ * @param isOwnerUser a boolean that states whether or not the user owns this 
+ *     listing.
  * @param key the key of this listing.
  * @param location the location of this listing.
  * @param name the name of this listing.
  * @param type the type of the listing .
  * @return a div with the description, name, and tags of a listing.
  */
-function createListingDetails(description, key, location, name, type) {
+function createListingDetails(description, isOwnerUser, key, location, name,
+    type) {
   const divListingDetails = createDivElement('', 'listing-info-container', '');
 
   // Creating listing heading
-  divListingDetails.appendChild(createListingHeading(key, name, type));
+  divListingDetails.appendChild(createListingHeading(isOwnerUser, key, name,
+      type));
 
   divListingDetails.appendChild(
     createPElement(location, 'listing-preview-details', ''));
@@ -108,12 +113,14 @@ function createListingDetails(description, key, location, name, type) {
 /**
  * Create an element with listing heading.
  *
+ * @param isOwnerUser a boolean that states whether or not the user owns this 
+ *     listing.
  * @param key the key of this listing.
  * @param name the name of this listing.
  * @param type the type of the listing.
  * @return a div with the name and tags of a listing.
  */
-function createListingHeading(key, name, type) {
+function createListingHeading(isOwnerUser, key, name, type) {
   const divListingHeading = createDivElement('', 'listing-heading-container', 
       '');
   
@@ -124,7 +131,9 @@ function createListingHeading(key, name, type) {
   const divListingSubHeading = createDivElement('', 'listing-sub-heading', '');
   divListingHeading.appendChild(divListingSubHeading);
 
-  divListingSubHeading.appendChild(createEdit(key));
+  if (isOwnerUser) {
+    divListingSubHeading.appendChild(createEdit(key));
+  }
 
   divListingSubHeading.appendChild(createListingType(type));
 
@@ -139,7 +148,10 @@ function createListingHeading(key, name, type) {
  */
 function createEdit(key) {
   const editPElement = createPElement('Edit', 'listing-edit', '');
-  const moveToEditListingPage = () => { editListingPageUrl(key); };
+  const moveToEditListingPage = (event) => { 
+    editListingPageUrl(key);
+    event.stopPropagation();
+  };
   keyboardAccessible(editPElement, moveToEditListingPage, moveToEditListingPage);
 
   return editPElement;

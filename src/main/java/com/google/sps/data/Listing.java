@@ -37,6 +37,7 @@ public final class Listing {
   public int distanceScore;
   private final String howToHelp;
   private final String imageURL;
+  private boolean isOwnerUser = false;
   private String key;
   private final String location;
   private final String name;
@@ -152,6 +153,41 @@ public final class Listing {
   }
 
   /**
+   * Creates a Listing object from an Entity object that represents a listing 
+   *     and update its variable that says whether or not the user owns this 
+   *     listing.
+   *
+   * @param entity the entity that represents a listing
+   * @param isOwnerUser a boolean that states whether a user owns a listing or not.
+   * @return a Listing with all of the properties from the Entity and a 
+   *     variable that says whether or not the user owns this listing.
+   */
+  public static Listing createListing(Entity entity, boolean isOwnerUser) {
+    Listing listing = createListing(entity);
+    listing.setIsOwnerUser(isOwnerUser);
+
+    return listing;
+  }
+
+  /**
+   * Creates a Listing object from an Entity object that represents a listing 
+   *     and update its variable that says whether or not the user owns this 
+   *     listing.
+   *
+   * @param entity the entity that represents a listing
+   * @param userEmail the email of the user,
+   * @return a Listing with all of the properties from the Entity and a 
+   *     variable that says whether or not the user owns this listing.
+   */
+  public static Listing createListing(Entity entity, String userEmail) {
+    String ownersEmail = (String) entity.getProperty(
+        "ownersEmail");
+    boolean isOwnerUser = ownersEmail.equals(userEmail);
+
+    return createListing(entity, isOwnerUser);
+  }
+
+  /**
    * Increment a specified property in a listing entity and update it in
    * datastore.
    *
@@ -233,6 +269,24 @@ public final class Listing {
   }
 
   /**
+   * Turns a List<Entity> into a List<Listing> with an updated isOwnerUser 
+   *     variable.
+   *
+   * @param listingEntities the list of listing Entities to turn into Listings.
+   * @param userEmail the email of the user.
+   * @return List<Listing> from the List of listing Entities.
+   */
+  public static List<Listing> createListings(List<Entity> listingEntities, 
+      String userEmail) throws Exception {
+    List<Listing> listings = new ArrayList<Listing>();
+    for (Entity listingEntity : listingEntities) {
+      listings.add(createListing(listingEntity, userEmail));
+    }
+
+    return listings;
+  }
+
+  /**
    * Get a string representing the vote the current user has on a listing entity.
    *
    * @param datastore a datastore service instance
@@ -292,6 +346,16 @@ public final class Listing {
    */
   public int getDownvotes() {
     return downvotes;
+  }
+
+  /**
+   * Sets a Listing's variable isOwnerUser to a new boolean;
+   *
+   * @param isOwnerUser a boolean that states whether or not this Listing 
+   *     belongs to the current user.
+   */
+  public void setIsOwnerUser(boolean isOwnerUser) {
+    this.isOwnerUser = isOwnerUser;
   }
 
   /**
