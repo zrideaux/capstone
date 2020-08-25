@@ -23,7 +23,7 @@ public final class ListingConstants {
   // Based on the length of the longest category name (fundraiser)
   public static final int MAX_TYPE_LEN = 10; 
 
-  // 
+  // Used to limit the number of keywords to compare against
   public static final int KEYWORD_MIN = 0;
   public static final int KEYWORD_MAX = 64;
   // Based on the length of the String when no filters are checked (MIN) or 

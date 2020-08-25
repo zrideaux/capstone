@@ -2,6 +2,8 @@
 const wordsToRemove = ['and', 'a', 'an', 'the', 'at', 'to', 'this', 'is', 'in',
     'for', 'get'];
 
+// TODO(zrideaux@): add suggestion for state associated with state code 
+//                  filled in location field
 const stateCodes = {
   'ca': 'california'
 }
