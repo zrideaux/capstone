@@ -26,18 +26,18 @@ function createScrollToTopButton(scrollPast, classAttribute = '') {
 function scrollToTop() {
   $(document).ready(function(){
     $('html, body').animate({
-  scrollTop: 0
+      scrollTop: 0
     });
   });
 }
 
 /**
-  * When the user scrolls past the scrollPast parameter (number in px) from the 
-  *     top of the documents, it will show the element.
-  *
-  * @param element An element whose display will toggle on and off.
-  * @param scrollPast A number in px from the top of the document.
-  */
+ * When the user scrolls past the scrollPast parameter (number in px) from the 
+ *     top of the documents, it will show the element.
+ *
+ * @param element An element whose display will toggle on and off.
+ * @param scrollPast A number in px from the top of the document.
+ */
 function toggleOnScroll(element, scrollPast) {
   if (document.body.scrollTop > scrollPast || document.documentElement.scrollTop > scrollPast) {
     element.style.display = "block";
