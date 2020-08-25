@@ -51,9 +51,7 @@ public final class KeywordFilter {
       matches.addAll(Arrays.asList(listingName.toLowerCase().split("\\W+")));
 
       // Get the intersection of the name/tags and the entered keywords
-      System.out.println("Matches before intersection: " + matches.toString());
       matches.retainAll(keywordFiltersSet);
-      System.out.println("Intersection: " + matches.toString());
 
       // If the intersection is not the null set, include the current entity
       if (matches.size() > 0) {
