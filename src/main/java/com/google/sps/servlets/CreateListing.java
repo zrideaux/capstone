@@ -117,12 +117,6 @@ public class CreateListing extends HttpServlet {
       DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
       Key listingEntityKey = datastore.put(listingEntity);
 
-      // Get current user and place the entity in their created listings property
-      Entity currentUser = AuthenticationUtility.getCurrentUserEntity(
-          datastore, userService);
-      User.addListingKeyToUserEntity(datastore, currentUser,
-          listingEntityKey, "createdListingKeys");
-
       // Returns a success message since everything went smoothly
       ValidateInput.createSuccessMessage(response);
     } else {
