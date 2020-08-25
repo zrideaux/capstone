@@ -16,10 +16,10 @@ package com.google.sps.filter;
 
 import com.google.appengine.api.datastore.Entity;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 
 public final class KeywordFilter {
   /**
@@ -42,9 +42,10 @@ public final class KeywordFilter {
     // For each of the remaining entities, check if any tags or words in the
     //    listing name match with the keywords
     for (int i = 0; i < listingEntities.size(); i++) {
+      Entity currentEntity = listingEntities.get(i);
       // Make a set of tags and words in the name
-      String listingTags = (String) listingEntities.get(i).getProperty("tags");
-      String listingName = (String) listingEntities.get(i).getProperty("name");
+      String listingTags = (String) currentEntity.getProperty("tags");
+      String listingName = (String) currentEntity.getProperty("name");
 
       HashSet<String> matches = new HashSet<>(
           Arrays.asList(listingTags.toLowerCase().split("\\W+")));
@@ -55,7 +56,7 @@ public final class KeywordFilter {
 
       // If the intersection is not the null set, include the current entity
       if (matches.size() > 0) {
-        updatedListingEntities.add(listingEntities.get(i));
+        updatedListingEntities.add(currentEntity);
       }
     }
 

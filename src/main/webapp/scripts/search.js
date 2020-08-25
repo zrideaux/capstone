@@ -42,7 +42,6 @@ window.onload = function() {
   initiateLastCall();
   addOnclickToInputs();
   addOnchangeToInputs();
-  displayListings();
   getCurrentPosition();
 }
 

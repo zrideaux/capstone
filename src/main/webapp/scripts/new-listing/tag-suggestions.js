@@ -1,6 +1,9 @@
+import { createButtonElement } from './../htmlElement.js';
 
-const wordsToRemove = ['and', 'a', 'an', 'the', 'at', 'to', 'this', 'is', 'in',
-    'for', 'get'];
+import validateInput from './validate-input.js';
+
+const wordsToRemove = ['a', 'an', 'and', 'at', 'for', 'get', 'in', 'is', 'the',
+    'this', 'to'];
 
 // TODO(zrideaux@): add suggestion for state associated with state code 
 //                  filled in location field
@@ -44,7 +47,6 @@ function suggestTags() {
 
   // Map each word in words array to the number of times it appears
   let wordCounts = getWordCounts(words);
-  console.log(wordCounts);
 
   // TODO(zrideaux@): Prevent users from adding tag suggestion if it would make
   //                  value exceed maximum limit
@@ -126,15 +128,13 @@ function createPopulateKeywordSuggestions(currentTags, suggestionContainer) {
  * @return a button element of a suggestion
  */
 function createSuggestionElement(text) {
-  let suggestionElement = document.createElement('button');
+  let suggestionElement = createButtonElement('+ ' + text, 'tag-suggestion', '');
 
-  suggestionElement.innerText = '+ ' + text;
-  suggestionElement.className = 'tag-suggestion';
   suggestionElement.onclick = () => {
     // Determine if suggestion should be added with a comma 
     let currentTags = document.getElementById('cause-tags').value.trim();
-    if (currentTags.charAt(currentTags.length - 1) === ',' ||
-        currentTags.charAt(currentTags.length - 1) === '') {
+    let lastCharacter = currentTags.charAt(currentTags.length - 1);
+    if (lastCharacter === ',' || lastCharacter === '') {
       document.getElementById('cause-tags').value =
           document.getElementById('cause-tags').value.trim() + ' ' + text;
     } else {
