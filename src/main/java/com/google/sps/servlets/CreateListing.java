@@ -115,7 +115,7 @@ public class CreateListing extends HttpServlet {
 
       // Place the new listing entity in datastore and save its key
       DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-      Key listingEntityKey = datastore.put(listingEntity);
+      datastore.put(listingEntity);
 
       // Returns a success message since everything went smoothly
       ValidateInput.createSuccessMessage(response);
