@@ -80,6 +80,10 @@
   display: flex;
 }
 
+.material-icons.delete-icon:hover {
+  color: red;
+}
+
 .material-icons.modal-delete-icon {
   color: red;
   font-size: 3rem;
