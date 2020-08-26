@@ -64,13 +64,10 @@ public class DeleteListing extends HttpServlet {
       return;
     }
 
-    // The user limit is the number of upvotes the listing has.
-    int userLimit = Math.toIntExact((long) listingEntity.getProperty("upvotes"));
-
     // Get all users 
     Query queryUser = new Query("User");
-    PreparedQuery preparedQueryListings = datastore.prepare(queryUser);
-    Iterable<Entity> userEntities = preparedQueryListings.asIterable();
+    PreparedQuery preparedQueryUsers = datastore.prepare(queryUser);
+    Iterable<Entity> userEntities = preparedQueryUsers.asIterable();
 
     // Go through all of the users and remove the upvoted listing key string
     for (Entity userEntity : userEntities) {
