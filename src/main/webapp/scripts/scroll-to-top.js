@@ -26,7 +26,7 @@ function createScrollToTopButton(scrollPast, classAttribute = '') {
 function scrollToTop() {
   $(document).ready(function(){
     $('html, body').animate({
-        scrollTop: 0
+      scrollTop: 0
     });
   });
 }

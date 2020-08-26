@@ -41,6 +41,7 @@ window.onload = function() {
   makeNavBarScrollToTop();
   initiateLastCall();
   addOnclickToInputs();
+  addOnchangeToInputs();
   getCurrentPosition();
 }
 
@@ -117,6 +118,19 @@ function addOnclickToInputs() {
 }
 
 /**
+ * Add onchange event listeners to text inputs (keyword search, location)
+ */
+function addOnchangeToInputs() {
+  document.getElementById('search-keyword-input').onchange = () => {
+    displayListings();
+  }
+
+  document.getElementById('search-location-input').onchange = () => {
+    displayListings();
+  }
+}
+
+/**
  * Add onclick and when enter key is pressed event listeners to the checkbox 
  *     element.
  * This function is used to be passed as a parameter to the mapElementsByName 
@@ -162,20 +176,23 @@ function geolocationError(){
 }
 
 /**
- * Get the search parameters (type filters, radius filter, and sortBy) from the 
- *     search page.
+ * Get the search parameters (type filters, keyword filters, radius filter,
+ * sortBy, location, and call number) from the search page.
  *
  * @return a String that represents a query parameter
  */
 function getSearchParameters() {
   const filterTypes = getCheckboxesByName('search-type-option');
   const filterRadius = getRadioByName('search-radius-option');
+  const keywordFilters = document.getElementById('search-keyword-input').value;
   const sort = getRadioByName('search-sort-option');
-  let param = 'type-filters=' + filterTypes;
-  param += '&radius-filter=' + filterRadius;
-  param += '&sortBy=' + sort;
-  param += '&location=' + location;
-  param += '&call=' + getCall();
+
+  let params = 'type-filters=' + filterTypes;
+  params += '&keyword-filters=' + keywordFilters;
+  params += '&radius-filter=' + filterRadius;
+  params += '&sortBy=' + sort;
+  params += '&location=' + location;
+  params += '&call=' + getCall();
   location = '';
-  return param;
+  return params;
 }

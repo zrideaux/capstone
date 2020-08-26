@@ -55,12 +55,15 @@ function appendParameterToFormData(formData) {
   const location = document.getElementById('cause-location').value;
   const description = document.getElementById('cause-description').value;
   const howToHelp = document.getElementById('cause-how-to-help').value;
+  const tags = document.getElementById('cause-tags').value;
   const website = document.getElementById('cause-website').value;
+
   formData.append('name', name);
   formData.append('type', getRadioByName('cause-type'));
   formData.append('location', location);
   formData.append('description', description);
   formData.append('howToHelp', howToHelp);
+  formData.append('tags', tags);
   formData.append('website', website);
 }
 

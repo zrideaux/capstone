@@ -29,6 +29,7 @@ import com.google.sps.data.FetchListingsData;
 import com.google.sps.data.TrackingResponse;
 import com.google.sps.utility.ExcludeByRadius;
 import com.google.sps.filter.FilterQuery;
+import com.google.sps.filter.KeywordFilter;
 import com.google.sps.sort.recommended.RecommendedSort;
 import com.google.sps.sort.ReputationSort;
 import com.google.sps.utility.ListingConstants;
@@ -64,6 +65,16 @@ public class FetchListings extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) 
       throws IOException {
     // Get the parameters
+    String keywordFiltersString;
+    try {
+      keywordFiltersString = ValidateInput.getUserString(request,
+        "keyword-filters", ListingConstants.KEYWORD_MIN,
+        ListingConstants.KEYWORD_MAX);
+    } catch (Exception e) {
+      ValidateInput.createErrorMessage(e, response);
+      return;
+    }
+
     String typeFiltersString;
     try {
       typeFiltersString = ValidateInput.getUserString(request, 
@@ -72,7 +83,7 @@ public class FetchListings extends HttpServlet {
     } catch (Exception e) {
       ValidateInput.createErrorMessage(e, response);
       return;
-    } 
+    }
 
     int radiusFilter;
     try {
@@ -122,6 +133,12 @@ public class FetchListings extends HttpServlet {
     FetchOptions entitiesLimit = FetchOptions.Builder.withLimit(
         ListingConstants.LISTING_LIMIT);
     List<Entity> listingEntities = preparedQueryListings.asList(entitiesLimit);
+
+    // If any keywords are specified, filter out any listings that don't match
+    if (keywordFiltersString.length() > 0) {
+      listingEntities = KeywordFilter.filterByKeyword(listingEntities,
+          keywordFiltersString);
+    }
 
     // Turn Entities into Listings
     UserService userService = UserServiceFactory.getUserService();

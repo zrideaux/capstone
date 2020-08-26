@@ -88,7 +88,8 @@ function createUserInformation(bio, email, name) {
       'user-info');
 
   divCardInformation.appendChild(
-      createImgElement('', 'profile picture', 'card-picture', ''));
+      createImgElement('https://i.imgur.com/Dk9Hk6X.png', 'profile picture',
+          'card-picture', ''));
       
   console.log("NAME: " + name);
   divCardInformation.appendChild(

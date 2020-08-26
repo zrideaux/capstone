@@ -18,10 +18,14 @@ package com.google.sps.utility;
 public final class ListingConstants {
   public static final int MAX_CONTENT_LEN = 256;
   public static final int MAX_LOCATION_LEN = 256;
-  public static final int MAX_NAME_LEN = 50; 
+  public static final int MAX_NAME_LEN = 50;
+  public static final int MAX_TAGS_LEN = 256;
   // Based on the length of the longest category name (fundraiser)
   public static final int MAX_TYPE_LEN = 10; 
 
+  // Used to limit the number of keywords to compare against
+  public static final int KEYWORD_MIN = 0;
+  public static final int KEYWORD_MAX = 64;
   // Based on the length of the String when no filters are checked (MIN) or 
   //     when all filters are checked and separated by "@" (MAX)
   public static final int FILTER_MIN = 0;

@@ -74,6 +74,10 @@ main {
   padding: 0px 15px;
 }
 
+#nav-box {
+  padding: 1em 0;
+}
+
 #search-box {
   border-radius: 0px 0px 15px 15px;
   padding: 0 1em 1em 1em;
@@ -88,7 +92,7 @@ main {
   margin-right: 0.5em;	
 }
 
-#search-keyword {
+#search-keyword-input {
   width: 100%;
 }
 

@@ -6,7 +6,6 @@
 
     <link rel="stylesheet" type="text/css" href="stylesheets/master.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/newlisting.css">
-    <link rel="stylesheet" type="text/css" href="stylesheets/search.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/card.css">
     <link rel="stylesheet" type="text/css" 
         href="stylesheets/listing-preview.css">
@@ -23,15 +22,20 @@
   </head>
   <body>
     <script type="module">
-      import validateInput from './scripts/new-listing/validate-input.js'
+      import { suggestTags } from './scripts/new-listing/tag-suggestions.js';
+      import validateInput from './scripts/new-listing/validate-input.js';
 
       window.validateInput = function(fieldId, instructionsId) {
         validateInput(fieldId, instructionsId);
       }
+
+      window.suggestTags = function() {
+        suggestTags();
+      }
     </script>
     <header id="nav-box" class="shadow-box">
       <nav>
-        <a href="index.html"><img id="logo" src="images/placeholder_logo.png" alt="logo"></a>
+        <a href="index.html"><img id="logo" src="images/centralize_logo.png" alt="logo"></a>
         <div id="nav-links">
           <a class="nav-link" href="search.html">
             <i class="material-icons">search</i>
@@ -41,9 +45,6 @@
           </a>
           <a class="nav-link" href="about.html">
             <i class="material-icons">book</i>
-          </a>
-          <a class="nav-link" href="#">
-            <i class="material-icons">phone</i>
           </a>
           <a class="nav-link user-only" href="user.html">
             <i class="material-icons">account_box</i>
@@ -70,7 +71,8 @@
             </p>
             <input id="cause-name" type="text" minlength="1" maxlength="50" required
                 placeholder="ex. Help Shelter Animals Get Exercise"
-                onfocusout="validateInput('cause-name', 'cause-name-instructions');">
+                onfocusout="validateInput('cause-name', 'cause-name-instructions');
+                    suggestTags();">
           </li>
           <li>
           <ul>
@@ -113,7 +115,8 @@
             <input id="cause-location" type="text" required
                 placeholder="ex. Los Angeles, CA"
                 onfocusout="validateInput('cause-location',
-                'cause-location-instructions');">
+                    'cause-location-instructions');
+                    suggestTags();">
           </li>
           <li>
             <label for="cause-description" class="form-label">
@@ -124,8 +127,10 @@
               up to 256 characters)
             </p>
             <textarea id="cause-description" minlength="1" maxlength="256" required
+                placeholder="ex. We're looking for volunteers to help walk the animal shelter's dogs daily."
                 onfocusout="validateInput('cause-description',
-                'cause-description-instructions');"></textarea>
+                    'cause-description-instructions');
+                    suggestTags();"></textarea>
           </li>
           <li>
             <label for="cause-how-to-help" class="form-label">
@@ -137,8 +142,27 @@
               important. (Enter up to 256 characters)
             </p>
             <textarea id="cause-how-to-help" minlength="1" maxlength="256" required
+                placeholder="ex. If you're interesting in helping out, please give us a call at (123) 456-7890 for more details. Thanks!"
                 onfocusout="validateInput('cause-how-to-help',
-                'cause-how-to-help-instructions');"></textarea>
+                    'cause-how-to-help-instructions');
+                    suggestTags();"></textarea>
+          </li>
+          <li>
+            <label for="cause-tags" class="form-label">
+              Tags<span class="required-asterisk">*</span>
+            </label>
+            <p id="cause-tags-instructions" class="sublabel">
+              Add some tags to help people find your cause. (Enter up to 256
+              characters, separate tags with commas)
+            </p>
+            <p class="sublabel">
+              Suggested:
+              <span id="tags-suggestion-container" class="sublabel"></span>
+            </p>
+            <textarea id="cause-tags" minlength="1" maxlength="256" required
+                placeholder="ex. dogs, animal, shelter, LA"
+                onfocusout="validateInput('cause-tags',
+                'cause-tags-instructions');"></textarea>
           </li>
           <li>
             <label for="cause-website" class="form-label">Website</label>
