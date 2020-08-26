@@ -1,5 +1,8 @@
 import {
-  createButtonElement,
+  createDelete
+} from './delete.js';
+
+import {
   createDivElement, 
   createHElement, 
   createIElement,
@@ -138,8 +141,13 @@ function createListingHeading(isOwnerUser, key, listingPreviewContainer, name,
 
   if (isOwnerUser) {
     divListingSubHeading.appendChild(createEdit(key));
-    divListingSubHeading.appendChild(createDelete(key, listingPreviewContainer,
-        name));
+
+    const deleteOnSuccessdFunc = createRemoveListingFunc(
+        listingPreviewContainer);
+    
+    const queryString = 'delete-listing?listing-key=' + key;
+    divListingSubHeading.appendChild(createDelete('listing-edit',
+        deleteOnSuccessdFunc, name, queryString));
   }
 
   divListingSubHeading.appendChild(createListingType(type));
@@ -148,85 +156,13 @@ function createListingHeading(isOwnerUser, key, listingPreviewContainer, name,
 }
 
 /**
- * Create a delete element. 
+ * Used for when a listing is deleted.
+ * Creates a function that removes the listing element from the page.
+ * If this is the last listing element, then add a <p> saying 'No listings'.
  *
- * @param key the key of this listing.
- * @return A span element that represents a delete element.
+ * @param listingPreviewContainer the container element for the listing.
+ * @return a function that removes the listing element from the page.
  */
-function createDelete(key, listingPreviewContainer, name) {
-  const deleteContainerDiv = createDivElement('', '', '');
-
-  const deleteAlertDiv = createDeleteAlert(key, listingPreviewContainer, name);
-  deleteContainerDiv.appendChild(createDeleteButton(deleteAlertDiv));
-
-  deleteContainerDiv.appendChild(deleteAlertDiv);
-
-  return deleteContainerDiv;
-}
-
-function createDeleteButton(deleteAlertDiv) {
-  const deleteSpan = createSpanElement('delete', 'delete-icon listing-edit '
-      + 'material-icons', '');
-
-  const toggleDeleteModalFunc = (event) => { 
-    // Create pop up asking if user is sure they want to delete listing
-    toggleElementDisplay('flex', deleteAlertDiv);
-    event.stopPropagation();
-  };
-
-  keyboardAccessible(deleteSpan, toggleDeleteModalFunc);
-
-  return deleteSpan;
-}
-
-function createDeleteAlert(key, listingPreviewContainer, name) {
-  const deleteModalDiv = createDivElement('', 'delete-modal modal', '');
-
-  const stopPropogationFunc = (event) => {
-    event.stopPropagation();
-  }
-  keyboardAccessible(deleteModalDiv, stopPropogationFunc);
-
-  const deleteContainerDiv = createDivElement('', 'delete-container', '');
-  deleteModalDiv.appendChild(deleteContainerDiv);
-
-  deleteContainerDiv.appendChild(
-    createSpanElement('error_outline', 'material-icons modal-delete-icon', ''));
-
-  const errorMessage = createPElement('Are you sure you want to delete ', '',
-      '')
-  errorMessage.innerHTML = errorMessage.innerHTML + 
-      '<span class="error-listing-name">"' + name + '"</span>';
-  deleteContainerDiv.appendChild(errorMessage);
-
-  const buttonContainerDiv = createDivElement('', 'delete-button-container', '');
-  deleteContainerDiv.appendChild(buttonContainerDiv);
-
-  buttonContainerDiv.appendChild(createDeleteModalDeleteButton(key,
-      listingPreviewContainer));
-  buttonContainerDiv.appendChild(createDeleteModalCancelButton(deleteModalDiv));
-
-  return deleteModalDiv;
-}
-
-function createDeleteModalDeleteButton(key, listingPreviewContainer) {
-  // const deleteButton = createButtonElement('Delete', '', '');
-  const deleteButton = createDivElement('', 'delete-button delete-modal-button',
-      '');
-  deleteButton.innerText = 'Delete';
-
-  const deleteListingFunc = () => {
-    // Delete the listing
-    const removeListingFunc = createRemoveListingFunc(listingPreviewContainer);
-    deleteListing(key, removeListingFunc);
-    // Clear the innerHtml of container
-  };
-
-  keyboardAccessible(deleteButton, deleteListingFunc);
-
-  return deleteButton;
-}
-
 function createRemoveListingFunc(listingPreviewContainer) {
   return () => {
     const listingsContainer = listingPreviewContainer.parentElement;
@@ -236,41 +172,6 @@ function createRemoveListingFunc(listingPreviewContainer) {
       listingsContainer.appendChild(createPElement('No listings', '', ''));
     }
   }
-}
-
-function createDeleteModalCancelButton(deleteModalDiv) {
-  const cancelButton = createDivElement('', 'cancel-button delete-modal-button',
-      '');
-  cancelButton.innerText = 'Cancel';
-
-  const toggleDeleteModalFunc = () => {
-    // Create pop up asking if user is sure they want to delete listing
-    toggleElementDisplay('flex', deleteModalDiv);
-  };
-
-  keyboardAccessible(cancelButton, toggleDeleteModalFunc);
-
-  return cancelButton;
-}
-
-function deleteListing(key, onSuccessFunc) {
-  const queryString = 'delete-listing?listing-key=' + key;
-  fetch(queryString, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'}
-    })
-        .then(response => response.json())
-        .then((message) => {
-          if (isErrorMessage(message)) {
-            displayErrorMessage(message);
-          } else if (isSuccessMessage(message)) {
-            onSuccessFunc();
-          } else {
-            displayErrorMessage('');
-          }
-        })
 }
 
 /**
