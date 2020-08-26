@@ -140,7 +140,8 @@ function displayErrorMessage(errorMessage) {
  * @param onclickFunc the function to execute with this element is "clicked" on
  * @param tabindex the tabindex of this element
  */
-function keyboardAccessible(element, onclickFunc, onenterFunc, tabindex = '0') {
+function keyboardAccessible(element, onclickFunc, onenterFunc = onclickFunc,
+    tabindex = '0') {
   element.setAttribute("tabindex", tabindex);
   keyboardAccessibleOnClick(element, onclickFunc, onenterFunc);
 }
@@ -184,14 +185,20 @@ function mapElementsByName(func, name) {
  */
 function toggleDisplay(display, id) {
   let element = document.getElementById(id);
+  toggleElementDisplay(display, element);
+}
+
+/** 
+ * Toggles the display of an element. 
+ * 
+ * @param display the display of the element
+ * @param id used to get an element with this id
+ */
+function toggleElementDisplay(display, element) {
   const elementStyle = getComputedStyle(element, null).display;
   if (elementStyle === display) {
-    console.log('Element with id ' + id + ' is now hidden.')
-    console.log('Display: ' + elementStyle + ' is now ' + display);
     element.style.display = 'none';
   } else {
-    console.log('Element with id ' + id + ' is now visible.')
-    console.log('Display: ' + elementStyle + ' is now ' + display);
     element.style.display = display;
   }  
 }
@@ -256,6 +263,7 @@ export {
   keyboardAccessibleOnClick,
   mapElementsByName,
   toggleDisplay, 
-  toggleDropdown, 
+  toggleDropdown,
+  toggleElementDisplay, 
   toggleTabDisplay 
   };

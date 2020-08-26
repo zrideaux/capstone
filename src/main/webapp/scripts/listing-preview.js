@@ -1,4 +1,5 @@
-import { 
+import {
+  createButtonElement,
   createDivElement, 
   createHElement, 
   createIElement,
@@ -8,11 +9,13 @@ import {
   createSpanElement
 } from './htmlElement.js';
 
-import { 
+import {
   displayErrorMessage,
   isErrorMessage,
+  isSuccessMessage,
   keyboardAccessible,
-  toggleDisplay 
+  toggleDisplay,
+  toggleElementDisplay
 } from './miscellaneous.js';
 
 import { 
@@ -30,7 +33,8 @@ import {
  * @return a div with all the preview information pertaining to a listing
  */
 
-export default function createListingPreview(listing, listingDisplay, listingId) {
+export default function createListingPreview(listing, listingDisplay, listingId,
+    listingPreviewContainer) {
   const sectionListing = createSectionElement('listing shadow-box', '');
 
   const toggleListingDisplay = () => {
@@ -57,7 +61,7 @@ export default function createListingPreview(listing, listingDisplay, listingId)
   const name = listing.name;
   const type = listing.type;
   sectionListing.appendChild(createListingDetails(description, isOwnerUser, key,
-      location, name, type));
+      listingPreviewContainer, location, name, type));
 
   return sectionListing;
 }
@@ -93,13 +97,13 @@ function createListingInformation(downvotes, imageURL, key, upvotes, vote) {
  * @param type the type of the listing .
  * @return a div with the description, name, and tags of a listing.
  */
-function createListingDetails(description, isOwnerUser, key, location, name,
-    type) {
+function createListingDetails(description, isOwnerUser, key,
+    listingPreviewContainer, location, name, type) {
   const divListingDetails = createDivElement('', 'listing-info-container', '');
 
   // Creating listing heading
-  divListingDetails.appendChild(createListingHeading(isOwnerUser, key, name,
-      type));
+  divListingDetails.appendChild(createListingHeading(isOwnerUser, key,
+      listingPreviewContainer, name, type));
 
   divListingDetails.appendChild(
     createPElement(location, 'listing-preview-details', ''));
@@ -120,7 +124,8 @@ function createListingDetails(description, isOwnerUser, key, location, name,
  * @param type the type of the listing.
  * @return a div with the name and tags of a listing.
  */
-function createListingHeading(isOwnerUser, key, name, type) {
+function createListingHeading(isOwnerUser, key, listingPreviewContainer, name,
+    type) {
   const divListingHeading = createDivElement('', 'listing-heading-container', 
       '');
   
@@ -133,11 +138,124 @@ function createListingHeading(isOwnerUser, key, name, type) {
 
   if (isOwnerUser) {
     divListingSubHeading.appendChild(createEdit(key));
+    divListingSubHeading.appendChild(createDelete(key, listingPreviewContainer,
+        name));
   }
 
   divListingSubHeading.appendChild(createListingType(type));
 
   return divListingHeading;
+}
+
+/**
+ * Create a delete element. 
+ *
+ * @param key the key of this listing.
+ * @return A span element that represents a delete element.
+ */
+function createDelete(key, listingPreviewContainer, name) {
+  const deleteContainerDiv = createDivElement('', '', '');
+
+  const deleteAlertDiv = createDeleteAlert(key, listingPreviewContainer, name);
+  deleteContainerDiv.appendChild(createDeleteButton(deleteAlertDiv));
+
+  deleteContainerDiv.appendChild(deleteAlertDiv);
+
+  return deleteContainerDiv;
+}
+
+function createDeleteButton(deleteAlertDiv) {
+  const deleteSpan = createSpanElement('delete', 'material-icons', '');
+
+  const toggleDeleteModalFunc = (event) => { 
+    // Create pop up asking if user is sure they want to delete listing
+    toggleElementDisplay('flex', deleteAlertDiv);
+    event.stopPropagation();
+  };
+
+  keyboardAccessible(deleteSpan, toggleDeleteModalFunc);
+
+  return deleteSpan;
+}
+
+function createDeleteAlert(key, listingPreviewContainer, name) {
+  const deleteModalDiv = createDivElement('', 'modal', '');
+
+  const stopPropogationFunc = (event) => {
+    event.stopPropagation();
+  }
+  keyboardAccessible(deleteModalDiv, stopPropogationFunc);
+
+  const deleteContainerDiv = createDivElement('', 'delete-container', '');
+  deleteModalDiv.appendChild(deleteContainerDiv);
+
+  deleteContainerDiv.appendChild(
+    createSpanElement('error_outline', 'material-icons', ''));
+  deleteContainerDiv.appendChild(
+      createPElement('Are you sure you want to delete "' + name + '"', '', ''));
+
+  const buttonContainerDiv = createDivElement('', 'delete-button-container', '');
+  deleteContainerDiv.appendChild(buttonContainerDiv);
+
+  buttonContainerDiv.appendChild(createDeleteModalDeleteButton(key,
+      listingPreviewContainer));
+  buttonContainerDiv.appendChild(createDeleteModalCancelButton(deleteModalDiv));
+
+  return deleteModalDiv;
+}
+
+function createDeleteModalDeleteButton(key, listingPreviewContainer) {
+  // const deleteButton = createButtonElement('Delete', '', '');
+  const deleteButton = createDivElement('', 'delete-button delete-modal-button',
+      '');
+  deleteButton.innerText = 'Delete';
+
+  const deleteListingFunc = () => {
+    // Delete the listing
+    deleteListing(key);
+    // Clear the innerHtml of container
+    listingPreviewContainer.innerHTML = '';
+    listingPreviewContainer.appendChild(createPElement('No listings', '', ''));
+  };
+
+  keyboardAccessible(deleteButton, deleteListingFunc);
+
+  return deleteButton;
+}
+
+function createDeleteModalCancelButton(deleteModalDiv) {
+  const cancelButton = createDivElement('', 'cancel-button delete-modal-button',
+      '');
+  cancelButton.innerText = 'Cancel';
+
+  const toggleDeleteModalFunc = () => {
+    // Create pop up asking if user is sure they want to delete listing
+    toggleElementDisplay('flex', deleteModalDiv);
+  };
+
+  keyboardAccessible(cancelButton, toggleDeleteModalFunc);
+
+  return cancelButton;
+}
+
+function deleteListing(key) {
+  const queryString = 'delete-listing?listing-key=' + key;
+  fetch(queryString, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'}
+    })
+        .then(response => response.json())
+        .then((message) => {
+          if (isErrorMessage(message)) {
+            displayErrorMessage(message);
+          } else if (isSuccessMessage(message)) {
+            // turn container innerHTML to = '';
+          } else {
+            displayErrorMessage('');
+          }
+        })
 }
 
 /**

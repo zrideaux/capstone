@@ -1,3 +1,31 @@
+.delete-button {
+  background-color: red;
+  margin-right: .5rem;
+}
+
+.cancel-button {
+  background-color: #8EEEDE;
+  margin-left: .5rem;
+}
+
+.delete-button-container {
+  display: flex;
+}
+
+.delete-container {
+  align-items: center;
+  border-radius: 2rem;
+  background-color: white;
+  display: inline-flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.delete-modal-button {
+  border-radius: 1rem;
+  padding: .3rem;
+}
+
 .listing {
   display: flex;
   flex-flow: row nowrap;
