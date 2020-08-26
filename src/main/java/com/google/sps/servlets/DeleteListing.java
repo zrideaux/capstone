@@ -38,9 +38,18 @@ import javax.servlet.http.HttpServletRequest;
 
 @WebServlet("/delete-listing")
 public class DeleteListing extends HttpServlet {
-  
+  /**
+   * Deletes a Listing, and removes its key String from any user's
+   *     upvotedListingKey property that upvoted this listing.
+   *
+   * @param request contains data to delete a listing.
+   * @param response a success message if the listing was deleted or an error
+   *     message if the listing was not.
+   */
   @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  public void doPost(HttpServletRequest request, HttpServletResponse response)
+      throws IOException {
+    // Initialize parameters
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     String listingKeyString = ValidateInput.getParameter(request, "listing-key",
@@ -55,7 +64,7 @@ public class DeleteListing extends HttpServlet {
       return;
     }
 
-    // The user limit is the number of upvotes the listing has
+    // The user limit is the number of upvotes the listing has.
     int userLimit = Math.toIntExact((long) listingEntity.getProperty("upvotes"));
 
     // Get all users 
