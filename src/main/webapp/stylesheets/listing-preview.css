@@ -1,11 +1,11 @@
-.delete-button {
-  background-color: red;
-  margin-right: .5rem;
-}
-
 .cancel-button {
   background-color: #8EEEDE;
   margin-left: .5rem;
+}
+
+.delete-button {
+  background-color: #EE1717;
+  margin-right: .5rem;
 }
 
 .delete-button-container {
@@ -21,9 +21,19 @@
   padding: 1rem;
 }
 
+.delete-modal {
+  cursor: default;
+}
+
 .delete-modal-button {
   border-radius: 1rem;
+  cursor: pointer;
   padding: .3rem;
+}
+
+.error-listing-name {
+  color: #42857A;
+  font-weight: 700;
 }
 
 .listing {
@@ -68,6 +78,11 @@
 
 .listing-sub-heading {
   display: flex;
+}
+
+.material-icons.modal-delete-icon {
+  color: red;
+  font-size: 3rem;
 }
 
 .preview-info {

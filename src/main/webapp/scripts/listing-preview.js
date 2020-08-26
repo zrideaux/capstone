@@ -179,7 +179,7 @@ function createDeleteButton(deleteAlertDiv) {
 }
 
 function createDeleteAlert(key, listingPreviewContainer, name) {
-  const deleteModalDiv = createDivElement('', 'modal', '');
+  const deleteModalDiv = createDivElement('', 'delete-modal modal', '');
 
   const stopPropogationFunc = (event) => {
     event.stopPropagation();
@@ -190,9 +190,13 @@ function createDeleteAlert(key, listingPreviewContainer, name) {
   deleteModalDiv.appendChild(deleteContainerDiv);
 
   deleteContainerDiv.appendChild(
-    createSpanElement('error_outline', 'material-icons', ''));
-  deleteContainerDiv.appendChild(
-      createPElement('Are you sure you want to delete "' + name + '"', '', ''));
+    createSpanElement('error_outline', 'material-icons modal-delete-icon', ''));
+
+  const errorMessage = createPElement('Are you sure you want to delete ', '',
+      '')
+  errorMessage.innerHTML = errorMessage.innerHTML + 
+      '<span class="error-listing-name">"' + name + '"</span>';
+  deleteContainerDiv.appendChild(errorMessage);
 
   const buttonContainerDiv = createDivElement('', 'delete-button-container', '');
   deleteContainerDiv.appendChild(buttonContainerDiv);
@@ -224,10 +228,11 @@ function createDeleteModalDeleteButton(key, listingPreviewContainer) {
 
 function createRemoveListingFunc(listingPreviewContainer) {
   return () => {
-    listingPreviewContainer.innerHTML = '';
-    const numListings = listingPreviewContainer.parentElement.childElementCount;
-    if (numListings > 1) {
-      listingPreviewContainer.appendChild(createPElement('No listings', '', ''));
+    const listingsContainer = listingPreviewContainer.parentElement;
+    const numListings = listingsContainer.childElementCount;
+    listingPreviewContainer.remove();
+    if (numListings == 1) {
+      listingsContainer.appendChild(createPElement('No listings', '', ''));
     }
   }
 }
@@ -247,7 +252,7 @@ function createDeleteModalCancelButton(deleteModalDiv) {
   return cancelButton;
 }
 
-function deleteListing(key) {
+function deleteListing(key, onSuccessFunc) {
   const queryString = 'delete-listing?listing-key=' + key;
   fetch(queryString, {
     method: 'POST',
@@ -260,7 +265,7 @@ function deleteListing(key) {
           if (isErrorMessage(message)) {
             displayErrorMessage(message);
           } else if (isSuccessMessage(message)) {
-            // turn container innerHTML to = '';
+            onSuccessFunc();
           } else {
             displayErrorMessage('');
           }
