@@ -71,31 +71,63 @@ function createDeleteButton(deleteAlertDiv, deleteButtonClass) {
 function createDeleteModal(deleteOnSuccessdFunc, name, query) {
   const deleteModalDiv = createDivElement('', 'delete-modal modal', '');
 
+  // When an element on this modal (including the modal) is clicked on, it will
+  //     stop further propgation.
   const stopPropogationFunc = (event) => {
     event.stopPropagation();
   }
   keyboardAccessible(deleteModalDiv, stopPropogationFunc);
 
+  // Creates the container element for the modal elements.
   const deleteContainerDiv = createDivElement('', 'delete-container', '');
   deleteModalDiv.appendChild(deleteContainerDiv);
 
+  // Creates the error icon
   deleteContainerDiv.appendChild(
     createSpanElement('error_outline', 'material-icons modal-delete-icon', ''));
 
-  const errorMessage = createPElement('Are you sure you want to delete ', '',
-      '')
-  errorMessage.innerHTML = errorMessage.innerHTML + 
-      '<span class="delete-name">"' + name + '"</span>';
-  deleteContainerDiv.appendChild(errorMessage);
+  deleteContainerDiv.appendChild(createDeleteModalMessage(name));
 
-  const buttonContainerDiv = createDivElement('', 'delete-button-container', '');
-  deleteContainerDiv.appendChild(buttonContainerDiv);
-
-  buttonContainerDiv.appendChild(createDeleteModalDeleteButton(
-      deleteOnSuccessdFunc, query));
-  buttonContainerDiv.appendChild(createDeleteModalCancelButton(deleteModalDiv));
+  deleteContainerDiv.appendChild(
+      createDeleteModalButtons(deleteModalDiv, deleteOnSuccessdFunc, query));
 
   return deleteModalDiv;
+}
+
+/**
+ * Creates a delete warning message.
+ * Highlights the name of the object to be deleted.
+ *
+ * @name the name of the object to delete.
+ * @return an element that represents a warning message.
+ */
+function createDeleteModalMessage(name) {
+  const message = createPElement('Are you sure you want to delete ', '',
+      '')
+  message.innerHTML = message.innerHTML + 
+      '<span class="delete-name">"' + name + '"</span>';
+
+  return message;
+}
+
+/**
+ * Creates the delete and cancel buttons on the modal.
+ *
+ * @param deleteModalDiv toggles the display of the modal if the button is 
+ *     clicked.
+ * @param deleteOnSuccessdFunc the function to call when the deletion is
+ *     successful.
+ * @param query a String that represents a query.
+ * @return an elements that contains the delete and cancel buttons.
+ */
+function createDeleteModalButtons(deleteModalDiv, deleteOnSuccessdFunc, query) {
+  const buttonContainerDiv = createDivElement('', 'delete-button-container', '');
+
+  buttonContainerDiv.appendChild(
+      createDeleteModalDeleteButton(deleteOnSuccessdFunc, query));
+  buttonContainerDiv.appendChild(createDeleteModalCancelButton(deleteModalDiv));
+
+  return buttonContainerDiv;
 }
 
 /**
