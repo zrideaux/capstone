@@ -48,7 +48,7 @@ body {
   padding: .3rem;
 }
 
-delete-name {
+.delete-name {
   color: #42857A;
   font-weight: 700;
 }
