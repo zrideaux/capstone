@@ -212,15 +212,24 @@ function createDeleteModalDeleteButton(key, listingPreviewContainer) {
 
   const deleteListingFunc = () => {
     // Delete the listing
-    deleteListing(key);
+    const removeListingFunc = createRemoveListingFunc(listingPreviewContainer);
+    deleteListing(key, removeListingFunc);
     // Clear the innerHtml of container
-    listingPreviewContainer.innerHTML = '';
-    listingPreviewContainer.appendChild(createPElement('No listings', '', ''));
   };
 
   keyboardAccessible(deleteButton, deleteListingFunc);
 
   return deleteButton;
+}
+
+function createRemoveListingFunc(listingPreviewContainer) {
+  return () => {
+    listingPreviewContainer.innerHTML = '';
+    const numListings = listingPreviewContainer.parentElement.childElementCount;
+    if (numListings > 1) {
+      listingPreviewContainer.appendChild(createPElement('No listings', '', ''));
+    }
+  }
 }
 
 function createDeleteModalCancelButton(deleteModalDiv) {
