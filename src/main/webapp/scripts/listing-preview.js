@@ -165,8 +165,8 @@ function createDelete(key, listingPreviewContainer, name) {
 }
 
 function createDeleteButton(deleteAlertDiv) {
-  const deleteSpan = createSpanElement('delete', 'delete-icon material-icons',
-      '');
+  const deleteSpan = createSpanElement('delete', 'delete-icon listing-edit '
+      + 'material-icons', '');
 
   const toggleDeleteModalFunc = (event) => { 
     // Create pop up asking if user is sure they want to delete listing

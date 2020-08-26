@@ -4,7 +4,7 @@
 }
 
 .delete-button {
-  background-color: #EE1717;
+  background-color: #F20202;
   margin-right: .5rem;
 }
 
@@ -77,6 +77,7 @@
 }
 
 .listing-sub-heading {
+  align-items: center;
   display: flex;
 }
 
@@ -88,6 +89,8 @@
   color: red;
   font-size: 3rem;
 }
+
+.owner-
 
 .preview-info {
   align-items: center;
