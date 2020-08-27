@@ -13,7 +13,8 @@ import {
 } from './miscellaneous.js';
 
 /**
- * Create a delete element. 
+ * Creates a delete button and confirm deletion modal. 
+ * When the delete button is clicked, it opens up a confirm deletion modal.
  *
  * @param deleteButtonClass the class to give to the delete button.
  * @param deleteOnSuccessFunc the function to call when the deletion is
@@ -22,7 +23,8 @@ import {
  * @param query a String that represents a query.
  * @return A span element that represents a delete element.
  */
-function createDelete(deleteButtonClass, deleteOnSuccessFunc, name, query) {
+function createDeleteElements(deleteButtonClass, deleteOnSuccessFunc, name,
+    query) {
   const deleteContainerDiv = createDivElement('', '', '');
 
   const deleteAlertDiv = createDeleteModal(deleteOnSuccessFunc, name,
@@ -197,9 +199,9 @@ function deleteEntity(onSuccessFunc, query) {
           } else if (isSuccessMessage(message)) {
             onSuccessFunc();
           } else {
-            displayErrorMessage('');
+            displayErrorMessage('Unexpected return statement');
           }
         });
 }
 
-export { createDelete };
+export { createDeleteElements };

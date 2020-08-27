@@ -1,5 +1,5 @@
 import {
-  createDelete
+  createDeleteElements
 } from './delete.js';
 
 import {
@@ -149,7 +149,7 @@ function createListingHeading(isOwnerUser, key, listingPreviewContainer, name,
         listingPreviewContainer);
     
     const queryString = 'delete-listing?listing-key=' + key;
-    divListingSubHeading.appendChild(createDelete('listing-edit',
+    divListingSubHeading.appendChild(createDeleteElements('listing-edit',
         deleteOnSuccessdFunc, name, queryString));
   }
 
