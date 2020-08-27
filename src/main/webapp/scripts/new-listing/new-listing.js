@@ -37,7 +37,7 @@ function newListingInit() {
           } else {
             updateListingInit(listing, newListingTitle, previewButton, submitButton);
           }
-        })
+        });
   // The user is creating a new listing
   } else {
     createListingInit(newListingTitle, previewButton, submitButton);
