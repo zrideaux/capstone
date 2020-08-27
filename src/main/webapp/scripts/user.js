@@ -1,6 +1,10 @@
 import { authenticate } from './authentication.js';
 
 import {
+  createDeleteElements
+} from './delete.js';
+
+import {
   addBackToTopButton,
   makeNavBarScrollToTop
 } from './scroll-to-top.js';
@@ -105,7 +109,18 @@ function createUserInformation(bio, email, name) {
       createAElement('Create listing', 'newlisting.html', '', 'card-button', '')
       );
 
+  divCardInformation.appendChild(
+    createDeleteElements('', logoutUser, email, '/delete-user'));
+
   return divCardInformation;
+}
+
+/**
+ * A function used to redirect a user to the logout page.
+ */
+function logoutUser() {
+  location.replace(document.getElementById('authentication-link').getAttribute(
+      'href'));
 }
 
 /**
