@@ -106,7 +106,8 @@ function addUndoOptionToFields(listing) {
 }
 
 /**
- *
+ * Calls function to set initial remaining character counts on each of the
+ * fields with max lengths when a listing is being updated.
  */
 function setRemainingCharacters() {
   let inputFields = document.querySelectorAll(

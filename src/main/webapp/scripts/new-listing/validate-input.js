@@ -79,7 +79,6 @@ function enableSubmissions() {
 }
 
 function updateRemainingCharacters(fieldId, remainderId) {
-  console.log(fieldId, remainderId);
   let currentLength = document.getElementById(fieldId).value.length;
   const max = document.getElementById(fieldId).maxLength;
 
