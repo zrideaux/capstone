@@ -192,7 +192,7 @@ function toggleDisplay(display, id) {
  * Toggles the display of an element. 
  * 
  * @param display the display of the element
- * @param id used to get an element with this id
+ * @param element the element to toggle the display of.
  */
 function toggleElementDisplay(display, element) {
   const elementStyle = getComputedStyle(element, null).display;

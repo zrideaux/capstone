@@ -31,8 +31,8 @@ body {
 
 .delete-container {
   align-items: center;
-  border-radius: 2rem;
   background-color: white;
+  border-radius: 2rem;
   display: inline-flex;
   flex-direction: column;
   padding: 1rem;
