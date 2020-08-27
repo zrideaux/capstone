@@ -93,7 +93,7 @@ function createListing(cardElementId, listing) {
 
   // Create listing preview
   sectionListing.appendChild(createListingPreview(listing, cardElementDisplay, 
-      cardElementId));
+      cardElementId, sectionListing));
     
   // Create listing view (detiled view)
   sectionListing.appendChild(createListingDetailedView(listing, 

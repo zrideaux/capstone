@@ -39,6 +39,7 @@
 }
 
 .listing-sub-heading {
+  align-items: center;
   display: flex;
 }
 
