@@ -6,12 +6,66 @@ import {
   isErrorMessage
 } from './../miscellaneous.js';
 
+import { suggestTags } from './tag-suggestions.js';
+
 import createListingInit from './create-listing.js';
 
 import updateListingInit from './update-listing.js';
 
+import {
+  updateRemainingCharacters,
+  validateInput
+} from './validate-input.js';
+
 window.onload = function() {
   authenticate(newListingInit);
+  addEventListeners();
+}
+
+/**
+ * Adds event listeners to each of the required fields on the form.
+ */
+function addEventListeners() {
+  let textFields = document.querySelectorAll(
+      'input:not([type="radio"]):not(#cause-website):not(#cause-image), textarea');
+
+  for (let i = 0; i < textFields.length; i++) {
+    let fieldId = textFields[i].id;
+
+    // Only add remaining character listener to non-location fields
+    if (textFields[i].id !== 'cause-location') {
+      textFields[i].addEventListener('keyup', () => {
+        updateRemainingCharacters(fieldId, fieldId + '-remainder');
+      });
+      // Add remaining character onchange listener to tag field
+      if (fieldId === 'cause-tags') {
+        textFields[i].addEventListener('onchange', () => {
+          updateRemainingCharacters(fieldId, fieldId + '-remainder');
+        });
+      }
+    }
+
+    // Only add suggestion listener to non-cause fields
+    if (fieldId !== 'cause-tags') {
+      textFields[i].addEventListener('blur', () => {
+        validateInput(fieldId, fieldId + '-instructions');
+        suggestTags();
+      });
+    } else {
+      textFields[i].addEventListener('blur', () => {
+        validateInput(fieldId, fieldId + '-instructions');
+      });
+    }
+  }
+
+  let radioButtons = document.querySelectorAll('input[type="radio"]');
+
+  // Call validateInput on radio changes
+  for (let i = 0; i < radioButtons.length; i++) {
+    radioButtons[i].addEventListener('onchange', () => {
+      validateInput('fundraiser-radio', 'cause-type-instructions');
+    });
+  }
 }
 
 /**
