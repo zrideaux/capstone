@@ -63,7 +63,7 @@ function disableSubmissions() {
     submissionButtons[i].setAttribute('disabled', '');
   }
   let stillNeededSpan = document.getElementById('still-needed');
-  stillNeededSpan.style.visibility = "visible";
+  stillNeededSpan.style.visibility = 'visible';
 }
 
 /**
@@ -75,16 +75,16 @@ function enableSubmissions() {
     submissionButtons[i].removeAttribute('disabled');
   }
   let stillNeededSpan = document.getElementById('still-needed');
-  stillNeededSpan.style.visibility = "hidden";
+  stillNeededSpan.style.visibility = 'hidden';
 }
 
 function updateRemainingCharacters(fieldId, remainderId) {
-  console.log('field', fieldId, 'remainder', remainderId);
+  console.log(fieldId, remainderId);
   let currentLength = document.getElementById(fieldId).value.length;
   const max = document.getElementById(fieldId).maxLength;
-  console.log('max', max);
+
   document.getElementById(remainderId).innerText =
-      (max - currentLength) + "/" + max + " characters remaining";
+      (max - currentLength) + '/' + max + ' characters remaining';
 }
 
 export {

@@ -115,7 +115,6 @@ function setRemainingCharacters() {
 
   for (let i = 0; i < inputFields.length; i++) {
     let fieldId = inputFields[i].id;
-    console.log(fieldId); // input fields aren't getting set by default
     updateRemainingCharacters(fieldId, fieldId + '-remainder');
   }
 }
