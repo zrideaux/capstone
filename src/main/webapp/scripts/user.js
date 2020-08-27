@@ -110,7 +110,7 @@ function createUserInformation(bio, email, name) {
       );
 
   divCardInformation.appendChild(
-    createDeleteElements('', logoutUser, email, '/delete-user'));
+    createDeleteElements('user-delete', logoutUser, email, '/delete-user'));
 
   return divCardInformation;
 }
