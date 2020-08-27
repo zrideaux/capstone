@@ -69,20 +69,23 @@ public class UpdateListingUtility {
   public static void updateListingEntity(DatastoreService datastore,
       Entity entity, HttpServletRequest request) throws Exception {
     String description = ValidateInput.getUserString(request, "description",
-        0, ListingConstants.MAX_CONTENT_LEN);
+        1, ListingConstants.MAX_CONTENT_LEN);
 
-    String howToHelp = ValidateInput.getUserString(request, "howToHelp", 0,
+    String howToHelp = ValidateInput.getUserString(request, "howToHelp", 1,
         ListingConstants.MAX_CONTENT_LEN);
 
     String imageURL = ValidateInput.getUploadedFileUrl(request, "image", "");
 
-    String location = ValidateInput.getUserString(request, "location", 0,
+    String location = ValidateInput.getUserString(request, "location", 1,
         ListingConstants.MAX_LOCATION_LEN);
 
-    String name = ValidateInput.getUserString(request, "name", 0,
+    String name = ValidateInput.getUserString(request, "name", 1,
         ListingConstants.MAX_NAME_LEN);
 
-    String type = ValidateInput.getUserString(request, "type", 0,
+    String tags = ValidateInput.getUserString(request, "tags", 1,
+        ListingConstants.MAX_TAGS_LEN);
+
+    String type = ValidateInput.getUserString(request, "type", 1,
         ListingConstants.MAX_TYPE_LEN);
 
     String website = ValidateInput.getParameter(request, "website", "");
@@ -97,6 +100,7 @@ public class UpdateListingUtility {
     EntityUtility.updateStringProperty(entity, "imageURL", imageURL);
     EntityUtility.updateStringProperty(entity, "location", location);
     EntityUtility.updateStringProperty(entity, "name", name);
+    EntityUtility.updateStringProperty(entity, "tags", tags);
     EntityUtility.updateStringProperty(entity, "type", type);
     
     // Optional fields:
