@@ -24,6 +24,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
+import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.users.UserService;
 import com.google.sps.data.Listing;
 import com.google.sps.utility.AuthenticationUtility;
@@ -90,7 +91,8 @@ public final class User {
     // Get a user's created listings.
     List<Entity> listingEntities = getCreatedListings(datastore, email);
 
-    List<Listing> createdListings = Listing.createListings(listingEntities, email);
+    List<Listing> createdListings = Listing.createListings(listingEntities,
+        email);
     List<Listing> upvotedListings = getListings(datastore, entity, 
         "upvotedListingKeys");
 
@@ -109,7 +111,11 @@ public final class User {
       String userEmail) {
     Filter filter = new FilterPredicate("ownersEmail", FilterOperator.EQUAL,
         userEmail);
-    Query queryListing = new Query("Listing").setFilter(filter);
+
+    // filters listings for user owned listing and sorts them in descending 
+    //     order of their timestamp.
+    Query queryListing = new Query("Listing").setFilter(filter).addSort(
+        "timestamp", SortDirection.DESCENDING);
     PreparedQuery preparedQueryListings = datastore.prepare(queryListing);
 
     FetchOptions entitiesLimit = FetchOptions.Builder.withLimit(
