@@ -7,11 +7,18 @@
  * @param fieldId the id of the field being modified
  * @param instructionsId the id of the instructions to be followed for a field
  */
-export default function validateInput(fieldId, instructionsId) {
+function validateInput(fieldId, instructionsId) {
   let field = document.getElementById(fieldId);
   let instructions = document.getElementById(instructionsId);
 
-  if (field.checkValidity()) {
+  let tooLong = false;
+  if (field.hasAttribute('maxlength')) {
+    if (field.value.length > field.maxLength) {
+      tooLong = true;
+    }
+  }
+
+  if (field.checkValidity() && !tooLong) {
     // If field is valid
     if (field.classList.contains('invalid-input')) {
       field.classList.toggle('invalid-input');
@@ -69,4 +76,18 @@ function enableSubmissions() {
   }
   let stillNeededSpan = document.getElementById('still-needed');
   stillNeededSpan.style.visibility = "hidden";
+}
+
+function updateRemainingCharacters(fieldId, remainderId) {
+  console.log('field', fieldId, 'remainder', remainderId);
+  let currentLength = document.getElementById(fieldId).value.length;
+  const max = document.getElementById(fieldId).maxLength;
+  console.log('max', max);
+  document.getElementById(remainderId).innerText =
+      (max - currentLength) + "/" + max + " characters remaining";
+}
+
+export {
+  updateRemainingCharacters,
+  validateInput
 }
