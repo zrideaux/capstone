@@ -32,6 +32,20 @@ public final class DeleteListingUtility {
    *
    * @param datastore the DatastoreService that connects to 
    *     the database.
+   * @param listingEntity the Listing Entity to delete.
+   */
+  public static void deleteListing(DatastoreService datastore,
+      Entity listingEntity) throws Exception {
+    Key listingKey = listingEntity.getKey();
+    deleteListing(datastore, listingKey);
+  }
+
+  /**
+   * Deletes a Listing, and removes its key String from any user's
+   *     upvotedListingKey property that upvoted this listing.
+   *
+   * @param datastore the DatastoreService that connects to 
+   *     the database.
    * @param listingKey the Key of the Listing to delete.
    */
   public static void deleteListing(DatastoreService datastore, Key listingKey)
@@ -46,6 +60,7 @@ public final class DeleteListingUtility {
    *
    * @param datastore the DatastoreService that connects to 
    *     the database.
+   * @param listingKeyString the key String of the Listing to delete.
    */
   public static void deleteListing(DatastoreService datastore,
       String listingKeyString) throws Exception {
@@ -60,6 +75,7 @@ public final class DeleteListingUtility {
    * @param datastore the DatastoreService that connects to 
    *     the database.
    * @param listingKey the Key of the Listing to delete.
+   * @param listingKeyString the key String of the Listing to delete.
    */
   public static void deleteListing(DatastoreService datastore, Key listingKey,
       String listingKeyString) throws Exception {

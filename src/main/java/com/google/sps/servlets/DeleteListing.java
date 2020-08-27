@@ -16,16 +16,9 @@ package com.google.sps.servlets;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
-import com.google.sps.data.User;
 import com.google.sps.utility.DeleteListingUtility;
 import com.google.sps.utility.ValidateInput;
 import java.io.IOException;
-import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
@@ -56,36 +49,6 @@ public class DeleteListing extends HttpServlet {
       ValidateInput.createErrorMessage(e, response);
       return;
     }
-    // Key listingKey = KeyFactory.stringToKey(listingKeyString);
-
-    // Entity listingEntity;
-    // try { 
-    //   listingEntity = datastore.get(listingKey);
-    // } catch (Exception e) {
-    //   ValidateInput.createErrorMessage(e, response);
-    //   return;
-    // }
-
-    // // Get all users 
-    // Query queryUser = new Query("User");
-    // PreparedQuery preparedQueryUsers = datastore.prepare(queryUser);
-    // Iterable<Entity> userEntities = preparedQueryUsers.asIterable();
-
-    // // Go through all of the users and remove the upvoted listing key string
-    // for (Entity userEntity : userEntities) {
-    //   String property = "upvotedListingKeys";
-    //   String upvotedListingKeys = (String) userEntity.getProperty(
-    //       property);
-
-    //   if (upvotedListingKeys.contains(listingKeyString)) {
-    //     upvotedListingKeys = upvotedListingKeys.replaceFirst(
-    //         listingKeyString + " ", "");
-    //     userEntity.setProperty(property, upvotedListingKeys);
-    //     datastore.put(userEntity);
-    //   }
-    // }
-
-    // datastore.delete(listingKey);
 
     ValidateInput.createSuccessMessage(response);
   }

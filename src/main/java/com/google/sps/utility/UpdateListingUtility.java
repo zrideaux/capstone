@@ -34,7 +34,7 @@ public class UpdateListingUtility {
    * @param userService used to get the user's email.
    * @return a listing Entity if the user owns it.
    */
-  public static Entity getListingEntityIfUserOwnsIt(DatastoreService datastore, 
+  public static Entity getListingEntityIfUserOwnsIt(DatastoreService datastore,
       String listingKeyString, UserService userService) throws Exception {
     if (listingKeyString.length() > 0) {
       if (userService.isUserLoggedIn()) {
