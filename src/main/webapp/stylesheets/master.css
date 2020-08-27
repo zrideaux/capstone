@@ -14,6 +14,45 @@ body {
   z-index: 1;
 }
 
+/* Used to style delete related elements */
+.cancel-button {
+  background-color: #8EEEDE;
+  margin-left: .5rem;
+}
+
+.delete-button {
+  background-color: #F20202;
+  margin-right: .5rem;
+}
+
+.delete-button-container {
+  display: flex;
+}
+
+.delete-container {
+  align-items: center;
+  background-color: white;
+  border-radius: 2rem;
+  display: inline-flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.delete-modal {
+  cursor: default;
+}
+
+.delete-modal-button {
+  border-radius: 1rem;
+  cursor: pointer;
+  padding: .3rem;
+}
+
+.delete-name {
+  color: #42857A;
+  font-weight: 700;
+}
+
 header {
   position: sticky;
   top: 0;
@@ -21,7 +60,7 @@ header {
 }
 
 .listing-edit {
-  margin-right: 1rem;
+  margin: 0 1rem 0 0;
 }
 
 .listing-edit:hover {
@@ -41,6 +80,16 @@ header {
 
 #logo {
   height: 2em;
+}
+
+/* Used to style delete related material-icons */
+.material-icons.delete-icon:hover {
+  color: red;
+}
+
+.material-icons.modal-delete-icon {
+  color: red;
+  font-size: 3rem;
 }
 
 nav {

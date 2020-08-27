@@ -1,4 +1,8 @@
-import { 
+import {
+  createDeleteElements
+} from './delete.js';
+
+import {
   createDivElement, 
   createHElement, 
   createIElement,
@@ -8,11 +12,13 @@ import {
   createSpanElement
 } from './htmlElement.js';
 
-import { 
+import {
   displayErrorMessage,
   isErrorMessage,
+  isSuccessMessage,
   keyboardAccessible,
-  toggleDisplay 
+  toggleDisplay,
+  toggleElementDisplay
 } from './miscellaneous.js';
 
 import { 
@@ -22,15 +28,17 @@ import {
 
 /**
  * Create an element that shows a listing detailed view and when clicked on will
- *     display the detailed view
+ *     display the detailed view.
  *
- * @param listing JSON that represents a listing and has listing information 
- * @param listingDisplay the display property of the detailed view
- * @param listingId the id of the listing detailed view element
- * @return a div with all the preview information pertaining to a listing
+ * @param listing JSON that represents a listing and has listing information.
+ * @param listingDisplay the display property of the detailed view.
+ * @param listingId the id of the listing detailed view element.
+ * @param listingPreviewContainer the container for the listing preview element.
+ * @return a div with all the preview information pertaining to a listing.
  */
 
-export default function createListingPreview(listing, listingDisplay, listingId) {
+export default function createListingPreview(listing, listingDisplay, listingId,
+    listingPreviewContainer) {
   const sectionListing = createSectionElement('listing shadow-box', '');
 
   const toggleListingDisplay = () => {
@@ -57,7 +65,7 @@ export default function createListingPreview(listing, listingDisplay, listingId)
   const name = listing.name;
   const type = listing.type;
   sectionListing.appendChild(createListingDetails(description, isOwnerUser, key,
-      location, name, type));
+      listingPreviewContainer, location, name, type));
 
   return sectionListing;
 }
@@ -88,18 +96,19 @@ function createListingInformation(downvotes, imageURL, key, upvotes, vote) {
  * @param isOwnerUser a boolean that states whether or not the user owns this 
  *     listing.
  * @param key the key of this listing.
+ * @param listingPreviewContainer the container for the listing preview element.
  * @param location the location of this listing.
  * @param name the name of this listing.
  * @param type the type of the listing .
  * @return a div with the description, name, and tags of a listing.
  */
-function createListingDetails(description, isOwnerUser, key, location, name,
-    type) {
+function createListingDetails(description, isOwnerUser, key,
+    listingPreviewContainer, location, name, type) {
   const divListingDetails = createDivElement('', 'listing-info-container', '');
 
   // Creating listing heading
-  divListingDetails.appendChild(createListingHeading(isOwnerUser, key, name,
-      type));
+  divListingDetails.appendChild(createListingHeading(isOwnerUser, key,
+      listingPreviewContainer, name, type));
 
   divListingDetails.appendChild(
     createPElement(location, 'listing-preview-details', ''));
@@ -113,14 +122,16 @@ function createListingDetails(description, isOwnerUser, key, location, name,
 /**
  * Create an element with listing heading.
  *
- * @param isOwnerUser a boolean that states whether or not the user owns this 
+ * @param isOwnerUser a boolean that states whether or not the user owns this
  *     listing.
  * @param key the key of this listing.
+ * @param listingPreviewContainer the container for the listing preview element.
  * @param name the name of this listing.
  * @param type the type of the listing.
  * @return a div with the name and tags of a listing.
  */
-function createListingHeading(isOwnerUser, key, name, type) {
+function createListingHeading(isOwnerUser, key, listingPreviewContainer, name,
+    type) {
   const divListingHeading = createDivElement('', 'listing-heading-container', 
       '');
   
@@ -133,11 +144,37 @@ function createListingHeading(isOwnerUser, key, name, type) {
 
   if (isOwnerUser) {
     divListingSubHeading.appendChild(createEdit(key));
+
+    const deleteOnSuccessdFunc = createRemoveListingFunc(
+        listingPreviewContainer);
+    
+    const queryString = 'delete-listing?listing-key=' + key;
+    divListingSubHeading.appendChild(createDeleteElements('listing-edit',
+        deleteOnSuccessdFunc, name, queryString));
   }
 
   divListingSubHeading.appendChild(createListingType(type));
 
   return divListingHeading;
+}
+
+/**
+ * Used for when a listing is deleted.
+ * Creates a function that removes the listing element from the page.
+ * If this is the last listing element, then add a <p> saying 'No listings'.
+ *
+ * @param listingPreviewContainer the container element for the preview listing.
+ * @return a function that removes the listing element from the page.
+ */
+function createRemoveListingFunc(listingPreviewContainer) {
+  return () => {
+    const listingsContainer = listingPreviewContainer.parentElement;
+    const numListings = listingsContainer.childElementCount;
+    listingPreviewContainer.remove();
+    if (numListings == 1) {
+      listingsContainer.appendChild(createPElement('No listings', '', ''));
+    }
+  }
 }
 
 /**
