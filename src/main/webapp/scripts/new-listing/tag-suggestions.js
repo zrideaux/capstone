@@ -1,6 +1,9 @@
 import { createButtonElement } from './../htmlElement.js';
 
-import validateInput from './validate-input.js';
+import {
+  updateRemainingCharacters,
+  validateInput
+} from './validate-input.js';
 
 const wordsToRemove = ['a', 'an', 'and', 'at', 'for', 'get', 'in', 'is', 'the',
     'this', 'to'];
@@ -143,6 +146,9 @@ function createSuggestionElement(text) {
     }
 
     suggestionElement.remove();
+
+    updateRemainingCharacters('cause-tags', 'cause-tags-remainder');
+    validateInput('cause-tags', 'cause-tags-instructions');
   }
 
   return suggestionElement;
