@@ -145,12 +145,12 @@ function createListingHeading(isOwnerUser, key, listingPreviewContainer, name,
   if (isOwnerUser) {
     divListingSubHeading.appendChild(createEdit(key));
 
-    const deleteOnSuccessdFunc = createRemoveListingFunc(
+    const deleteOnSuccessFunc = createRemoveListingFunc(
         listingPreviewContainer);
     
     const queryString = 'delete-listing?listing-key=' + key;
-    divListingSubHeading.appendChild(createDeleteElements('listing-edit',
-        deleteOnSuccessdFunc, name, queryString));
+    divListingSubHeading.appendChild(createDeleteElements('listing-delete',
+        deleteOnSuccessFunc, name, queryString));
   }
 
   divListingSubHeading.appendChild(createListingType(type));

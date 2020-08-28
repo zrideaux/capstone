@@ -223,7 +223,7 @@ public final class Listing {
     propertyValue--;
     listingEntity.setProperty(property, propertyValue);
     datastore.put(listingEntity);
-  }  
+  }
 
   /**
    * Creates a Listing object from an Entity object that represents a listing

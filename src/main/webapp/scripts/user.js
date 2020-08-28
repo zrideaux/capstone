@@ -1,6 +1,10 @@
 import { authenticate } from './authentication.js';
 
 import {
+  createDeleteElements
+} from './delete.js';
+
+import {
   addBackToTopButton,
   makeNavBarScrollToTop
 } from './scroll-to-top.js';
@@ -90,8 +94,7 @@ function createUserInformation(bio, email, name) {
   divCardInformation.appendChild(
       createImgElement('https://i.imgur.com/Dk9Hk6X.png', 'profile picture',
           'card-picture', ''));
-      
-  console.log("NAME: " + name);
+
   divCardInformation.appendChild(
       createHElement(name, 1, 'user-name', ''));
 
@@ -105,7 +108,20 @@ function createUserInformation(bio, email, name) {
       createAElement('Create listing', 'newlisting.html', '', 'card-button', '')
       );
 
+  divCardInformation.appendChild(
+      createDeleteElements('user-delete', logoutUser, email, '/delete-user'));
+
   return divCardInformation;
+}
+
+/**
+ * A function used to redirect a user to the logout href in order to logout the
+ *     user.
+ */
+function logoutUser() {
+  // Get the logout href from the authentication link.
+  location.replace(document.getElementById('authentication-link').getAttribute(
+      'href'));
 }
 
 /**

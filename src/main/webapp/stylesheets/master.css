@@ -85,6 +85,7 @@ header {
 /* Used to style delete related material-icons */
 .material-icons.delete-icon:hover {
   color: red;
+  cursor: pointer;
 }
 
 .material-icons.modal-delete-icon {
