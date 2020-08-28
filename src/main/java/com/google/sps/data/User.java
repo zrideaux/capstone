@@ -88,11 +88,7 @@ public final class User {
     String email = (String) entity.getProperty("email");
     String username = (String) entity.getProperty("username");
 
-    // Get a user's created listings.
-    List<Entity> listingEntities = getCreatedListings(datastore, email);
-
-    List<Listing> createdListings = Listing.createListings(listingEntities,
-        email);
+    List<Listing> createdListings = getCreatedListings(datastore, email);
     List<Listing> upvotedListings = getListings(datastore, entity, 
         "upvotedListingKeys");
 
@@ -101,14 +97,17 @@ public final class User {
   }
 
   /**
-   * Returns a User's created listing entities.
+   * Returns a User's created listing Entities with the most recently created
+   *     listings appearing first (sorted in descending order of their
+   *     timestamp).
    *
    * @param datastore the DatastoreService that connects to the back end.
    * @param userEmail the email of the current user.
-   * @return a User's created listing entities
+   * @return a User's created listing Entities, sorted in descending order of
+   *     their timestamp.
    */
-  public static List<Entity> getCreatedListings(DatastoreService datastore,
-      String userEmail) {
+  public static List<Entity> getCreatedListingEntities(
+      DatastoreService datastore, String userEmail) {
     Filter filter = new FilterPredicate("ownersEmail", FilterOperator.EQUAL,
         userEmail);
 
@@ -121,6 +120,24 @@ public final class User {
     FetchOptions entitiesLimit = FetchOptions.Builder.withLimit(
         ListingConstants.LISTING_LIMIT);
     return preparedQueryListings.asList(entitiesLimit);
+  }
+
+  /**
+   * Returns a User's created Listings with the most recently created
+   *     listings appearing first (sorted in descending order of their
+   *     timestamp).
+   *
+   * @param datastore the DatastoreService that connects to the back end.
+   * @param userEmail the email of the current user.
+   * @return a User's created Listings, sorted in descending order of
+   *     their timestamp.
+   */
+  public static List<Listing> getCreatedListings(DatastoreService datastore,
+      String userEmail) throws Exception {
+    List<Entity> listingEntities = getCreatedListingEntities(datastore,
+        userEmail);
+
+    return Listing.createListings(listingEntities, userEmail);
   }
 
   /**

@@ -222,20 +222,6 @@ public final class Listing {
   }
 
   /**
-   * Decrement a specified property in a listing entity and update it in
-   * datastore.
-   *
-   * @param datastore an instance of datastore service
-   * @param listingKey a key associated with a listing entity
-   * @param property string of the name of the property to decrement
-   */
-  public static void decrementListingProperty(DatastoreService datastore,
-      String listingKeyString, String property) throws Exception {
-    Key listingKey = KeyFactory.stringToKey(listingKeyString);
-    decrementListingProperty(datastore, listingKey, property);
-  }
-
-  /**
    * Creates a Listing object from an Entity object that represents a listing
    *
    * @param datastore the DatastoreService that connects to the back end.

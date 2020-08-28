@@ -31,8 +31,8 @@ public final class DeleteUserUtility {
    */
   public static void deleteUsersCreatedListings(DatastoreService datastore,
       String userEmail) throws Exception {
-    List<Entity> ownedListingEntities = User.getCreatedListings(datastore,
-          userEmail);
+    List<Entity> ownedListingEntities = User.getCreatedListingEntities(
+        datastore, userEmail);
 
     for (Entity listingEntity : ownedListingEntities) {
       DeleteListingUtility.deleteListing(datastore, listingEntity);

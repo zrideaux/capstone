@@ -51,8 +51,6 @@ public class DeleteUser extends HttpServlet {
         return;
       }
 
-      // Undo any likes/dislikes
-      // Get user entity and get their upvoted/downvoted listing key strings
       Entity userEntity = AuthenticationUtility.getUserByEmail(datastore, 
           userEmail);
 
