@@ -118,6 +118,7 @@ function createUserInformation(bio, email, name) {
  * A function used to redirect a user to the logout page.
  */
 function logoutUser() {
+  // Get the logout href from the logout button
   location.replace(document.getElementById('authentication-link').getAttribute(
       'href'));
 }
