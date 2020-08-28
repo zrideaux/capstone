@@ -34,7 +34,14 @@ import javax.servlet.http.HttpServletRequest;
 
 @WebServlet("/delete-user")
 public class DeleteUser extends HttpServlet {
-
+  /**
+   * Deletes a User, and deletes its created listings.
+   *
+   * @param request contains data to delete a user.
+   *     In this case no extra data is required.
+   * @param response a success message if the user and their listings were
+   *     deleted or an error message if they were not.
+   */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
@@ -51,7 +58,7 @@ public class DeleteUser extends HttpServlet {
         return;
       }
 
-      Entity userEntity = AuthenticationUtility.getUserByEmail(datastore, 
+      Entity userEntity = AuthenticationUtility.getUserByEmail(datastore,
           userEmail);
 
       datastore.delete(userEntity.getKey());

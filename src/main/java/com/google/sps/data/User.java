@@ -111,7 +111,7 @@ public final class User {
     Filter filter = new FilterPredicate("ownersEmail", FilterOperator.EQUAL,
         userEmail);
 
-    // filters listings for user owned listing and sorts them in descending 
+    // Filters listings for user owned listing and sorts them in descending
     //     order of their timestamp.
     Query queryListing = new Query("Listing").setFilter(filter).addSort(
         "timestamp", SortDirection.DESCENDING);

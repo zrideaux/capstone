@@ -101,14 +101,14 @@ public final class DeleteListingUtility {
       String listingKeyString, Iterable<Entity> userEntitiesIterable) {
     // Go through all of the users and remove the upvoted listing key string
     for (Entity userEntity : userEntitiesIterable) {
-      String property = "upvotedListingKeys";
+      String upvotedListingsProperty = "upvotedListingKeys";
       String upvotedListingKeys = (String) userEntity.getProperty(
-          property);
+          upvotedListingsProperty);
 
       if (upvotedListingKeys.contains(listingKeyString)) {
         upvotedListingKeys = upvotedListingKeys.replaceFirst(
             listingKeyString + " ", "");
-        userEntity.setProperty(property, upvotedListingKeys);
+        userEntity.setProperty(upvotedListingsProperty, upvotedListingKeys);
         datastore.put(userEntity);
       }
     }
