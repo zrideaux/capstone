@@ -20,9 +20,10 @@ import {
 
 import { createSubmitSendFormDataFunc } from './submit-listing.js';
 
-import { 
+import {
+  checkFields,
   validateInput,
-  updateRemainingCharacters
+  updateRemainingCharacterCount
 } from './validate-input.js';
 
 /**
@@ -44,7 +45,7 @@ export default function updateListingInit(listing, newListingTitle,
   keyboardAccessibleOnClick(previewButton, updatePreview);
   keyboardAccessibleOnClick(submitButton, updateListing);
   addUndoOptionToFields(listing);
-  setRemainingCharacters();
+  setRemainingCharacterCount();
 }
 
 /**
@@ -92,12 +93,14 @@ function addUndoOptionToFields(listing) {
       undoButton.onclick = () => {
         document.getElementById(fieldId).value = originalValues[fieldId];
         validateInput(fieldId, fieldId + '-instructions');
+        checkFields();
       };
     } else {
       undoButton.onclick = () => {
         document.getElementById(fieldId).value = originalValues[fieldId];
-        updateRemainingCharacters(fieldId, fieldId + '-remainder');
+        updateRemainingCharacterCount(fieldId, fieldId + '-remainder');
         validateInput(fieldId, fieldId + '-instructions');
+        checkFields();
       };
     }
 
@@ -109,14 +112,14 @@ function addUndoOptionToFields(listing) {
  * Calls function to set initial remaining character counts on each of the
  * fields with max lengths when a listing is being updated.
  */
-function setRemainingCharacters() {
+function setRemainingCharacterCount() {
   let inputFields = document.querySelectorAll(
       '#cause-name, #cause-description, \
       #cause-how-to-help, #cause-tags');
 
   for (let i = 0; i < inputFields.length; i++) {
     let fieldId = inputFields[i].id;
-    updateRemainingCharacters(fieldId, fieldId + '-remainder');
+    updateRemainingCharacterCount(fieldId, fieldId + '-remainder');
   }
 }
 

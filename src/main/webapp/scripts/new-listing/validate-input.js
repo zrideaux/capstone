@@ -24,7 +24,6 @@ function validateInput(fieldId, instructionsId) {
       field.classList.toggle('invalid-input');
       instructions.classList.toggle('invalid-input-instructions');
     }
-    checkFields();
   } else {
     // If field is invalid
     if (!field.classList.contains('invalid-input')) {
@@ -44,7 +43,16 @@ function checkFields() {
   let submissionsAllowed = true;
 
   for (let i = 0; i < fields.length; i++) {
-    if (fields[i].checkValidity() === false) {
+    let field = fields[i];
+
+    let tooLong = false;
+    if (field.hasAttribute('maxlength')) {
+      if (field.value.length > field.maxLength) {
+        tooLong = true;
+      }
+    }
+
+    if (field.checkValidity() === false || tooLong) {
       submissionsAllowed = false;
     }
   }
@@ -78,15 +86,17 @@ function enableSubmissions() {
   stillNeededSpan.style.visibility = 'hidden';
 }
 
-function updateRemainingCharacters(fieldId, remainderId) {
-  let currentLength = document.getElementById(fieldId).value.length;
-  const max = document.getElementById(fieldId).maxLength;
+function updateRemainingCharacterCount(fieldId, remainderId) {
+  const field = document.getElementById(fieldId);
+  let currentLength = field.value.length;
+  const max = field.maxLength;
 
   document.getElementById(remainderId).innerText =
       (max - currentLength) + '/' + max + ' characters remaining';
 }
 
 export {
-  updateRemainingCharacters,
+  checkFields,
+  updateRemainingCharacterCount,
   validateInput
 }
