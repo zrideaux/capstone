@@ -94,8 +94,7 @@ function createUserInformation(bio, email, name) {
   divCardInformation.appendChild(
       createImgElement('https://i.imgur.com/Dk9Hk6X.png', 'profile picture',
           'card-picture', ''));
-      
-  console.log("NAME: " + name);
+
   divCardInformation.appendChild(
       createHElement(name, 1, 'user-name', ''));
 
