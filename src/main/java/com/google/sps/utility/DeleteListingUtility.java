@@ -84,7 +84,7 @@ public final class DeleteListingUtility {
     PreparedQuery preparedQueryUsers = datastore.prepare(queryUser);
     Iterable<Entity> userEntitiesIterable = preparedQueryUsers.asIterable();
 
-    removeUpvotedListingFromUser(datastore, listingKeyString,
+    removeUpvotedListingFromUsers(datastore, listingKeyString,
         userEntitiesIterable);
 
     datastore.delete(listingKey);
@@ -96,10 +96,13 @@ public final class DeleteListingUtility {
    *
    * @param datastore the DatastoreService that connects to 
    *     the database.
+   * @param listingKeyString the key String of the Listing to delete.
+   * @param userEntitiesIterable an Iterable containing user Entities.
    */
-  public static void removeUpvotedListingFromUser(DatastoreService datastore,
+  public static void removeUpvotedListingFromUsers(DatastoreService datastore,
       String listingKeyString, Iterable<Entity> userEntitiesIterable) {
     // Go through all of the users and remove the upvoted listing key string
+    //     if they upvoted the listing.
     for (Entity userEntity : userEntitiesIterable) {
       String upvotedListingsProperty = "upvotedListingKeys";
       String upvotedListingKeys = (String) userEntity.getProperty(
