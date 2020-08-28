@@ -7,17 +7,23 @@
  * @param fieldId the id of the field being modified
  * @param instructionsId the id of the instructions to be followed for a field
  */
-export default function validateInput(fieldId, instructionsId) {
+function validateInput(fieldId, instructionsId) {
   let field = document.getElementById(fieldId);
   let instructions = document.getElementById(instructionsId);
 
-  if (field.checkValidity()) {
+  let tooLong = false;
+  if (field.hasAttribute('maxlength')) {
+    if (field.value.length > field.maxLength) {
+      tooLong = true;
+    }
+  }
+
+  if (field.checkValidity() && !tooLong) {
     // If field is valid
     if (field.classList.contains('invalid-input')) {
       field.classList.toggle('invalid-input');
       instructions.classList.toggle('invalid-input-instructions');
     }
-    checkFields();
   } else {
     // If field is invalid
     if (!field.classList.contains('invalid-input')) {
@@ -37,7 +43,16 @@ function checkFields() {
   let submissionsAllowed = true;
 
   for (let i = 0; i < fields.length; i++) {
-    if (fields[i].checkValidity() === false) {
+    let field = fields[i];
+
+    let tooLong = false;
+    if (field.hasAttribute('maxlength')) {
+      if (field.value.length > field.maxLength) {
+        tooLong = true;
+      }
+    }
+
+    if (field.checkValidity() === false || tooLong) {
       submissionsAllowed = false;
     }
   }
@@ -56,7 +71,7 @@ function disableSubmissions() {
     submissionButtons[i].setAttribute('disabled', '');
   }
   let stillNeededSpan = document.getElementById('still-needed');
-  stillNeededSpan.style.visibility = "visible";
+  stillNeededSpan.style.visibility = 'visible';
 }
 
 /**
@@ -68,5 +83,20 @@ function enableSubmissions() {
     submissionButtons[i].removeAttribute('disabled');
   }
   let stillNeededSpan = document.getElementById('still-needed');
-  stillNeededSpan.style.visibility = "hidden";
+  stillNeededSpan.style.visibility = 'hidden';
+}
+
+function updateRemainingCharacterCount(fieldId, remainderId) {
+  const field = document.getElementById(fieldId);
+  let currentLength = field.value.length;
+  const max = field.maxLength;
+
+  document.getElementById(remainderId).innerText =
+      (max - currentLength) + '/' + max + ' characters remaining';
+}
+
+export {
+  checkFields,
+  updateRemainingCharacterCount,
+  validateInput
 }

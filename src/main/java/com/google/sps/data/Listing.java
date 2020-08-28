@@ -41,6 +41,7 @@ public final class Listing {
   private String key;
   private final String location;
   private final String name;
+  private final String tags;
   public final Long timestamp;
   private final String type;
   public Integer reputationScore;
@@ -52,9 +53,9 @@ public final class Listing {
   private final String website;
 
   public Listing(String description, String howToHelp, String imageURL,
-      String keyString, String location, String name, long timestamp,
-      String type, int upvotes, int downvotes, int views, String vote, 
-      String website) {
+      String keyString, String location, String name, String tags,
+      long timestamp, String type, int upvotes, int downvotes, int views,
+      String vote, String website) {
     this.description = description;
     this.howToHelp = howToHelp;
     this.key = keyString;
@@ -66,6 +67,7 @@ public final class Listing {
     // turn long of timestamp into Date object
     String dateCreated = timestampToDate(timestamp);
     this.dateCreated = dateCreated;
+    this.tags = tags;
     this.type = type;
     this.upvotes = upvotes;
     this.downvotes = downvotes;
@@ -75,8 +77,8 @@ public final class Listing {
   }
 
   public Listing(String description, String howToHelp, String imageURL,
-      String location, String name, long timestamp, String type, int upvotes,
-      int downvotes, int views, String website) {
+      String location, String name, String tags, long timestamp,
+      String type, int upvotes, int downvotes, int views, String website) {
     this.description = description;
     this.howToHelp = howToHelp;
     this.imageURL = imageURL;
@@ -88,6 +90,7 @@ public final class Listing {
     // turn int of timestamp into Date object
     String dateCreated = timestampToDate(timestamp);
     this.dateCreated = dateCreated;
+    this.tags = tags;
     this.type = type;
     this.upvotes = upvotes;
     this.downvotes = downvotes;
@@ -141,6 +144,7 @@ public final class Listing {
     String location = (String) entity.getProperty("location");
     String name = (String) entity.getProperty("name");
     long timestamp = (long) entity.getProperty("timestamp");
+    String tags = (String) entity.getProperty("tags");
     String type = (String) entity.getProperty("type");
     int upvotes = Math.toIntExact((long) entity.getProperty("upvotes"));
     int downvotes = Math.toIntExact((long) entity.getProperty("downvotes"));
@@ -149,7 +153,7 @@ public final class Listing {
     String website = (String) entity.getProperty("website");
 
     return new Listing(description, howToHelp, imageURL, key, location, name,
-        timestamp, type, upvotes, downvotes, views, vote, website);
+        tags, timestamp, type, upvotes, downvotes, views, vote, website);
   }
 
   /**

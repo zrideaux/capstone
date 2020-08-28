@@ -8,10 +8,74 @@ import {
 
 import createListingInit from './create-listing.js';
 
+import { suggestTags } from './tag-suggestions.js';
+
 import updateListingInit from './update-listing.js';
+
+import {
+  checkFields,
+  updateRemainingCharacterCount,
+  validateInput
+} from './validate-input.js';
 
 window.onload = function() {
   authenticate(newListingInit);
+  addEventListeners();
+}
+
+/**
+ * Adds event listeners to each of the required fields on the form.
+ */
+function addEventListeners() {
+  let textFields = document.querySelectorAll(
+      'input:not([type="radio"]):not(#cause-website):not(#cause-image), textarea');
+
+  for (let i = 0; i < textFields.length; i++) {
+    let field = textFields[i];
+    let fieldId = textFields[i].id;
+
+    // Only add remaining character listener to non-location fields
+    if (fieldId !== 'cause-location') {
+      field.addEventListener('keyup', () => {
+        checkFields();
+        updateRemainingCharacterCount(fieldId, fieldId + '-remainder');
+      });
+      // Add remaining character onchange listener to tag field for when
+      //    tag suggestions are added
+      if (fieldId === 'cause-tags') {
+        field.addEventListener('change', () => {
+          checkFields();
+          updateRemainingCharacterCount(fieldId, fieldId + '-remainder');
+        });
+      }
+    } else {
+      field.addEventListener('keyup', () => {
+        checkFields();
+      });
+    }
+
+    // Only add suggestion listener to non-cause fields
+    if (fieldId !== 'cause-tags') {
+      field.addEventListener('blur', () => {
+        validateInput(fieldId, fieldId + '-instructions');
+        suggestTags();
+      });
+    } else {
+      field.addEventListener('blur', () => {
+        validateInput(fieldId, fieldId + '-instructions');
+      });
+    }
+  }
+
+  let radioButtons = document.querySelectorAll('input[type="radio"]');
+
+  // Call validateInput on radio changes
+  for (let i = 0; i < radioButtons.length; i++) {
+    radioButtons[i].addEventListener('change', () => {
+      validateInput(radioButtons[i].id, 'cause-type-instructions');
+      checkFields();
+    });
+  }
 }
 
 /**
@@ -37,7 +101,7 @@ function newListingInit() {
           } else {
             updateListingInit(listing, newListingTitle, previewButton, submitButton);
           }
-        })
+        });
   // The user is creating a new listing
   } else {
     createListingInit(newListingTitle, previewButton, submitButton);

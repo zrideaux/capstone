@@ -1,6 +1,10 @@
 import { createButtonElement } from './../htmlElement.js';
 
-import validateInput from './validate-input.js';
+import {
+  checkFields,
+  updateRemainingCharacterCount,
+  validateInput
+} from './validate-input.js';
 
 const wordsToRemove = ['a', 'an', 'and', 'at', 'for', 'get', 'in', 'is', 'the',
     'this', 'to'];
@@ -32,11 +36,11 @@ function suggestTags() {
   // TODO(zrideaux@): expand regex for international characters
   let words = [];
   words = words.concat(
-      document.getElementById('cause-name').value.trim().toLowerCase().split(/[^A-Za-z0-9]/));
+      document.getElementById('cause-name').value.trim().toLowerCase().split(/[^A-Za-z0-9']/));
   words = words.concat(
-      document.getElementById('cause-description').value.trim().toLowerCase().split(/[^A-Za-z0-9]/));
+      document.getElementById('cause-description').value.trim().toLowerCase().split(/[^A-Za-z0-9']/));
   words = words.concat(
-      document.getElementById('cause-how-to-help').value.trim().toLowerCase().split(/[^A-Za-z0-9]/));
+      document.getElementById('cause-how-to-help').value.trim().toLowerCase().split(/[^A-Za-z0-9']/));
 
   // Remove common/nondescript terms from words array
   words = words.filter((word) => {
@@ -47,9 +51,6 @@ function suggestTags() {
 
   // Map each word in words array to the number of times it appears
   let wordCounts = getWordCounts(words);
-
-  // TODO(zrideaux@): Prevent users from adding tag suggestion if it would make
-  //                  value exceed maximum limit
 
   // Add location tags
   populateLocationSuggestions(currentTags, locationInfo, suggestionContainer);
@@ -143,6 +144,10 @@ function createSuggestionElement(text) {
     }
 
     suggestionElement.remove();
+
+    updateRemainingCharacterCount('cause-tags', 'cause-tags-remainder');
+    validateInput('cause-tags', 'cause-tags-instructions');
+    checkFields();
   }
 
   return suggestionElement;

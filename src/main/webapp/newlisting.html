@@ -21,18 +21,6 @@
     </script>
   </head>
   <body>
-    <script type="module">
-      import { suggestTags } from './scripts/new-listing/tag-suggestions.js';
-      import validateInput from './scripts/new-listing/validate-input.js';
-
-      window.validateInput = function(fieldId, instructionsId) {
-        validateInput(fieldId, instructionsId);
-      }
-
-      window.suggestTags = function() {
-        suggestTags();
-      }
-    </script>
     <header id="nav-box" class="shadow-box">
       <nav>
         <a href="index.html"><img id="logo" src="images/centralize_logo.png" alt="logo"></a>
@@ -67,12 +55,13 @@
             </label>
             <p id='cause-name-instructions' class="sublabel">
               Give a short, descriptive name to the cause. This will be the
-              first thing people see. (Enter up to 50 characters)
+              first thing people see.
             </p>
             <input id="cause-name" type="text" minlength="1" maxlength="50" required
-                placeholder="ex. Help Shelter Animals Get Exercise"
-                onfocusout="validateInput('cause-name', 'cause-name-instructions');
-                    suggestTags();">
+                placeholder="ex. Help Shelter Animals Get Exercise">
+            <div id="cause-name-actions" class="field-actions sublabel">
+              <p id="cause-name-remainder" class="sublabel">50/50 characters remaining</p>
+            </div>
           </li>
           <li>
           <ul>
@@ -83,26 +72,22 @@
             </p>
             <li>
               <input id="fundraiser-radio" class="search-filter" type="radio" 
-                  value="fundraiser" name="cause-type" required
-                  onchange="validateInput('fundraiser-radio', 'cause-type-instructions');">
+                  value="fundraiser" name="cause-type" required>
               <label for="fundraiser-radio">Fundraiser</label>
             </li>
             <li>
               <input id="petition-radio" class="search-filter" type="radio" 
-                  value="petition" name="cause-type"
-                  onchange="validateInput('petition-radio', 'cause-type-instructions');">
+                  value="petition" name="cause-type">
               <label for="petition-radio">Petition</label>
             </li>
             <li>
               <input id="event-radio" class="search-filter" type="radio" 
-                  value="event" name="cause-type"
-                  onchange="validateInput('event-radio', 'cause-type-instructions');">
+                  value="event" name="cause-type">
               <label for="event-radio">Event</label>
             </li>
             <li>
               <input id="other-radio" class="search-filter" type="radio" 
-                  value="other" name="cause-type"
-                  onchange="validateInput('other-radio', 'cause-type-instructions');">
+                  value="other" name="cause-type">
               <label for="other-radio">Other</label>
             </li>
           </ul>
@@ -113,24 +98,22 @@
               specific as possible, but as broad as needed.
             </p>
             <input id="cause-location" type="text" required
-                placeholder="ex. Los Angeles, CA"
-                onfocusout="validateInput('cause-location',
-                    'cause-location-instructions');
-                    suggestTags();">
+                placeholder="ex. Los Angeles, CA">
+            <div id="cause-location-actions" class="field-actions sublabel">
+            </div>
           </li>
           <li>
             <label for="cause-description" class="form-label">
               Description<span class="required-asterisk">*</span>
             </label>
             <p id="cause-description-instructions" class="sublabel">
-              Describe your cause and why it's important. (Enter
-              up to 256 characters)
+              Describe your cause and why it's important.
             </p>
             <textarea id="cause-description" minlength="1" maxlength="256" required
-                placeholder="ex. We're looking for volunteers to help walk the animal shelter's dogs daily."
-                onfocusout="validateInput('cause-description',
-                    'cause-description-instructions');
-                    suggestTags();"></textarea>
+                placeholder="ex. We're looking for volunteers to help walk the animal shelter's dogs daily."></textarea>
+            <div id="cause-description-actions" class="field-actions sublabel">
+              <p id="cause-description-remainder" class="sublabel">256/256 characters remaining</p>
+            </div>
           </li>
           <li>
             <label for="cause-how-to-help" class="form-label">
@@ -139,30 +122,30 @@
             <p id="cause-how-to-help-instructions" class="sublabel">
               Describe how people can contribute to the cause. Be
               sure to include any specific addresses or links that may be
-              important. (Enter up to 256 characters)
+              important.
             </p>
             <textarea id="cause-how-to-help" minlength="1" maxlength="256" required
-                placeholder="ex. If you're interesting in helping out, please give us a call at (123) 456-7890 for more details. Thanks!"
-                onfocusout="validateInput('cause-how-to-help',
-                    'cause-how-to-help-instructions');
-                    suggestTags();"></textarea>
+                placeholder="ex. If you're interesting in helping out, please give us a call at (123) 456-7890 for more details. Thanks!"></textarea>
+            <div id="cause-how-to-help-actions" class="field-actions sublabel">
+              <p id="cause-how-to-help-remainder" class="sublabel">256/256 characters remaining</p>
+            </div>
           </li>
           <li>
             <label for="cause-tags" class="form-label">
               Tags<span class="required-asterisk">*</span>
             </label>
             <p id="cause-tags-instructions" class="sublabel">
-              Add some tags to help people find your cause. (Enter up to 256
-              characters, separate tags with commas)
+              Add some tags to help people find your cause.(Separate tags with commas)
             </p>
             <p class="sublabel">
               Suggested:
               <span id="tags-suggestion-container" class="sublabel"></span>
             </p>
             <textarea id="cause-tags" minlength="1" maxlength="256" required
-                placeholder="ex. dogs, animal, shelter, LA"
-                onfocusout="validateInput('cause-tags',
-                'cause-tags-instructions');"></textarea>
+                placeholder="ex. dogs, animal, shelter, LA"></textarea>
+            <div id="cause-tags-actions" class="field-actions sublabel">
+              <p id="cause-tags-remainder" class="sublabel">256/256 characters remaining</p>
+            </div>
           </li>
           <li>
             <label for="cause-website" class="form-label">Website</label>

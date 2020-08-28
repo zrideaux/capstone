@@ -41,6 +41,22 @@ a {
   padding: 0.7em;
 }
 
+.field-actions {
+  color: #424242;
+  display: flex;
+  font-size: 0.8em;
+  justify-content: space-between;
+}
+
+.field-actions button:only-child {
+  margin-left: auto;
+}
+
+.field-actions * {
+  color: inherit;
+  font-size: inherit;
+}
+
 .form-label {
   display: block;
   margin: 1em 0 0.5em;
@@ -90,6 +106,17 @@ textarea:focus {
 .invalid-input-instructions,
 .required-asterisk {
   color: #D9216A;
+}
+
+.undo-button {
+  background-color: #FFFFFF;
+  border: none;
+  color: #424242;
+}
+
+.undo-button:hover,
+.undo-button:focus {
+  text-decoration: underline;
 }
 
 .updated-preview-container {

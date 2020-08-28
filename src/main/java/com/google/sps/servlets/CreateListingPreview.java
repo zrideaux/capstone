@@ -81,6 +81,15 @@ public class CreateListingPreview extends HttpServlet {
       return;
     } 
 
+    String tags;
+    try {
+      tags = ValidateInput.getUserString(request, "tags", 1,
+          ListingConstants.MAX_TAGS_LEN);
+    } catch (Exception e) {
+      ValidateInput.createErrorMessage(e, response);
+      return;
+    }
+
     String type;
     try {
       type = ValidateInput.getUserString(request, "type", 1, 
@@ -102,7 +111,7 @@ public class CreateListingPreview extends HttpServlet {
     long timestamp = System.currentTimeMillis();
 
     Listing listing = new Listing(description, howToHelp, imageURL, location, 
-        name, timestamp, type, upvotes, downvotes, views, website);
+        name, tags, timestamp, type, upvotes, downvotes, views, website);
 
     String jsonListing = new Gson().toJson(listing);
     response.setContentType("application/json;");

@@ -1,6 +1,7 @@
 import { fetchBlobstoreUrlAndSendData } from './../blobstore.js';
 
 import {
+  createButtonElement,
   createDivElement,
   createHElement
 } from './../htmlElement.js';
@@ -18,6 +19,12 @@ import {
 } from './preview-listing.js';
 
 import { createSubmitSendFormDataFunc } from './submit-listing.js';
+
+import {
+  checkFields,
+  validateInput,
+  updateRemainingCharacterCount
+} from './validate-input.js';
 
 /**
  * Initialize the update listing page.
@@ -37,6 +44,8 @@ export default function updateListingInit(listing, newListingTitle,
   populateInputWithListingInfo(listing);
   keyboardAccessibleOnClick(previewButton, updatePreview);
   keyboardAccessibleOnClick(submitButton, updateListing);
+  addUndoOptionToFields(listing);
+  setRemainingCharacterCount();
 }
 
 /**
@@ -51,8 +60,66 @@ function populateInputWithListingInfo(listing) {
   document.getElementById('cause-location').value = listing.location;
   document.getElementById('cause-description').value = listing.description;
   document.getElementById('cause-how-to-help').value = listing.howToHelp;
+  document.getElementById('cause-tags').value = listing.tags;
   if (listing.website.length > 0) {
     document.getElementById('cause-website').value = listing.website;
+  }
+}
+
+/**
+ * This function adds a button that reverts an edited field to its original
+ * value.
+ *
+ * @param listing JSON of a listing's properties
+ */
+function addUndoOptionToFields(listing) {
+  let inputFields = document.querySelectorAll(
+      '#cause-name, #cause-location, #cause-description, \
+      #cause-how-to-help, #cause-tags');
+
+  let originalValues = {
+    'cause-name': listing.name,
+    'cause-location': listing.location,
+    'cause-description': listing.description,
+    'cause-how-to-help': listing.howToHelp,
+    'cause-tags': listing.tags
+  };
+
+  for (let i = 0; i < inputFields.length; i++) {
+    let undoButton = createButtonElement('Undo Changes', 'undo-button', '');
+    let fieldId = inputFields[i].id;
+
+    if (fieldId === 'cause-location') {
+      undoButton.onclick = () => {
+        document.getElementById(fieldId).value = originalValues[fieldId];
+        validateInput(fieldId, fieldId + '-instructions');
+        checkFields();
+      };
+    } else {
+      undoButton.onclick = () => {
+        document.getElementById(fieldId).value = originalValues[fieldId];
+        updateRemainingCharacterCount(fieldId, fieldId + '-remainder');
+        validateInput(fieldId, fieldId + '-instructions');
+        checkFields();
+      };
+    }
+
+    document.getElementById(fieldId + '-actions').appendChild(undoButton);
+  }
+}
+
+/**
+ * Calls function to set initial remaining character counts on each of the
+ * fields with max lengths when a listing is being updated.
+ */
+function setRemainingCharacterCount() {
+  let inputFields = document.querySelectorAll(
+      '#cause-name, #cause-description, \
+      #cause-how-to-help, #cause-tags');
+
+  for (let i = 0; i < inputFields.length; i++) {
+    let fieldId = inputFields[i].id;
+    updateRemainingCharacterCount(fieldId, fieldId + '-remainder');
   }
 }
 
